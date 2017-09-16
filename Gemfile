@@ -5,4 +5,6 @@ gem 'jekyll-sitemap'
 gem 'jekyll-gist'
 gem 'octopress'
 gem 'jekyll-redirect-from'
-
+gem 'jekyll-paginate'
+gem 'jekyll-feed'
+gem 'jemoji'
