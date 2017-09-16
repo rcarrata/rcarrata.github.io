@@ -29,11 +29,11 @@ kramdown:
 # Site owner
 owner:
   name: Roberto Carratala Sanchez
-  avatar: photo1.jpg
+  avatar: bio-photo.jpg
   bio: "Linux Geek. Devops & Automation enthusiast.           Working for Red Hat."
   email: #username
   disqus-shortname: robertocarratalasanchez
-  twitter: #rcarrata
+  twitter: rcarrata_
   facebook: #username
   # google:
   #   plus: rcarrata
