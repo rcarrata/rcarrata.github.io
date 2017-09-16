@@ -1,14 +1,14 @@
 # Authors
 
 rcarrata:
-  name: Roberto Carratala
-  # web: 
-#  email: Roberto
-  bio: "Linux"
-  avatar: 
-  twitter: rcarrata
+  name: rcarrata
+  web: https://rcarrata.github.io/
+#  email: Roberto Carratala
+  bio: "Unix Geek."
+  avatar: bio-photo.jpg
+  #twitter: rcarrata
   google:
-    plus: rcarrata
+    plus: rcarratalasanchez
   github: rcarrata
-  # stackoverflow: 
-  linkedin: rcarratalasanchez
+  #stackoverflow:
+  #linkedin: rcarrata
