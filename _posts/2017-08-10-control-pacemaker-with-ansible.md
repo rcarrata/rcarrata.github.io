@@ -22,11 +22,6 @@ This is a correct way to execute, but... why not automatize the process?
 For control all the resources (the pacemaker and systemd resources that uses Openstack for the proper execution), we developed several playbooks/tasks that we can be used, that allows you to start or stop all the resources (not only the clustered, also the systemd resources for example of the cnodes).
  
 These playbooks can be found in my github: [Pcs Control](https://github.com/rcarrata/pcs_control)
-
-
-[I'm an inline-style link](https://www.google.com)
-
-https://github.com/rcarrata/pcs_control 
  
 For example, for execute the entire playbook that stops and starts the computes, controllers, cinder_controllers and haproxies execute:
 
