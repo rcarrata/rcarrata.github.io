@@ -1,4 +1,17 @@
-# Pcs Control
+---
+layout: post
+title: Pcs Control
+date: 2017-08-15
+type: post
+published: true
+status: publish
+categories:
+- Blog
+- Personal
+tags: []
+author: rcarrata
+comments: true
+---
 
 Hi Pals,
 
