@@ -13,8 +13,6 @@ author: rcarrata
 comments: true
 ---
 
-Hi Pals,
-
 When an Openstack is installed and configured in High Availability in the several pieces that is divided (haproxies, controllers, backends, etc) there is a large number of resources that you must to control for perform an upgrade or execute some operations.
 
 For example, if you want to perform an upgrade of the controllers, you can stop the controllers, perform the upgrade and started again, one by one, without losing quorum and obviously service.
