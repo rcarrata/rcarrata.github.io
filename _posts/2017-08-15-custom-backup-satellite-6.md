@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Custom Backup Satellite 6
-date: 2017-08-17
+date: 2017-08-15
 type: post
 published: true
 status: publish
