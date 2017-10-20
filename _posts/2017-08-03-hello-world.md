@@ -13,8 +13,6 @@ author: rcarrata
 comments: true
 ---
 
-Hi there!
-
 Finally I have some time to push the first post (and I hope not the last ;D) of my new brand blog.
 
 This blog is my little spot to write my technical experiences with the different products related with IT, not only from Linux or Red Hat, also with other topics that I interested about technology.
