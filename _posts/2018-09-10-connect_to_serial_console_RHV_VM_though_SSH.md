@@ -13,8 +13,6 @@ author: rcarrata
 comments: true
 ---
 
-Hi pals,
-
 Imagine that you have one or several VMs deployed on top of your deployment of RHV, and you have not
 access with ssh configured (because is a brand new VM without network config settings, or just
 because you have some issues and you have not direct ssh connection).
