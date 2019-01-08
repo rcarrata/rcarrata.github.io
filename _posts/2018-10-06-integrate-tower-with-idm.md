@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Connect to serial console RHV VM though SSH
+title: Integrate Ansible Tower with IDM
 date: 2018-09-10
 type: post
 published: true

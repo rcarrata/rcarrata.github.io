@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Integrate Tower with IDM
+title: Connect to Serial Console RHV VM through SSH
 date: 2018-10-06
 type: post
 published: true
