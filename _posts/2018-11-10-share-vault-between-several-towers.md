@@ -18,8 +18,6 @@ Sometimes you need to share the Ansible Vault between the different Ansible Role
 
 Also it can be useful if the playbook is executed by Ansible Tower, or just in the CLI without more options than the vault pass and the ID.
 
-* Procedure
-
 Create a role containing the vault
 
 ```
