@@ -13,8 +13,6 @@ author: rcarrata
 comments: true
 ---
 
-Hi folks!
-
 When you deploy a cluster of Openshift 4.1 using the UPI (User-Provisioned Infrastructure) AWS installation, the deployment can be performed using the AWS Cloudformation templates provided, for create the infrastructure required and afterwards deploy the OCP cluster on top.
 
 By default the cloudformation templates provided, deploys 3 masters but only one worker (in IPI installations 2 workers are deployed instead using the Machine Config Operator).
