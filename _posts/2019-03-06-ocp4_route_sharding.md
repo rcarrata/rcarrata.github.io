@@ -13,8 +13,6 @@ author: rcarrata
 comments: true
 ---
 
-# Route Sharding in Openshift 4 
-
 This blog post aims to provide a guide to implement Route Sharding in Openshift Container Platform 4 (deployed in AWS), creating multiple routers for particular purposes (for example in this specific case, separating the internal and public/dmz application routes).
 
 ## Overview
