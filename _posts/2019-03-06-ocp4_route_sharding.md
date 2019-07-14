@@ -581,22 +581,10 @@ Set-Cookie: 640b33b422cc3251ac141ece0847c81c=3bb02e599f47389f9820329908ca84e9; p
 Cache-control: private
 ```
 
-## Links of interest
-
-
-In this moments, there is no official documentation (in OCP4.1) about how implement the router sharding in OCP4
-
-* [How to create a router shard on OpenShift 4.0](https://access.redhat.com/solutions/3880621)
-
-Tested with OCP 4.1.3/4.1.4 in Opentlc environments.
-
-
 ## Conclusion 
 
 In this blog post, we worked and explained the Route Sharding in Openshift 4. This Route Sharding changed slightly operational, but maintain the basis of the implementation into Openshift 3.
 
 In future blog posts, we will explore and analyse the possibility to have Ingresscontrollers using LoadBalancers Service Type with the schema internal, to deploy AWSLoadBalancers only to the Private Subnets of our AWS VPC deployment.
-
-Special thanks to Pablo Alonso for their help and collaboration writing the KCS and helping with the content of this blog.
 
 Happy Openshifting!
