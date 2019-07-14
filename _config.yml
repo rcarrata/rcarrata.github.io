@@ -32,7 +32,7 @@ owner:
   avatar: bio-photo.jpg
   bio: "Linux Geek. Devops & Automation enthusiast.           Working for Red Hat."
   email: #username
-  disqus-shortname: robertocarratalasanchez
+  #disqus-shortname: robertocarratalasanchez
   twitter: rcarrata_
   facebook: #username
   # google:
