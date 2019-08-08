@@ -1,5 +1,3 @@
-## OCP4 Sosreport
-
 ---
 layout: post
 title: Openshift 4 - Collect Sosreport
