@@ -6,8 +6,7 @@ type: post
 published: true
 status: publish
 categories:
-- Blog
-- Personal
+- RHV
 tags: []
 author: rcarrata
 comments: true
