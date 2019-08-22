@@ -82,12 +82,14 @@ for deploy the cert-manager).
 For this reason, a patch for the Deployment of the cert-manager must to be performed:
 
 Original
+
 ```
 # oc get deploy cert-manager -n cert-manager -o yaml | grep dnsPolicy
 dnsPolicy: ClusterFirst
 ```
 
 Patched
+
 ```
 # oc get deploy cert-manager -n cert-manager -o yaml
 ...
