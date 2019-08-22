@@ -6,8 +6,7 @@ type: post
 published: true
 status: publish
 categories:
-- Blog
-- Personal
+- Ansible
 tags: []
 author: rcarrata
 comments: true
