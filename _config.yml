@@ -34,12 +34,12 @@ owner:
   email: #username
   twitter: rcarrata_
   facebook: #username
-  # google:
-  #   plus: rcarrata
-  #   analytics: 
-  #   verify:
-  #   ad-client:
-  #   ad-slot:
+  google:
+    plus: 
+    analytics: 
+    verify:
+    ad-client:
+    ad-slot:
   github: rcarrata
   stackoverflow: 
   linkedin: rcarrata
