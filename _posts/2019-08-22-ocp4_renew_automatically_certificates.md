@@ -225,7 +225,7 @@ metadata:
 type: Opaque
 ```
 
-### Generating ACME Issuers for AWS Route 53
+* Generating ACME Issuers for AWS Route 53
 
 ```
 apiVersion: v1
