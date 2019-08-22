@@ -13,8 +13,6 @@ author: rcarrata
 comments: true
 ---
 
-## Overview
-
 How generate certificates for our apps and sign them with a free and trusted Certificate Authority? And the most important, how I can automate this process for generate and renew this certificates?
 
 Let's start!
