@@ -227,6 +227,8 @@ type: Opaque
 
 * Generating ACME Issuers for AWS Route 53
 
+* Generate the ClusterIssuer resource:
+
 ```
 apiVersion: v1
 items:
@@ -240,8 +242,8 @@ items:
         providers:
         - name: dns
           route53:
-            accessKeyID: AKIA5MSIIIXKEZ4UHNQD
-            hostedZoneID: ZNM64JJ76955Y
+            accessKeyID: yyyy
+            hostedZoneID: zzzz
             region: eu-central-1
             secretAccessKeySecretRef:
               key: secret-access-key
@@ -255,11 +257,9 @@ metadata:
   selfLink: ""
 ```
 
-```
-# oc get secrets acme-route53
-NAME           TYPE     DATA   AGE
-acme-route53   Opaque   1      67m
+* Check that the clusterissuer is generated properly:
 
+```
 # oc get clusterissuer
 NAME                        AGE
 apps-ocp4-dev-opentlc-com   2m12s
