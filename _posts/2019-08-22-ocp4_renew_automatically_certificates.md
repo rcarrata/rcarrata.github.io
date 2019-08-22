@@ -365,7 +365,7 @@ router-default-84ff5bdcb8-ktmk9   1/1     Running             0          3d19h
       name: apps-ocp4
 ```
 
-### Check the Certificated expose by the OCP routers
+## Check the Certificated expose by the OCP routers
 
 If we check the certificated exposed by the Openshift Routers with openssl, we can realized that the certificated exposed is the Let's Encrypt generated:
 
@@ -380,34 +380,4 @@ verify return:1
 DONE
 ```
 
-### TSHOOT: Cert Manager Operator DNS Challenge failures
-
-* Edit deploy of the cert-manager deployment, because the HostedZoneID that is selected is the
-internal HostedZone
-
-```
-# oc logs -f cert-manager-68cfd787b6-zcwns
-Unable to retrieve container logs for
-cri-o://673287a4cefbfc12426c86dcb1a9641d2ab000d73843ca122d25f072163524de[root@clientvm 0 ~]# oc get
-pod
-NAME                                       READY   STATUS        RESTARTS   AGE
-cert-manager-679fd5459-2sx79               1/1     Running       0          19s
-cert-manager-68cfd787b6-zcwns              0/1     Terminating   0          49m
-cert-manager-cainjector-5975fd64c5-7q6xz   1/1     Running       0          49m
-cert-manager-webhook-5c7f95fd44-cbhqz      1/1     Running       0          49m
-````
-
-* From the logs we can see the refused of the challenge, because is using the wrong Hosted Zone in Route 53, uses the Private instead of Public:
-
-````
-I0710 13:45:56.962748       1 dns.go:112] Checking DNS propagation for
-"apps.rcarrata-ocp4-aws.4f64.sandbox693.opentlc.com" using name servers: [172.30.0.10:53]
-E0710 13:45:56.973641       1 sync.go:180] cert-manager/controller/challenges "msg"="propagation
-check failed" "error"="NS ns-512.awsdns-00.net.:53 returned REFUSED for
-_acme-challenge.apps.rcarrata-ocp4-aws.4f64.sandbox693.opentlc.com."
-"dnsName"="apps.rcarrata-ocp4-aws.4f64.sandbox693.opentlc.com" "resource_kind"="Challenge"
-"resource_name"="apps-ocp4-dev-opentlc-com-1619874713-0" "resource_namespace"="openshift-ingress"
-"type"="dns-01"
-```
-
-* Change the HostedZoneID to point to the Public one, and that's all. The cert-manager operator now uses the proper Hosted Zone ID.
+Happy Openshifting!!!
