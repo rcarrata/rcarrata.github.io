@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Openshift 4 - Collect Sosreport
+title: Collect Sosreport in Openshift 4
 date: 2019-08-08
 type: post
 published: true

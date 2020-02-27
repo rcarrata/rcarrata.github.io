@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Openshift 4 - Route Sharding
+title: Deep dive of Route Sharding in Openshift 4
 date: 2019-06-03
 type: post
 published: true
@@ -23,18 +23,18 @@ In OCP, each route can have any number of labels in its metadata field. A router
 * IPI or UPI AWS installation of OCP 4.x
 * Two or more workers deployed and running within our OCP cluster
 * Cluster admin role access
-* AWS CLI configured with access to AWS account 
-* Access to AWS Console (optional) 
+* AWS CLI configured with access to AWS account
+* Access to AWS Console (optional)
 
 
-## Default IngressController in OCP4 
+## Default IngressController in OCP4
 
 In the OCP 3.x version, the router sharding was implemented with patching directly the routers with the "oc adm router" commands for create/manage the routers and their labels, to apply the namespace and route selectors. For more information, check the [OCP3.11 Route Sharding](https://docs.openshift.com/container-platform/3.11/architecture/networking/routes.html#router-sharding) official documentation.
 
-But in OCP 4.x, the rules of the game changed: the OCP Routers (and other elements including LBs, DNS entries, etc) are managed by the [Openshift Ingress Operator](https://github.com/openshift/cluster-ingress-operator). 
+But in OCP 4.x, the rules of the game changed: the OCP Routers (and other elements including LBs, DNS entries, etc) are managed by the [Openshift Ingress Operator](https://github.com/openshift/cluster-ingress-operator).
 
 Ingress Operator is an OpenShift component which enables external access to cluster services by configuring Ingress Controllers, which route traffic as specified by OpenShift Route and Kubernetes Ingress resources.
-Furthermore, the Ingress Operator implements the OpenShift ingresscontroller API. 
+Furthermore, the Ingress Operator implements the OpenShift ingresscontroller API.
 
 Into every new OCP4 cluster, the ingresscontroller "default" is deployed into the openshift-ingress-operator namespace:
 
@@ -76,10 +76,10 @@ status:
 
 ```
 
-In the namespace of "openshift-ingress" the two replicas of the ingress controller "default" are deployed and are running in two separates worker nodes. 
+In the namespace of "openshift-ingress" the two replicas of the ingress controller "default" are deployed and are running in two separates worker nodes.
 
 ```
-# oc get pod -n openshift-ingress 
+# oc get pod -n openshift-ingress
 router-default-d994bf4b-jdhj8      1/1     Running   0          106m
 router-default-d994bf4b-zqv2z      1/1     Running   0          106m
 ```
@@ -120,8 +120,8 @@ Checking the ELB deployed on top of AWS by the Ingress Operator, see that have a
 
 This involves that every ELB deployed by the ingressoperator in this way, is publicly exposed to Internet.
 
-In this moments, and until the 4.2 there is no possibility to deploy an ELB with an Schema "Private", focused in have a Load Balancer facing only "Private" subnets and reachable only within this Subnets (for example to use with the routes *internalapps). 
-At 4.2 there will be available [the implementation](https://github.com/openshift/api/blob/release-4.2/operator/v1/types_ingress.go#L179) to expose only on the cluster's private network using the LoadBalancerScope = "Internal" 
+In this moments, and until the 4.2 there is no possibility to deploy an ELB with an Schema "Private", focused in have a Load Balancer facing only "Private" subnets and reachable only within this Subnets (for example to use with the routes *internalapps).
+At 4.2 there will be available [the implementation](https://github.com/openshift/api/blob/release-4.2/operator/v1/types_ingress.go#L179) to expose only on the cluster's private network using the LoadBalancerScope = "Internal"
 
 
 ## Router sharding - Adding Ingress Controller for internal traffic application routes
@@ -161,7 +161,7 @@ There is several key values into this ingresscontroller:
 
 * **Domain**: AWS Route53 wildcard A record *internalapps created and manage automatically by the operator
 * **endpointPublishingStrategy**: used to publish the ingress controller endpoints to other networks, enable load balancer integrations, etc. LoadBalancerService in our case (AWS) for deploy the ELB.
-* **nodePlacement**: NodePlacement describes node scheduling configuration for an ingress controller. In our case 
+* **nodePlacement**: NodePlacement describes node scheduling configuration for an ingress controller. In our case
 have a matchLabel to deploy the ingress controller only into Workers.
 * **routeSelector**: routeSelector is used to filter the set of Routes serviced by the ingress controller. If unset, the default is no filtering. In our case, a label "type: internal" is selected for define these internal routes.
 
@@ -182,7 +182,7 @@ default    103m
 internal   21s
 ```
 
-Automatically, the ingress operator creates a LoadBalancer ServiceType (router-internal as the AWS ELB) and a ClusterIP ServiceType: 
+Automatically, the ingress operator creates a LoadBalancer ServiceType (router-internal as the AWS ELB) and a ClusterIP ServiceType:
 
 ```
 # oc get svc -n openshift-ingress
@@ -235,7 +235,7 @@ django-psql-example   django-psql-example-test-sharding.apps.rcarrata-ipi2-aws.c
 
 This route is exposed by default to the "router-default", using the *apps. domain route.
 
-Let's tweak the route, and add the label that matches to the routeSelector defined into our internal ingresscontroller: 
+Let's tweak the route, and add the label that matches to the routeSelector defined into our internal ingresscontroller:
 
 ```
 # cat route-django-psql-example.yaml
@@ -431,7 +431,7 @@ postgresql-1-deploy             0/1     Completed   0          36m
 postgresql-1-xhhrt              1/1     Running     0          36m
 ```
 
-The route exposed of the services for our new brand applications are: 
+The route exposed of the services for our new brand applications are:
 
 ```
 # oc get route
@@ -580,7 +580,7 @@ Set-Cookie: 640b33b422cc3251ac141ece0847c81c=3bb02e599f47389f9820329908ca84e9; p
 Cache-control: private
 ```
 
-## Conclusion 
+## Conclusion
 
 In this blog post, we worked and explained the Route Sharding in Openshift 4. This Route Sharding changed slightly operational, but maintain the basis of the implementation into Openshift 3.
 

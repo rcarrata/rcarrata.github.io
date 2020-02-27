@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Openshift 4 - Machine Management in action
+title: Machine Management in action into Openshift 4
 date: 2019-05-12
 type: post
 published: true
@@ -22,7 +22,7 @@ The solution for this problem is to use the Machine Api Operator, for deploy and
 
 ## Overview
 
-First of all, we need our OCP4  deployed into AWS using the UPI installation. The result of this installation something will be like this: 
+First of all, we need our OCP4  deployed into AWS using the UPI installation. The result of this installation something will be like this:
 
 ```
 [root@clientvm 0 ~/new-ocp4-cf]# oc get nodes
@@ -40,13 +40,13 @@ As we see, only one worker node is deployed in our cluster.
 ip-10-0-158-99.eu-west-1.compute.internal    Ready    worker   23h   v1.13.4+cb455d664
 ```
 
-For this reason, only one of the two OCP routers in our cluster is running properly in the openshift-ingress namespace: 
+For this reason, only one of the two OCP routers in our cluster is running properly in the openshift-ingress namespace:
 
 ```
 [root@clientvm 0 ~/new-ocp4-cf]# oc get pod -n openshift-ingress -o wide
 NAME                              READY   STATUS    RESTARTS   AGE   IP           NODE                                        NOMINATED NODE   READINESS GATES
 router-default-76f869f9dc-s48rw   1/1     Running   0          23h   10.131.0.6   ip-10-0-158-99.eu-west-1.compute.internal   <none>           <none>
-router-default-76f869f9dc-xh7w4   0/1     Pending   0          98s   <none>       <none>                                      <none>        
+router-default-76f869f9dc-xh7w4   0/1     Pending   0          98s   <none>       <none>                                      <none>
 ```
 
 As we can observe, the second router are not running ok, because there isn't a second worker node for host them, and is waiting in "Pending" state.
@@ -195,7 +195,7 @@ NAME                                    DESIRED   CURRENT   READY   AVAILABLE   
 rcarrata-cf-7lk9g-worker-2-eu-west-1a   1         1         1       1           6m3s
 ```
 
-## Conclusion - Check Openshift Cluster and Routers status 
+## Conclusion - Check Openshift Cluster and Routers status
 
 So now, the new worker node is up && running in our cluster of Openshift:
 
