@@ -24,6 +24,8 @@ We will be using tcpdump to capture a so-called, PCAP (packet capture) file that
 pod’s network traffic. This PCAP file can then be loaded in a tool like Wireshark to analyze the
 traffic and, in this case, the RESTful communication of a service running in a pod.
 
+This tcpdump will be running in a sidecar container beside our app container within our pod.
+
 A sidecar container is a container that is running in the same pod as the actual service/application
 and is able to provide additional functionality to the service/application.
 
@@ -184,3 +186,4 @@ $ wireshark example.pcap
 This is very useful for debugging and for see connectivity and app issues within external systems,
 or within interaction with other pods.
 
+Happy Openshifting!
