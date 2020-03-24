@@ -40,12 +40,5 @@ metadata:
 type: Opaque
 ```
 
-$ oc get secret -n openshift-cloud-credential-operator cloud-credential-operator-iam-ro-creds -o=jsonpath='{.data.aws_access_key_id}'
-QUtJQVFUUUZOS1FDSFhaUlVDUFA=
-
-$ oc get secret -n openshift-cloud-credential-operator cloud-credential-operator-iam-ro-creds -o=jsonpath='{.data.aws_secret_access_key}'
-aG5vZ3VmbEt5cTlsTExoVmNDV3hDR1ZGaXV6Z2JEdmJyMitpZWNjeQ==
-
-
 Happy Openshifting!
 
