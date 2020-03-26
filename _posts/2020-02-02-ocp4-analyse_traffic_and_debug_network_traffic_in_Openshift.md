@@ -12,8 +12,6 @@ author: rcarrata
 comments: true
 ---
 
-## Analyse and debug your network traffic of your app deployed in Openshift or Kubernetes
-
 Sometimes is hard to analyse what is happening as networking level into your pods deployed in
 Openshift or Kubernetes.
 
