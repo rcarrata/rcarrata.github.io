@@ -16,7 +16,7 @@ How can I use a custom DNS in our cluster without modify the actual cluster DNS 
 
 Let's dig and nslookup it out!
 
-### Overview and Example Scenario
+### 1. Overview and Example Scenario
 
 But in which scenarios we want a Custom DNS resolvable for our cluster?
 
@@ -24,7 +24,7 @@ One example could be to have an Openshift Cluster deployed on top of AWS and a D
 
 We in this specific situation the apps.ocp4.rober.lab can not be resolved by the DNS of AWS, and need to be resolved by the specific custom DNS.
 
-### DNS Operator in Openshift 4
+### 2. DNS Operator in Openshift 4
 
 In Openshift 4, the DNS Operator deploys and manages CoreDNS to provide a name resolution service to pods, enabling DNS-based Kubernetes Service discovery in OpenShift.
 
@@ -52,7 +52,7 @@ Status:
   Cluster IP:      172.30.0.10
 ```
 
-### Analysis of CoreDNS in Openshift 4
+### 3. Analysis of CoreDNS in Openshift 4
 
 As we described before CoreDNS is a flexible, extensible DNS server that can serve as the Openshift/Kubernetes cluster DNS.
 
@@ -101,6 +101,8 @@ USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 root           1  0.2  0.0 974732 57908 ?        Ssl  Feb03 194:36 coredns -conf /etc/coredns/Corefile
 ```
 
+#### 3.1 Analysis of Corefile Config file
+
 * If we take a look to the Corefile config file we discover some interesting stuff:
 
 ```
@@ -122,7 +124,7 @@ root           1  0.2  0.0 974732 57908 ?        Ssl  Feb03 194:36 coredns -conf
 }
 ```
 
-1. If we check within the line that start with "kubernetes":
+* If we check within the line that start with "kubernetes":
 
 ```
 kubernetes cluster.local in-addr.arpa ip6.arpa {
@@ -137,7 +139,7 @@ So, every resource within the Openshift Cluster uses the CoreDNS for the DNS res
 
 For more information check the [CoreDNS kubernetes plugin documentation](https://coredns.io/plugins/kubernetes/).
 
-2. On the other hand, another interesting line is
+* On the other hand, another interesting line is
 
 ```
 forward . /etc/resolv.conf {
@@ -164,7 +166,7 @@ as we see the search parameter is defined by the aws-region-az.compute.internal,
 2.0.0.10.in-addr.arpa   name = ip-10-0-0-2.eu-west-1.compute.internal.
 ```
 
-### DNS Resolutions inside of Openshif4 cluster
+### 4. DNS Resolutions inside of Openshif4 cluster
 
 So in order to check the resolution we need to have the proper net tools installed, and for this purpose we will create a debug pod of rhel-tools that already had installed it:
 
@@ -218,7 +220,7 @@ $ oc get pod -n openshift-dns -o wide | grep 10.128.0.5
 dns-default-s9njn   2/2     Running   16         7d1h   10.128.0.5   ip-10-0-144-209.eu-west-1.compute.internal   <none>           <none>
 ```
 
-#### Resolve inside the same namespace:
+#### 4.1 Resolve inside the same namespace:
 
 ```
 # nslookup preference
@@ -270,7 +272,7 @@ Address: 172.30.188.88
 ------------
 ```
 
-#### Resolve between different namespaces:
+#### 4.2 Resolve between different namespaces:
 
 In this case we want to resolve the svc of the console of Openshift:
 
@@ -319,7 +321,7 @@ Address: 172.30.105.179
 
 so in this case, the console.openshift-console is not resolve in the first place as declared in the search with tutorial.svc.cluster (remember that was: search tutorial.svc.cluster.local svc.cluster.local cluster.local eu-west-1.compute.internal), but the second occurence resolves correctly - svc.cluster.local with the console.openshift-console.
 
-### DNS Resolution outside of Openshift
+### 5. DNS Resolution outside of Openshift
 
 But in the case of the resolution outside the cluster, what are the steps behind the hood?
 
