@@ -30,35 +30,59 @@ In Openshift 4, the DNS Operator deploys and manages CoreDNS to provide a name r
 
 The DNS Operator implements the dns API from the operator.openshift.io API group. The operator deploys CoreDNS using a DaemonSet, creates a Service for the DaemonSet, and configures the kubelet to instruct pods to use the CoreDNS Service IP for name resolution.
 
+* The DNS cluster operator describes as:
+
 ```
-$ oc describe dns.operator/default
-Name:         default
-Namespace:
-Labels:       <none>
-Annotations:  <none>
-API Version:  operator.openshift.io/v1
-Kind:         DNS
-Metadata:
-  Creation Timestamp:  2020-03-18T22:59:28Z
-  Finalizers:
-    dns.operator.openshift.io/dns-controller
-  Generation:        1
-  Resource Version:  1814646
-  Self Link:         /apis/operator.openshift.io/v1/dnses/default
-  UID:               fe6f8cd3-d587-4b74-904a-83b9ab35b2b6
+$ oc describe clusteroperator/dns
+Name:         dns
+...
+API Version:  config.openshift.io/v1
+Kind:         ClusterOperator
 Spec:
 Status:
-  Cluster Domain:  cluster.local
-  Cluster IP:      172.30.0.10
+  Conditions:
+    Last Transition Time:  2020-03-26T11:40:45Z
+    Message:               All desired DNS DaemonSets available and operand Namespace exists
+    Reason:                AsExpected
+    Status:                False
+    Type:                  Degraded
 ```
+
+* On the other hand the dns operator is configured as:
+
+```
+$  oc get dnses.operator.openshift.io/default -o yaml
+apiVersion: operator.openshift.io/v1
+kind: DNS
+metadata:
+...
+  name: default
+spec: {}
+status:
+  clusterDomain: cluster.local
+  clusterIP: 172.30.0.10
+  conditions:
+```
+
+NOTE: Check that dns operator have the default spec as {}.
+
+As we noticed, the DNS Management is handled by the DNS Operator that implements CoreDNS and the Node Resolver.
+On the other hand, the DNS Operator is handled by the ClusterVersionOperator, as we will check a bit later.
 
 ### 3. Analysis of CoreDNS in Openshift 4
 
-As we described before CoreDNS is a flexible, extensible DNS server that can serve as the Openshift/Kubernetes cluster DNS.
+CoreDNS is a service providing name resolution of Pod and Service resources within an Openshift/Kubernetes cluster that implements:
+* A/AAAA records for Pod and Service resources
+* SRV records for Service resources with named ports
+* Used for service discovery
 
-The DNS server supports forward lookups (A records), port lookups (SRV records), reverse IP address lookups (PTR records), and more.
+In fact, and within the Openshift cluster :
 
-This can be configured with a Corefile, which is the CoreDNS configuration file. This Corefile is updated and configured by the DNS-Operator and the pods running the Coredns are located in the Openshift-dns namespaces.
+* Every Pod is assigned a DNS name: pod-ip.namespace-name.pod.cluster.local
+* Every Service is assigned a DNS name: svc-name.namespace-name.svc.cluster.local
+* CoreDNS as DaemonSet
+
+Let's see how the implementation is in our test Openshift cluster.
 
 In the namespace of openshift-dns we can check the DaemonSet and the several pods running the Coredns in each node in our cluster:
 
@@ -103,51 +127,65 @@ root           1  0.2  0.0 974732 57908 ?        Ssl  Feb03 194:36 coredns -conf
 
 #### 3.1 Analysis of Corefile Config file
 
-* If we take a look to the Corefile config file we discover some interesting stuff:
+As we noticed in the previous section, CoreDNS uses Corefile which is the CoreDNS configuration file. This Corefile is managed by the DNS-Operator though a ConfigMap.
 
 ```
-[root@dns-default-69cqb /]# cat /etc/coredns/Corefile
-.:5353 {
-    errors
-    health
-    kubernetes cluster.local in-addr.arpa ip6.arpa {
-        pods insecure
-        upstream
-        fallthrough in-addr.arpa ip6.arpa
+$ oc get cm/dns-default -n openshift-dns -o yaml --export
+apiVersion: v1
+data:
+  Corefile: |
+    .:5353 {
+        errors
+        health
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+            pods insecure
+            upstream
+            fallthrough in-addr.arpa ip6.arpa
+        }
+        prometheus :9153
+        forward . /etc/resolv.conf {
+            policy sequential
+        }
+        cache 30
+        reload
     }
-    prometheus :9153
-    forward . /etc/resolv.conf {
-        policy sequential
-    }
-    cache 30
-    reload
-}
+kind: ConfigMap
 ```
 
-* If we check within the line that start with "kubernetes":
+NOTE: We also take a look to the Corefile config file inside of one of the Coredns pods in the ns of
+  openshift-dns to check that in fact is the same:
+
+```
+# oc exec dns-default-69cqb -n openshift-dns cat /etc/coredns/Corefile
+```
+
+* If we check a bit close the Corefile, within the line that start with "kubernetes" we can see:
 
 ```
 kubernetes cluster.local in-addr.arpa ip6.arpa {
 ```
 
-that enables a plugin that configures that CoreDNS will reply to DNS queries based on IP of the services and pods of Kubernetes.
+this enables a plugin that configures that CoreDNS will reply to DNS queries based on IP of the services and pods of Kubernetes.
 In other words, this plugin implements the Kubernetes DNS-Based Service Discovery Specification.
 
 For example the cluster.local within this line handle all queries in the custer.local zone (and also in-addr.arpa the reverse dns lookups).
 
-So, every resource within the Openshift Cluster uses the CoreDNS for the DNS resolution, and remember that each node has a Coredns pod (controlled by a DaemonSet). We dig in a bit later.
+So, as we described early the resources within the Openshift Cluster uses the CoreDNS for the DNS resolution, and remember that each node has a Coredns pod (controlled by a DaemonSet). We dig in a bit later.
 
 For more information check the [CoreDNS kubernetes plugin documentation](https://coredns.io/plugins/kubernetes/).
 
-* On the other hand, another interesting line is
+* On the other hand, another interesting lines are
 
 ```
 forward . /etc/resolv.conf {
+    policy sequential
+}
+
 ```
 
-this enables the coredns forwarding plugin and define that any queries that are not within the cluster domain of Kubernetes will be forwarded to predefined resolvers (/etc/resolv.conf).
+this enables the coredns forwarding plugin and define that any queries that are not within the cluster domain of Kubernetes will be forwarded to predefined resolvers (/etc/resolv.conf). So, in other words, by default the forward plugin is configured to use the node’s /etc/resolv.conf to resolve all non-cluster domain names.
 
-So, if the domain that is requesting our pod/resource/app is not inside of the cluster, the CoreDNS will forward to the resolvers inside of the /etc/resolv.conf
+Furthermore **sequential** is a policy that selects resolvers based on sequential ordering within /etc/resolv.conf.
 
 * So what's in this resolv.conf in each dns-default/coreDNS pod?
 
@@ -159,16 +197,16 @@ search eu-west-1.compute.internal
 nameserver 10.0.0.2
 ```
 
-as we see the search parameter is defined by the aws-region-az.compute.internal, and the nameserver is the 10.0.0.2:
+as we see the search parameter is defined as the aws-region-az.compute.internal, and the nameserver is the 10.0.0.2:
 
 ```
 # nslookup 10.0.0.2 10.0.0.2
 2.0.0.10.in-addr.arpa   name = ip-10-0-0-2.eu-west-1.compute.internal.
 ```
 
-### 4. DNS Resolutions inside of Openshif4 cluster
+### 4. DNS Resolutions Basics in Openshif4 cluster
 
-So in order to check the resolution we need to have the proper net tools installed, and for this purpose we will create a debug pod of rhel-tools that already had installed it:
+So in order to check the resolution we need to have the proper net tools installed (dig, nslookup, tcmdump, etc), and for this purpose we will create a debug pod of rhel-tools that already had installed these tools:
 
 ```
 $ oc debug -t deployment/customer --image registry.access.redhat.c
@@ -182,33 +220,58 @@ sh-4.2# dig -v
 DiG 9.11.4-P2-RedHat-9.11.4-9.P2.el7
 ```
 
-So this pod have also their own /etc/resolv.conf that points the resolvers and the search domains:
+#### 4.1 Name resolution in the same namespace
+
+Let's dig in a bit in the Name resolution basics in Openshift4. We have our namespace "tutorial" and inside we have two pods: debug (created before) and customer (example app), both located in the same namespace.
+
+If we check the connection from debug pod to customer svc with netcat, works liked a charm:
 
 ```
-sh-4.2# cat /etc/resolv.conf
+(debug-pod)sh-4.2# nc -zv customer 8080
+Ncat: Version 7.50 ( https://nmap.org/ncat )
+Ncat: Connected to 172.30.188.88:8080.
+Ncat: 0 bytes sent, 0 bytes received in 0.01 seconds.
+```
+
+But what happened under the hood?
+
+The procedure for resolution from debug node when queries for customer service is the following:
+
+A. Containers (usually) are specified with the dnsPolicy as ClusterFirst:
+
+```
+(laptop)$ oc get pod customer-6c7bc489c4-5hg2h  -o jsonpath={.spec.dnsPolicy}
+ClusterFirst
+```
+so this results at the containers with the /etc/resolv.conf as following:
+
+```
+(debug-pod)sh-4.2# cat /etc/resolv.conf
 search tutorial.svc.cluster.local svc.cluster.local cluster.local eu-west-1.compute.internal
 nameserver 172.30.0.10
 options ndots:5
 ```
 
-so the domain that will be search for are sequentially from the <namespace>.svc.cluster.local in first place, and after that the svc.cluster.local and cluster.local that are solved by the CoreDNS (without forwarding).
-Furthermore, we have the eu-west-1.compute.internal that is the AWS resolver described before, that is used when the domain is not located in our Openshift cluster.
+in this example, the container "debug" looks-up "customer" using the /etc/resolv.conf
 
-On the other hand, the nameserver is the 172.30.0.10 that is... the Coredns pod Service IP!
+B. Container "debug" queries nameserver 172.30.0.10 for "customer".
+
+C. The query gets proxied to the CoreDNS pod. This is because, the nameserver 172.30.0.10
+corresponds to the Coredns pod Service IP.
 
 ```
-sh-4.2# nslookup 172.30.0.10
+(laptop)sh-4.2# nslookup 172.30.0.10
 10.0.30.172.in-addr.arpa        name = dns-default.openshift-dns.svc.cluster.local.
 ```
 
-* This dns-default.openshift-dns.svc.cluster.local. is the service that loadbalances the several endpoints in the pod:
+This dns-default.openshift-dns.svc.cluster.local. is the service that loadbalances the several endpoints in the pod:
 
 ```
-$ oc get svc -n openshift-dns
+(laptop)$ oc get svc -n openshift-dns
 NAME          TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                  AGE
 dns-default   ClusterIP   172.30.0.10   <none>        53/UDP,53/TCP,9153/TCP   7d1h
 
-$ oc describe svc -n openshift-dns | grep TargetPort -A1
+(laptop)$ oc describe svc -n openshift-dns | grep TargetPort -A1
 TargetPort:        dns/UDP
 Endpoints:         10.128.0.5:5353,10.128.2.8:5353,10.128.4.6:5353 + 9 more...
 ```
@@ -216,26 +279,28 @@ Endpoints:         10.128.0.5:5353,10.128.2.8:5353,10.128.4.6:5353 + 9 more...
 if we select one of this endpoints is efectively one Coredns pod:
 
 ```
-$ oc get pod -n openshift-dns -o wide | grep 10.128.0.5
+(laptop)$ oc get pod -n openshift-dns -o wide | grep 10.128.0.5
 dns-default-s9njn   2/2     Running   16         7d1h   10.128.0.5   ip-10-0-144-209.eu-west-1.compute.internal   <none>           <none>
 ```
 
-#### 4.1 Resolve inside the same namespace:
+D. CoreDNS resolves "customer" to an IP address:
 
 ```
-# nslookup preference
+(debug-pod)sh-4.2# nslookup customer
 Server:         172.30.0.10
 Address:        172.30.0.10#53
 
-Name:   preference.tutorial.svc.cluster.local
-Address: 172.30.179.217
+Name:   customer.tutorial.svc.cluster.local
+Address: 172.30.188.88
 
-$ oc get svc preference
-NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-preference   ClusterIP   172.30.179.217   <none>        8080/TCP   29h
+$ oc get svc customer
+NAME       TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+customer   ClusterIP   172.30.188.88   <none>        8080/TCP   47h
 ```
 
-as we can see the resolution of the preference svc, is resolved without the whole subdomain, because the uses of the search described before.
+NOTE: check that nslookup uses CoreDNS 172.30.0.10 as DNS resolver.
+
+A deeper look about the nslookup with the debug enabled shows:
 
 ```
 sh-4.2# nslookup -debug customer
@@ -272,7 +337,11 @@ Address: 172.30.188.88
 ------------
 ```
 
-#### 4.2 Resolve between different namespaces:
+the resolver solved the query using the .tutorial.svc.cluster.local domain in the first place, because of the search option directive (search tutorial.svc.cluster.local svc.cluster.local cluster.local eu-west-1.compute.internal).
+
+E. "debug" communicates with "customer" directly and voilà.
+
+#### 4.3 Resolve between different namespaces:
 
 In this case we want to resolve the svc of the console of Openshift:
 
