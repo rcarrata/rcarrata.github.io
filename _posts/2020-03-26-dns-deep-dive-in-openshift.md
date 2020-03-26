@@ -218,7 +218,7 @@ $ oc get pod -n openshift-dns -o wide | grep 10.128.0.5
 dns-default-s9njn   2/2     Running   16         7d1h   10.128.0.5   ip-10-0-144-209.eu-west-1.compute.internal   <none>           <none>
 ```
 
-* Resolve inside the same namespace:
+#### Resolve inside the same namespace:
 
 ```
 # nslookup preference
