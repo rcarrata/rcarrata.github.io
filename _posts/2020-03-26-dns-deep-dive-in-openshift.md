@@ -20,7 +20,7 @@ Let's dig and nslookup it out!
 
 But in which scenarios we want a Custom DNS resolvable for our cluster?
 
- and happy Openshifting!ne example could be to have an Openshift Cluster deployed on top of AWS and a Direct Connect (a big cable connecting AWS VPC Openshift cluster and the on-premise) to the On-Premise Datacenter, because the enterprises have a Hybrid Cloud deployments, and some resources are only available within the cluster (as for example the DNS that solves the domain of ocp4.rober.lab).
+One example could be to have an Openshift Cluster deployed on top of AWS and a Direct Connect (a big cable connecting AWS VPC Openshift cluster and the on-premise) to the On-Premise Datacenter, because the enterprises have a Hybrid Cloud deployments, and some resources are only available within the cluster (as for example the DNS that solves the domain of ocp4.rober.lab).
 
 We in this specific situation the apps.ocp4.rober.lab can not be resolved by the DNS of AWS, and need to be resolved by the specific custom DNS.
 
