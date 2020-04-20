@@ -13,8 +13,6 @@ comments: true
 ---
 
 
-## Making accesible an Openshift 4 Libvirt/KVM Lab from our laptop
-
 How to expose certain ports of our VMs, to for example expose our Load Balancer port balancing
 itself the port of the API of Openshift4? How to access to the DNS configured in our helper node
 and not reachable from outside?
@@ -110,7 +108,7 @@ Enable and verify your settings:
 /sbin/sysctl -p
 ```
 
-### Rules MASQUERADE / SNAT (VM -> Hypervisor -> Internet)
+### Rules for access from our VMs to Internet (Masquerade / SNAT)
 
 For giving access to the internet into our VMs, libvirt is configuring automatically an SNAT/MASQUERADE:
 
@@ -150,7 +148,7 @@ PING www.bbc.net.uk (212.58.237.253) 56(84) bytes of data.
 rtt min/avg/max/mdev = 81.242/81.242/81.242/0.000 ms
 ```
 
-### Rules DNAT (Internet -> Hipervisor -> VM)
+### Rules to port forwarding and reach our OCP cluster from our laptop (DNAT)
 
 In this case, for expose our ports through our hipervisor and reach them from the outside. This is
 very useful for example, in the case that our laptop only reaches the hipervisor, but not the VM directly
@@ -285,7 +283,7 @@ projects'
 Using project "openshift-marketplace".
 ```
 
-And voilá! Now we can access the helper vm and therefore the cluster from our laptop :)
+And voilà! Now we can access the helper vm and therefore the cluster from our laptop :)
 
 Happy Openshifting!
 
