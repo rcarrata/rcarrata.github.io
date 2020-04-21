@@ -182,6 +182,7 @@ Haproxy for load balancing our OCP4 Api and Apps routers:
 ```
 [root@hypervisor ~]# iptables -t nat -A PREROUTING -p tcp --dport 6443 -i eno1 -j DNAT --to 192.168.7.77
 [root@hypervisor ~]# iptables -t nat -A PREROUTING -p tcp --dport 443 -i eno1 -j DNAT --to 192.168.7.77
+[root@hypervisor ~]# iptables -t nat -A PREROUTING -p tcp --dport 80 -i eno1 -j DNAT --to 192.168.7.77
 ```
 
 Check the iptables nat chain filtering by PREROUTING:
@@ -192,6 +193,7 @@ Chain PREROUTING (policy ACCEPT)
 target     prot opt source               destination
 DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:6443 to:192.168.7.77
 DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:443 to:192.168.7.77
+DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:80 to:192.168.7.77
 DNAT       udp  --  0.0.0.0/0            0.0.0.0/0            udp dpt:53 to:192.168.7.77
 DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:53 to:192.168.7.77
 ```
