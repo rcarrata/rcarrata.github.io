@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How to perform an OCP4 upgrade from the CLI safe, securely (I hope :D) and fully CLI executed?
+How to perform an OCP4 upgrade from the CLI safe, securely and fully CLI executed?
 
 Let's take a look!
 
