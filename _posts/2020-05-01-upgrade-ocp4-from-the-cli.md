@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Upgrading Openshift 4 clusters with the CLI
+title: Upgrade Openshift 4 clusters with the CLI
 date: 2020-05-01
 type: post
 published: true
