@@ -132,11 +132,11 @@ kiali-operator.v1.12.11                      Kiali Operator                   1.
 servicemeshoperator.v1.1.1                   Red Hat OpenShift Service Mesh   1.1.1                 servicemeshoperator.v1.1.0            Succeeded
 ```
 
-### 2. Installing ServiceMesh Control Plane and Service Mesh Member Role
+## 2. Installing ServiceMesh Control Plane and Service Mesh Member Role
 
 The previously installed Service Mesh operator watches for a ServiceMeshControlPlane resource in all namespaces. Based on the configurations defined in that ServiceMeshControlPlane, the operator creates the Service Mesh control plane.
 
-## 2.1 Create istio-system namespace
+### 2.1 Create istio-system namespace
 
 Create a namespace called istio-system where the Service Mesh control plane will be installed.
 
@@ -152,7 +152,7 @@ metadata:
 $ oc apply -f istio-files/mesh-install/servicemesh-namespace.yml
 ```
 
-## 2.2 Deploy Service Mesh Control Plane
+### 2.2 Deploy Service Mesh Control Plane
 
 Let's dig in in the installation of a Service Mesh Control Plane, once we have the operators in
 place, and the namespace for the installation of the mesh deployed:
