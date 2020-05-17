@@ -193,11 +193,6 @@ This resource must be created in the same project as the ServiceMeshControlPlane
 
 ```
 $ oc get ServiceMeshMemberRoll -n istio-system -o yaml | grep spec -A3
-       {"apiVersion":"maistra.io/v1","kind":"ServiceMeshMemberRoll","metadata":{"annotations":{},"name":"default","namespace":"istio-system"},"spec":{"members":["meshtutorial"]}}
-   creationTimestamp: "2020-05-05T16:13:51Z"
-   finalizers:
-   - maistra.io/istio-operator
--
  spec:
    members:
    - bookinfo
