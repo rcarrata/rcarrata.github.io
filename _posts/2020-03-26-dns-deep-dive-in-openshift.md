@@ -1,4 +1,5 @@
 ---
+
 layout: post
 title: DNS Deep Dive in Openshift 4
 date: 2020-03-26
