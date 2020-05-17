@@ -48,7 +48,7 @@ Check the [Service Mesh Installation in Openshift4](https://docs.openshift.com/c
 
 * In the OperatorHub catalog of your OCP Web Console, type Elasticsearch into the filter box to locate the Elasticsearch Operator.
 
-![ElasticSearch Operator](../images/istio-install1.png)
+[![](/images/istio-install1.png "ElasticSearch Operator")]({{site.url}}/images/istio-install1.png)
 
 * Check the Elasticsearch operators installation
 
@@ -66,7 +66,7 @@ elasticsearch-operator.4.3.14-202004200457   Elasticsearch Operator           4.
 
 * In the OperatorHub catalog of your OCP Web Console, type Jaeger into the filter box to locate the Elasticsearch Operator.
 
-![Jaeger Operator](../images/istio-install2.png)
+[![](/images/istio-install2.png "Jaeger Operator")]({{site.url}}/images/istio-install2.png)
 
 * Check the Jaeger operators installation
 
@@ -85,7 +85,7 @@ jaeger-operator.v1.17.2                      Red Hat OpenShift Jaeger         1.
 * In the OperatorHub catalog of your OCP Web Console, type Kiali Operator into the filter
 box to locate the Elasticsearch Operator.
 
-![Kiali Operator](../images/istio-install3.png)
+[![](/images/istio-install3.png "Kiali Operator")]({{site.url}}/images/istio-install3.png)
 
 * Check the Kiali operators installation
 
@@ -94,7 +94,7 @@ box to locate the Elasticsearch Operator.
 * In the OperatorHub catalog of your OCP Web Console, type ServiceMesh Operator into the filter
 box to locate the Elasticsearch Operator.
 
-![Service Mesh Operator](../images/istio-install4.png)
+[![](/images/istio-install4.png "Service Mesh Operator")]({{site.url}}/images/istio-install4.png)
 
 * Check the Service mesh operators installation
 
