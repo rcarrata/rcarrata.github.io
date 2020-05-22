@@ -13,8 +13,7 @@ author: rcarrata
 comments: true
 ---
 
-How the DNS of Openshift 4 is working? How can I check the resolution basics within and externally
-to an OCP4 cluster? And how it's works internally?
+How the DNS of Openshift 4 works? And the operators to manage them? And how can I check the resolution basics within and externally to my OCP4 cluster?
 
 Let's dig and nslookup it out!
 
