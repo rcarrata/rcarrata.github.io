@@ -13,7 +13,8 @@ author: rcarrata
 comments: true
 ---
 
-How can I use a custom DNS in our cluster without modify the actual cluster DNS on top of for example AWS or Azure? How can I forward custom DNS and use specific DNS in an On-Premise Datacenter?
+How the DNS of Openshift 4 is working? How can I check the resolution basics within and externally
+to an OCP4 cluster? And how it's works internally?
 
 Let's dig and nslookup it out!
 
