@@ -17,9 +17,10 @@ differences between Openshift Routes and Ingress routing in Service Mesh?
 
 Let's Mesh in!!
 
-This is the third blog post of the Service Mesh in Openshift series. Check the earlier post:
+This is the fourth blog post of the Service Mesh in Openshift series. Check the earlier post:
 * [Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
 * [Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
+* [Including microservices in Service Mesh](https://rcarrata.com/istio/adding-microservices-within-mesh/)
 
 ## Overview
 
