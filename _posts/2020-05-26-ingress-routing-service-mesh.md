@@ -459,4 +459,7 @@ customer               customer-istio-tutorial-istio-system.apps.ocp4.rglab.com 
 partner                partner-istio-tutorial-istio-system.apps.ocp4.rglab.com           istio-ingressgateway   http2                        None
 ```
 
+
+Check out the part five of this blog series in [Blue Green deployments in Service Mesh](https://rcarrata.com/istio/blue-green-in-service-mesh/)
+
 Happy Service Meshing!
