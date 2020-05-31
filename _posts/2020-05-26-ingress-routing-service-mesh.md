@@ -317,7 +317,7 @@ status:
 ```
 
 as we can see the route points to the service of the istio-ingressgateway using the host of the
-<app><app-ns><istio-ns>.apps and the port for http2.
+{app}{app-ns}{istio-ns}.apps and the port for http2.
 
 For the Gateway, the customer-gw is defined into the namespace of our apps:
 
