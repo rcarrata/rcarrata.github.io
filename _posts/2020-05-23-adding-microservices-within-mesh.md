@@ -109,6 +109,8 @@ recommendation-2-deploy   0/1     Completed   0          39m
 
 For more information check out the [Istio Autoinject Guide](https://istio.io/docs/setup/additional-setup/sidecar-injection/#injection) and the [Maistra Autoinject Guide](https://maistra.io/docs/installation/automatic-injection/)
 
+Check out the part four of this blog series in [Ingress Routing in Service Mesh](https://rcarrata.com/istio/ingress-routing-service-mesh/)
+
 Happy Service Meshing!
 
 
