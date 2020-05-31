@@ -268,5 +268,7 @@ inside of the smmr.
 
 Check the [Service Mesh Installation in Openshift4](https://docs.openshift.com/container-platform/4.3/service_mesh/service_mesh_install/installing-ossm.html#ossm-operatorhub-install_installing-ossm) of the official documentation of Openshift for more information.
 
+Check out the part two of this blog series in [Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
+
 Happy ServiceMeshing!!
 

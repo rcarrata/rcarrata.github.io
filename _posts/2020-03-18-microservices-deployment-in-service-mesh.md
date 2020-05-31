@@ -12,8 +12,10 @@ author: rcarrata
 comments: true
 ---
 
-How to deploy microservices in our Service Mesh, and grant them with the capabilities of the mesh
-itself?
+How we can deploy microservices within Service Mesh easily and automatically? How to control and
+istiofying them? And what are the main components involved?
+
+Let's Mesh in!!
 
 This is the second blog post of the Service Mesh in Openshift series. Check the earlier post:
 * [Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
@@ -203,4 +205,7 @@ For more information refer to the [Configuring Members](https://maistra.io/docs/
 
 And that's it! Hope that helps!
 
+Check out the part three of this blog series in [Including microservices in ServiceMesh](https://rcarrata.com/istio/adding-microservices-within-mesh/)
+
 Happy ServiceMeshing!
+
