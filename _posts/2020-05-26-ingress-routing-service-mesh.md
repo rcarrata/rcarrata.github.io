@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-What is the ingress routing in Service Mesh and what components are involved? And which are the main
+How configure ingress routing in Service Mesh and what components are involved? And which are the main
 differences between Openshift Routes and Ingress routing in Service Mesh?
 
 Let's Mesh in!!
