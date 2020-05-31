@@ -18,8 +18,8 @@ istiofying them? And what are the main components involved?
 Let's Mesh in!!
 
 This is the third blog post of the Service Mesh in Openshift series. Check the earlier post:
-* [Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
-* [Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
+* [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
+* [II - Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
 
 ## Overview
 

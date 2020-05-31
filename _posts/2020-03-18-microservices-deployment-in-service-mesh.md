@@ -18,7 +18,7 @@ istiofying them? And what are the main components involved?
 Let's Mesh in!!
 
 This is the second blog post of the Service Mesh in Openshift series. Check the earlier post:
-* [Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
+* [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
 
 ## Overview
 
