@@ -27,6 +27,8 @@ In this blog post, we will istiofying our four microservices and we will explain
 autoinjection, and the main differences between RH Service mesh based in Maistra and with Istio
 upstream.
 
+NOTE: this blog post is supported by the [istio-files repository](https://github.com/rcarrata/istio-files) located in my personal Github
+
 ## 0. Prerequisites
 
 * Openshift 4.x cluster (tested in a 4.3+ cluster)

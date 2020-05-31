@@ -26,6 +26,8 @@ This is the third blog post of the Service Mesh in Openshift series. Check the e
 In this blog post, we will deep dive in the traffic management, ingress routing of Service Mesh and
 the components involved for getting traffic into our applications deployed within our Service Mesh.
 
+NOTE: this blog post is supported by the [istio-files repository](https://github.com/rcarrata/istio-files) located in my personal Github
+
 ## 0. Prerequisites
 
 * Openshift 4.x cluster (tested in a 4.3+ cluster)

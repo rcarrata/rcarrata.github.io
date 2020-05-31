@@ -22,7 +22,9 @@ This is the second blog post of the Service Mesh in Openshift series. Check the 
 
 ## Overview
 
-In this blog post, we will deploy four microservices that will help us for show the capabilities of Istio:
+In this blog post, we will deploy four microservices that will help us for show the capabilities of Istio.
+
+NOTE: this blog post is supported by the [istio-files repository](https://github.com/rcarrata/istio-files) located in my personal Github
 
 ## 0. Prerequisites
 

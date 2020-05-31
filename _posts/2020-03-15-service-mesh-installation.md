@@ -14,7 +14,7 @@ comments: true
 
 How to install Service Mesh easy, straight forward and with a basic but fully operational installation on top of Openshift 4? And how are the advantages and caveats of each configuration parameter?
 
-I been playing with Service Mesh more than 1 year in this moments. I tweak, broke it, played with
+I been playing with Service Mesh more than 1 year in this moments. I tweaked, broke it a lot of times, tried with
 different configurations and after a bit off playing with other things, I wanted to write some blog
 post with all the things that I discovered.
 
@@ -37,6 +37,8 @@ Installing the Service Mesh involves :
 * Creating and managing a ServiceMeshControlPlane resource to deploy the Service Mesh control plane
 
 * Creating a ServiceMeshMemberRoll resource to specify the namespaces associated with the Service Mesh.
+
+NOTE: this blog post is supported by the [istio-files repository](https://github.com/rcarrata/istio-files) located in my personal Github
 
 ## 1. Installing the Service Mesh Operators from OperatorHub
 
