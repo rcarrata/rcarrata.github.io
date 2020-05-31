@@ -415,6 +415,11 @@ content-length: 0
 
 It works!
 
+Check out the traffic flow with Kiali:
+
+[![](/images/istio1.png "Kiali Simple Traffic Management")]({{site.url}}/images/istio1.png)
+
+
 IMPORTANT: Old routes does not work anymore, use all new routes under istio-sytem:
 
 ```
@@ -458,7 +463,6 @@ $ oc get routes -n istio-system | egrep "customer|partner"
 customer               customer-istio-tutorial-istio-system.apps.ocp4.rglab.com          istio-ingressgateway   http2                        None
 partner                partner-istio-tutorial-istio-system.apps.ocp4.rglab.com           istio-ingressgateway   http2                        None
 ```
-
 
 Check out the part five of this blog series in [Blue Green deployments in Service Mesh](https://rcarrata.com/istio/blue-green-in-service-mesh/)
 
