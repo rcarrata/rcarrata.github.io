@@ -21,7 +21,7 @@ This is the fifth blog post of the Service Mesh in Openshift series. Check the e
 * [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
 * [II - Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
 * [III - Including microservices in Service Mesh](https://rcarrata.com/istio/adding-microservices-within-mesh/)
-* [IV - Including microservices in Service Mesh](https://rcarrata.com/istio/adding-microservices-within-mesh/)
+* [IV - Ingress Routing & Traffic Management in Service Mesh](https://rcarrata.com/istio/ingress-routing-service-mesh/)
 
 ## Overview
 
