@@ -194,7 +194,7 @@ done
 
 And after that we can check in Kiali that the traffic balanced with 25/75 (approx) to the v1 and v2:
 
-![Istio Blue Green Balancing](./images/istio3.png)
+[![](/images/istio3.png "Istio Blue Green Balancing")]({{site.url}}/images/istio3.png)
 
 So, now you can play with your weight and configure different behaviours to control the routing between your different versions of your same repository deployed.
 
