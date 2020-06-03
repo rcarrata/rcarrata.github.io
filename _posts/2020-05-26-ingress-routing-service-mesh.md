@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Ingress Routing & Traffic Management in Service Mesh
+title: Ingress Routing & Traffic Management in Openshift Service Mesh
 date: 2020-05-26
 type: post
 published: true

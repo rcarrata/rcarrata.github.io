@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Including microservices in a Service Mesh
+title: Including microservices in Openshift Service Mesh
 date: 2020-05-23
 type: post
 published: true

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Blue Green deployments in Service Mesh
+title: Blue Green deployments in Openshift Service Mesh
 date: 2020-05-30
 type: post
 published: true
