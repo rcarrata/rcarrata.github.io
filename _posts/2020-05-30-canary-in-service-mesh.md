@@ -12,8 +12,8 @@ author: rcarrata
 comments: true
 ---
 
-Whats a Blue Green deployment and how to configure it our microservices within the Service Mesh? How
-change the balancing of our requests in a easy and quick way?
+Whats a Canary deployment and how to configure in Service Mesh? What are the benefits of a Canary deployment?
+And how we can give more intelligence to our routes and requests inside of our mesh?
 
 Let's Mesh in!!
 
