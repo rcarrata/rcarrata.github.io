@@ -198,4 +198,6 @@ And after that we can check in Kiali that the traffic balanced with 25/75 (appro
 
 So, now you can play with your weight and configure different behaviours to control the routing between your different versions of your same repository deployed.
 
+Check out the part six of this blog series in [Canary deployments in Service Mesh](https://rcarrata.com/istio/canary-in-service-mesh/)
+
 Happy Service Meshing!
