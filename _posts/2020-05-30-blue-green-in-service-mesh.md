@@ -42,8 +42,8 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 Export this environment variables to identify your cluster and namespace:
 
 ```
-$ export OCP_SUBDOMAIN=$(oc get route -n istio-system | grep -i kiali | awk '{ print $2 }' | cut -f 2- -d '.')
-$ echo $OCP_SUBDOMAIN
+$ export APP_SUBDOMAIN=$(oc get route -n istio-system | grep -i kiali | awk '{ print $2 }' | cut -f 2- -d '.')
+$ echo $APP_SUBDOMAIN
 apps.ocp4.rglab.com
 export OCP_NS="istio-tutorial"
 ```
