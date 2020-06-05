@@ -7,7 +7,7 @@ comments: false
 share: false
 ---
 
-I'm Roberto Carratala, an IT professional with almost ten years of experience in the industry of Linux, Virtualization, Cloud, DevOps and Kubernetes/Openshift.
+I'm Roberto Carratalá, an IT professional with almost ten years of experience in the industry of Linux, Virtualization, Cloud, DevOps and Kubernetes/Openshift.
 
 Currently I am working as a Cloud & DevOps Architect for Red Hat, helping the customers to achieve their goals and objectives with linux, cloud and containers in public and private environments.
 
