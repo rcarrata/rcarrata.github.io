@@ -63,7 +63,7 @@ oc delete svc/customer-v2 -n $OCP_NS
 oc patch dc/customer-v2 -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n $OCP_NS
 ```
 
-### 2. Configure Canary rules based in http headers
+## 2. Configure Canary rules based in http headers
 
 The canary to version v2 of customer, will be based in a http header of user.
 
@@ -201,6 +201,8 @@ $ oc get vs customer -o yaml | grep -m2 -A15 http | tail -n4
 User agents are unique to every visitor on the web. They reveal a catalog of technical data about
 the device and software that the visitor is using.
 
+### 3.1 Browser Mobile Agent
+
 When your browser (or similar device) loads a website, it identifies itself as an agent when it
 retrieves the content you’ve requested.
 
@@ -320,7 +322,7 @@ are belonging to our app:
 
 [![](/images/istio4.png "Istio Canary Safari")]({{site.url}}/images/istio4.png)
 
-### Mobile User-Agents
+### 3.2 Mobile User-Agents
 
 With the same User Agent agent (represented as OpenTracing baggage in the customer service), we can
 diffentiate the traffic when is requested from a Mobile Phone or a Desktop browser into the VirtualService:
@@ -397,5 +399,7 @@ As we can see in Kiali (if we execute more curls with the headers of Mobile), th
 [![](/images/istio6.png "Istio Canary Mobile")]({{site.url}}/images/istio6.png)
 
 And that all for this blog post!
+
+Check out the part seven of this blog series in [Traffic Mirroring in Service Mesh](https://rcarrata.com/istio/traffic-mirroring-in-service-mesh/)
 
 Happy Meshing!
