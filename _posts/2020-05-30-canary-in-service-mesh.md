@@ -17,7 +17,8 @@ And how we can give more intelligence to our routes and requests inside of our m
 
 Let's Mesh in!!
 
-This is the fifth blog post of the Service Mesh in Openshift series. Check the earlier posts in:
+This is the sixth blog post of the Service Mesh in Openshift series. Check the earlier posts in:
+
 * [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
 * [II - Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
 * [III - Including microservices in Service Mesh](https://rcarrata.com/istio/adding-microservices-within-mesh/)
@@ -206,7 +207,8 @@ retrieves the content you’ve requested.
 Along with that user-agent identification, the browser sends a host of information about the device
 and network that it’s on.
 
-In this case, we want to generate a Canary deployment based in User-Agent Headers:
+In this case, we want to generate a Canary deployment based in User-Agent Headers, so in the
+VirtualService for the recommendation we will have:
 
 ```
   http:
@@ -231,6 +233,49 @@ Note: the "user-agent" header is added to OpenTracing baggage in the Customer se
 is automatically propagated to all downstream services. To enable automatic baggage propagation all
 intermediate services have to be instrumented with OpenTracing. The baggage header for user agent
 has following form baggage-user-agent: <value>.
+
+Let's apply the VirtualService and the DestinationRule (a default one with mtls and v1 / v2 subsets):
+
+```
+$ oc apply -f istio-files/recommendation-safari-user-header.yml
+```
+
+Once is applied, check the recommendation vs in order to check the headers:
+
+```
+$ oc get vs recommendation -o yaml | yq .spec.http
+[
+  {
+    "match": [
+      {
+        "headers": {
+          "baggage-user-agent": {
+            "regex": ".*Safari.*"
+          }
+        }
+      }
+    ],
+    "route": [
+      {
+        "destination": {
+          "host": "recommendation",
+          "subset": "version-v2"
+        }
+      }
+    ]
+  },
+  {
+    "route": [
+      {
+        "destination": {
+          "host": "recommendation",
+          "subset": "version-v1"
+        }
+      }
+    ]
+  }
+]
+```
 
 So with this match headers, when a request is originated from a Safari browser, will be hit the
 version-v2 of recommendation, instead if a non-Safari user is requesting our app, the request will be
@@ -270,6 +315,81 @@ customer v1 => preference => recommendation v2 from '2-mzkn6': 25
 if you request the customer route, with the header Safari (or in a Safari browser :D), the request is routed to the
 recommendation v2. As we can check, the User-Agent is passed in the curl command and returns an 200 OK from our app.
 
-Hope that helps!
+Into the Jaeger (Opentracing), we can see the header also of Safari in the request, that is propagated through the different microservices that
+are belonging to our app:
 
-Happy Service Meshing!
+[![](/images/istio4.png "Istio Canary Safari")]({{site.url}}/images/istio4.png)
+
+### Mobile User-Agents
+
+With the same User Agent agent (represented as OpenTracing baggage in the customer service), we can
+diffentiate the traffic when is requested from a Mobile Phone or a Desktop browser into the VirtualService:
+
+```
+$ oc get vs recommendation -o yaml | yq .spec.http
+[
+  {
+    "match": [
+      {
+        "headers": {
+          "baggage-user-agent": {
+            "regex": ".*Mobile.*"
+          }
+        }
+      }
+    ],
+    "route": [
+      {
+        "destination": {
+          "host": "recommendation",
+          "subset": "version-v2"
+        }
+      }
+    ]
+  },
+  {
+    "route": [
+      {
+        "destination": {
+          "host": "recommendation",
+          "subset": "version-v1"
+        }
+      }
+    ]
+  }
+]
+```
+
+So, when a regular curl is performed this request is routed to the version-v1 of recommendation:
+
+```
+./istio-files/test.sh $customer_route
+Request Number 0:
+customer v1 => preference => recommendation v1 from 'recommendation-2-qzptw': 593
+
+Request Number 1:
+customer v1 => preference => recommendation v1 from 'recommendation-2-qzptw': 594
+
+Request Number 2:
+customer v1 => preference => recommendation v1 from 'recommendation-2-qzptw': 595
+
+Request Number 3:
+customer v1 => preference => recommendation v1 from 'recommendation-2-qzptw': 596
+```
+
+But if we force the request simutaling that is from a phone, the request will be routed to the recommendation v2.
+
+For simulate the Mobile phone, the -A header could be used with this header:
+
+```
+"Mozilla/5.0 (iPhone; U; CPU iPhone OS 4(KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5"
+```
+
+Executing the request to the customer, we see that is routed to the recommendation v2:
+
+```
+curl -A "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4(KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5" $customer_route
+customer v1 => preference => recommendation v2 from '2-mzkn6': 44
+```
+
+

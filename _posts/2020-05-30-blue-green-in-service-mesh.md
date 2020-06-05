@@ -67,7 +67,7 @@ To deploy a new version of the same application, in this case recommendation ser
 Deploy recommendation v2:
 
 ```
-oc new-app -l app=recommendation,version=v2 --name=recommendation-v2 --docker-image=quay.io/dsanchor/recommendation:vertx -e JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -e VERSION=v2 -n $OCP_NS
+oc new-app -l app=recommendation,version=v2 --name=recommendation-v2 --docker-image=quay.io/rcarrata/recommendation:vertx -e JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -e VERSION=v2 -n $OCP_NS
 ```
 
 ```
