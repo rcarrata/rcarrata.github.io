@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Traffic Mirroring in Openshift Service Mesh
-date: 2020-06-05
+title: Canary deployments in Openshift Service Mesh
+date: 2020-06-02
 type: post
 published: true
 status: publish
@@ -12,7 +12,8 @@ author: rcarrata
 comments: true
 ---
 
-
+Whats a Canary deployment and how to configure in Service Mesh? What are the benefits of a Canary deployment?
+And how we can give more intelligence to our routes and requests inside of our mesh?
 
 Let's Mesh in!!
 
@@ -26,9 +27,7 @@ This is the sixth blog post of the Service Mesh in Openshift series. Check the e
 
 ## Overview
 
-Trying to enumerate all the possible combinations of test cases for testing services in non-production/test environments can be hard and dangerous.
-In some cases, you’ll find that all of the effort that goes into cataloging these use cases doesn’t match up to real production use cases.
-In an ideal scenario, we could use live production use cases and traffic to help illuminate all of the feature areas of the service under test that we might miss in more contrived testing environments.
+When introducing new versions of a service, it is often desirable to shift a controlled percentage of user traffic to a newer version of the service in the process of phasing out the older version. This technique is called a canary deployment.
 
 In this blog post we will analyse the Canary Deployments and how could be implemented in our Service Mesh.
 
@@ -46,10 +45,10 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 Export this environment variables to identify your cluster and namespace:
 
 ```
-$ export OCP_SUBDOMAIN=$(oc get route -n istio-system | grep -i kiali | awk '{ print $2 }' | cut -f 2- -d '.')
-$ echo $OCP_SUBDOMAIN
+$ export APP_SUBDOMAIN=$(oc get route -n istio-system | grep -i kiali | awk '{ print $2 }' | cut -f 2- -d '.')
+$ echo $APP_SUBDOMAIN
 apps.ocp4.rglab.com
-export OCP_NS="istio-tutorial"
+export NAMESPACE="istio-tutorial"
 ```
 
 ## 1. Deploy customer v2 microservice

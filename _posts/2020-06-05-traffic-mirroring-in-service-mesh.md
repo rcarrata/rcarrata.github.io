@@ -12,12 +12,12 @@ author: rcarrata
 comments: true
 ---
 
-Whats a Canary deployment and how to configure in Service Mesh? What are the benefits of a Canary deployment?
-And how we can give more intelligence to our routes and requests inside of our mesh?
+How to do testing cases with live production in a safe, secure and predicted mode? How can achieve
+this within our Service Mesh? And what's the traffic mirroring and how can help this use case?
 
 Let's Mesh in!!
 
-This is the sixth blog post of the Service Mesh in Openshift series. Check the earlier posts in:
+This is the seventh blog post of the Service Mesh in Openshift series. Check the earlier posts in:
 
 * [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
 * [II - Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
@@ -27,13 +27,15 @@ This is the sixth blog post of the Service Mesh in Openshift series. Check the e
 
 ## Overview
 
-When introducing new versions of a service, it is often desirable to shift a controlled percentage of user traffic to a newer version of the service in the process of phasing out the older version. This technique is called a canary deployment.
+Trying to enumerate all the possible combinations of test cases for testing services in non-production/test environments can be hard and dangerous.
+In some cases, you’ll find that all of the effort that goes into cataloging these use cases doesn’t match up to real production use cases.
+In an ideal scenario, we could use live production use cases and traffic to help illuminate all of the feature areas of the service under test that we might miss in more contrived testing environments.
 
-In this blog post we will analyse the Canary Deployments and how could be implemented in our Service Mesh.
+In this blog post we will analyse the Traffic Mirroring Deployments and how could be implemented in our Service Mesh.
 
 NOTE: this blog post is supported by the [istio-files repository](https://github.com/rcarrata/istio-files) located in my personal Github
 
-## 0. Prerequisites
+## Prerequisites
 
 * Openshift 4.x cluster (tested in a 4.3+ cluster)
 * Openshift Service Mesh Operators installed
@@ -45,357 +47,95 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 Export this environment variables to identify your cluster and namespace:
 
 ```
-$ export OCP_SUBDOMAIN=$(oc get route -n istio-system | grep -i kiali | awk '{ print $2 }' | cut -f 2- -d '.')
+$ export APP_SUBDOMAIN=$(oc get route -n istio-system | grep -i kiali | awk '{ print $2 }' | cut -f 2- -d '.')
 $ echo $OCP_SUBDOMAIN
 apps.ocp4.rglab.com
-export OCP_NS="istio-tutorial"
+export NAMESPACE="istio-tutorial"
 ```
 
-## 1. Deploy customer v2 microservice
+## 1. Traffic Mirroring
 
-In this case, we will use one of the external service to set up a Canary to version v2 based on the content of an http header: user
+Traffic mirroring, also called shadowing, is a powerful concept that allows feature teams to bring changes to production with as little risk as possible. Mirroring sends a copy of live traffic to a mirrored service. The mirrored traffic happens out of band of the critical request path for the primary service.
 
-```
-oc new-app -l app=customer,version=v2 --name=customer-v2 --docker-image=quay.io/rcarrata/customer:quarkus -e VERSION=v2 -e  JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -n $OCP_NS
-
-oc delete svc/customer-v2 -n $OCP_NS
-
-oc patch dc/customer-v2 -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n $OCP_NS
-```
-
-### 2. Configure Canary rules based in http headers
-
-The canary to version v2 of customer, will be based in a http header of user.
-
-For implementing this, we will use a DestinationRule and a VirtualService:
+For that, we may have the approach mirroring traffic in the VirtualService from customer v1 to customer v2.
 
 ```
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: customer
-  namespace: ${NAMESPACE}
-  labels:
-    group: tutorial
-spec:
-  gateways:
-  - customer-gw
-  hosts:
-  - customer-${NAMESPACE}-istio-system.${APP_SUBDOMAIN}
-  http:
-  - match:
-    - headers:
-        user:
-          exact: rober
-    route:
-    - destination:
-        host: customer
-        subset: version-v2
-  - route:
-    - destination:
-        host: customer
-        subset: version-v1
+http:
+- route:
+  - destination:
+      host: customer
+      subset: version-v1
+  mirror:
+    host: customer
+    subset: version-v2
 ```
 
-In the VirtualService is the key of this configuration, as you can see the http header of user that
-need to match to rober.
+Render and apply the traffic mirror virtualservice
 
 ```
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: customer
-  namespace: ${NAMESPACE}
-  labels:
-    group: tutorial
-spec:
-  host: customer
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
-  subsets:
-  - labels:
-      version: v1
-    name: version-v1
-  - labels:
-      version: v2
-    name: version-v2
+$ cat istio-files/customer-mirror-traffic.yml | envsubst | oc apply -f -
+Warning: oc apply should be used on resource created by either oc create --save-config or oc apply
+virtualservice.networking.istio.io/customer configured
+destinationrule.networking.istio.io/customer unchanged
 ```
 
-The DestinationRule is the same that we implemented in the exercises before, with two versions in
-the subsets to the customer (v1 and v2).
-
-Let's apply and try different headers to our customer microservice:
+Make a request to the customer route:
 
 ```
-$ cat istio-files/customer-user-header_mtls .yml | NAMESPACE=$OCP_NS envsubst | oc apply -f -
- virtualservice.networking.istio.io/customer configured
- destinationrule.networking.istio.io/customer configured
+$ echo $customer_route
+customer-istio-tutorial-istio-system.apps.ocp4.rglab.com
+
+$ curl $customer_route
+customer v1 => preference => recommendation v1 from 'recommendation-2-qzptw': 608
 ```
 
-Test the customer route with the user http header that we customized (in our case user:rober):
+as we expected the route will be routed from the ingressgateway to the customer v1, but something interesting is happening also behind the carpet.
+
+Check the istio-proxy logs to see what happened with the mirrored traffic:
 
 ```
-$ curl -v -Huser:rober customer-istio-tutorial-istio-system.apps.ocp4.rglab.com
-*   Trying 10.1.8.85:80...
-* TCP_NODELAY set
-* Connected to customer-istio-tutorial-istio-system.apps.ocp4.rglab.com (10.1.8.85) port 80 (#0)
-> GET / HTTP/1.1
-> Host: customer-istio-tutorial-istio-system.apps.ocp4.rglab.com
-> User-Agent: curl/7.65.3
-> Accept: */*
-> user:rober
->
-* Mark bundle as not supporting multiuse
-< HTTP/1.1 200 OK
-< content-type: text/plain;charset=UTF-8
-< content-length: 67
-< date: Sat, 16 May 2020 17:08:19 GMT
-< x-envoy-upstream-service-time: 1125
-< server: istio-envoy
-< Set-Cookie: a16fff5a7437b33e5338c8809926371f=95a3920d95573fbd4abdcc889cf1c1f9; path=/; HttpOnly
-< Cache-control: private
-<
-customer v2 => preference => recommendation v2 from '2-nqq9f': 325
-* Connection #0 to host customer-istio-tutorial-istio-system.apps.ocp4.rglab.com left intact
+$ oc logs -f customer-v2-2-d8z45 -c istio-proxy
+...
+[2020-06-05T10:59:15.857Z] "GET / HTTP/1.1" 200 - "-" "-" 0 69 46 43 "192.168.7.77,10.254.3.1,10.254.3.16" "curl/7.69.1" "aa394a0c-464f-9cf0-a987-592fa0d2b0a0" "customer-istio-tutorial-istio-system.apps.ocp4.rglab.com-shadow" "127.0.0.1:8080" inbound|8080|http|customer.istio-tutorial.svc.cluster.local - 10.254.3.24:8080 10.254.3.16:0 outbound_.8080_.version-v2_.customer.istio-tutorial.svc.cluster.local default
 ```
 
-As we can see the version that is reached is customer v2, because of the user:rober that is applied
-in the virtualservice in the step earlier:
+noticed that the request is also reaching the customerv2 but the response is not sent to the client (curl in this case). This is because have the flag of "-shadow" in the host requested.
+
+So in conclusion, this route rule sends 100% of the traffic to v1. The last stanza specifies that you want to mirror
+to the customer:v2 service. When traffic gets mirrored, the requests are sent to the mirrored service
+with their Host/Authority headers appended with -shadow. For example, cluster-1 becomes
+cluster-1-shadow.
+
+Also, it is important to note that these requests are mirrored as “fire and forget”, which means that the responses are discarded.
+
+In kiali this mirror traffic is showed because, the customer v1 shows that is requested from the
+client, but the customerv2 is also sending traffic to preference service, because is producing this traffic mirror
+
+[![](/images/istio7.png "Istio Traffic Mirroring")]({{site.url}}/images/istio7.png)
+
+### Changing the mirror requests
+
+Furthermore, you can use the mirror_percent field to mirror a fraction of the traffic, instead of mirroring all
+requests. If this field is absent, for compatibility with older versions, all traffic will be mirrored.
 
 ```
-$ oc get vs customer -o yaml | grep -m2 -A8 http | tail -n9
- http:
- - match:
-   - headers:
-       user:
-         exact: rober
-   route:
-   - destination:
-       host: customer
-       subset: version-v2
+http:
+- mirror:
+    host: customer
+    subset: version-v2
+  mirror_percent: 50
+  route:
+  - destination:
+      host: customer
+      subset: version-v1
+    weight: 100
 ```
 
-Now we will execute a request without the user header, or with a different user than we used before:
+Apply the modified mirror_percent with 50% of the mirror_request:
 
 ```
-$ curl customer-istio-tutorial-istio-system.apps.ocp4.rglab.com
-customer v1 => preference => recommendation v1 from 'recommendation-2-kjpsc': 667
-
-$ curl -Huser:johndoe customer-istio-tutorial-istio-system.apps.ocp4.rglab.com
-customer v1 => preference => recommendation v2 from '2-nqq9f': 326
+$ cat istio-files/customer-mirror-traffic-adv.yml | envsubst | oc apply -f -
+virtualservice.networking.istio.io/customer configured
+destinationrule.networking.istio.io/customer unchanged
 ```
 
-as we can see the request is routed to customerv1, because does not match the exact user header that we defined in the VirtualService:
-
-```
-$ oc get vs customer -o yaml | grep -m2 -A15 http | tail -n4
-  - route:
-    - destination:
-        host: customer
-        subset: version-v1
-```
-
-## 3. Configure Canary deployments based in User-Agent Headers
-
-User agents are unique to every visitor on the web. They reveal a catalog of technical data about
-the device and software that the visitor is using.
-
-When your browser (or similar device) loads a website, it identifies itself as an agent when it
-retrieves the content you’ve requested.
-
-Along with that user-agent identification, the browser sends a host of information about the device
-and network that it’s on.
-
-In this case, we want to generate a Canary deployment based in User-Agent Headers, so in the
-VirtualService for the recommendation we will have:
-
-```
-  http:
-  - match:
-    - headers:
-        baggage-user-agent:
-          regex: .*Safari.*
-    route:
-    - destination:
-        host: recommendation
-        subset: version-v2
-  - route:
-    - destination:
-        host: recommendation
-        subset: version-v1
-```
-
-as we see in this example, we will use the baggage-user-agent to define the user agent for Safari
-browsers.
-
-Note: the "user-agent" header is added to OpenTracing baggage in the Customer service. From there it
-is automatically propagated to all downstream services. To enable automatic baggage propagation all
-intermediate services have to be instrumented with OpenTracing. The baggage header for user agent
-has following form baggage-user-agent: <value>.
-
-Let's apply the VirtualService and the DestinationRule (a default one with mtls and v1 / v2 subsets):
-
-```
-$ oc apply -f istio-files/recommendation-safari-user-header.yml
-```
-
-Once is applied, check the recommendation vs in order to check the headers:
-
-```
-$ oc get vs recommendation -o yaml | yq .spec.http
-[
-  {
-    "match": [
-      {
-        "headers": {
-          "baggage-user-agent": {
-            "regex": ".*Safari.*"
-          }
-        }
-      }
-    ],
-    "route": [
-      {
-        "destination": {
-          "host": "recommendation",
-          "subset": "version-v2"
-        }
-      }
-    ]
-  },
-  {
-    "route": [
-      {
-        "destination": {
-          "host": "recommendation",
-          "subset": "version-v1"
-        }
-      }
-    ]
-  }
-]
-```
-
-So with this match headers, when a request is originated from a Safari browser, will be hit the
-version-v2 of recommendation, instead if a non-Safari user is requesting our app, the request will be
-routed to the version-v1:
-
-```
-customer_route=$(oc get route -n istio-system customer | tail -n1 | awk '{ print $2 }')
-
-./test.sh $customer_route
-Request Number 0:
-customer v1 => preference => recommendation v1 from 'recommendation-2-qzptw': 31
-
-Request Number 1:
-customer v1 => preference => recommendation v1 from 'recommendation-2-qzptw': 32
-
-Request Number 2:
-customer v1 => preference => recommendation v1 from 'recommendation-2-qzptw': 33
-```
-
-as we see if we request a nonSafari request, the request is routed to the recommendation v1.
-
-```
- curl -A Safari $customer_route -v
-* Connected to customer-istio-tutorial-istio-system.apps.ocp4.rglab.com (10.1.8.85) port 80 (#0)
-> GET / HTTP/1.1
-> Host: customer-istio-tutorial-istio-system.apps.ocp4.rglab.com
-> User-Agent: Safari
-> Accept: */*
-
-< HTTP/1.1 200 OK
-< x-envoy-upstream-service-time: 27
-< server: istio-envoy
-<
-customer v1 => preference => recommendation v2 from '2-mzkn6': 25
-```
-
-if you request the customer route, with the header Safari (or in a Safari browser :D), the request is routed to the
-recommendation v2. As we can check, the User-Agent is passed in the curl command and returns an 200 OK from our app.
-
-Into the Jaeger (Opentracing), we can see the header also of Safari in the request, that is propagated through the different microservices that
-are belonging to our app:
-
-[![](/images/istio4.png "Istio Canary Safari")]({{site.url}}/images/istio4.png)
-
-### Mobile User-Agents
-
-With the same User Agent agent (represented as OpenTracing baggage in the customer service), we can
-diffentiate the traffic when is requested from a Mobile Phone or a Desktop browser into the VirtualService:
-
-```
-$ oc get vs recommendation -o yaml | yq .spec.http
-[
-  {
-    "match": [
-      {
-        "headers": {
-          "baggage-user-agent": {
-            "regex": ".*Mobile.*"
-          }
-        }
-      }
-    ],
-    "route": [
-      {
-        "destination": {
-          "host": "recommendation",
-          "subset": "version-v2"
-        }
-      }
-    ]
-  },
-  {
-    "route": [
-      {
-        "destination": {
-          "host": "recommendation",
-          "subset": "version-v1"
-        }
-      }
-    ]
-  }
-]
-```
-
-So, when a regular curl is performed this request is routed to the version-v1 of recommendation:
-
-```
-./istio-files/test.sh $customer_route
-Request Number 0:
-customer v1 => preference => recommendation v1 from 'recommendation-2-qzptw': 593
-
-Request Number 1:
-customer v1 => preference => recommendation v1 from 'recommendation-2-qzptw': 594
-
-Request Number 2:
-customer v1 => preference => recommendation v1 from 'recommendation-2-qzptw': 595
-
-Request Number 3:
-customer v1 => preference => recommendation v1 from 'recommendation-2-qzptw': 596
-```
-
-But if we force the request simutaling that is from a phone, the request will be routed to the recommendation v2.
-
-For simulate the Mobile phone, the -A header could be used with this header:
-
-```
-"Mozilla/5.0 (iPhone; U; CPU iPhone OS 4(KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5"
-```
-
-Executing the request to the customer, we see that is routed to the recommendation v2:
-
-```
-curl -A "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4(KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5" $customer_route
-customer v1 => preference => recommendation v2 from '2-mzkn6': 44
-```
-
-As we can see in Kiali (if we execute more curls with the headers of Mobile), the requests hits into the recommendation v2:
-
-[![](/images/istio6.png "Istio Canary Mobile")]({{site.url}}/images/istio6.png)
-
-And that all for this blog post!
-
-Happy Meshing!
