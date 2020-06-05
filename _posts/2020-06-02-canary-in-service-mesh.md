@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Traffic Mirroring in Openshift Service Mesh
-date: 2020-06-02
+date: 2020-06-05
 type: post
 published: true
 status: publish
