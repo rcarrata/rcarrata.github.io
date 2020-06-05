@@ -30,19 +30,19 @@ kramdown:
 owner:
   name: Roberto Carratala
   avatar: bio-photo.jpg
-  bio: "Linux Geek. Devops & Automation enthusiast.           Working for Red Hat."
+  bio: "Linux Geek. Kubernetes, Devops & Automation enthusiast.           Architect @ Red Hat."
   email: #username
   disqus-shortname: rcarrata
   twitter: rcarrata_
   facebook: #username
   google:
-    plus: 
-    analytics: 
+    plus:
+    analytics:
     verify:
     ad-client:
     ad-slot:
   github: rcarrata
-  stackoverflow: 
+  stackoverflow:
   linkedin: rcarrata
   xing: #username
   instagram: #username

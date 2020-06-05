@@ -392,4 +392,10 @@ curl -A "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4(KHTML, like Gecko) Version/5.0.
 customer v1 => preference => recommendation v2 from '2-mzkn6': 44
 ```
 
+As we can see in Kiali (if we execute more curls with the headers of Mobile), the requests hits into the recommendation v2:
 
+[![](/images/istio6.png "Istio Canary Mobile")]({{site.url}}/images/istio6.png)
+
+And that all for this blog post!
+
+Happy Meshing!
