@@ -17,15 +17,7 @@ How the DNS of Openshift 4 works? And the operators to manage them? And how can 
 
 Let's dig and nslookup it out!
 
-### 1. Overview and Example Scenario
-
-But in which scenarios we want a Custom DNS resolvable for our cluster?
-
-One example could be to have an Openshift Cluster deployed on top of AWS and a Direct Connect (a big cable connecting AWS VPC Openshift cluster and the on-premise) to the On-Premise Datacenter, because the enterprises have a Hybrid Cloud deployments, and some resources are only available within the cluster (as for example the DNS that solves the domain of ocp4.rober.lab).
-
-We in this specific situation the apps.ocp4.rober.lab can not be resolved by the DNS of AWS, and need to be resolved by the specific custom DNS.
-
-### 2. DNS Operator in Openshift 4
+### 1. DNS Operator in Openshift 4
 
 In Openshift 4, the DNS Operator deploys and manages CoreDNS to provide a name resolution service to pods, enabling DNS-based Kubernetes Service discovery in OpenShift.
 
@@ -70,7 +62,7 @@ NOTE: Check that dns operator have the default spec as {}.
 As we noticed, the DNS Management is handled by the DNS Operator that implements CoreDNS and the Node Resolver.
 On the other hand, the DNS Operator is handled by the ClusterVersionOperator, as we will check a bit later.
 
-### 3. Analysis of CoreDNS in Openshift 4
+### 2. Analysis of CoreDNS in Openshift 4
 
 CoreDNS is a service providing name resolution of Pod and Service resources within an Openshift/Kubernetes cluster that implements:
 * A/AAAA records for Pod and Service resources
@@ -126,7 +118,7 @@ USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 root           1  0.2  0.0 974732 57908 ?        Ssl  Feb03 194:36 coredns -conf /etc/coredns/Corefile
 ```
 
-#### 3.1 Analysis of Corefile Config file
+#### 2.1 Analysis of Corefile Config file
 
 As we noticed in the previous section, CoreDNS uses Corefile which is the CoreDNS configuration file. This Corefile is managed by the DNS-Operator though a ConfigMap.
 
@@ -205,7 +197,7 @@ as we see the search parameter is defined as the aws-region-az.compute.internal,
 2.0.0.10.in-addr.arpa   name = ip-10-0-0-2.eu-west-1.compute.internal.
 ```
 
-### 4. DNS Resolutions Basics in Openshif4 cluster
+### 3. DNS Resolutions Basics in Openshif4 cluster
 
 So in order to check the resolution we need to have the proper net tools installed (dig, nslookup, tcmdump, etc), and for this purpose we will create a debug pod of rhel-tools that already had installed these tools:
 
@@ -221,7 +213,7 @@ sh-4.2# dig -v
 DiG 9.11.4-P2-RedHat-9.11.4-9.P2.el7
 ```
 
-#### 4.1 Name resolution in the same namespace
+#### 3.1 Name resolution in the same namespace
 
 Let's dig in a bit in the Name resolution basics in Openshift4. We have our namespace "tutorial" and inside we have two pods: debug (created before) and customer (example app), both located in the same namespace.
 
@@ -342,7 +334,7 @@ the resolver solved the query using the .tutorial.svc.cluster.local domain in th
 
 E. "debug" communicates with "customer" directly and voilà.
 
-#### 4.3 Resolve between different namespaces:
+#### 3.2 Resolve between different namespaces:
 
 In this case we want to resolve the svc of the console of Openshift:
 
@@ -391,7 +383,7 @@ Address: 172.30.105.179
 
 so in this case, the console.openshift-console is not resolve in the first place as declared in the search with tutorial.svc.cluster (remember that was: search tutorial.svc.cluster.local svc.cluster.local cluster.local eu-west-1.compute.internal), but the second occurence resolves correctly - svc.cluster.local with the console.openshift-console.
 
-### 5. DNS Resolution outside of Openshift
+### 4. DNS Resolution outside of Openshift
 
 But in the case of the resolution outside the cluster, what are the steps behind the hood?
 
