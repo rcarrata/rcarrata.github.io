@@ -140,3 +140,6 @@ virtualservice.networking.istio.io/customer configured
 destinationrule.networking.istio.io/customer unchanged
 ```
 
+And that's it for this blog post!
+
+Happy Meshing!!
