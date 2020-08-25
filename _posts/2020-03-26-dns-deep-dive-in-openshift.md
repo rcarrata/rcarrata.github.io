@@ -445,6 +445,6 @@ Address: 2.21.33.72
 
 CoreDNS search -> CoreDNS Forwards towards AWS DNS 10.0.0.2 -> AWS DNS tries to solve and forwards the query until the dns.prisacom.com returns and solves the IP.
 
-So that's it! In the following blog post, we will use the DNS Operator to DNS Forwaring to Custom DNS, to try to solve custom domains.
+So that's it! In the [DNS Forwarding blog post](https://rcarrata.com/openshift/dns-forwarding-openshift/), we will use the DNS Operator to configure the DNS Forwarding to a specific private DNS, to try to solve custom domains.
 
 Stay tuned and happy Openshifting!
