@@ -15,6 +15,8 @@ Althought I work for Red Hat I still consider myself a Linux Geek and a Unix fan
 
 In my free time, I really like the basketball (watch and practice also!), and spend time with my friends and family.
 
+Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.
+
 Cheers!
 
 Rober ;)
