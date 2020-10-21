@@ -48,13 +48,11 @@ As you noticed, the endpoint publishing strategy is configured as type: HostNetw
 
 The HostNetwork endpoint publishing strategy publishes the Ingress Controller on node ports where the Ingress Controller is deployed.
 
-From the [official documentation of Openshift4.5](https://docs.openshift.com/container-platform/4.5/networking/ingress-operator.html#nw-ingress-controller-endpoint-publishing-strategies_configuring-ingress) the endpointPublishingStrategy HostNetwork:
-
-```
 An Ingress controller with the HostNetwork endpoint publishing strategy can have only one Pod replica per node.
 
 If you want n replicas, you must use at least n nodes where those replicas can be scheduled. Because each Pod replica requests ports 80 and 443 on the node host where it is scheduled, a replica cannot be scheduled to a node if another Pod on the same node is using those ports.
-```
+
+* HostNetwork spec
 
 Interesting right? But what is the HostNetwork and to what applies?
 
@@ -126,6 +124,8 @@ $ oc get pod router-default-754bf5f974-62ntm -n openshift-ingress -o json | jq -
 
 The hostPort setting applies to the Kubernetes containers. The container port will be exposed to the external network at <hostIP>:<hostPort>, where the hostIP is the IP address of the Kubernetes node where the container is running and the hostPort is the port requested by the user.
 So, the hostPort feature allows to expose a single container port on the host IP.
+
+* HostPort spec
 
 What is the hostPort used for? As we checked the Openshift routers are deployed as a set of containers running on top of our Openshift cluster. These containers are configured to use hostPorts 80 and 443 to allow the inbound traffic on these ports from the outside of the Openshift cluster (from an external Loadbalancer, phisical as f5 or a virtual as Nginx)
 
