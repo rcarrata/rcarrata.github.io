@@ -157,10 +157,12 @@ secure connections (TLS) to services that utilize service-service certificates.
 
 This certificates will added automatically using the configmap ca bundle injector annotation:
 
+```
 $ oc get cm service-ca-bundle  -n openshift-insights -o yaml | yq .metadata.annotations
  {
      "service.beta.openshift.io/inject-cabundle": "true"
  }
+```
 
 This will allow that the consumers of the configmap can then trust service-ca.crt in their TLS
 client configurations, allowing connections to these services that uses the service-serving certs.
