@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-What's difference are between the Routers / IngressController of Openshift 4 in cloud environments and the deployments in On-premise? What are the main components involved?
+What's the difference between the Routers / IngressController of Openshift 4 in cloud environments and the deployments in On-premise? What are the main components involved?
 
 Let's take a look!
 
@@ -127,7 +127,7 @@ $ oc get pod router-default-754bf5f974-62ntm -n openshift-ingress -o json | jq -
 The hostPort setting applies to the Kubernetes containers. The container port will be exposed to the external network at <hostIP>:<hostPort>, where the hostIP is the IP address of the Kubernetes node where the container is running and the hostPort is the port requested by the user.
 So, the hostPort feature allows to expose a single container port on the host IP.
 
-What is the hostPort used for? As we checked the Openshift routers are deployed as a set of containers running of top of our Openshift cluster. These containers are configured to use hostPorts 80 and 443 to allow the inbound traffic on these ports from the outside of the Openshift cluster (from an external Loadbalancer, phisical as f5 or a virtual as Nginx)
+What is the hostPort used for? As we checked the Openshift routers are deployed as a set of containers running on top of our Openshift cluster. These containers are configured to use hostPorts 80 and 443 to allow the inbound traffic on these ports from the outside of the Openshift cluster (from an external Loadbalancer, phisical as f5 or a virtual as Nginx)
 
 For this reason each Openshift router pods are located in different Openshift nodes, because it can not be overlapped due to the hostPort as we mentioned before.
 
