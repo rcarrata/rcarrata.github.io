@@ -48,7 +48,7 @@ As you noticed, the endpoint publishing strategy is configured as type: HostNetw
 
 The HostNetwork endpoint publishing strategy publishes the Ingress Controller on node ports where the Ingress Controller is deployed.
 
-From the [https://docs.openshift.com/container-platform/4.5/networking/ingress-operator.html#nw-ingress-controller-endpoint-publishing-strategies_configuring-ingress](official documentation of Openshift4.5) the endpointPublishingStrategy HostNetwork:
+From the [official documentation of Openshift4.5](https://docs.openshift.com/container-platform/4.5/networking/ingress-operator.html#nw-ingress-controller-endpoint-publishing-strategies_configuring-ingress) the endpointPublishingStrategy HostNetwork:
 
 ```
 An Ingress controller with the HostNetwork endpoint publishing strategy can have only one Pod replica per node.
