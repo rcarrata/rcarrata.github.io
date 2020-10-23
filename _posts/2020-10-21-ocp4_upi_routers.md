@@ -30,7 +30,7 @@ By default when a UPI Openshift 4 is installed a default ingresscontroller is co
 a look:
 
 ```
-oc get ingresscontroller -n openshift-ingress-operator
+$ oc get ingresscontroller -n openshift-ingress-operator
 NAME      AGE
 default   3d16h
 ```
@@ -69,7 +69,7 @@ Let's check the Openshift Routers created by the ingresscontroller then.
 First check the pods of the routers deployed:
 
 ```
-oc get pod -n openshift-ingress -o wide
+$ oc get pod -n openshift-ingress -o wide
 NAME                              READY   STATUS    RESTARTS   AGE   IP            NODE                                                   NOMINATED NODE   READINESS GATES
 router-default-754bf5f974-62ntm   1/1     Running   0          41h   10.0.92.117   worker-0.sharedocp4upi45.lab.upshift.rdu2.redhat.com   <none>           <none>
 router-default-754bf5f974-qqmx5   1/1     Running   0          41h   10.0.93.214   worker-1.sharedocp4upi45.lab.upshift.rdu2.redhat.com   <none>           <none>
@@ -78,7 +78,7 @@ router-default-754bf5f974-qqmx5   1/1     Running   0          41h   10.0.93.214
 Also, look at that the IP is from the hostsubnet and not from the pod network as by default is:
 
 ```
-oc get clusternetworks
+$ oc get clusternetworks
 NAME      CLUSTER NETWORK   SERVICE NETWORK   PLUGIN NAME
 default   10.128.0.0/14     172.30.0.0/16     redhat/openshift-ovs-networkpolicy
 
@@ -90,7 +90,7 @@ worker-0.sharedocp4upi45.lab.upshift.rdu2.redhat.com   worker-0.sharedocp4upi45.
 Let's inspect in detail one of the instances of the Openshift routers:
 
 ```
-oc get pod router-default-754bf5f974-62ntm -n openshift-ingress -o json | jq -r '.spec.hostNetwork'
+$ oc get pod router-default-754bf5f974-62ntm -n openshift-ingress -o json | jq -r '.spec.hostNetwork'
 true
 ```
 
@@ -134,7 +134,7 @@ For this reason each Openshift router pods are located in different Openshift no
 If we check inside the pod of the Openshift Routers (haproxy):
 
 ```
-oc exec -ti router-default-754bf5f974-62ntm -n openshift-ingress bash
+$ oc exec -ti router-default-754bf5f974-62ntm -n openshift-ingress bash
 bash-4.2$ ss -laputen | grep LISTEN | grep 443
 tcp    LISTEN     0      128       *:443                   *:*                   uid:1000560000 ino:53555 sk:14 <->
 
@@ -152,7 +152,7 @@ As we can see they can see every interface because is a privileged pod with the 
 Furthermore, as we check the services we have a ClusterIP svc that have as backends the Openshift router pods:
 
 ```
-oc get svc -n openshift-ingress
+$ oc get svc -n openshift-ingress
 NAME                      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                   AGE
 router-internal-default   ClusterIP   172.30.109.20   <none>        80/TCP,443/TCP,1936/TCP   3d14h
 ```
@@ -160,7 +160,7 @@ router-internal-default   ClusterIP   172.30.109.20   <none>        80/TCP,443/T
 As we can see the ports are 80/443/1936 for http, https, and metrics:
 
 ```
-oc get svc router-internal-default -o json | jq .spec.ports
+$ oc get svc router-internal-default -o json | jq .spec.ports
 [
   {
     "name": "http",
@@ -186,7 +186,7 @@ oc get svc router-internal-default -o json | jq .spec.ports
 And the backends are the two replicas of the pods of the routers:
 
 ```
-oc describe svc router-internal-default
+$ oc describe svc router-internal-default
 Name:              router-internal-default
 Namespace:         openshift-ingress
 Labels:            ingresscontroller.operator.openshift.io/owning-ingresscontroller=default
