@@ -127,7 +127,7 @@ So, the hostPort feature allows to expose a single container port on the host IP
 
 * HostPort spec
 
-What is the hostPort used for? As we checked the Openshift routers are deployed as a set of containers running on top of our Openshift cluster. These containers are configured to use hostPorts 80 and 443 to allow the inbound traffic on these ports from the outside of the Openshift cluster (from an external Loadbalancer, phisical as f5 or a virtual as Nginx)
+What is the hostPort used for? As we checked the Openshift routers are deployed as a set of containers running on top of our Openshift cluster. These containers are configured to use hostPorts 80 and 443 to allow the inbound traffic on these ports from the outside of the Openshift cluster (from an external Loadbalancer, physical as f5 or a virtual as Nginx)
 
 For this reason each Openshift router pods are located in different Openshift nodes, because it can not be overlapped due to the hostPort as we mentioned before.
 
