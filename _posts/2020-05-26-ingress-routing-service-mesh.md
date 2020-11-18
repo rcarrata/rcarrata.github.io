@@ -32,7 +32,7 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 ## 0. Prerequisites
 
 * Openshift 4.x cluster (tested in a 4.3+ cluster)
-* Openshift Service Mesh Operators installed
+* Openshift Service Mesh Operators installed (v1.1.1 in these blog posts)
 * Service Mesh Control Plane deployed
 * Four microservices deployed (follow the second blog post)
 * Microservices added within Service Mesh (follow the third blog post)
