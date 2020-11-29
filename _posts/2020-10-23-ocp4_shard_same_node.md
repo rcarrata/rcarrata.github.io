@@ -128,7 +128,7 @@ true
 
 As we can see the main difference is that the custom router is not using the hostNetwork, and the
 default router it is. This is because we configured the endpointPublishingStrategy in the custom
-router as **type:HostNetwork**.
+router as **type:NodePortService**.
 
 * Check the location and the IP of the Openshift Router pods:
 
