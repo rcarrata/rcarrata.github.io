@@ -63,14 +63,14 @@ NodePortService endpoint publishing strategy.
 The NodePortService strategy publishes an ingress controller using a Kubernetes NodePort Service.
 With this strategy, the administrator is responsible for configuring any external DNS or load balancer.
 
-[![](/images/endpoint-publishing-hostnetwork.png "Endpoint Publishing HostNetwork")]({{site.url}}/images/endpoint-publishing-hostnetwork.png)
+[![](/images/endpoint-publishing-nodeportservice.png "Endpoint Publishing NodePort")]({{site.url}}/images/endpoint-publishing-nodeportservice.png)
 
 * HostNetwork
 
 The HostNetwork strategy uses host networking to publish the ingress controller directly on the node
 host where the ingress controller is deployed.
 
-[![](/images/endpoint-publishing-nodeportservice.png "Endpoint Publishing Service")]({{site.url}}/images/endpoint-publishing-nodeportservice.png)
+[![](/images/endpoint-publishing-hostnetwork.png "Endpoint Publishing HostNetwork")]({{site.url}}/images/endpoint-publishing-hostnetwork.png)
 
 NOTE: This diagrams are extracted from the original repo of [cluster-ingress-operator](https://github.com/openshift/cluster-ingress-operator#hostnetwork) in github.
 
