@@ -28,6 +28,8 @@ This method is based in the kubernetes native infrastructure concepts, and its u
 
 The main goal of this blog post, is to show the differences between IPI and UPI installations in VMWARE and also between cloud and on-premises platforms (RHV IPI, OSP IPI, BM IPI and VMWARE IPI).
 
+Special thanks to my colleague Manu Valle (@manuvaldi in Twitter) for lending me the environment and for always help with their wisdom and support.
+
 ## 1. Scenario
 
 This blog post is developed and tested in a VMWARE vCenter v6.7 and with Openshift 4.5.
