@@ -72,10 +72,6 @@ This API VIP is defined by the user in the install-config.yaml in the installati
 
 In our lab we selected the 10.0.0.200 as the VIP address for the API.
 
-```
-[Insert Image]
-```
-
 These keepalive instances are run as [static pods](https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/) and are resources for deploy them into the cluster are redenred by the Machine Config Operator.
 
 The static pods are managed directly by the kubelet daemon on a specific node, without the API server observing them.
@@ -289,7 +285,25 @@ vrrp_instance vmware_INGRESS {
 
 And with that configuration Keepalived ensures that the VIPs managed are always monitored and responding with nodes responding to the different services.
 
-We head the end of this first blog post about the LB and DNS in Openshift IPI for On-Premises platforms, focusing in VMWARE case.
+## 5. Keepalived Request Flow in Openshift IPI
+
+Finally we will analyse how the Keepalived are used for ensure that the API and Ingress (.apps) VirtualIPs (VIPs) are always available.
+
+Let's check a small diagram with some notes about the flow request:
+
+[![](/images/vmware_ipi_3.png "Keepalive Diagrams")]({{site.url}}/images/vmware_ipi_3.png)
+
+* As we discussed in the sections before, the VRRP protocol is used by Keepalived to determine node health and elect an IP owner.
+
+* The node health are checked every second for each service (separated checks, one for API and another for INGRESS)
+
+* The RARP is used by the Active node for claim traffic.
+
+* The active node (who owns effectively the VIP) passes the traffic to the endpoint.
+
+For more information about the Keepalive and VRRP process, check out the [keepalived basics](https://www.redhat.com/sysadmin/keepalived-basics) article from Red Hat Enable Sysadmin Blogs.
+
+And with that, we head the end of this first blog post about the LB and DNS in Openshift IPI for On-Premises platforms, focusing in VMWARE case.
 
 In the next blog post, we will analyse how is the Load Balancing handled and analyse in deep the configurations specifics.
 
