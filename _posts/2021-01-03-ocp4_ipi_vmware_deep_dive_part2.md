@@ -228,7 +228,7 @@ For more information about the VRRP and Keepalived, check [this useful article](
 
 #### 5.3 API VIP status and VRRP
 
-Let's see where the API is located in our case with a little for loop checking the ip addresses in each master node:
+Let's see where the VIP is located in our case with a little for loop checking the ip addresses in each master node:
 
 ```
 [root@ocp-bastion]# for i in $(oc get nodes -o wide | grep master | awk '{ print $6 }');do ssh -i id_rsa core@$i "hostname && ip -br a | grep ens"; done
