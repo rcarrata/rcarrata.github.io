@@ -15,9 +15,20 @@ comments: true
 How we can install Openshift4 in UPI mode in AWS? How we can do in an semi-automatic way? Which are
 the caveats and the steps to execute?
 
+This blog post is using some code available in a Github Repo for [OCP4 in AWS in UPI
+mode](https://github.com/rcarrata/ocp4-aws-upi-cf)
+
 Let's deep dive a little bit!
 
-### Download openshift-install binary
+## 1. Overview
+
+This procedure is based in the [official installation of Openshift4 for AWS](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-user-infra.html). Please refer to this guide for more information
+
+Fully tested in Openshift 4.2 in AWS.
+
+## 2. Retrieve the Openshift Install and Generate the Install files
+
+### 2.1 Download openshift-install binary
 
 ```
 openshift_version=$(curl -s https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/ | grep -E "openshift-install-linux-.*.tar.gz" | sed -r 's/.*href="([^"]+).*/\1/g')
@@ -26,7 +37,7 @@ or curl  https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/$opens
 sudo tar -xvzf $openshift_version -C /usr/local/bin/
 ```
 
-### Download oc binary
+### 2.2 Download oc binary
 
 ```
 openshift_cli=$(curl -s https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/ | grep -E "openshift-client-linux-.*.tar.gz" | sed -r 's/.*href="([^"]+).*/\1/g')
@@ -37,7 +48,7 @@ sudo tar -xvzf $openshift_cli -C /usr/local/bin/
 ```
 
 
-### Creating the installation files for AWS
+### 2.3 Creating the installation files for AWS
 
 ```
 [root@clientvm 0 ~]# mkdir upi_ocp4_aws
@@ -141,7 +152,7 @@ INFO Consuming "Openshift Manifests" from target directory
 INFO Consuming "Common Manifests" from target directory
 ```
 
-### Upload the ignition files to the s3 bucket
+### 2.4 Upload the ignition files to the s3 bucket
 
 * Create the s3 bucket for the ignition files:
 
@@ -168,20 +179,20 @@ upload: ./bootstrap.ign to s3://xxx-aws/bootstrap.ign
 2019-06-18 09:50:41     279214 bootstrap.ign
 ```
 
-### Generating Cloudformation Templates
+### 2.5 Generating Cloudformation Templates
 
 ```
 for i in $(ls *.json.orig); do cp -p $i $(echo $i | sed -e "s/\.json\.orig/\.json/g"); done
 ```
 
-### Creating the VPC
+## 3. Creating the VPC and the Load Balancing Resources
 
 As this client is not necessary to create the VPC and their resources, because the client need to
 install OCP4 into their own AWS network infrastructure already created.
 
-### Creating Networking and Load Balancing Components in AWS
+### 3.1 Creating Networking and Load Balancing Components in AWS
 
-#### Inputs for CF Networking and Load Balancing
+#### 3.1.1 Inputs for CF Networking and Load Balancing
 
 * ClusterName
 
@@ -266,7 +277,7 @@ subnet-yyy,subnet-yyy,subnet-yyy
 sed -i -e "s/publicsubnets/$publicsubnets/g" *.json
 ```
 
-## 5.1 Creating Networking and Load Balancing Components in AWS
+### 3.2 Creating Networking and Load Balancing Components in AWS
 
 ```
 [root@clientvm 0 ~/06-cloudformation]#  aws cloudformation create-stack --stack-name clusterinfra --template-body file://02_cluster_infra.yaml --parameters file://02_cluster_infra.json --capabilities CAPABILITY_NAMED_IAM
@@ -284,9 +295,9 @@ sed -i -e "s/publicsubnets/$publicsubnets/g" *.json
 [root@clientvm 255 ~]# aws cloudformation describe-stacks --stack-name clusterinfra | jq -r '.Stacks[].Outputs[]'
 ```
 
-### Creating security group and roles in AWS
+### 3.3 Creating security group and roles in AWS
 
-#### Input Parameters Json Cloudformation Template
+#### 3.3.1 Input Parameters Json Cloudformation Template
 
 * PrivateSubnets (already filled)
 
@@ -303,7 +314,7 @@ sed -i -e "s/vpccidr/$vpccidr/g" *.json
 
 * VpcId (already filled)
 
-#### Executing Cloudformation Template for Networking and Load Balancing
+#### 3.3.2 Executing Cloudformation Template for Networking and Load Balancing
 
 ```
 aws cloudformation create-stack --stack-name clustersecurity --template-body file://03_cluster_security.yaml --parameters file://03_cluster_security.json --capabilities CAPABILITY_NAMED_IAM
@@ -327,9 +338,9 @@ WorkerSecurityGroupId: sg-xxx
 WorkerInstanceProfile: clustersecurity-WorkerInstanceProfile-xxx
 ```
 
-### Creating the bootstrap node in AWS
+## 4. Creating the bootstrap node in AWS
 
-#### Input Parameters for Bootstrap Node
+### 4.1 Input Parameters for Bootstrap Node
 
 * RhcosAmi:  [RHCOSAMI](https://docs.openshift.com/container-platform/4.1/installing/installing_aws_user_infra/installing-aws-user-infra.html#installation-aws-user-infra-rhcos-ami_installing-aws-user-infra)
 
@@ -434,7 +445,7 @@ head -1 )
 sed -i -e "s@publicsubnet@$publicsubnet@g" *.json
 ```
 
-#### Executing Bootstrap Cloudformation Template
+### 4.2 Executing Bootstrap Cloudformation Template
 
 ```
 [root@clientvm 0 ~/06-cloudformation]# aws cloudformation create-stack --stack-name clusterbootstrap --template-body file://04_cluster_bootstrap.yaml --parameters file://04_cluster_bootstrap.json --capabilities CAPABILITY_NAMED_IAM
@@ -450,9 +461,9 @@ sed -i -e "s@publicsubnet@$publicsubnet@g" *.json
 clusterbootstrap
 ```
 
-### Creating the control plane machines in AWS
+## 5.1 Creating the control plane machines in AWS
 
-#### Input Variables for Cloudformation Template
+### 5.1.1 Input Variables for Cloudformation Template
 
 * RhcosAmi: (already filled)
 
@@ -581,7 +592,7 @@ masterinstancetype="m4.xlarge"
 sed -i -e "s@masterinstancetype@$masterinstancetype@g" *.json
 ```
 
-### Executing the control plane machines in AWS
+### 5.1.2 Executing the control plane machines in AWS
 
 ```
 # aws cloudformation create-stack --stack-name clustermaster --template-body file://05_cluster_master_nodes.yaml --parameters file://05_cluster_master_nodes.json --capabilities CAPABILITY_NAMED_IAM
@@ -592,7 +603,7 @@ sed -i -e "s@masterinstancetype@$masterinstancetype@g" *.json
 # aws cloudformation wait stack-create-complete --stack-name clustermaster
 ```
 
-### Creating the worker nodes in AWS
+### 5.1.3 Creating the worker nodes in AWS
 
 * WorkerInstanceProfile
 
@@ -657,6 +668,8 @@ sed -i -e "s@workercert@$workercert@g" *.json
 openshift-install wait-for bootstrap-complete --dir=.
 ```
 
+## 6. Approving CSRs and finishing the Openshift installation
+
 **IMPORTANT STEP:**
 
 You must watch if the csrs are aprroved, if not you must approve them with the next command:
@@ -680,4 +693,7 @@ openshift-install wait-for install-complete --dir=.
 
 And that's it! You have your cluster of Openshif4 in AWS in UPI mode!!
 
+In the next blog post, we will see in much detail what are the following resources generated in a
+OCP4 Install and how we can deploy in a VPC installation.
+.
 Happy Openshifting!
