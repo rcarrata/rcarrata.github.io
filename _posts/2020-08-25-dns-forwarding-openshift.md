@@ -1,12 +1,12 @@
 ---
 layout: post
-title: DNS Forwarding in Openshift
+title: DNS Forwarding in OpenShift
 date: 2020-08-25
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
@@ -20,15 +20,15 @@ Let's nslookup it out!
 
 But in which scenarios we want a Custom DNS resolvable for our cluster?
 
-An example could be to have an Openshift Cluster deployed on top of AWS and a Direct Connect (a big cable connecting AWS VPC Openshift cluster and the on-premise) to the On-Premise Datacenter, because the enterprises have a Hybrid Cloud deployments, and some resources are only available within the cluster (as for example the DNS that solves the domain of ocp4.rober.lab).
+An example could be to have an OpenShift Cluster deployed on top of AWS and a Direct Connect (a big cable connecting AWS VPC OpenShift cluster and the on-premise) to the On-Premise Datacenter, because the enterprises have a Hybrid Cloud deployments, and some resources are only available within the cluster (as for example the DNS that solves the domain of ocp4.rober.lab).
 
 We in this specific situation the apps.ocp4.rober.lab can not be resolved by the DNS of AWS, and need to be resolved by the specific custom DNS.
 
-NOTE: This blog post is valid from Openshift 4.3+, and its tested with a 4.4.3 version in AWS.
+NOTE: This blog post is valid from OpenShift 4.3+, and its tested with a 4.4.3 version in AWS.
 
-### DNS Operator in Openshift 4
+### DNS Operator in OpenShift 4
 
-As we described in my [DNS Deep Dive in Openshift](https://rcarrata.com/openshift/dns-deep-dive-in-openshift/) blog post, in Openshift 4, the DNS Operator deploys and manages CoreDNS to provide a name resolution service to pods, enabling DNS-based Kubernetes Service discovery in OpenShift.
+As we described in my [DNS Deep Dive in OpenShift](https://rcarrata.com/openshift/dns-deep-dive-in-openshift/) blog post, in OpenShift 4, the DNS Operator deploys and manages CoreDNS to provide a name resolution service to pods, enabling DNS-based Kubernetes Service discovery in OpenShift.
 
 Furthermore, we investigated that with the Corefile of the CoreDNS, managed with the DNS Operator is configured the Coredns forwarding plugin that define the queries that are not resolved within the cluster by the predefined resolvers.
 
@@ -39,7 +39,7 @@ In an overview, if the domain that is requesting our pod/resource/app is not ins
 Let's test our name resolution without enabling the DNS Forwarding and see what happens:
 
 
-* Enter to one random pod (I selected the Openshift insights pod but any pod in the cluster will have the exact same behaviour):
+* Enter to one random pod (I selected the OpenShift insights pod but any pod in the cluster will have the exact same behaviour):
 
 ```
 $ POD=$(kubectl get pod -n openshift-insights | awk '{ print $1 }' | grep -v NAME)
@@ -82,9 +82,9 @@ in NSlookup if we specify the nameserver after the dns name that we try to solve
 
 As we can noticed the non-authoritative message dissapeared and instead we will using the nameserver specified (check the server and the address in the two first lines).
 
-Ok, now that we have a nameserver that resolves properly the opentlc.com subdomains, let's add this to our Openshift cluster using the DNS Forwarding.
+Ok, now that we have a nameserver that resolves properly the opentlc.com subdomains, let's add this to our OpenShift cluster using the DNS Forwarding.
 
-### Enabling the DNS Forwarding in Openshift 4
+### Enabling the DNS Forwarding in OpenShift 4
 
 As we describe before, we can use the DNS forwarding to override the forwarding configuration identified in etc/resolv.conf on a per-zone basis by specifying which name server should be used for a given zone.
 
@@ -155,7 +155,7 @@ metadata:
     name: default
 ```
 
-remember that the Corefile is located in each coredns pod, but is applied in configured in Openshift4 through a configmap in the openshift-dns.
+remember that the Corefile is located in each coredns pod, but is applied in configured in OpenShift4 through a configmap in the openshift-dns.
 
 ### Testing Resolutions with DNS Forwarding enabled
 

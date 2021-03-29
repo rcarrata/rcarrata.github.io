@@ -6,7 +6,7 @@ type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
@@ -33,7 +33,7 @@ The Cluster Operator can deploy the Topic Operator and User Operator as part of 
 
 ## Description of this scenario
 
-The goal in this blog post is to deploy a Kafka cluster in Openshift, using the AMQStreams 1.4
+The goal in this blog post is to deploy a Kafka cluster in OpenShift, using the AMQStreams 1.4
 operators (based in Strimzi version 0.17.x and Kafka 2.4.0) deployed as a cluster-admin, and giving
 strimzi-admin to a regular user to deploy Kafka clusters without being cluster-admin.
 

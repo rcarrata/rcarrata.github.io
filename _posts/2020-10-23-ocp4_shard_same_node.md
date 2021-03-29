@@ -1,18 +1,18 @@
 ---
 layout: post
-title: Multiple Route Shardings in the same node in a On-Premise Openshift 4
+title: Multiple Route Shardings in the same node in a On-Premise OpenShift 4
 date: 2020-10-23
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
 ---
 
-How to run a Route Sharding in the same Openshift nodes in a On-premise installation (UPI or IPI)? What are the steps for configuring it?
+How to run a Route Sharding in the same OpenShift nodes in a On-premise installation (UPI or IPI)? What are the steps for configuring it?
 
 Let's dig in!
 
@@ -20,40 +20,40 @@ Let's dig in!
 
 This example is applicable in all UPI deployments in On-premise (Baremetal, VMWare UPI, RHV UPI,
 OSP UPI, etc) and also the RHV IPI, VMWARE IPI and Baremetal IPI (with some differences that will be
-analyzed in next blog posts) of Openshift 4.
+analyzed in next blog posts) of OpenShift 4.
 
-In this example a Openshift 4.5 UPI on top of Openstack is used (same as the previous blog post).
+In this example a OpenShift 4.5 UPI on top of Openstack is used (same as the previous blog post).
 
 ### Why can't I run two Route Sharding in the same node?
 
-As we checked in the previous blog post about the [Deep Dive of Openshift 4 Routers in On-Premise Deployments](https://rcarrata.com/openshift/ocp4_upi_routers/) the routers in an installation non-cloud are a bit different. That is because the object of Kubernetes [Loadbalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) is not available, and the Openshift Routers are deployed with a Service ClusterIP and with the endpointPublishingStrategy of **HostNetwork: true**.
+As we checked in the previous blog post about the [Deep Dive of OpenShift 4 Routers in On-Premise Deployments](https://rcarrata.com/openshift/ocp4_upi_routers/) the routers in an installation non-cloud are a bit different. That is because the object of Kubernetes [Loadbalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) is not available, and the OpenShift Routers are deployed with a Service ClusterIP and with the endpointPublishingStrategy of **HostNetwork: true**.
 
-This is because HostNetwork allowed the Openshift Router Pods can directly see the network
-interfaces of the host machine (Openshift Node) where the host is started and exposes the ports of
+This is because HostNetwork allowed the OpenShift Router Pods can directly see the network
+interfaces of the host machine (OpenShift Node) where the host is started and exposes the ports of
 the Routers (HTTP and HTTPS, and metrics port) for Load Balancing for an external physical or virtual LB.
 
-But with by default behaviour of the IngressController and the Openshift Routers you CAN'T have a
-Route Sharding in the same worker/infra node, because it will overlap the Ports into the Openshift
+But with by default behaviour of the IngressController and the OpenShift Routers you CAN'T have a
+Route Sharding in the same worker/infra node, because it will overlap the Ports into the OpenShift
 Node (remember that the OCP Router is listening at the Node interface not in the Pod Network).
 
 For this reason, for each Route Sharding you need to create another separate node for each Route
-Sharding. And because we will always HA of hour Openshift Routers, is 4 worker or infras for a 2
+Sharding. And because we will always HA of hour OpenShift Routers, is 4 worker or infras for a 2
 route sharding (2 Nodes for the default node and 2 more nodes for the Shard).
 
-Back in Openshift 3.11 was allowed to [have several shards in the same router](https://docs.openshift.com/container-platform/3.11/architecture/networking/routes.html#routers), changing the ports were the route sharding routers were listening to not collision to the default routers:
+Back in OpenShift 3.11 was allowed to [have several shards in the same router](https://docs.openshift.com/container-platform/3.11/architecture/networking/routes.html#routers), changing the ports were the route sharding routers were listening to not collision to the default routers:
 
 ```
 ROUTER_SERVICE_HTTP_PORT
 ROUTER_SERVICE_HTTPS_PORT
 ```
 
-But in Openshift 4, we had the Openshift Routers controlled and managed by the Openshift Ingress
+But in OpenShift 4, we had the OpenShift Routers controlled and managed by the OpenShift Ingress
 Controllers.
 
-* Before the Openshift4.4 there was no way to use the Ingress Operator to deploy more than a router
+* Before the OpenShift4.4 there was no way to use the Ingress Operator to deploy more than a router
 per node.
 
-* But from Openshift4.4+ there's a way to run more than a router using the IngressOperator
+* But from OpenShift4.4+ there's a way to run more than a router using the IngressOperator
 NodePortService endpoint publishing strategy.
 
 ### Endpoint Publishing Comparison - NodePort vs HostNetwork
@@ -74,7 +74,7 @@ host where the ingress controller is deployed.
 
 NOTE: This diagrams are extracted from the original repo of [cluster-ingress-operator](https://github.com/openshift/cluster-ingress-operator#hostnetwork) in github.
 
-### Creating new Route Shardings in the Same Openshift 4 Node
+### Creating new Route Shardings in the Same OpenShift 4 Node
 
 * Define a new IngressController resource in openshift-ingress-operator namespace that will be our brand new Route Sharding:
 
@@ -104,7 +104,7 @@ $ oc create -f ingress-custom.yml
 ingresscontroller.operator.openshift.io/default configure
 ```
 
-* Check that the pods of the Openshift Routers custom are creating:
+* Check that the pods of the OpenShift Routers custom are creating:
 
 ```
 $ oc get pod -n openshift-ingress
@@ -130,7 +130,7 @@ As we can see the main difference is that the custom router is not using the hos
 default router it is. This is because we configured the endpointPublishingStrategy in the custom
 router as **type:NodePortService**.
 
-* Check the location and the IP of the Openshift Router pods:
+* Check the location and the IP of the OpenShift Router pods:
 
 ```
 $ oc get pod -o wide -n openshift-ingress
@@ -141,9 +141,9 @@ router-default-754bf5f974-wtrnb   1/1     Running   0          6m33s   10.0.93.2
 ```
 
 NOTE: If you noticed the pods for the Router Custom and Default Router Pods are located in the same
-Openshift Node (worker1 in this case). If you create another route sharding using other Ingress Controller you will also can allocate and run the pods in the same Nodes that we checked before, coexisting several Route Sharding router pods in the same Nodes.
+OpenShift Node (worker1 in this case). If you create another route sharding using other Ingress Controller you will also can allocate and run the pods in the same Nodes that we checked before, coexisting several Route Sharding router pods in the same Nodes.
 
-* Check the Openshift ingress Services that are created the IngressControllers Default and Custom:
+* Check the OpenShift ingress Services that are created the IngressControllers Default and Custom:
 
 ```
 oc get svc -n openshift-ingress
@@ -156,7 +156,7 @@ router-nodeport-custom    NodePort    172.30.1.17     <none>        80:32596/TCP
 As you can notice the Service of the router-internal-default that only has the ClusterIP service.
 ClusterIP Service exposes the Service on a cluster-internal IP. This value makes the Service only reachable from within the cluster.
 
-On the other hand the Route Sharding Custom Ingress Controlled created two Services, a ClusterIP and a NodePort, because the hostNetwork is enabled, and the Openshift Routers needsto be accessible in away (through the NodePort and not with HostNetwork).
+On the other hand the Route Sharding Custom Ingress Controlled created two Services, a ClusterIP and a NodePort, because the hostNetwork is enabled, and the OpenShift Routers needsto be accessible in away (through the NodePort and not with HostNetwork).
 
 Remember that the NodePort is used to make the service accessible from outside of the cluster
 opening a static port on each Node's.
@@ -230,9 +230,9 @@ $ oc get svc -n openshift-ingress router-nodeport-custom -o yaml | yq .spec
 We can check that the nodeport has opened a random port (from the 30000+) in each Node, and bind it
 his the port of HTTP and HTTPS.
 
-And with that you can create several Route Shardings in the same Openshift Nodes, avoiding to have
+And with that you can create several Route Shardings in the same OpenShift Nodes, avoiding to have
 specific nodes only for your IngressController (if you want obviously :D), spending less resources.
 
 Stay tuned to the new blog post!
 
-Happy Openshifting!
+Happy OpenShifting!

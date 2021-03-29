@@ -2,13 +2,13 @@
 
 ## To be filled
 
-# Secured routes Deep Dive in Openshift
+# Secured routes Deep Dive in OpenShift
 
 Little overview
 
 ## Prerequisites
 
-## Secured Routes in Openshift
+## Secured Routes in OpenShift
 
 ## Edge Routes
 

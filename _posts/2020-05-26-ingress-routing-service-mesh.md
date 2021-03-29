@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Ingress Routing & Traffic Management in Openshift Service Mesh
+title: Ingress Routing & Traffic Management in OpenShift Service Mesh
 date: 2020-05-26
 type: post
 published: true
@@ -13,11 +13,11 @@ comments: true
 ---
 
 How configure ingress routing in Service Mesh and what components are involved? And which are the main
-differences between Openshift Routes and Ingress routing in Service Mesh?
+differences between OpenShift Routes and Ingress routing in Service Mesh?
 
 Let's Mesh in!!
 
-This is the fourth blog post of the Service Mesh in Openshift series. Check the earlier post:
+This is the fourth blog post of the Service Mesh in OpenShift series. Check the earlier post:
 * [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
 * [II - Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
 * [III - Including microservices in Service Mesh](https://rcarrata.com/istio/adding-microservices-within-mesh/)
@@ -31,15 +31,15 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 
 ## 0. Prerequisites
 
-* Openshift 4.x cluster (tested in a 4.3+ cluster)
-* Openshift Service Mesh Operators installed (v1.1.1 in these blog posts)
+* OpenShift 4.x cluster (tested in a 4.3+ cluster)
+* OpenShift Service Mesh Operators installed (v1.1.1 in these blog posts)
 * Service Mesh Control Plane deployed
 * Four microservices deployed (follow the second blog post)
 * Microservices added within Service Mesh (follow the third blog post)
 
 ## 1. Adapt Existing K8S Services
 
-In Openshift, when a oc new-app is used, several kubernetes resources are created within this
+In OpenShift, when a oc new-app is used, several kubernetes resources are created within this
 command. One of this service is the Service.
 
 Check out the service of the customer microservice deployed
@@ -111,18 +111,18 @@ service/partner created
 ## 2. Enabling Ingress Routing
 
 Now that we have the proper Services patches, we need to enable the ingress routing in order to
-reach and consume our microservices outside of the Mesh and the Openshift cluster.
+reach and consume our microservices outside of the Mesh and the OpenShift cluster.
 
-### 2.1 Openshift Routes vs Ingress Service Mesh
+### 2.1 OpenShift Routes vs Ingress Service Mesh
 
-There is a main difference between the ingress of Openshift Routes and the Ingress Routing with
+There is a main difference between the ingress of OpenShift Routes and the Ingress Routing with
 Service Mesh.
 
-The Openshift Route uses the Openshift Ingresscontroller/Router (Haproxy) for getting the traffic
+The OpenShift Route uses the OpenShift Ingresscontroller/Router (Haproxy) for getting the traffic
 into the cluster, the router points to the specific service with the labels, and through that
 service reaches the specific pods of our applications:
 
-* Openshift Route Ingress by Default:
+* OpenShift Route Ingress by Default:
 
 ```
 Route (HAProxy/Router) => SVC1 (ip-pod-1, ip-pod-2, ...)

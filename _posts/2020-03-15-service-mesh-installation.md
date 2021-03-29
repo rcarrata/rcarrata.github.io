@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How to install Service Mesh easy, straight forward and with a basic but fully operational installation on top of Openshift 4? And how are the advantages and caveats of each configuration parameter?
+How to install Service Mesh easy, straight forward and with a basic but fully operational installation on top of OpenShift 4? And how are the advantages and caveats of each configuration parameter?
 
 I been playing with Service Mesh more than 1 year in this moments. I tweaked, broke it a lot of times, tried with
 different configurations and after a bit off playing with other things, I wanted to write some blog
@@ -21,7 +21,7 @@ post with all the things that I discovered.
 This is a blog post series (I hope :D), that involves all of the configurations, tools, components,
 pros/cons about this wonderful world of the Service Mesh.
 
-All of the blog post will be about Service Mesh on top of Openshift, but as you know you can deploy
+All of the blog post will be about Service Mesh on top of OpenShift, but as you know you can deploy
 very easily the exact examples in Kubernetes.
 
 So, let's start!
@@ -44,7 +44,7 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 
 The Red Hat OpenShift Service Mesh Operator has dependencies Elasticsearch, Jaeger and Kiali operators.
 
-Check the [Service Mesh Installation in Openshift4](https://docs.openshift.com/container-platform/4.3/service_mesh/service_mesh_install/installing-ossm.html#ossm-operatorhub-install_installing-ossm) of the official documentation of Openshift and install
+Check the [Service Mesh Installation in OpenShift4](https://docs.openshift.com/container-platform/4.3/service_mesh/service_mesh_install/installing-ossm.html#ossm-operatorhub-install_installing-ossm) of the official documentation of OpenShift and install
 
 ### 1.1 Installing the Elasticsearch Operator
 
@@ -268,7 +268,7 @@ inside of the smmr.
 
 ## Links
 
-Check the [Service Mesh Installation in Openshift4](https://docs.openshift.com/container-platform/4.3/service_mesh/service_mesh_install/installing-ossm.html#ossm-operatorhub-install_installing-ossm) of the official documentation of Openshift for more information.
+Check the [Service Mesh Installation in OpenShift4](https://docs.openshift.com/container-platform/4.3/service_mesh/service_mesh_install/installing-ossm.html#ossm-operatorhub-install_installing-ossm) of the official documentation of OpenShift for more information.
 
 Check out the part two of this blog series in [Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
 
