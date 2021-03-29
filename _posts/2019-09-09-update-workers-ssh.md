@@ -1,18 +1,18 @@
 ---
 layout: post
-title: Update SSH Keys into the nodes of Openshift4 cluster
+title: Update SSH Keys into the nodes of OpenShift4 cluster
 date: 2019-09-09
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
 ---
 
-How to update the ssh keys into your Openshift4 clusters once is deployed and up&running? And how to
+How to update the ssh keys into your OpenShift4 clusters once is deployed and up&running? And how to
 automate this easy and straightforward?
 
 ## Overview
@@ -164,7 +164,7 @@ ip-10-0-165-73.eu-central-1.compute.internal    Ready                      maste
 ip-10-0-167-20.eu-central-1.compute.internal    Ready                      worker    7d17h     v1.13.4+43acbc5e5
 ```
 
-NOTE: the Openshift Machine Config operator, will handle the reboots and the apply of the updated MachineConfigs.
+NOTE: the OpenShift Machine Config operator, will handle the reboots and the apply of the updated MachineConfigs.
 
 * On the other hand you can check the Machine Config Daemon logs, that are in charge of rebooting the nodes in order.
 
@@ -210,4 +210,4 @@ The most important are:
 
 And that's it! Hope that helps!
 
-Happy Openshifting!
+Happy OpenShifting!

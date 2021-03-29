@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Upgrade Openshift 4 clusters with the CLI
+title: Upgrade OpenShift 4 clusters with the CLI
 date: 2020-05-01
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
@@ -57,7 +57,7 @@ curl https://raw.githubusercontent.com/pamoedom/ocp4upc/master/ocp4upc.sh > ocp4
 chmod +x ocp4-upgrade-checker.sh
 ```
 
-Generate the graph for your current Openshift 4 version.
+Generate the graph for your current OpenShift 4 version.
 
 ```
 ./ocp4-upgrade-checker.sh 4.2.2
@@ -266,4 +266,4 @@ Updating to latest version 4.3.13
 And that it's, after that you have your OCP4 cluster in the latest version available in this
 moments.
 
-Happy Openshifting!
+Happy OpenShifting!

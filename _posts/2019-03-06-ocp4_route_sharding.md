@@ -1,18 +1,18 @@
 ---
 layout: post
-title: Deep dive of Route Sharding in Openshift 4
+title: Deep dive of Route Sharding in OpenShift 4
 date: 2019-06-03
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
 ---
 
-This blog post aims to provide a guide to implement Route Sharding in Openshift Container Platform 4 (deployed in AWS), creating multiple routers for particular purposes (for example in this specific case, separating the internal and public/dmz application routes).
+This blog post aims to provide a guide to implement Route Sharding in OpenShift Container Platform 4 (deployed in AWS), creating multiple routers for particular purposes (for example in this specific case, separating the internal and public/dmz application routes).
 
 ## Overview
 
@@ -31,7 +31,7 @@ In OCP, each route can have any number of labels in its metadata field. A router
 
 In the OCP 3.x version, the router sharding was implemented with patching directly the routers with the "oc adm router" commands for create/manage the routers and their labels, to apply the namespace and route selectors. For more information, check the [OCP3.11 Route Sharding](https://docs.openshift.com/container-platform/3.11/architecture/networking/routes.html#router-sharding) official documentation.
 
-But in OCP 4.x, the rules of the game changed: the OCP Routers (and other elements including LBs, DNS entries, etc) are managed by the [Openshift Ingress Operator](https://github.com/openshift/cluster-ingress-operator).
+But in OCP 4.x, the rules of the game changed: the OCP Routers (and other elements including LBs, DNS entries, etc) are managed by the [OpenShift Ingress Operator](https://github.com/openshift/cluster-ingress-operator).
 
 Ingress Operator is an OpenShift component which enables external access to cluster services by configuring Ingress Controllers, which route traffic as specified by OpenShift Route and Kubernetes Ingress resources.
 Furthermore, the Ingress Operator implements the OpenShift ingresscontroller API.
@@ -100,7 +100,7 @@ This is because of the pod antiaffinity rule defined, that requires that the rep
         topologyKey: kubernetes.io/hostname
 ```
 
-Furthermore, the [Kubernetes ServiceTypes](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) are managed also by the Openshift Ingress Operator. In this case the default ingresscontroller,deployed and manages a LoadBalancer Service Type (router-default svc) and a ClusterIP Service Type (router-internal-default svc).
+Furthermore, the [Kubernetes ServiceTypes](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) are managed also by the OpenShift Ingress Operator. In this case the default ingresscontroller,deployed and manages a LoadBalancer Service Type (router-default svc) and a ClusterIP Service Type (router-internal-default svc).
 
 The LoadBalancer Service Type in AWS, deploys and manages an AWS ELB (Classic LoadBalancer type) for each ingresscontroller defined:
 
@@ -406,7 +406,7 @@ Set-Cookie: 76d45f9cc1a5dfd70510f1d6e9de2f11=8b4050c0c44e03d912c4d741f7e95699; p
 Cache-control: private
 ```
 
-## Use public routes of the Default Router in Openshift 4
+## Use public routes of the Default Router in OpenShift 4
 
 
 So, now that the default ingresscontroller includes the routeSelector label "public", the router is serving routes including this label in the route definition.
@@ -582,8 +582,8 @@ Cache-control: private
 
 ## Conclusion
 
-In this blog post, we worked and explained the Route Sharding in Openshift 4. This Route Sharding changed slightly operational, but maintain the basis of the implementation into Openshift 3.
+In this blog post, we worked and explained the Route Sharding in OpenShift 4. This Route Sharding changed slightly operational, but maintain the basis of the implementation into OpenShift 3.
 
 In future blog posts, we will explore and analyse the possibility to have Ingresscontrollers using LoadBalancers Service Type with the schema internal, to deploy AWSLoadBalancers only to the Private Subnets of our AWS VPC deployment.
 
-Happy Openshifting!
+Happy OpenShifting!

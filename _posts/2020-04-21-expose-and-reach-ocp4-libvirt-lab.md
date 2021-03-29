@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Making accesible from our laptop an Openshift 4 UPI Libvirt/KVM Lab
+title: Making accesible from our laptop an OpenShift 4 UPI Libvirt/KVM Lab
 date: 2020-04-21
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
@@ -14,22 +14,22 @@ comments: true
 
 
 How to expose certain ports of our VMs, to for example expose our Load Balancer port balancing
-itself the port of the API of Openshift4? How to access to the DNS configured in our helper node
+itself the port of the API of OpenShift4? How to access to the DNS configured in our helper node
 and not reachable from outside?
 
 Let's start with the always fancy world of iptables / linux routing!
 
 ### Overview
 
-For deploy Openshift 4 with UPI in Baremetal we will use our small lab and KVM and libvirt for
+For deploy OpenShift 4 with UPI in Baremetal we will use our small lab and KVM and libvirt for
 manage the networking, storage, and the own VMs (the process is out of scope of this article).
 
 Due to the not possibility in Baremetal (and due to is a lab), we need to have available a
 DNS (bind), LB (haproxy), and several utils more to provide the enough requirements and tools for
-the correct work of our Openshift cluster. This is usually installed (in lab only, NOT use in prod
+the correct work of our OpenShift cluster. This is usually installed (in lab only, NOT use in prod
 :D), in a helper node with a well known and fixed IP.
 
-Once is installed, we can access inside of this VM of helper, to the Openshift cluster... but how
+Once is installed, we can access inside of this VM of helper, to the OpenShift cluster... but how
 about access from anywhere, and not restrained inside of the helper VM?
 
 For doing this, we will play with iptables, linux routing, dnsmasq and some tricks :D
@@ -252,7 +252,7 @@ EOF
 ```
 
 In our case, we substitute for the Hypervisor IP that is capable now to port forward to the VM of the helper,
-and through the haproxy to the cluster of Openshift4 in our VMs:
+and through the haproxy to the cluster of OpenShift4 in our VMs:
 
 ```
 [rcarrata@laptop ~]$ external-ocp4.conf
@@ -287,5 +287,5 @@ Using project "openshift-marketplace".
 
 And voilà! Now we can access the helper vm and therefore the cluster from our laptop :)
 
-Happy Openshifting!
+Happy OpenShifting!
 

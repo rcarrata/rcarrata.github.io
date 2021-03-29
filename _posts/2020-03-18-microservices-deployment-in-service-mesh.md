@@ -17,7 +17,7 @@ istiofying them? And what are the main components involved?
 
 Let's Mesh in!!
 
-This is the second blog post of the Service Mesh in Openshift series. Check the earlier post:
+This is the second blog post of the Service Mesh in OpenShift series. Check the earlier post:
 * [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
 
 ## Overview
@@ -28,8 +28,8 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 
 ## 0. Prerequisites
 
-* Openshift 4.x cluster (tested in a 4.3+ cluster)
-* Openshift Service Mesh Operators installed (v1.1.1 in these blog posts)
+* OpenShift 4.x cluster (tested in a 4.3+ cluster)
+* OpenShift Service Mesh Operators installed (v1.1.1 in these blog posts)
 * Service Mesh Control Plane deployed
 * Free time to have fun with Service Mesh!
 
@@ -72,7 +72,7 @@ oc new-app -l app=partner,version=v1 --name=partner --docker-image=quay.io/rcarr
 oc expose svc partner -n $OCP_NS
 ```
 
-As you can see, the partner and the customer will expose a route of Openshift. Nothing wierd until
+As you can see, the partner and the customer will expose a route of OpenShift. Nothing wierd until
 here right?
 
 * Deploy the preference v1 app:
@@ -83,7 +83,7 @@ oc new-app -l app=preference,version=v1 --name=preference --docker-image=quay.io
 
 This microservice app, don't need any route because only need customer or partner to be reached
 externally, and when the request reach this two microservices internally and using the svc of
-Openshift/Kubernetes will be used to communicate through preference and recommendation micros.
+OpenShift/Kubernetes will be used to communicate through preference and recommendation micros.
 
 * Deploy the recommendation v1 app:
 

@@ -1,22 +1,22 @@
 ---
 layout: post
-title: Machine Management in action into Openshift 4
+title: Machine Management in action into OpenShift 4
 date: 2019-05-12
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
 ---
 
-When you deploy a cluster of Openshift 4.1 using the UPI (User-Provisioned Infrastructure) AWS installation, the deployment can be performed using the AWS Cloudformation templates provided, for create the infrastructure required and afterwards deploy the OCP cluster on top.
+When you deploy a cluster of OpenShift 4.1 using the UPI (User-Provisioned Infrastructure) AWS installation, the deployment can be performed using the AWS Cloudformation templates provided, for create the infrastructure required and afterwards deploy the OCP cluster on top.
 
 By default the cloudformation templates provided, deploys 3 masters but only one worker (in IPI installations 2 workers are deployed instead using the Machine Config Operator).
 
-On the other hand and also by default, when the Openshift cluster is deployed, two routers are deployed (for give the proper HA to the OCP routes) into the worker nodes of our cluster. For avoid that this two OCP routers are running into the same worker node, two worker nodes minimum are needed to host this routers, but only one is deployed with the Cloudformation templates and only one router is running (the other is in Pending state, as we will see above).
+On the other hand and also by default, when the OpenShift cluster is deployed, two routers are deployed (for give the proper HA to the OCP routes) into the worker nodes of our cluster. For avoid that this two OCP routers are running into the same worker node, two worker nodes minimum are needed to host this routers, but only one is deployed with the Cloudformation templates and only one router is running (the other is in Pending state, as we will see above).
 
 The solution for this problem is to use the Machine Api Operator, for deploy and scale to 2 (or 3) the workers deployed in our cluster. With the proper number of workers, the OCP routers will run perfectly (one into each worker node) and will have the proper HA required for production environments.
 
@@ -195,9 +195,9 @@ NAME                                    DESIRED   CURRENT   READY   AVAILABLE   
 rcarrata-cf-7lk9g-worker-2-eu-west-1a   1         1         1       1           6m3s
 ```
 
-## Conclusion - Check Openshift Cluster and Routers status
+## Conclusion - Check OpenShift Cluster and Routers status
 
-So now, the new worker node is up && running in our cluster of Openshift:
+So now, the new worker node is up && running in our cluster of OpenShift:
 
 ```
 [root@clientvm 0 ~/new-ocp4-cf]# oc get nodes

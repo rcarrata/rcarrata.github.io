@@ -1,25 +1,25 @@
 ---
 layout: post
-title: Analysis of Operator Lifecycle Manager in Openshift 4
+title: Analysis of Operator Lifecycle Manager in OpenShift 4
 date: 2020-06-16
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
 ---
 
-How can I use the Operators in my Openshift4 cluster? And how are updated and managed by the
+How can I use the Operators in my OpenShift4 cluster? And how are updated and managed by the
 Operator Lifecycle Manager? What is the components of their architecture?
 
 Let's dig in!
 
 ## 1. Overview
 
-In Openshift 4 the Operators are key for main operations, deployments and upgrades within our
+In OpenShift 4 the Operators are key for main operations, deployments and upgrades within our
 cluster.
 
 The Operator Lifecycle Manager (OLM in short name), helps users install, update, and manage the
@@ -199,4 +199,4 @@ spec:
 
 And that's its for this blog post!
 
-Happy Openshifting!
+Happy OpenShifting!

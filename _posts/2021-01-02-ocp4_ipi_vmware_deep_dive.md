@@ -1,18 +1,18 @@
 ---
 layout: post
-title: Load Balancing and DNS with Openshift IPI in VMware & On-Premise (Part I)
+title: Load Balancing and DNS with OpenShift IPI in VMware & On-Premise (Part I)
 date: 2021-01-02
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
 ---
 
-How is managed the LoadBalancers and the DNS in Openshift IPI in VMWARE and the rest of On-Premises platforms such as Baremetal, Openstack, or RHV? What are the new elements introduced and how are integrating within the cluster?
+How is managed the LoadBalancers and the DNS in OpenShift IPI in VMWARE and the rest of On-Premises platforms such as Baremetal, Openstack, or RHV? What are the new elements introduced and how are integrating within the cluster?
 
 Let's dig in!
 
@@ -20,7 +20,7 @@ Let's dig in!
 
 IPI for on-premises platforms (Installer Provisioned Infrastructure) is scoped to automate a number of networking infrastructure requirements that are handled on other platforms by cloud infrastructure services.
 
-From Openshift version 4.5 a new IPI installation is introduced for vSphere, automating the installation in these platforms, becoming easier and faster in comparation of the traditional UPI mode available from version 4.2.
+From OpenShift version 4.5 a new IPI installation is introduced for vSphere, automating the installation in these platforms, becoming easier and faster in comparation of the traditional UPI mode available from version 4.2.
 
 But with the introduction of the of the IPI mode, a new way of doing DNS and load balancing for the api, api-int, DNS and ingress endpoints (apps) is used.
 
@@ -32,15 +32,15 @@ Special thanks to my colleague Manu Valle (@manuvaldi in Twitter) for lending me
 
 ## 1. Scenario
 
-This blog post is developed and tested in a VMWARE vCenter v6.7 and with Openshift 4.5.
+This blog post is developed and tested in a VMWARE vCenter v6.7 and with OpenShift 4.5.
 
 As said before, this is not an [installation procedure of IPI VMWARE](https://docs.openshift.com/container-platform/4.5/installing/installing_vsphere/installing-vsphere-installer-provisioned-network-customizations.html) , its the analysis of the Load Balancer and DNS resources in IPI On-Premise environments, to show the differences between Cloud environments (IPI and UPI) and the IPI On-premise environments (VMWARE, RHV, Openstack and BareMetal).
 
-The scenario is installed by the IPI mode in the vCenter v6.7 and have 6 nodes (3 masters and 3 workers) within the Openshift 4.5 cluster.
+The scenario is installed by the IPI mode in the vCenter v6.7 and have 6 nodes (3 masters and 3 workers) within the OpenShift 4.5 cluster.
 
-## 2. Openshift IPI Load Balancer and DNS
+## 2. OpenShift IPI Load Balancer and DNS
 
-As we described before a new way of doing DNS and load balancing for Openshift Cluster is introduced in IPI On-premises mode.
+As we described before a new way of doing DNS and load balancing for OpenShift Cluster is introduced in IPI On-premises mode.
 
 To start our analysis we will divide the different components of LB and DNS in IPI in three main sections:
 
@@ -51,7 +51,7 @@ To start our analysis we will divide the different components of LB and DNS in I
 
 ## 3. Control Plane Access Load-Balancer
 
-The Control Plane Access refers to the access to the Kubernetes/Openshift API Server (port 6443) from clients both external and external to the cluster, that should be load balanced across control plane machines.
+The Control Plane Access refers to the access to the Kubernetes/OpenShift API Server (port 6443) from clients both external and external to the cluster, that should be load balanced across control plane machines.
 
 Furthermore, also is needed to access to the Ignition config files served by the Machine Config Server in the port 22623, from clients WITHIN the cluster (not from clients outside the OCP4 cluster) that should be also load-balanced accross control plane machines (masters).
 
@@ -110,7 +110,7 @@ and specifically we are interest in the ones that helps us to manage the LoadBal
 -rw-r--r--. 1 root root  2592 Nov 18 10:00 mdns-publisher.yaml
 ```
 
-### 4. Keepalive in Openshift IPI
+### 4. Keepalive in OpenShift IPI
 
 As we described earlier, Keepalive is used to ensure that the API (and also de Ingress .apps) Virtual IPs (VIP) are always available.
 
@@ -124,7 +124,7 @@ Node health is checked every one second. There is separated checks for each serv
 
 ##### Deep Dive in Keepalived in OCP IPI
 
-As we discussed before, Keepalived runs as static pods inside of our Openshift cluster, but also we can check the pods running with the OCP API in the namespace of "openshift-vsphere-infra":
+As we discussed before, Keepalived runs as static pods inside of our OpenShift cluster, but also we can check the pods running with the OCP API in the namespace of "openshift-vsphere-infra":
 
 ```
 [root@ocp-bastion ~]# oc get pod -n openshift-vsphere-infra | grep keepalive
@@ -169,7 +169,7 @@ These keepalive pods have their configuration based in the config files defined 
 }
 ```
 
-And manages as we can check the two VIPs defined and needed for the IPI installation of Openshift:
+And manages as we can check the two VIPs defined and needed for the IPI installation of OpenShift:
 
 ```
 [root@ocp-bastion ~]# oc get pod -n openshift-vsphere-infra keepalived-vmware-nwjr2-master-0  -o json | jq .spec.containers[1].command
@@ -285,7 +285,7 @@ vrrp_instance vmware_INGRESS {
 
 And with that configuration Keepalived ensures that the VIPs managed are always monitored and responding with nodes responding to the different services.
 
-## 5. Keepalived Request Flow in Openshift IPI
+## 5. Keepalived Request Flow in OpenShift IPI
 
 Finally we will analyse how the Keepalived are used for ensure that the API and Ingress (.apps) VirtualIPs (VIPs) are always available.
 
@@ -303,8 +303,8 @@ Let's check a small diagram with some notes about the flow request:
 
 For more information about the Keepalive and VRRP process, check out the [keepalived basics](https://www.redhat.com/sysadmin/keepalived-basics) article from Red Hat Enable Sysadmin Blogs.
 
-And with that, we head the end of this first blog post about the LB and DNS in Openshift IPI for On-Premises platforms, focusing in VMWARE case.
+And with that, we head the end of this first blog post about the LB and DNS in OpenShift IPI for On-Premises platforms, focusing in VMWARE case.
 
 In the next blog post, we will analyse how is the Load Balancing handled and analyse in deep the configurations specifics.
 
-Happy Openshifting and Happy New Years folks!
+Happy OpenShifting and Happy New Years folks!
