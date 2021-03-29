@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Blue Green deployments in Openshift Service Mesh
+title: Blue Green deployments in OpenShift Service Mesh
 date: 2020-05-30
 type: post
 published: true
@@ -17,7 +17,7 @@ change the balancing of our requests in a easy and quick way?
 
 Let's Mesh in!!
 
-This is the fifth blog post of the Service Mesh in Openshift series. Check the earlier posts in:
+This is the fifth blog post of the Service Mesh in OpenShift series. Check the earlier posts in:
 * [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
 * [II - Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
 * [III - Including microservices in Service Mesh](https://rcarrata.com/istio/adding-microservices-within-mesh/)
@@ -32,8 +32,8 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 
 ## 0. Prerequisites
 
-* Openshift 4.x cluster (tested in a 4.3+ cluster)
-* Openshift Service Mesh Operators installed (v1.1.1 in these blog posts)
+* OpenShift 4.x cluster (tested in a 4.3+ cluster)
+* OpenShift Service Mesh Operators installed (v1.1.1 in these blog posts)
 * Service Mesh Control Plane deployed
 * Four microservices deployed (follow the second blog post)
 * Microservices added within Service Mesh (follow the third blog post)

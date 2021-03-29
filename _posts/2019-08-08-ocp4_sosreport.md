@@ -1,28 +1,28 @@
 ---
 layout: post
-title: Collect Sosreport in Openshift 4
+title: Collect Sosreport in OpenShift 4
 date: 2019-08-08
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
 ---
 
-This blog post aims to provide a guide for collect a Sosreport in a node of an Openshift 4 Cluster.
+This blog post aims to provide a guide for collect a Sosreport in a node of an OpenShift 4 Cluster.
 
-Because Openshift 4 uses RHCOS as Operating system for their nodes, the procedure for collect an sosreport for further analysis changed a bit between Openshift3/Rhel7.x. This procedure is also valid for Openshift Worker nodes based in RHEL8, instead of RHCOS.
+Because OpenShift 4 uses RHCOS as Operating system for their nodes, the procedure for collect an sosreport for further analysis changed a bit between OpenShift3/Rhel7.x. This procedure is also valid for OpenShift Worker nodes based in RHEL8, instead of RHCOS.
 
-## Access to the Openshift node
+## Access to the OpenShift node
 
 By default, the OpenShift 4 installer creates a single user named core with optional SSH keys specified at install time.
 
 In our case, the ssh-key generated and injected into the cluster at install time could be used, but another ssh-keys can be updated into the OCP nodes following the procedure of [Updating SSH Keys with the MCD](https://github.com/openshift/machine-config-operator/blob/master/docs/Update-SSHKeys.md).
 
-* SSH to the Openshift cluster specific node
+* SSH to the OpenShift cluster specific node
 
 ```
 $ ssh -i ~/.ssh/bastion ec2-user@bastion.dev.ocp4.example.com
@@ -144,4 +144,4 @@ bash-4.4# ls -lhrt /host/var/tmp/sosreport-2019-08-08-jnsdcyp.tar.xz
 
 * Just scp/rsync them to any location and after that can be uploaded or analysed for obtain more information.
 
-Happy Openshifting!
+Happy OpenShifting!

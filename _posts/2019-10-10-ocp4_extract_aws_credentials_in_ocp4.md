@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Extract AWS Credentials in a cluster of Openshift 4
+title: Extract AWS Credentials in a cluster of OpenShift 4
 date: 2019-10-10
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
@@ -15,7 +15,7 @@ comments: true
 How obtain the AWS Credentials once the cluster of OCP4 is deployed? Where are they stored in the
 cluster?
 
-The AWS Creds are used (among others) by the Machine Config Operator for manage the Openshift nodes
+The AWS Creds are used (among others) by the Machine Config Operator for manage the OpenShift nodes
 (worker and nodes) within the cluster as MachineSet and Machines.
 
 This credentials are stored into a Secret into the namespace of "openshift-cloud-credential-operator":
@@ -40,5 +40,5 @@ metadata:
 type: Opaque
 ```
 
-Happy Openshifting!
+Happy OpenShifting!
 

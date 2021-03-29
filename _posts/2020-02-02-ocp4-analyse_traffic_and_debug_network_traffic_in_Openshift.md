@@ -1,19 +1,19 @@
 ---
 layout: post
-title: Analyse and debug network traffic in Openshift
+title: Analyse and debug network traffic in OpenShift
 date: 2020-02-02
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
 ---
 
 Sometimes is hard to analyse what is happening as networking level into your pods deployed in
-Openshift or Kubernetes.
+OpenShift or Kubernetes.
 
 How you can debug and/or analyse your network traffic to your application to solve
 issues quicker and more effectively? How you can use the well known Wireshark tool as always?
@@ -184,4 +184,4 @@ $ wireshark example.pcap
 This is very useful for debugging and for see connectivity and app issues within external systems,
 or within interaction with other pods.
 
-Happy Openshifting!
+Happy OpenShifting!

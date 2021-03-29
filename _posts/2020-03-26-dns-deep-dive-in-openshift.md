@@ -1,25 +1,25 @@
 ---
 
 layout: post
-title: DNS Deep Dive in Openshift 4
+title: DNS Deep Dive in OpenShift 4
 date: 2020-03-26
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
 ---
 
-How the DNS of Openshift 4 works? And the operators to manage them? And how can I check the resolution basics within and externally to my OCP4 cluster?
+How the DNS of OpenShift 4 works? And the operators to manage them? And how can I check the resolution basics within and externally to my OCP4 cluster?
 
 Let's dig and nslookup it out!
 
-### 1. DNS Operator in Openshift 4
+### 1. DNS Operator in OpenShift 4
 
-In Openshift 4, the DNS Operator deploys and manages CoreDNS to provide a name resolution service to pods, enabling DNS-based Kubernetes Service discovery in OpenShift.
+In OpenShift 4, the DNS Operator deploys and manages CoreDNS to provide a name resolution service to pods, enabling DNS-based Kubernetes Service discovery in OpenShift.
 
 The DNS Operator implements the dns API from the operator.openshift.io API group. The operator deploys CoreDNS using a DaemonSet, creates a Service for the DaemonSet, and configures the kubelet to instruct pods to use the CoreDNS Service IP for name resolution.
 
@@ -62,20 +62,20 @@ NOTE: Check that dns operator have the default spec as {}.
 As we noticed, the DNS Management is handled by the DNS Operator that implements CoreDNS and the Node Resolver.
 On the other hand, the DNS Operator is handled by the ClusterVersionOperator, as we will check a bit later.
 
-### 2. Analysis of CoreDNS in Openshift 4
+### 2. Analysis of CoreDNS in OpenShift 4
 
-CoreDNS is a service providing name resolution of Pod and Service resources within an Openshift/Kubernetes cluster that implements:
+CoreDNS is a service providing name resolution of Pod and Service resources within an OpenShift/Kubernetes cluster that implements:
 * A/AAAA records for Pod and Service resources
 * SRV records for Service resources with named ports
 * Used for service discovery
 
-In fact, and within the Openshift cluster :
+In fact, and within the OpenShift cluster :
 
 * Every Pod is assigned a DNS name: pod-ip.namespace-name.pod.cluster.local
 * Every Service is assigned a DNS name: svc-name.namespace-name.svc.cluster.local
 * CoreDNS as DaemonSet
 
-Let's see how the implementation is in our test Openshift cluster.
+Let's see how the implementation is in our test OpenShift cluster.
 
 In the namespace of openshift-dns we can check the DaemonSet and the several pods running the Coredns in each node in our cluster:
 
@@ -163,7 +163,7 @@ In other words, this plugin implements the Kubernetes DNS-Based Service Discover
 
 For example the cluster.local within this line handle all queries in the custer.local zone (and also in-addr.arpa the reverse dns lookups).
 
-So, as we described early the resources within the Openshift Cluster uses the CoreDNS for the DNS resolution, and remember that each node has a Coredns pod (controlled by a DaemonSet). We dig in a bit later.
+So, as we described early the resources within the OpenShift Cluster uses the CoreDNS for the DNS resolution, and remember that each node has a Coredns pod (controlled by a DaemonSet). We dig in a bit later.
 
 For more information check the [CoreDNS kubernetes plugin documentation](https://coredns.io/plugins/kubernetes/).
 
@@ -182,7 +182,7 @@ Furthermore **sequential** is a policy that selects resolvers based on sequentia
 
 * So what's in this resolv.conf in each dns-default/coreDNS pod?
 
-In the case of AWS, it's the resolver of AWS VPC where Openshift is deployed:
+In the case of AWS, it's the resolver of AWS VPC where OpenShift is deployed:
 
 ```
 [root@dns-default-69cqb /]# cat /etc/resolv.conf
@@ -215,7 +215,7 @@ DiG 9.11.4-P2-RedHat-9.11.4-9.P2.el7
 
 #### 3.1 Name resolution in the same namespace
 
-Let's dig in a bit in the Name resolution basics in Openshift4. We have our namespace "tutorial" and inside we have two pods: debug (created before) and customer (example app), both located in the same namespace.
+Let's dig in a bit in the Name resolution basics in OpenShift4. We have our namespace "tutorial" and inside we have two pods: debug (created before) and customer (example app), both located in the same namespace.
 
 If we check the connection from debug pod to customer svc with netcat, works liked a charm:
 
@@ -336,7 +336,7 @@ E. "debug" communicates with "customer" directly and voilà.
 
 #### 3.2 Resolve between different namespaces:
 
-In this case we want to resolve the svc of the console of Openshift:
+In this case we want to resolve the svc of the console of OpenShift:
 
 ```
 sh-4.2# nslookup console
@@ -383,7 +383,7 @@ Address: 172.30.105.179
 
 so in this case, the console.openshift-console is not resolve in the first place as declared in the search with tutorial.svc.cluster (remember that was: search tutorial.svc.cluster.local svc.cluster.local cluster.local eu-west-1.compute.internal), but the second occurence resolves correctly - svc.cluster.local with the console.openshift-console.
 
-### 4. DNS Resolution outside of Openshift
+### 4. DNS Resolution outside of OpenShift
 
 But in the case of the resolution outside the cluster, what are the steps behind the hood?
 
@@ -447,4 +447,4 @@ CoreDNS search -> CoreDNS Forwards towards AWS DNS 10.0.0.2 -> AWS DNS tries to 
 
 So that's it! In the [DNS Forwarding blog post](https://rcarrata.com/openshift/dns-forwarding-openshift/), we will use the DNS Operator to configure the DNS Forwarding to a specific private DNS, to try to solve custom domains.
 
-Stay tuned and happy Openshifting!
+Stay tuned and happy OpenShifting!

@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Renew Certificates automatically in Openshift 4
+title: Renew Certificates automatically in OpenShift 4
 date: 2019-08-22
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
@@ -341,7 +341,7 @@ NAME                        READY   SECRET      AGE
 apps-ocp4-dev-opentlc-com   True    apps-ocp4   8m33s
 ```
 
-## Patching the Openshift Routers with the new certificates
+## Patching the OpenShift Routers with the new certificates
 
 * Update the Ingress Controller configuration with the newly created secret:
 
@@ -367,7 +367,7 @@ router-default-84ff5bdcb8-ktmk9   1/1     Running             0          3d19h
 
 ## Check the Certificated expose by the OCP routers
 
-If we check the certificated exposed by the Openshift Routers with openssl, we can realized that the certificated exposed is the Let's Encrypt generated:
+If we check the certificated exposed by the OpenShift Routers with openssl, we can realized that the certificated exposed is the Let's Encrypt generated:
 
 ```
 # openssl s_client -showcerts -servername console-openshift-console.apps.rcarrata-ipi-aws.8237.sandbox258.opentlc.com  -connect  console-openshift-console.apps.rcarrata-ipi-aws.8237.sandbox258.opentlc.com:443 </dev/null | grep Issuer
@@ -380,4 +380,4 @@ verify return:1
 DONE
 ```
 
-Happy Openshifting!!!
+Happy OpenShifting!!!

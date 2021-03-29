@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Traffic Mirroring in Openshift Service Mesh
+title: Traffic Mirroring in OpenShift Service Mesh
 date: 2020-06-05
 type: post
 published: true
@@ -17,7 +17,7 @@ this within our Service Mesh? And what's the traffic mirroring and how can help 
 
 Let's Mesh in!!
 
-This is the seventh blog post of the Service Mesh in Openshift series. Check the earlier posts in:
+This is the seventh blog post of the Service Mesh in OpenShift series. Check the earlier posts in:
 
 * [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
 * [II - Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
@@ -38,8 +38,8 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 
 ## Prerequisites
 
-* Openshift 4.x cluster (tested in a 4.3+ cluster)
-* Openshift Service Mesh Operators installed (v1.1.1 in these blog posts)
+* OpenShift 4.x cluster (tested in a 4.3+ cluster)
+* OpenShift Service Mesh Operators installed (v1.1.1 in these blog posts)
 * Service Mesh Control Plane deployed
 * Four microservices deployed (follow the second blog post)
 * Microservices added within Service Mesh (follow the third blog post)

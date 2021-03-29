@@ -1,18 +1,18 @@
 ---
 layout: post
-title: Deep Dive of Openshift 4 Routers in On-Premise deployments
+title: Deep Dive of OpenShift 4 Routers in On-Premise deployments
 date: 2020-10-21
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
 ---
 
-What's the difference between the Routers / IngressController of Openshift 4 in cloud environments and the deployments in On-premise? What are the main components involved?
+What's the difference between the Routers / IngressController of OpenShift 4 in cloud environments and the deployments in On-premise? What are the main components involved?
 
 Let's take a look!
 
@@ -20,13 +20,13 @@ Let's take a look!
 
 This example is applicable in all UPI deployments in On-premise (Baremetal, VMWare UPI, RHV UPI,
 OSP UPI, etc) and also the RHV IPI, VMWARE IPI and Baremetal IPI (with some differences that will be
-analyzed in next blog posts) of Openshift 4.
+analyzed in next blog posts) of OpenShift 4.
 
-In this example a Openshift 4.5 UPI on top of Openstack is used.
+In this example a OpenShift 4.5 UPI on top of Openstack is used.
 
 ### Ingresscontrollers in On-premise deployments
 
-By default when a UPI Openshift 4 is installed a default ingresscontroller is configured. Let's take
+By default when a UPI OpenShift 4 is installed a default ingresscontroller is configured. Let's take
 a look:
 
 ```
@@ -60,11 +60,11 @@ The hostNetwork setting applies to the Kubernetes pods. When a pod is configured
 
 Creating a pod with ```hostNetwork: true``` on OpenShift is a privileged operation. For these reasons, the host networking is not a good way to make your applications accessible from outside of the cluster.
 
-What is the host networking good for? For cases where a direct access to the host networking is required. As we have in our UPI installation of Openshift, where the pods of the HAproxy need to access to the host machine interfaces for expose the HAproxy ports in order to LoadBalance them.
+What is the host networking good for? For cases where a direct access to the host networking is required. As we have in our UPI installation of OpenShift, where the pods of the HAproxy need to access to the host machine interfaces for expose the HAproxy ports in order to LoadBalance them.
 
-Let's check the Openshift Routers created by the ingresscontroller then.
+Let's check the OpenShift Routers created by the ingresscontroller then.
 
-### Openshift Routers in UPI deployment
+### OpenShift Routers in UPI deployment
 
 First check the pods of the routers deployed:
 
@@ -87,7 +87,7 @@ NAME                                                   HOST                     
 worker-0.sharedocp4upi45.lab.upshift.rdu2.redhat.com   worker-0.sharedocp4upi45.lab.upshift.rdu2.redhat.com   10.0.92.117   10.128.2.0/23
 ```
 
-Let's inspect in detail one of the instances of the Openshift routers:
+Let's inspect in detail one of the instances of the OpenShift routers:
 
 ```
 $ oc get pod router-default-754bf5f974-62ntm -n openshift-ingress -o json | jq -r '.spec.hostNetwork'
@@ -127,11 +127,11 @@ So, the hostPort feature allows to expose a single container port on the host IP
 
 * HostPort spec
 
-What is the hostPort used for? As we checked the Openshift routers are deployed as a set of containers running on top of our Openshift cluster. These containers are configured to use hostPorts 80 and 443 to allow the inbound traffic on these ports from the outside of the Openshift cluster (from an external Loadbalancer, physical as f5 or a virtual as Nginx)
+What is the hostPort used for? As we checked the OpenShift routers are deployed as a set of containers running on top of our OpenShift cluster. These containers are configured to use hostPorts 80 and 443 to allow the inbound traffic on these ports from the outside of the OpenShift cluster (from an external Loadbalancer, physical as f5 or a virtual as Nginx)
 
-For this reason each Openshift router pods are located in different Openshift nodes, because it can not be overlapped due to the hostPort as we mentioned before.
+For this reason each OpenShift router pods are located in different OpenShift nodes, because it can not be overlapped due to the hostPort as we mentioned before.
 
-If we check inside the pod of the Openshift Routers (haproxy):
+If we check inside the pod of the OpenShift Routers (haproxy):
 
 ```
 $ oc exec -ti router-default-754bf5f974-62ntm -n openshift-ingress bash
@@ -149,7 +149,7 @@ bash-4.2$ ip ad | grep veth
 
 As we can see they can see every interface because is a privileged pod with the hostnetwork: true
 
-Furthermore, as we check the services we have a ClusterIP svc that have as backends the Openshift router pods:
+Furthermore, as we check the services we have a ClusterIP svc that have as backends the OpenShift router pods:
 
 ```
 $ oc get svc -n openshift-ingress
@@ -214,6 +214,6 @@ the same hosts, changing the hostNetwork spec.
 
 Stay tuned!
 
-Happy Openshifting!
+Happy OpenShifting!
 
 

@@ -1,32 +1,32 @@
 ---
 layout: post
-title: Secure inter-cluster traffic in Openshift with Service CA Operator
+title: Secure inter-cluster traffic in OpenShift with Service CA Operator
 date: 2020-08-22
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
 ---
 
-How I can secure the inter-cluster communication within two pods running into Openshift? How can I
-secure one service calling another service using SSL both running Openshift in a easy way?
+How I can secure the inter-cluster communication within two pods running into OpenShift? How can I
+secure one service calling another service using SSL both running OpenShift in a easy way?
 
 Let's dig in!
 
 ## 1. Overview
 
-If we want to secure the communication between two pods / services inside Openshift we have commonly
+If we want to secure the communication between two pods / services inside OpenShift we have commonly
 two options:
 
 * The application manages its own certificates, and the certificates are bundled into the
   application images, and reachable with routes of type passthough (the connection is not
   encrypted by the reverse proxy)
 
-* Utilize Openshift generation of certificates using the Service CA Operator.
+* Utilize OpenShift generation of certificates using the Service CA Operator.
 
 ## 2. Prerequisites and environment
 
@@ -35,7 +35,7 @@ This blog post is tested and runs in every OCP4.x environment, but its specifica
 
 No specific configuration is needed (out of the box).
 
-## 3. Openshift Service CA Operator
+## 3. OpenShift Service CA Operator
 
 The openshift-service-ca-operator is an OpenShift Cluster Operator that runs in the cluster by
 default:
@@ -78,7 +78,7 @@ NAME                                   READY   STATUS    RESTARTS   AGE
 service-ca-operator-5f596775f8-gwlpj   1/1     Running   1          2d7h
 ```
 
-The Openshift Service CA Operator runs the following OpenShift controllers:
+The OpenShift Service CA Operator runs the following OpenShift controllers:
 
 ```
 $ oc get pod -n openshift-service-ca
@@ -88,9 +88,9 @@ configmap-cabundle-injector-67ffc677d5-prn7b    1/1     Running   3          2d7
 service-serving-cert-signer-b5665b6f5-lx7bl     1/1     Running   3          2d7h
 ```
 
-## 4. Service CA Certificates in Openshift 4
+## 4. Service CA Certificates in OpenShift 4
 
-For Openshift 4.x the service ca certificates are managed by the service CA operator.
+For OpenShift 4.x the service ca certificates are managed by the service CA operator.
 
 The key and certificate are in a secret in the namespace openshift-service-ca as signing-key secret:
 
@@ -152,7 +152,7 @@ and the operator injects the same exact cert of the signing-key.
 
 And how this helps to me?
 
-* With the Openshift Service CA operator, you can dynamic generate the certificates, allowing
+* With the OpenShift Service CA operator, you can dynamic generate the certificates, allowing
 secure connections (TLS) to services that utilize service-service certificates.
 
 This certificates will added automatically using the configmap ca bundle injector annotation:
@@ -173,11 +173,11 @@ client configurations, allowing connections to these services that uses the serv
 
 ## 7. Conclusion and Next Steps
 
-Openshift Service CA Operator helps other operators and elements inside of the cluster to generate
+OpenShift Service CA Operator helps other operators and elements inside of the cluster to generate
 certificates that can secure communication between services, and we can benefit also of this
 operator generating dynamically certificates for our microservices / apps running in our cluster.
 
 In the next blog post we will analyse a real example, using the Service CA Operator to secure the
 communication between two microservices without using non external service.
 
-Happy Openshifting!
+Happy OpenShifting!

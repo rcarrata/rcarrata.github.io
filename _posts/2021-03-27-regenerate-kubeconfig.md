@@ -1,18 +1,18 @@
 ---
 layout: post
-title: Regenerating Kubeconfig for system:admin user in Openshift clusters
+title: Regenerating Kubeconfig for system:admin user in OpenShift clusters
 date: 2021-03-27
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
 ---
 
-You missed your kubeconfig file of your Openshift cluster? Your dog ate your kubeconfig file? No worries! Let's regenerate it in an easy and automated way!
+You missed your kubeconfig file of your OpenShift cluster? Your dog ate your kubeconfig file? No worries! Let's regenerate it in a easy and automated way!
 
 Let's dig in!
 
@@ -141,9 +141,13 @@ Context "system:admin" modified.
 
 ### 7. Extraction of the Certificate Authority
 
+<<<<<<< HEAD
 Finally we need the CA of our Openshift cluster, because it is needed to complete the kubeconfig file for our system:admin.
+=======
+Finally we need the CA of our OpenShift cluster, because is needed for complete the kubeconfig file for our system:admin.
+>>>>>>> 579c057021c0715f394a7d142e873e36e43dc87d
 
-We can extract this CA directly from our Openshift cluster :
+We can extract this CA directly from our OpenShift cluster :
 
 ```
 $ oc -n openshift-authentication rsh `oc get pods -n openshift-authentication -o name | head -1` \
@@ -173,7 +177,7 @@ Switched to context "system:admin".
 
 ### 9. Try the new kubeconfig file
 
-In the last step we need to use the kubeconfig and test it in our Openshift cluster.
+In the last step we need to use the kubeconfig and test it in our OpenShift cluster.
 
 Export the kubeconfig, log in with the system:admin user and do a privileged action like list nodes
 
@@ -191,7 +195,7 @@ downloads-9cb4cd587-dqdsr   1/1     Running   0          2d3h
 downloads-9cb4cd587-m6pzz   1/1     Running   0          2d3h
 ```
 
-NOTE: tested in Openshift 4.4.17, but working in OCP3.x and OCP4.x
+NOTE: tested in OpenShift 4.4.17, but working in OCP3.x and OCP4.x
 
 ## Automate the process!
 
@@ -199,7 +203,7 @@ I'm lazy sometimes to repeat the same process again and again, so I automated in
 
 Hope that helps!
 
-Happy Openshifting!
+Happy OpenShifting!
 
 Rober
 

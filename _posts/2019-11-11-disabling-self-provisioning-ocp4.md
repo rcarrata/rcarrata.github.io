@@ -1,24 +1,24 @@
 ---
 layout: post
-title: Disabling the self provisioning in Openshift 4
+title: Disabling the self provisioning in OpenShift 4
 date: 2019-11-11
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
 ---
 
-How to disable the Self Provisioning in Openshift 4 clusters to gain more control for the projects created? How to apply a fancy new message when someone with not enough privileges try to create a new project?
+How to disable the Self Provisioning in OpenShift 4 clusters to gain more control for the projects created? How to apply a fancy new message when someone with not enough privileges try to create a new project?
 
 ### Overview
 
-One of the coolest things about Openshift is the Role Based Access Control, that allows the
+One of the coolest things about OpenShift is the Role Based Access Control, that allows the
 administrators, SREs, etc to control and manage who/when/how the users can create/manage the
-different objects inside of Openshift cluster.
+different objects inside of OpenShift cluster.
 
 In this particular case, we want to control the possibility that developers creates their own
 projects. This have many use cases, such as controlling the projects in a namespace of Production,
@@ -126,7 +126,7 @@ Error from server (Forbidden): Please visit https://myticket.rober.com to reques
 
 Hope that helps!
 
-Happy Openshifting
+Happy OpenShifting
 
 
 

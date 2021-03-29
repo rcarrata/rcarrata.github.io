@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Canary deployments in Openshift Service Mesh
+title: Canary deployments in OpenShift Service Mesh
 date: 2020-06-02
 type: post
 published: true
@@ -17,7 +17,7 @@ And how we can give more intelligence to our routes and requests inside of our m
 
 Let's Mesh in!!
 
-This is the sixth blog post of the Service Mesh in Openshift series. Check the earlier posts in:
+This is the sixth blog post of the Service Mesh in OpenShift series. Check the earlier posts in:
 
 * [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
 * [II - Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
@@ -35,8 +35,8 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 
 ## 0. Prerequisites
 
-* Openshift 4.x cluster (tested in a 4.3+ cluster)
-* Openshift Service Mesh Operators installed (v1.1.1 in these blog posts)
+* OpenShift 4.x cluster (tested in a 4.3+ cluster)
+* OpenShift Service Mesh Operators installed (v1.1.1 in these blog posts)
 * Service Mesh Control Plane deployed
 * Four microservices deployed (follow the second blog post)
 * Microservices added within Service Mesh (follow the third blog post)

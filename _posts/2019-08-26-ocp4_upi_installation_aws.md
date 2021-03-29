@@ -1,18 +1,18 @@
 ---
 layout: post
-title: UPI Installation of Openshift 4
+title: UPI Installation of OpenShift 4
 date: 2019-08-22
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
 ---
 
-How we can install Openshift4 in UPI mode in AWS? How we can do in an semi-automatic way? Which are
+How we can install OpenShift4 in UPI mode in AWS? How we can do in an semi-automatic way? Which are
 the caveats and the steps to execute?
 
 This blog post is using some code available in a Github Repo for [OCP4 in AWS in UPI
@@ -22,11 +22,11 @@ Let's deep dive a little bit!
 
 ## 1. Overview
 
-This procedure is based in the [official installation of Openshift4 for AWS](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-user-infra.html). Please refer to this guide for more information
+This procedure is based in the [official installation of OpenShift4 for AWS](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-user-infra.html). Please refer to this guide for more information
 
-Fully tested in Openshift 4.2 in AWS.
+Fully tested in OpenShift 4.2 in AWS.
 
-## 2. Retrieve the Openshift Install and Generate the Install files
+## 2. Retrieve the OpenShift Install and Generate the Install files
 
 ### 2.1 Download openshift-install binary
 
@@ -148,7 +148,7 @@ total 32
 [root@clientvm 0 ~/upi_ocp4_aws]# openshift-install create ignition-configs --dir=.
 INFO Consuming "Master Machines" from target directory
 INFO Consuming "Worker Machines" from target directory
-INFO Consuming "Openshift Manifests" from target directory
+INFO Consuming "OpenShift Manifests" from target directory
 INFO Consuming "Common Manifests" from target directory
 ```
 
@@ -668,7 +668,7 @@ sed -i -e "s@workercert@$workercert@g" *.json
 openshift-install wait-for bootstrap-complete --dir=.
 ```
 
-## 6. Approving CSRs and finishing the Openshift installation
+## 6. Approving CSRs and finishing the OpenShift installation
 
 **IMPORTANT STEP:**
 
@@ -696,4 +696,4 @@ And that's it! You have your cluster of Openshif4 in AWS in UPI mode!!
 In the next blog post, we will see in much detail what are the following resources generated in a
 OCP4 Install and how we can deploy in a VPC installation.
 .
-Happy Openshifting!
+Happy OpenShifting!

@@ -1,25 +1,25 @@
 ---
 layout: post
-title: Load Balancing and DNS with Openshift IPI in VMware & On-Premise (Part II)
+title: Load Balancing and DNS with OpenShift IPI in VMware & On-Premise (Part II)
 date: 2021-01-03
 type: post
 published: true
 status: publish
 categories:
-- Openshift
+- OpenShift
 tags: []
 author: rcarrata
 comments: true
 ---
 
-This is the second blog post of Load Balancing and DNS with Openshift IPI series .
+This is the second blog post of Load Balancing and DNS with OpenShift IPI series .
 
 Check the earlier posts:
-* [Part I - Load Balancing and DNS with Openshift IPI](https://rcarrata.com/openshift/ocp4_ipi_vmware_deep_dive/)
+* [Part I - Load Balancing and DNS with OpenShift IPI](https://rcarrata.com/openshift/ocp4_ipi_vmware_deep_dive/)
 
-### 5. Load Balancer in Openshift IPI
+### 5. Load Balancer in OpenShift IPI
 
-As we checked in the previous section, the Keepalive helps to manage the VIPs for the API Openshift services used in our Openshift cluster.
+As we checked in the previous section, the Keepalive helps to manage the VIPs for the API OpenShift services used in our OpenShift cluster.
 
 But the thing is... who is in charge to Load Balancing between the different masters of our cluster?
 
@@ -27,7 +27,7 @@ The well-know **Haproxy**.
 
 #### 5.1 Deep Dive Haproxy for API Load Balancer
 
-Haproxy is also used as a Load Balancer for our Routers in OCP, since Openshift 3 and is well-known by their performance and flexibility acting as a Load Balancer and Ingress for our applications within the cluster.
+Haproxy is also used as a Load Balancer for our Routers in OCP, since OpenShift 3 and is well-known by their performance and flexibility acting as a Load Balancer and Ingress for our applications within the cluster.
 
 And in IPI mode, a **separated instance of Haproxy** its also used for provide Load Balancing for our API and Ingress services.
 
@@ -95,7 +95,7 @@ frontend  main
   default_backend masters
 ```
 
-the frontend its exposed in the 9445 port for both ipv4 and ipv6 and have as default backends the masters (we will see that the routers of Openshift are balanced not using this haproxy instance, this haproxy is ONLY for the API).
+the frontend its exposed in the 9445 port for both ipv4 and ipv6 and have as default backends the masters (we will see that the routers of OpenShift are balanced not using this haproxy instance, this haproxy is ONLY for the API).
 
 Also we can analyse the backend masters in the same config file:
 
@@ -112,7 +112,7 @@ backend masters
 
 in this backend we can figure out some things:
 
-* the backends are the 3 masters of the Openshift cluster, specifically the port 6443 that correspond to the Openshift/Kubernetes API server.
+* the backends are the 3 masters of the OpenShift cluster, specifically the port 6443 that correspond to the OpenShift/Kubernetes API server.
 * The API is balanced using the roundrobin protocol
 * The weight defined in the backends are the same, so each master is equally load balanced (no priority neither weight is used).
 
@@ -268,7 +268,7 @@ So, now that we have all the pieces involved explained, let's check again the fl
 
 ### 6. API Load Balancer
 
-Finally we will analyse a diagram of how the API Load Balancer works in Openshift IPI with all the elements discussed in our blog posts:
+Finally we will analyse a diagram of how the API Load Balancer works in OpenShift IPI with all the elements discussed in our blog posts:
 
 [![](/images/vmware_ipi_4.png "Keepalive Diagrams")]({{site.url}}/images/vmware_ipi_4.png)
 
@@ -277,4 +277,4 @@ Finally we will analyse a diagram of how the API Load Balancer works in Openshif
 3. The Connection if forwarded to the chosen control plane node
 4. The control plane node responds directly to the client, with [Direct Return](https://www.haproxy.com/blog/layer-4-load-balancing-direct-server-return-mode/)
 
-And that's it for this blog post! Check out the [second part of this blog post series](https://rcarrata.com/openshift/ocp4_ipi_vmware_deep_dive_part2/), where we will analyse how is the load balancing for the Ingress (.apps) for Openshift IPI.
+And that's it for this blog post! Check out the [second part of this blog post series](https://rcarrata.com/openshift/ocp4_ipi_vmware_deep_dive_part2/), where we will analyse how is the load balancing for the Ingress (.apps) for OpenShift IPI.

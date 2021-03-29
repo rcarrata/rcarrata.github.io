@@ -2,7 +2,7 @@
 
 ## To be filled
 
-# MultiSAN certificates in Openshift
+# MultiSAN certificates in OpenShift
 
 Little overview
 
