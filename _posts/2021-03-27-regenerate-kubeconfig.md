@@ -141,11 +141,7 @@ Context "system:admin" modified.
 
 ### 7. Extraction of the Certificate Authority
 
-<<<<<<< HEAD
 Finally we need the CA of our Openshift cluster, because it is needed to complete the kubeconfig file for our system:admin.
-=======
-Finally we need the CA of our OpenShift cluster, because is needed for complete the kubeconfig file for our system:admin.
->>>>>>> 579c057021c0715f394a7d142e873e36e43dc87d
 
 We can extract this CA directly from our OpenShift cluster :
 
