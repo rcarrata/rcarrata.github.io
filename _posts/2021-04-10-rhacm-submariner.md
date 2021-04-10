@@ -12,7 +12,6 @@ author: rcarrata
 comments: true
 ---
 
-
 How to connect your overlay networks of different Kubernetes clusters? How you can deploy stateful applications spanning in a multicluster cluster environments? 
 
 Let's dig in! 
@@ -25,7 +24,7 @@ But with the help of RHACM and Submariner this is a bit easier.
 
 RHACM can help deploying apps, managing multiple clusters, and enforcing policies across multiple clusters at scale. 
 
-But how to connect our pods and services? 
+But how to connect our pods and services between two different clusters, enabling the communication between different microservices deployed into different clusters? 
 
 The first thought is to use the Ingress Controllers or Openshift Routers, right? But this have several setbacks and it's not quite flexible, because all of your traffic needs to egress through one of your clusters to another, and ingress in the destination cluster using the specific routes / ingresses exposing our apps. 
 
@@ -58,8 +57,9 @@ This blog post is tested with the following components:
 Important! The two cluster CIDRs (ServiceCIDR and ClusterCIDR) cannot overlap. 
 The ClusterNetworks and ServiceNetworks for our clusters are the following:
 
-Cluster1 (aws-sub1): ClusterNetwork 10.132.0.0/14 and ServiceNetwork 172.31.0.0/16
-Cluster2 (aws-sub2): ClusterNetwork 10.128.0.0/14 and ServiceNetwork 172.30.0.0/16
+* Cluster1 (aws-sub1): **ClusterNetwork** 10.132.0.0/14 and **ServiceNetwork** 172.31.0.0/16
+
+* Cluster2 (aws-sub2): **ClusterNetwork** 10.128.0.0/14 and **ServiceNetwork** 172.30.0.0/16
 
 NOTE: check that in your region is available the type of instance m5n.large. This will be used within the installation of the submariner addon.
 
