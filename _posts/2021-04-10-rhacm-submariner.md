@@ -124,7 +124,7 @@ You can use the SubmarinerConfig API to build the cluster environment. With this
 * Define the SubmarinerConfig for the first managed cluster:
 
 ```
-cat << EOF | oc apply -f -
+$ cat << EOF | oc apply -f -
 apiVersion: submarineraddon.open-cluster-management.io/v1alpha1
 kind: SubmarinerConfig
 metadata:
@@ -147,7 +147,7 @@ subconfig   14s
 * Define the SubmarinerConfig for the second managed cluster:
 
 ```
-cat << EOF | oc apply -f -
+$ cat << EOF | oc apply -f -
 apiVersion: submarineraddon.open-cluster-management.io/v1alpha1
 kind: SubmarinerConfig
 metadata:
@@ -285,7 +285,7 @@ $ oc get machineset aws-sub1-xxx-submariner-gw-eu-west-1b -n openshift-machine-a
 If we check in the second managed cluster (aws-sub2) we discover the same type of node:
 
 ```
-oc config use-context cluster2
+$ oc config use-context cluster2
 
 $ oc get machines -n openshift-machine-api | grep submariner
 aws-sub2-xxx-submariner-gw-eu-west-1a-xxx   Running   m5n.large   eu-west-1   eu-west-1a   5m46s
@@ -302,9 +302,9 @@ A ManagedClusterSet is a group of managed clusters. With a ManagedClusterSet, yo
 * Create a ManagedClusterSet on the hub cluster:
 
 ```
-oc config use-context hubcluster
+$ oc config use-context hubcluster
 
-cat << EOF | kubectl apply -f -
+$ cat << EOF | kubectl apply -f -
 apiVersion: cluster.open-cluster-management.io/v1alpha1
 kind: ManagedClusterSet
 metadata:
@@ -317,7 +317,7 @@ managedclusterset.cluster.open-cluster-management.io/submariner created
 * The submariner-addon creates a namespace called submariner-clusterset-<clusterset-name>-broker and deploys the Submariner Broker to it:
 
 ```
-oc get ns submariner-clusterset-submariner-broker
+$ oc get ns submariner-clusterset-submariner-broker
 NAME                                      STATUS   AGE
 submariner-clusterset-submariner-broker   Active   9s
 ```
@@ -325,11 +325,11 @@ submariner-clusterset-submariner-broker   Active   9s
 * Check the managed clusters status: 
 
 ```
-oc get managedclusters | grep aws
+$ oc get managedclusters | grep aws
 aws-sub1        true                                  True     True        26h
 aws-sub2        true                                  True     True        3h56m
 
-oc get managedclusterset
+$ oc get managedclusterset
 NAME         AGE
 submariner   4m59s
 ```
@@ -357,11 +357,11 @@ managedcluster.cluster.open-cluster-management.io/aws-sub2 labeled
 * Check that the managed clusters have the labels properly defined:
 
 ```
-oc get managedcluster aws-sub1 --show-labels
+$ oc get managedcluster aws-sub1 --show-labels
 NAME       HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE   LABELS
 aws-sub1   true                                  True     True        27h   cloud=Amazon,cluster.open-cluster-management.io/clusterset=submariner,cluster.open-cluster-management.io/submariner-agent=true,clusterID=xxx,environment=qa,name=aws-sub1,region=eu-west-1,vendor=OpenShift
 
-oc get managedcluster aws-sub2 --show-labels
+$ oc get managedcluster aws-sub2 --show-labels
 NAME       HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE     LABELS
 aws-sub2   true                                  True     True        4h13m   cloud=Amazon,cluster.open-cluster-management.io/clusterset=submariner,cluster.open-cluster-management.io/submariner-agent=true,clusterID=xxx,environment=qa,name=aws-sub2,region=eu-west-1,vendor=OpenShift
 ```

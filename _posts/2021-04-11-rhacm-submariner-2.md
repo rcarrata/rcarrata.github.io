@@ -33,9 +33,9 @@ We will install the Service Broker using the subctl util that simplifies very mu
 * Install subctl tool into your system:
 
 ```
-curl -Ls https://get.submariner.io | bash
-export PATH=$PATH:~/.local/bin
-echo export PATH=\$PATH:~/.local/bin >> ~/.profile
+$ curl -Ls https://get.submariner.io | bash
+$ export PATH=$PATH:~/.local/bin
+$ echo export PATH=\$PATH:~/.local/bin >> ~/.profile
 ```
 
 * Configure the cluster1 (aws-sub1) as Submariner Broker 
@@ -80,7 +80,7 @@ NOTE: we're using the kubeconfigs because the subctl tool works better if you sp
 * Configure the cluster2 (aws-sub2) as Submariner Broker 
 
 ```
-subctl deploy-broker --kubeconfig /tmp/test/aws-sub2/aws-sub2-kubeconfig.yaml
+$ subctl deploy-broker --kubeconfig /tmp/test/aws-sub2/aws-sub2-kubeconfig.yaml
  ✓ Deploying broker
  ✓ Creating broker-info.subm file
  ✓ A new IPsec PSK will be generated for broker-info.subm
@@ -89,7 +89,7 @@ subctl deploy-broker --kubeconfig /tmp/test/aws-sub2/aws-sub2-kubeconfig.yaml
 * Join cluster2 to the Submariner Broker
 
 ```
-subctl join --kubeconfig /tmp/test/aws-sub2/aws-sub2-kubeconfig.yaml broker-info.subm --clusterid aws-sub2
+$ subctl join --kubeconfig /tmp/test/aws-sub2/aws-sub2-kubeconfig.yaml broker-info.subm --clusterid aws-sub2
 * broker-info.subm says broker is at: https://api.aws-sub2.xxxx.example.rcarrata.com:6443
 * There are 1 labeled nodes in the cluster:
   - ip-xx-xx-xx-xx.eu-west-1.compute.internal
@@ -116,7 +116,7 @@ subctl join --kubeconfig /tmp/test/aws-sub2/aws-sub2-kubeconfig.yaml broker-info
 * In the process of joining clusters to the Broker, also a submariner-operator is deployed and configured, among other elements.
 
 ```
-oc get pod -n submariner-operator
+$ oc get pod -n submariner-operator
 NAME                                           READY   STATUS    RESTARTS   AGE
 submariner-gateway-86bk9                       1/1     Running   0          19s
 submariner-lighthouse-agent-58c74d7f5-8fl5t    1/1     Running   0          14s
@@ -141,7 +141,7 @@ Subctl is a very nice tool in order to investigate more details about the status
 * Execute a general 'subctl show' to get all the details and the current status: 
 
 ```
-subctl show all --kubeconfig /tmp/test/aws-sub2/aws-sub2-kubeconfig.yaml
+$ subctl show all --kubeconfig /tmp/test/aws-sub2/aws-sub2-kubeconfig.yaml
 
 Showing information for cluster "aws-sub2":
 Showing Network details
@@ -174,7 +174,7 @@ service-discovery               quay.io/submariner                              
 * Also we can see the Networks used by Submariner to connect the clusters:
 
 ```
-subctl show networks --kubeconfig /tmp/test/aws-sub1/aws-sub1-kubeconfig.yaml
+$ subctl show networks --kubeconfig /tmp/test/aws-sub1/aws-sub1-kubeconfig.yaml
 
 Showing network details for cluster "aws-sub1":
     Discovered network details:
@@ -232,7 +232,7 @@ Remember that the ServiceExport is used to specify which Services should be expo
 * Let's investigate the status of our ServiceExport:
 
 ```
- oc get serviceexport nginx -o jsonpath='{.status}' | jq -r .
+$ oc get serviceexport nginx -o jsonpath='{.status}' | jq -r .
 {
   "conditions": [
     {
@@ -325,7 +325,7 @@ Switched to context "cluster1".
 ```
 
 ```
-oc logs -n default -f --tail=5 nginx-6fdb7ffd5b-pk6f7
+$ oc logs -n default -f --tail=5 nginx-6fdb7ffd5b-pk6f7
 10.128.2.58 - - [10/Apr/2021:15:15:01 +0000] "GET / HTTP/1.1" 200 612 "-" "curl/7.69.1" "-"
 10.128.2.58 - - [10/Apr/2021:15:15:03 +0000] "GET / HTTP/1.1" 200 612 "-" "curl/7.69.1" "-"
 10.128.2.58 - - [10/Apr/2021:15:15:04 +0000] "GET / HTTP/1.1" 200 612 "-" "curl/7.69.1" "-"
@@ -488,8 +488,8 @@ And on the other hand the Redis-Slave uses the following envs in their deploymen
 ```
 $ oc config use-context cluster1
 
-REDIS_POD=$(oc get pod -n guestbook | grep redis | awk '{ print $1 }')
-oc logs --tail=4 -f $REDIS_POD
+$ REDIS_POD=$(oc get pod -n guestbook | grep redis | awk '{ print $1 }')
+$ oc logs --tail=4 -f $REDIS_POD
 [1] 10 Apr 23:54:38.534 * Waiting for end of BGSAVE for SYNC
 [1] 10 Apr 23:54:38.565 * Background saving terminated with success
 [1] 10 Apr 23:54:38.565 * Synchronization with slave 10.129.3.20:6379 succeeded
@@ -516,7 +516,7 @@ To test the sync between the data from the Redis Master<->Slave, let's write som
 * Now let's see the logs:
 
 ```
-oc logs --tail=10 -f redis-slave-7976dcf88d-dzcvg -n guestbook
+$ oc logs --tail=10 -f redis-slave-7976dcf88d-dzcvg -n guestbook
 8:S 11 Apr 00:00:37.550 * Connecting to MASTER redis-master.guestbook.svc.clusterset.local:6379
 8:S 11 Apr 00:00:37.557 * MASTER <-> SLAVE sync started
 8:S 11 Apr 00:00:37.559 * Non blocking connect for SYNC fired the event.
