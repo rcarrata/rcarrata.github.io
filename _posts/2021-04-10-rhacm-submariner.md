@@ -293,7 +293,7 @@ aws-sub2-xxx-submariner-gw-eu-west-1a-xxx   Running   m5n.large   eu-west-1   eu
 
 NOTE: This steps are performed automatically because the environment is AWS. For other clouds it's a manual process that needs to be implemented to open the ports, sgs, tag the subnets, etc.
 
-#### Deploying Submariner
+### Deploying Submariner
 
 Create a ManagedClusterSet on the hub cluster by using the instructions provided in ManagedClusterSets.
 
