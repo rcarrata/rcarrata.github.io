@@ -113,7 +113,7 @@ subctl join --kubeconfig /tmp/test/aws-sub2/aws-sub2-kubeconfig.yaml broker-info
  ✓ Submariner is up and running
 ```
 
-* In the process of join clusters to the Broker, also a submariner-operator is deployed and configured, among other elements.
+* In the process of joining clusters to the Broker, also a submariner-operator is deployed and configured, among other elements.
 
 ```
 oc get pod -n submariner-operator
@@ -138,7 +138,7 @@ Check the [documentation of the Architecture of Submariner](https://submariner.i
 
 Subctl is a very nice tool in order to investigate more details about the status of the Endpoints, connections, and gateway details among others.
 
-* Execute a general subctl show to get all the details and the current status: 
+* Execute a general 'subctl show' to get all the details and the current status: 
 
 ```
 subctl show all --kubeconfig /tmp/test/aws-sub2/aws-sub2-kubeconfig.yaml
@@ -333,7 +333,7 @@ oc logs -n default -f --tail=5 nginx-6fdb7ffd5b-pk6f7
 10.128.2.58 - - [10/Apr/2021:15:18:29 +0000] "HEAD / HTTP/1.1" 200 0 "-" "curl/7.69.1" "-"
 ```
 
-The source IP where the curl was originated is THE SAME! Wonderful, isn't?
+The source IP where the curl originated is THE SAME! Wonderful, isn't it?
 
 * Finally check with the subctl with the connections are working properly:
 
@@ -349,7 +349,7 @@ So both clusters are connected with the remote IP (gw node) of 10.0.31.78! The c
 
 #### Deep Dive in the Submariner connectivity between clusters
 
-What's happened? And why we can reach the nginx service from the second cluster? How the connection works?
+What's happened? And why can we reach the nginx service from the second cluster? How does the connection work?
 
 Let's see the journey when we perform our curl from the cluster2 to the serviceexport of our nginx service:
 
@@ -367,7 +367,7 @@ Let's see the journey when we perform our curl from the cluster2 to the servicee
 
 ### Deploy an Stateful Application and connect within different clusters with Submariner 
 
-Now that we know that our submariner connectivities and tunnels work properly, and we understand a bit more about what's happening behind the hood, let's to our real business: connecting different microservices of our application spanned across different clusters. Cool, right?
+Now that we know that our submariner connectivities and tunnels work properly, and we understand a bit more about what's happening behind the hood, let's do our real business: connecting different microservices of our application spanned across different clusters. Cool, right?
 
 We will deploy a FrontEnd and a Redis with a master-slave replication:
 
@@ -467,7 +467,7 @@ NOTE: this is only for a PoC and for demo. In production envs you need to adjust
 
 #### Using the ServiceExport to communicate between the multiclustering overlay networks
 
-The guestbook frontend connects to the redis-master and redis-slave microservices using the ServiceExport from the redis-master and the redis-slave defines:
+The guestbook frontend connects to the redis-master and redis-slave microservices using the ServiceExport from the redis-master and the redis-slave defines envs in their deployment:
 
 ```
 - name: REDIS_MASTER_SERVICE_HOST
@@ -476,7 +476,12 @@ The guestbook frontend connects to the redis-master and redis-slave microservice
   value: redis-slave.guestbook.svc.clusterset.local
 ```
 
-And on the other hand
+And on the other hand the Redis-Slave uses the following envs in their deployment:
+
+```
+- name: REDIS_MASTER_SERVICE_HOST
+  value: redis-master.guestbook.svc.clusterset.local
+```
 
 * Check the Redis Master logs to see if the Master-Slave communication is working properly:
 
@@ -559,7 +564,7 @@ Key : 'messages'
 ",hello,this is a message for the submariner demo! :),hello from the aws-sub1 frontend!!"
 ```
 
-And that's how the Redis-Master in the cluster1 sync properly information to the redis-slave in the cluster2.
+And that's how the Redis-Master in the cluster1 sync properly the data to the redis-slave in the cluster2.
 
 Thanks for reading and hope that you enjoyed the blog post as much as I did writing it.
 
