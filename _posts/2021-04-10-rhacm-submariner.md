@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How to connect your overlay networks of different Kubernetes clusters? How you can deploy stateful applications spanning in a multicluster cluster environments? 
+How to connect your overlay networks of different Kubernetes clusters? How can you deploy stateful applications spanning in a multicluster cluster environments? 
 
 Let's dig in! 
 
@@ -65,7 +65,7 @@ NOTE: check that in your region is available the type of instance m5n.large. Thi
 
 ### Set up the context of our clusters
 
-Let's create several context for switch from one to another in an easy way.
+Let's create several contexts for switching from one to another in an easy way.
 
 * Define a new kubeconfig:
 
@@ -104,7 +104,7 @@ Before deploying Submariner with RHACM, you must prepare the clusters on the hos
 
 There are two ways that you can configure the OpenShift Container Platform cluster that is hosted on Amazon Web Services to integrate with a Submariner deployment.
 
-Let's use the automated way because both clusters are in AWS (in this moments is the only supported way to connect automatically). If you are in other environments check the [RHACM Documentation for the 2.2 version of ACM](https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.2/html-single/manage_cluster/index#preparing-gcp)
+Let's use the automated way because both clusters are in AWS (in this moment is the only supported way to connect automatically). If you are in other environments check the [RHACM Documentation for the 2.2 version of ACM](https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.2/html-single/manage_cluster/index#preparing-gcp)
 
 * Switch back to the Hub Cluster (ACM):
 
@@ -179,13 +179,13 @@ I0409 22:12:53.123697       1 event.go:282] Event(v1.ObjectReference{Kind:"Deplo
 
 #### IPsec and IKE in Submariner
 
-After the generation and configuration of SubmarinerConfig for our both managed clusters that wanted to connect. Let's deep dive a bit in what its generated in our OCP cluster and in AWS environments.
+After the generation and configuration of SubmarinerConfig for our both managed clusters that wanted to connect. Let's deep dive a bit in what's generated in our OCP cluster and in AWS environments.
 
 Submariner uses IPsec tunnels and IKE Protocols for the communications of their clusters:
 
 * Internet Key Exchange is the protocol used to set up a security association (SA) in the IPsec protocol suite. 
 
-* Internet Protocol Security (IPsec) is a secure network protocol suite that authenticates and encrypts the packets of data to provide secure encrypted communication between two computers over an Internet Protocol network. It is used in usually in virtual private networks (VPNs).
+* Internet Protocol Security (IPsec) is a secure network protocol suite that authenticates and encrypts the packets of data to provide secure encrypted communication between two computers over an Internet Protocol network. It is usually used in virtual private networks (VPNs).
 
 For that purpose, Submariner Gateway nodes need to be able to accept traffic over UDP ports (4500 and 500 by default) when using IPsec. 
 
@@ -291,7 +291,7 @@ $ oc get machines -n openshift-machine-api | grep submariner
 aws-sub2-xxx-submariner-gw-eu-west-1a-xxx   Running   m5n.large   eu-west-1   eu-west-1a   5m46s
 ```
 
-NOTE: This steps are performed automatically because the environment is AWS. For other clouds it's a manual process that needs to be implemented to open the ports, sgs, tag the subnets, etc.
+NOTE: These steps are performed automatically because the environment is AWS. For other clouds it's a manual process that needs to be implemented to open the ports, sgs, tag the subnets, etc.
 
 ### Deploying Submariner
 
