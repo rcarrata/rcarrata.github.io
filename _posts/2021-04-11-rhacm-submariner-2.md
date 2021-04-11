@@ -399,7 +399,8 @@ So now, let's deploy our apps using RHACM and GitOps:
 * Deploy the GuestBook App in cluster Managed 1
 
 ```
-
+$ oc config use-context hubcluster
+Switched to context "hubcluster".
 $ oc apply -k guestbook-app/acm-resources
 ```
 
@@ -428,18 +429,56 @@ As we can see the redis-slave microservice is deployed into the cluster2 because
 [![](/images/submariner6.png "Submariner Diagram 5")]({{site.url}}/images/submariner6.png)
 
 
-* We need to do a final tweak into the guestbook namespace and allow our apps to run as anyuid temporally:
+* We need to do a final tweak into the guestbook namespace in both managed clusters and allow our apps to run as anyuid temporally:
 
 ```
-oc adm policy add-scc-to-user anyuid -z default -n guestbook
+$ oc config use-context cluster1
+Switched to context "cluster1".
+
+$ oc adm policy add-scc-to-user anyuid -z default -n guestbook
 clusterrole.rbac.authorization.k8s.io/system:openshift:scc:anyuid added: "default"
+```
+
+```
+$ oc config use-context cluster2
+Switched to context "cluster2".
+
+$ oc adm policy add-scc-to-user anyuid -z default -n guestbook
+clusterrole.rbac.authorization.k8s.io/system:openshift:scc:anyuid added: "default"
+
+$ oc delete pod --all -n guestbook
+```
+
+```
+$ oc config use-context cluster1
+Switched to context "cluster1".
+
+```
+$ oc adm policy add-scc-to-user anyuid -z default -n guestbook
+clusterrole.rbac.authorization.k8s.io/system:openshift:scc:anyuid added: "default"
+
+$ oc delete pod --all -n guestbook
+pod "redis-slave-7976dcf88d-dfjjj" deleted
+pod "redis-slave-7976dcf88d-knb7v" deleted
+```
 ```
 
 NOTE: this is only for a PoC and for demo. In production envs you need to adjust the UIDs, and not run pods as root as much as possible. 
 
 #### Using the ServiceExport to communicate between the multiclustering overlay networks
 
-* Check the Redis Master logs to see if the Master-Slave communication is working properly
+The guestbook frontend connects to the redis-master and redis-slave microservices using the ServiceExport from the redis-master and the redis-slave defines:
+
+```
+- name: REDIS_MASTER_SERVICE_HOST
+  value: redis-master.guestbook.svc.clusterset.local
+- name: REDIS_SLAVE_SERVICE_HOST
+  value: redis-slave.guestbook.svc.clusterset.local
+```
+
+And on the other hand
+
+* Check the Redis Master logs to see if the Master-Slave communication is working properly:
 
 ```
 $ oc config use-context cluster1
@@ -452,7 +491,9 @@ oc logs --tail=4 -f $REDIS_POD
 [1] 10 Apr 23:54:38.565 * Synchronization with slave 10.128.2.80:6379 succeeded
 ```
 
-* Change to the cluster2 (aws-sub2) and see the logs of the Redis-Slave
+The pods of the Redis-Master shows that the slave is synching properly with the master going through the IPsec tunnels of the Submariner from Cluster2 to Cluster1 and viceversa.
+
+* Change to the cluster2 (aws-sub2) and see the logs of the Redis-Slave:
 
 ```
 $ oc get pod -n guestbook
@@ -461,14 +502,13 @@ redis-slave-7976dcf88d-dfjjj   1/1     Running   0          11m
 redis-slave-7976dcf88d-knb7v   1/1     Running   0          11m
 ```
 
-```
-oc adm policy add-scc-to-user anyuid -z default -n guestbook
-clusterrole.rbac.authorization.k8s.io/system:openshift:scc:anyuid added: "default"
+#### Testing the Synchronization of the Redis Master-Slave between clusters and interacting with our FrontEnd 
 
-oc delete pod --all
-pod "redis-slave-7976dcf88d-dfjjj" deleted
-pod "redis-slave-7976dcf88d-knb7v" deleted
-```
+To test the sync between the data from the Redis Master<->Slave, let's write some data into our frontend. Access to the route of the guestbook, from the ACM y write some data:
+
+[![](/images/submariner7.png "Submariner Diagram 7")]({{site.url}}/images/submariner7.png)
+
+* Now let's see the logs:
 
 ```
 oc logs --tail=10 -f redis-slave-7976dcf88d-dzcvg -n guestbook
@@ -484,12 +524,18 @@ oc logs --tail=10 -f redis-slave-7976dcf88d-dzcvg -n guestbook
 8:S 11 Apr 00:00:37.592 * MASTER <-> SLAVE sync: Finished with success
 ```
 
+The sync is automatic and almost instanteneous between Master-Slave.
+
+* We can check the data write in the redis-slave with the redis-cli and the following command:
+
 ```
 for key in $(redis-cli -p 6379 keys \*);
   do echo "Key : '$key'" 
      redis-cli -p 6379 GET $key;
 done
 ```
+
+* Let's performed in the redis-slave pod:
 
 ```
 $ oc exec -ti -n guestbook redis-slave-7976dcf88d-dzcvg -- bash
@@ -501,8 +547,20 @@ Key : 'messages'
 ",hello,this is a message for the submariner demo! :)"
 ```
 
+Alright! Everything that we writed in our guestbook frontend, is there in the Redis-Slave!
+
+* Finally we can add more data and observe if there is also synched:
+
+[![](/images/submariner8.png "Submariner Diagram 8")]({{site.url}}/images/submariner8.png)
+
 ```
 root@redis-slave-7976dcf88d-dzcvg:/data# for key in $(redis-cli -p 6379 keys \*);   do echo "Key : '$key'" ;      redis-cli -p 6379 GET $key; done
 Key : 'messages'
 ",hello,this is a message for the submariner demo! :),hello from the aws-sub1 frontend!!"
 ```
+
+And that's how the Redis-Master in the cluster1 sync properly information to the redis-slave in the cluster2.
+
+Thanks for reading and hope that you enjoyed the blog post as much as I did writing it.
+
+Stay tuned and happy submarining!
