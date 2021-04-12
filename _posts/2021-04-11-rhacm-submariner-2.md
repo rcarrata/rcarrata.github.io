@@ -437,6 +437,8 @@ Switched to context "cluster1".
 
 $ oc adm policy add-scc-to-user anyuid -z default -n guestbook
 clusterrole.rbac.authorization.k8s.io/system:openshift:scc:anyuid added: "default"
+
+$ oc delete pod --all -n guestbook
 ```
 
 ```
@@ -447,20 +449,6 @@ $ oc adm policy add-scc-to-user anyuid -z default -n guestbook
 clusterrole.rbac.authorization.k8s.io/system:openshift:scc:anyuid added: "default"
 
 $ oc delete pod --all -n guestbook
-```
-
-```
-$ oc config use-context cluster1
-Switched to context "cluster1".
-```
-
-```
-$ oc adm policy add-scc-to-user anyuid -z default -n guestbook
-clusterrole.rbac.authorization.k8s.io/system:openshift:scc:anyuid added: "default"
-
-$ oc delete pod --all -n guestbook
-pod "redis-slave-7976dcf88d-dfjjj" deleted
-pod "redis-slave-7976dcf88d-knb7v" deleted
 ```
 
 NOTE: this is only for a PoC and for demo. In production envs you need to adjust the UIDs, and not run pods as root as much as possible.
