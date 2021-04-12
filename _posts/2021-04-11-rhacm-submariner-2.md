@@ -12,9 +12,9 @@ author: rcarrata
 comments: true
 ---
 
-How can I deploy my applications in multiclustering environments and connect my microservices across the different clusters using the SDN and overlay networks? 
+How can I deploy my applications in multiclustering environments and connect my microservices across the different clusters using the SDN and overlay networks?
 
-This is the second blog post about Submariner and RHACM and it's based in the [Installation and configuration of Submariner within RHACM](https://rcarrata.com/openshift/rhacm-submariner/) blog post. So if you didn't check it, go ahead and take a look! :) 
+This is the second blog post about Submariner and RHACM and it's based in the [Installation and configuration of Submariner within RHACM](https://rcarrata.com/openshift/rhacm-submariner/) blog post. So if you didn't check it, go ahead and take a look! :)
 
 ### Overview
 
@@ -22,9 +22,9 @@ Now that we know Submariner and RHACM a bit more, let's go to the Service Discov
 
 ### Install Submariner with Service Discovery
 
-After Submariner is deployed into the same environment as your managed clusters, the routes are configured for secure IP routing between the pod and services across the clusters in the ManagedClusterSet. 
+After Submariner is deployed into the same environment as your managed clusters, the routes are configured for secure IP routing between the pod and services across the clusters in the ManagedClusterSet.
 
-To make a service from a cluster visible and discoverable to other clusters in the ManagedClusterSet, you must create a ServiceExport object. 
+To make a service from a cluster visible and discoverable to other clusters in the ManagedClusterSet, you must create a ServiceExport object.
 
 The ServiceExport is used to specify which Services should be exposed across all clusters in the cluster set. If multiple clusters export a Service with the same name and from the same namespace, they will be recognized as a single logical Service.
 
@@ -38,7 +38,7 @@ $ export PATH=$PATH:~/.local/bin
 $ echo export PATH=\$PATH:~/.local/bin >> ~/.profile
 ```
 
-* Configure the cluster1 (aws-sub1) as Submariner Broker 
+* Configure the cluster1 (aws-sub1) as Submariner Broker
 
 ```
 $ oc config use-context cluster1
@@ -77,7 +77,7 @@ $ subctl join --kubeconfig /tmp/test/aws-sub2/aws-sub2-kubeconfig.yaml broker-in
 
 NOTE: we're using the kubeconfigs because the subctl tool works better if you specifies them, in order to identify and use the clusters to configure into the Broker.
 
-* Configure the cluster2 (aws-sub2) as Submariner Broker 
+* Configure the cluster2 (aws-sub2) as Submariner Broker
 
 ```
 $ subctl deploy-broker --kubeconfig /tmp/test/aws-sub2/aws-sub2-kubeconfig.yaml
@@ -138,7 +138,7 @@ Check the [documentation of the Architecture of Submariner](https://submariner.i
 
 Subctl is a very nice tool in order to investigate more details about the status of the Endpoints, connections, and gateway details among others.
 
-* Execute a general 'subctl show' to get all the details and the current status: 
+* Execute a general 'subctl show' to get all the details and the current status:
 
 ```
 $ subctl show all --kubeconfig /tmp/test/aws-sub2/aws-sub2-kubeconfig.yaml
@@ -253,7 +253,7 @@ $ oc get serviceexport nginx -o jsonpath='{.status}' | jq -r .
 }
 ```
 
-Seems that it's working properly! All right! 
+Seems that it's working properly! All right!
 
 * Now switch to the cluster2 in order to test the connectivity from the cluster2 to cluster1 services deployed:
 
@@ -262,9 +262,9 @@ $ oc config use-context cluster2
 Switched to context "cluster2".
 ```
 
-ServiceExports must be explicitly created by the user in each cluster and within the namespace in which the underlying Service resides, in order to signify that the Service should be visible and discoverable to other clusters in the cluster set. 
+ServiceExports must be explicitly created by the user in each cluster and within the namespace in which the underlying Service resides, in order to signify that the Service should be visible and discoverable to other clusters in the cluster set.
 
-* Let's test the connectivity from the second cluster test pod: 
+* Let's test the connectivity from the second cluster test pod:
 
 ```
 $ oc -n default run submariner-test --rm -ti --image quay.io/submariner/nettest -- /bin/bash
@@ -305,7 +305,7 @@ bash-5.0# curl -w "dns_resolution: %{time_namelookup}, tcp_established: %{time_c
 dns_resolution: 0.004474, tcp_established: 0.007448, TTFB: 0.009060
 ```
 
-not bad, right? 
+not bad, right?
 
 * Let's check the ip of our submariner-test pod where we perform the curl:
 
@@ -355,17 +355,17 @@ Let's see the journey when we perform our curl from the cluster2 to the servicee
 
 [![](/images/submariner9.png "Submariner Diagram 1")]({{site.url}}/images/submariner9.png)
 
-* When the source Pod (our submariner-test pod when perform our curl) is on a worker node that is not the elected gateway node, the traffic destined for the remote cluster will transit through the submariner VXLAN tunnel (vx-submariner) to the local cluster gateway node. 
+* When the source Pod (our submariner-test pod when perform our curl) is on a worker node that is not the elected gateway node, the traffic destined for the remote cluster will transit through the submariner VXLAN tunnel (vx-submariner) to the local cluster gateway node.
 
 * On the gateway node, traffic is encapsulated in an IPsec tunnel and forwarded to the remote cluster.
 
-* Once the traffic reaches the destination gateway node, it is routed in one of two ways, depending on the destination CIDR. 
+* Once the traffic reaches the destination gateway node, it is routed in one of two ways, depending on the destination CIDR.
 
 * If the destination CIDR is a Pod network, the traffic is routed via CNI-programmed network (openshift sdn with Openvswitch in our case).
 
 * If the destination CIDR is a Service network, then traffic is routed through the facility configured via kube-proxy on the destination gateway node.
 
-### Deploy an Stateful Application and connect within different clusters with Submariner 
+### Deploy an Stateful Application and connect within different clusters with Submariner
 
 Now that we know that our submariner connectivities and tunnels work properly, and we understand a bit more about what's happening behind the hood, let's do our real business: connecting different microservices of our application spanned across different clusters. Cool, right?
 
@@ -379,7 +379,7 @@ The frontend (GuestBook app), will connect as well to the ServiceExports of the 
 
 The application and all of the elements are available in the [public repo for this demo](https://github.com/rcarrata/acm-demo-app/).
 
-NOTE: this app was forked from the [original repo](https://github.com/skeeey/acm-demo-app) adding GitOps for the provision using RHACM. 
+NOTE: this app was forked from the [original repo](https://github.com/skeeey/acm-demo-app) adding GitOps for the provision using RHACM.
 
 #### Deployment of the Application in Multiclustering - GitOps and RHACM
 
@@ -387,7 +387,7 @@ We can deploy our app by hand, correct? But this is not using the full potential
 
 The repository of our app is divided in 3 main folders for each microservice of our app: guestbook-app, redis-master-app and redis-slave-app.
 
-Inside of each repository, we have 2 main folders: 
+Inside of each repository, we have 2 main folders:
 
 * acm-resources: the files for do the GitOps deployment through ACM
 * <microservice>-app: the specific files for our microservice (deployment, service, routes, namespaces, etc).
@@ -452,6 +452,7 @@ $ oc delete pod --all -n guestbook
 ```
 $ oc config use-context cluster1
 Switched to context "cluster1".
+```
 
 ```
 $ oc adm policy add-scc-to-user anyuid -z default -n guestbook
@@ -461,9 +462,8 @@ $ oc delete pod --all -n guestbook
 pod "redis-slave-7976dcf88d-dfjjj" deleted
 pod "redis-slave-7976dcf88d-knb7v" deleted
 ```
-```
 
-NOTE: this is only for a PoC and for demo. In production envs you need to adjust the UIDs, and not run pods as root as much as possible. 
+NOTE: this is only for a PoC and for demo. In production envs you need to adjust the UIDs, and not run pods as root as much as possible.
 
 #### Using the ServiceExport to communicate between the multiclustering overlay networks
 
@@ -507,7 +507,7 @@ redis-slave-7976dcf88d-dfjjj   1/1     Running   0          11m
 redis-slave-7976dcf88d-knb7v   1/1     Running   0          11m
 ```
 
-#### Testing the Synchronization of the Redis Master-Slave between clusters and interacting with our FrontEnd 
+#### Testing the Synchronization of the Redis Master-Slave between clusters and interacting with our FrontEnd
 
 To test the sync between the data from the Redis Master<->Slave, let's write some data into our frontend. Access to the route of the guestbook, from the ACM y write some data:
 
@@ -535,7 +535,7 @@ The sync is automatic and almost instanteneous between Master-Slave.
 
 ```
 for key in $(redis-cli -p 6379 keys \*);
-  do echo "Key : '$key'" 
+  do echo "Key : '$key'"
      redis-cli -p 6379 GET $key;
 done
 ```
