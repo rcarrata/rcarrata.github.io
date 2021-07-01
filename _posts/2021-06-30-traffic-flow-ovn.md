@@ -42,7 +42,7 @@ Putting all of this together in order to analyse and monitor our traffic was not
 
 ## Tracking Network Flows 
 
-One very cool feature in my opinion in next Openshift 4.8 is the ability to track and monitor OVS flows for networking analytics using OVN Kubernetes CNI plugin.
+One very cool feature in my opinion in next Openshift 4.8 is the ability to track and monitor OVS flows for networking analytics using **OVN Kubernetes CNI plugin**.
 
 As the [Tracking network flows documentation](https://deploy-preview-32089--osdocs.netlify.app/openshift-enterprise/latest/networking/ovn_kubernetes_network_provider/tracking-network-flows.html) of Openshift (still in preview) refers you can collect information about pod network flows from your cluster to assist with tasks like:
 
