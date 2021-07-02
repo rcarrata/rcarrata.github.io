@@ -18,7 +18,7 @@ This is the second blog post about Monitor and analysis of Network Flow Traffic 
 
 ## Overview
 
-Now that we can collect the network flows of our network traffic of our Openshift cluster using OVN Kubernetes CNI plugin our job is done right? But if you checked the last blog post, the amount of network flows was massive, and without the proper categorization is hard to search anything valuable without using greps in each flow and deep dive in each flow. 
+Now that we can collect the network flows of our network traffic in the Openshift clusters using OVN Kubernetes CNI plugin our job is done right? But if you checked the last blog post, the amount of network flows collected is massive, and without the proper categorization is hard to search anything valuable without using greps in each flow and deep dive a lot in every record collected. 
 
 But this is the only way to do it? 
 
@@ -28,7 +28,7 @@ How about to collect the network flows and aggregate them in a central point to 
 * Kibana - this will be our the UI component that we can use to view the flow records, graphs, dashboards, etc.
 * Logstash - Logstash dynamically ingests, transforms, and ships your data regardless of format or complexity. We will use a specific implementation of Logstash called [ElastiFlow](https://github.com/robcowart/elastiflow)
 
-You can use the ECK Operator, as a [very nice Openshift article](https://www.openshift.com/blog/run-elastic-cloud-on-kubernetes-on-red-hat-openshift) describes
+You can use the ECK Operator, as a [very nice Openshift article](https://www.openshift.com/blog/run-elastic-cloud-on-kubernetes-on-red-hat-openshift) describes.
 
 In this specific case, for quick tweaks that we needed to address, I prepared a [github repository](https://github.com/rcarrata/ocp4-netflow) with all the pieces needed for this blog post.
 
