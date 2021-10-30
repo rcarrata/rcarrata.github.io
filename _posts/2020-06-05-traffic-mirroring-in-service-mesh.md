@@ -140,6 +140,8 @@ virtualservice.networking.istio.io/customer configured
 destinationrule.networking.istio.io/customer unchanged
 ```
 
+Check out the part eight of this blog series in [mTLS Deep Dive in Service Mesh](https://rcarrata.com/istio/mtls-service-mesh/)
+
 And that's it for this blog post!
 
 Happy Meshing!!
