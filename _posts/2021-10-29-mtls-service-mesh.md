@@ -32,6 +32,8 @@ Mutual authentication or two-way authentication refers to two parties authentica
 
 With Red Hat OpenShift Service Mesh, Mutual TLS can be used without either application/service knowing that it is happening. The TLS is handled entirely by the service mesh infrastructure and between the two sidecar proxies.
 
+[![](/images/mesh.png "mtls 99")]({{site.url}}/images/mesh.png)
+
 The mTLS Istio feature could be enable at the cluster level, or at namespace level. We will enable at the namespace level, demoing the Istio objects that controls mTLS security.
 
 All the tests in this mtls deep dive blog post are executed in:
@@ -44,7 +46,7 @@ All the tests in this mtls deep dive blog post are executed in:
 
 NOTE: this blog post is supported by the [istio-files repository](https://github.com/rcarrata/istio-files/tree/mesh-v2) located in my personal Github.
 
-## B. Install Service Mesh Control Operators and the ControlPlane  
+## B. Install Service Mesh Control Operators and the ControlPlane
 
 We will start this blog post from an Openshift "empty" (fresh installed) because we will install the Service Mesh v2 based in Istio 1.6, that differs a bit from the earlier version of the Service Mesh v1 used in the previous labs.
 
@@ -149,7 +151,7 @@ As we described before we can enable the mtls at the namespace level as the [Ser
 
 Let's deploy the Istio objects that are required for enable the mTLS at the namespace level. We will use the well known bookinfo app in this blog post.
 
-* Export first some handy variables used during the blog post: 
+* Export first some handy variables used during the blog post:
 
 ```sh
 export bookinfo_namespace=bookinfo
@@ -234,7 +236,7 @@ server: istio-envoy
 echo https://$(oc get route -n $control_plane_namespace kiali -o jsonpath={'.spec.host'})
 ```
 
-* In the Kiali we can see (with the mTLS Security flag enabled), that from the request goes thought the ingressGW and all the traffic between our microservices of our app is encrypted with mTLS:  
+* In the Kiali we can see (with the mTLS Security flag enabled), that from the request goes thought the ingressGW and all the traffic between our microservices of our app is encrypted with mTLS:
 
 [![](/images/mtls-kiali1.png "mtls 1")]({{site.url}}/images/mtls-kiali1.png)
 
@@ -269,7 +271,7 @@ If you noticed, the request does not come from the Ingress Gw, it's coming from 
 
 ### C.5. Check the mTLS outside the Mesh
 
-Now it's the turn to demonstrate that with the Mode PERMISSIVE, the traffic that's allowed in our Mesh namespace can be in mTLS and also in Plain Text (HTTP). 
+Now it's the turn to demonstrate that with the Mode PERMISSIVE, the traffic that's allowed in our Mesh namespace can be in mTLS and also in Plain Text (HTTP).
 
 * Let's generate another deployment for execute the test but without injecting the Istio sidecar:
 
@@ -277,7 +279,7 @@ Now it's the turn to demonstrate that with the Mode PERMISSIVE, the traffic that
 oc create deployment --image nginxinc/nginx-unprivileged outside-mesh -n $bookinfo_namespace
 ```
 
-* In the the Outside Pod, execute the same request as before: 
+* In the the Outside Pod, execute the same request as before:
 
 ```sh
 oc exec -ti deploy/outside-mesh -- bash
@@ -465,7 +467,7 @@ curl $GATEWAY_URL -I
 
 If you check the pcap file with Wireshark, now the traffic it's NOT encrypted and it's in Plain Text! So if anybody do a Man in the Middle attack we can leak sensitive information!
 
-IMPORTANT: This is NOT recommended for production, but you already know that, isn't? :D  
+IMPORTANT: This is NOT recommended for production, but you already know that, isn't? :D
 
 ## E. Enforce mTLS with STRICT
 
@@ -483,7 +485,7 @@ helm upgrade -i basic-gw-config -n ${DEPLOY_NAMESPACE} \
   basic-gw-config -f basic-gw-config/values-mtls-strict.yaml
 ```
 
-* Check the PeerAuthentication for ensure that the mode STRICT is set: 
+* Check the PeerAuthentication for ensure that the mode STRICT is set:
 
 ```sh
 oc get peerauthentications.security.istio.io default -o jsonpath='{.spec}' | jq .
@@ -587,7 +589,7 @@ This is because preference is now requiring encrypted communication over mutual 
 
 With STRICT mode you can enforce that your workloads/microservices accepts ONLY encrypted connections (mTLS), but we need to be careful because if a service in your mesh is communicating with a service outside the mesh, strict mTLS could break communication between those services. Use permissive mode while you migrate your workloads to Openshift Service Mesh!
 
-And with that ends this deep dive about mTLS in Service Mesh! 
+And with that ends this deep dive about mTLS in Service Mesh!
 
 Special thanks to Asier Cidón, Fran Perea and Ernesto Gonzalez for their wisdom, patience and always willing to help! You rock guys!
 
