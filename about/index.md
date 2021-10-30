@@ -80,7 +80,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * Suse Certified Linux Professional
 * Python Programming Certification - Infinite Skills Inc
 
-### Artificial Intelligence / Machine Learning Certifications / Courses
+### Artificial Intelligence / Machine Learning Certifications & Courses
 
 * [Machine Learning with TensorFlow on Google Cloud Specialization - Ongoing](https://www.coursera.org/specializations/machine-learning-tensorflow-gcp?)
 * [Azure AI Fundamentals - AI900 - Ongoing](https://docs.microsoft.com/es-es/learn/certifications/exams/ai-900)
