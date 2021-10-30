@@ -9,8 +9,6 @@ share: false
 
 ## EMEA Senior Specialist Solutions Architect at Red Hat 
 
-[![](/images/bio-photo.jpg "me")]({{site.url}}/images/bio-photo.jpg)
-
 I'm Roberto Carratalá, an IT professional with more than ten years of experience in the industry of Linux, Virtualization, Cloud, DevOps and Kubernetes/OpenShift.
 
 Currently I am working as a Senior Specialist Solutions Architect for Red Hat, helping the customers to achieve their goals and objectives with linux, cloud and containers in public and private environments.
