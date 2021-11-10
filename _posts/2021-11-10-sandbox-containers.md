@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Deep Dive in Sandbox Containers / Kata Containers in OpenShift
+title: Deep Dive of Sandbox Containers / Kata Containers in OpenShift
 date: 2021-11-10
 type: post
 published: true
