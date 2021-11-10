@@ -450,21 +450,20 @@ By default, Sandbox Containers are configured to run with one vCPU per VM, and f
 A. Sandboxed Workloads
 
 ```sh
-oc exec -ti example-net-tools-kata -- cat /proc/cpuinfo | grep processor | wc -l
-1
+oc exec -ti example-net-tools-kata -- uname -r
+4.18.0-305.19.1.el8_4.x86_64
 ```
 
 B. Regular Container
 
 ```sh
-oc exec -ti example-net-tools-kata -- uname -r
-4.18.0-305.19.1.el8_4.x86_64
+oc exec -ti example-net-tools-kata -- cat /proc/cpuinfo | grep processor | wc -l
+1
 ```
 
 But they are the same kernel version! But we checked that are different kernel instances in the cmdline before, what's happening?
 
 Despite of the mentioned differences, Kata Containers used by the OpenShift Sandbox Containers it's always running with the very same kernel version on the VM as the underlying RHCOS is running with (OS). The VM image is generated at the startup of the host, ensuring that is compatible with the kernel currently used by the RHCOS host.
-
 
 ## 8. Analysis of the QEMU processes of the Sandbox Containers
 
