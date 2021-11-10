@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Monitoring and analysis of Network Flow Traffic in Openshift (Part I)
+title: Monitoring and analysis of Network Flow Traffic in OpenShift (Part I)
 date: 2021-06-30
 type: post
 published: true
@@ -12,11 +12,11 @@ author: rcarrata
 comments: true
 ---
 
-How can we monitor the traffic in and out of our Openshift cluster in an easy way? How can we do an analysis about the network traffic flows of our workloads in our Openshift SDN? Let's start to dig in! 
+How can we monitor the traffic in and out of our OpenShift cluster in an easy way? How can we do an analysis about the network traffic flows of our workloads in our OpenShift SDN? Let's start to dig in! 
 
 ## Overview
 
-Until the 4.8 release, the network traffic analysis / monitoring within the Openshift SDN was hard to perform. If you wanted to know the network flows of your traffic of your workloads in the SDN you needed to analyse node to node the Openflow (protocol designed to allow network controllers to determine the path
+Until the 4.8 release, the network traffic analysis / monitoring within the OpenShift SDN was hard to perform. If you wanted to know the network flows of your traffic of your workloads in the SDN you needed to analyse node to node the Openflow (protocol designed to allow network controllers to determine the path
 ) and the Flow tables from the OVS pods, using utilities like ovs-ofctl to extract the flow entries in the flow table.
 
 For example to check the flow entries with ovs-ofctl:
@@ -26,7 +26,7 @@ For example to check the flow entries with ovs-ofctl:
  cookie=0x0, duration=135692.072s, table=0, n_packets=0, n_bytes=0, priority=250,ip,in_port=2,nw_dst=224.0.0.0/4 actions=drop
 ```
 
-Furthermore you needed to check the vSwitches of OVS (br0) to check the ports, vxlans (even we only used vxlan0 in Openshift), and the tun0 among others:
+Furthermore you needed to check the vSwitches of OVS (br0) to check the ports, vxlans (even we only used vxlan0 in OpenShift), and the tun0 among others:
 
 ```
 # ovs-ofctl show -O OpenFlow13 br0 
@@ -42,9 +42,9 @@ Putting all of this together in order to analyse and monitor our traffic was not
 
 ## Tracking Network Flows 
 
-One very cool feature in my opinion in next Openshift 4.8 is the ability to track and monitor OVS flows for networking analytics using **OVN Kubernetes CNI plugin**.
+One very cool feature in my opinion in next OpenShift 4.8 is the ability to track and monitor OVS flows for networking analytics using **OVN Kubernetes CNI plugin**.
 
-As the [Tracking network flows documentation](https://deploy-preview-32089--osdocs.netlify.app/openshift-enterprise/latest/networking/ovn_kubernetes_network_provider/tracking-network-flows.html) of Openshift (still in preview) refers you can collect information about pod network flows from your cluster to assist with tasks like:
+As the [Tracking network flows documentation](https://deploy-preview-32089--osdocs.netlify.app/openshift-enterprise/latest/networking/ovn_kubernetes_network_provider/tracking-network-flows.html) of OpenShift (still in preview) refers you can collect information about pod network flows from your cluster to assist with tasks like:
 
 * Monitor ingress and egress traffic on the pod network.
 
@@ -60,7 +60,7 @@ When you enable the collection of the network flows, only the metadata about the
 
 When you configure the Cluster Network Operator (CNO) with one or more collector IP addresses and port numbers, the Operator configures Open vSwitch (OVS) on each node to send the network flows records to each collector.
 
-## Implementing Tracking Network Flow in Openshift 4.8+
+## Implementing Tracking Network Flow in OpenShift 4.8+
 
 ### PreRequirements 
 
@@ -125,7 +125,7 @@ INFO[0000] Listening on UDP :2055                        Type=NetFlow
 192.168.50.219/24
 ```
 
-### Configure Openshift to Tracking Network Flows
+### Configure OpenShift to Tracking Network Flows
 
 Create a patch file that specifies the network flows collector type and the IP address and port information of the collectors:
 
@@ -259,21 +259,21 @@ NAME        STATUS   ROLES    AGE   VERSION                INTERNAL-IP     EXTER
 compute-0   Ready    worker   69d   v1.21.0-rc.0+4b2b6ff   192.168.50.13   <none>        Red Hat Enterprise Linux CoreOS 48.84.202105281935-0 (Ootpa)   4.18.0-305.el8.x86_64   cri-o://1.21.0-100.rhaos4.8.git3dfc2a1.el8
 ```
 
-The source address is the pod in the openshift pipelines namespace, the tekton pipelines controller
+The source address is the pod in the OpenShift pipelines namespace, the tekton pipelines controller
 
 ```
 $ oc get pod -A -o wide | grep 10.128.2.9
 openshift-pipelines                                tekton-pipelines-controller-6f6fc5fc95-kwpks                      1/1     Running     0          29m     10.128.2.9      compute-0   <none>           <none>
 ```
 
-And the destination corresponds to the grafana pod in the openshift monitoring namespace:
+And the destination corresponds to the grafana pod in the OpenShift monitoring namespace:
 
 ```
 $ oc get pod -A -o wide | grep 10.128.2.7
 openshift-monitoring                               grafana-74655dbf66-f6hjg                                          2/2     Running     0          29m     10.128.2.7      compute-0   <none>           <none>
 ```
 
-And with that, we completed our first network flow collection of our Openshift cluster! 
+And with that, we completed our first network flow collection of our OpenShift cluster! 
 In the next blog post we will use other tools to collect and analyse our Network Flows in a nicer and graphical way!  
 
 Stay tuned and happy netflowing!
