@@ -30,6 +30,8 @@ OpenShift sandboxed containers also provides users the ability to choose from th
 
 You can use the OpenShift sandboxed containers Operator to perform tasks such as installation and removal, updates, and status monitoring.
 
+[![](/images/sandbox.png "sandbox 0")]({{site.url}}/images/sandbox.png)
+
 NOTE: Sandboxed containers are only supported on bare metal.
 
 This Blog Post it's tested in 4.9.5 using the Sandbox Containers Preview 1.1.
