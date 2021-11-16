@@ -12,15 +12,20 @@ author: rcarrata
 comments: true
 ---
 
-How you can enable mTLS authentication with OpenShift with including Service Mesh, only using the Ingress Controller Operator? How this is implemented in the Ingress Controller and in the OpenShift Routers / Haproxies? How are the benefits of implementing mTLS?
+How you can enable mTLS authentication with OpenShift with including Service Mesh, only using the Ingress Controller Operator?
+
+How this is implemented in the Ingress Controller and in the OpenShift Routers / Haproxies? How are the benefits of implementing mTLS?
 
 Let's dig in!
 
 ## 1. Overview
 
-As you know, TLS provides you with two primary protections:
+All of us heard about TLS but which protections and benefits provides?
+
+TLS provides us with two primary protections:
 
 * The first protection, is that TLS encrypts your traffic to protect it from eavesdropping.
+
 * The second is that TLS authenticates the server to the client (and optionally the client to the server as well) with the use of signed certificates.
 
 But by default TLS only validates the authenticity of the server and not of the client (application) which is sending the request.
@@ -39,13 +44,13 @@ So this involves that, we don't need to be forced to use Service Mesh ONLY for e
 
 NOTE: Service Mesh it's marvelous tech that enables tons of other features, as you can discover in the blog post series, so please check them!.
 
-The test on this PoC are executed in a 4.9.4 OpenShift environment.
+The tests on this blog post are executed in a 4.9.4 OpenShift environment.
 
 ## 2. Ingress Operator and Ingress Controller in OpenShift
 
-The Ingress Operator makes it possible for external clients to access your service by deploying and managing one or more HAProxy-based Ingress Controllers to handle routing. 
+The Ingress Operator in OpenShift makes it possible for external clients to access your service by deploying and managing one or more HAProxy-based Ingress Controllers to handle routing.
 
-You can use the Ingress Operator to route traffic by specifying OpenShift Container Platform Route and Kubernetes Ingress resources
+You can use the Ingress Operator to route traffic by specifying OpenShift Container Platform Route and Kubernetes Ingress resources.
 
 As we pointed out in the previous section, from the 4.9 version of OpenShift the [Ingress Controller can enable mTLS authentication](https://docs.openshift.com/container-platform/4.9/networking/ingress-operator.html#nw-mutual-tls-auth_configuring-ingress), and configure the Ingresses (based in Haproxy) to verify the client certificates.
 
