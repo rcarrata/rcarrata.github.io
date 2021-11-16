@@ -687,6 +687,7 @@ as we expected the client certificate is requested by the Ingress pods, because 
 
 ```sh
 curl --cacert certs/cacert.pem --cert certs/client.cert.pem --key private/client.key.pem  -LIv https://console-openshift-console.apps.ocp.rober.lab -k
+
 * Rebuilt URL to: https://console-openshift-console.apps.ocp.rober.lab/
 *   Trying 192.168.126.1...
 * TCP_NODELAY set
