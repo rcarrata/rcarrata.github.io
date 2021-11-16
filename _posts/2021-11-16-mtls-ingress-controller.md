@@ -576,6 +576,8 @@ spec:
     - anubis.rober.lab
 ```
 
+This configuration includes setting a clientCA value, which is a reference to a config map. The config map contains the PEM-encoded CA certificate bundle that is used to verify a client’s certificate.
+
 * After edit the ingress operator we can see that the pods of the ingress / Haproxy are restarting:
 
 ```sh
