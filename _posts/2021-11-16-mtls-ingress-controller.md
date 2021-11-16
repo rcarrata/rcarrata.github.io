@@ -14,7 +14,7 @@ comments: true
 
 How you can enable mTLS authentication with OpenShift with including Service Mesh, only using the Ingress Controller Operator?
 
-How this is implemented in the Ingress Controller and in the OpenShift Routers / Haproxies? How are the benefits of implementing mTLS?
+How this is implemented in the Ingress Controller and in the OpenShift Routers / Haproxies? What are the benefits of implementing mTLS?
 
 Let's dig in!
 
