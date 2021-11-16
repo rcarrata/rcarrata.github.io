@@ -20,7 +20,7 @@ Let's dig in!
 
 ## 1. Overview
 
-All of us heard about TLS but which protections and benefits provides?
+Let's start with the basics. All of us heard, about TLS but which protections and benefits provides?
 
 TLS provides us with two primary protections:
 
