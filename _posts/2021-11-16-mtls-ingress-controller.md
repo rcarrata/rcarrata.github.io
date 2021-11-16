@@ -28,6 +28,8 @@ TLS provides us with two primary protections:
 
 * The second is that TLS authenticates the server to the client (and optionally the client to the server as well) with the use of signed certificates.
 
+[![](/images/mtls-ingress.png "mtls ingress 0")]({{site.url}}/images/mtls-ingress.png)
+
 But by default TLS only validates the authenticity of the server and not of the client (application) which is sending the request.
 
 We can use mutual TLS where both clients request certificates from the server to ensure the server is who it says it is, and the server requests certificates from the client to prove who it is as well.
@@ -35,8 +37,6 @@ We can use mutual TLS where both clients request certificates from the server to
 When using mutual authentication, not only does the service side prove its identity by exposing a certificate, but also the clients prove their identity to the servers by exposing a client-side certificate.
 
 This provides a higher level of security compared to normal TLS/HTTPS usage, where only the identity of the server is proven.
-
-[![](/images/mtls-ingress.png "mtls ingress 0")]({{site.url}}/images/mtls-ingress.png)
 
 From the version 4.9+ of OpenShift we can enable mTLS authentication in the Ingress Controller, and configure them to verify client certificates.
 
