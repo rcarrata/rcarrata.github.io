@@ -54,7 +54,7 @@ You can use the Ingress Operator to route traffic by specifying OpenShift Contai
 
 As we pointed out in the previous section, from the 4.9 version of OpenShift the [Ingress Controller can enable mTLS authentication](https://docs.openshift.com/container-platform/4.9/networking/ingress-operator.html#nw-mutual-tls-auth_configuring-ingress), and configure the Ingresses (based in Haproxy) to verify the client certificates.
 
-Let's test it with a example and check how this feature can help us with our use cases.
+Let's test it with an example and check how this feature can help us with our use cases.
 
 But before to start testing out the mTLS in the Ingress Controller, we need to prepare some prerequisites, like generate CA certificates, client certificates, etc.
 
