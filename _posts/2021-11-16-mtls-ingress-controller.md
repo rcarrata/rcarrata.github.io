@@ -302,7 +302,9 @@ rm -rf certs/client.csr
 
 In the mTLS, both server and client are verified, so we need to generate certs for client and server and signed with our CA generated in the first place.
 
-In this blog post only we will be using the client certificate, but in the real environment we need to generate the certificate to the server and update them in the ingress controller. Let's review the generation of the server certificate for educational (and because sometimes I have bad memory and I need to check how to do it! :D).
+In this blog post only we will be using the client certificate, but in a real environment / scenario we need to generate the certificate to the server and update them in the Ingress Controller.
+
+Let's review the generation of the server certificate for educational purposes (and because sometimes I have bad memory and I need to check how to do it! :D).
 
 * Generate a **private key** for the server certificate:
 
