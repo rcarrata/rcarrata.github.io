@@ -336,7 +336,7 @@ spec:
 
 [![](/images/egressovn-5.png "egressovn-5")]({{site.url}}/images/egressovn-5.png)
 
-we can see the 
+we can see the EgressIP applied using GitOps:
 
 ```sh
 apiVersion: k8s.ovn.org/v1
