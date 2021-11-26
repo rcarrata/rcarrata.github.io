@@ -473,7 +473,7 @@ Be aware that when creating an EgressIP object, the following conditions apply t
 
 What's happening when a worker that handles the EgressIP becomes unavailable? We have a Single Point of Failure / SPOF?
 
-As is specified in the [official documentation](https://docs.openshift.com/container-platform/4.9/networking/ovn_kubernetes_network_provider/configuring-egress-ips-ovn.html) ff a node becomes unavailable, any egress IP addresses assigned to it are automatically reassigned, subject to the previously described conditions.
+As is specified in the [official documentation](https://docs.openshift.com/container-platform/4.9/networking/ovn_kubernetes_network_provider/configuring-egress-ips-ovn.html) if a node becomes unavailable, any egress IP addresses assigned to it are automatically reassigned, subject to the previously described conditions.
 
 Let's try it!
 
