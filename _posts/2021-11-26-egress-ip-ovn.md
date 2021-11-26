@@ -35,9 +35,9 @@ But how I can reserve private IP source IP for all egress traffic of my workload
 
 So in a nutshell is used to provide an application or namespace the ability to use a static IP for egress traffic regardless of the node the workload is running on. This allows for the opening of firewalls, whitelisting of traffic and other controls to be placed around traffic egressing the cluster.
 
-The egress IP becomes the network identity of the namespace and all the applications running in it. Without egress IP, traffic from different namespaces would be indistinguishable because by default outbound traffic is NATed with the IP of the nodes, which are normally shared among projects.
-
 [![](/images/egressovn-4.png "egressovn-4")]({{site.url}}/images/egressovn-4.png)
+
+The egress IP becomes the network identity of the namespace and all the applications running in it. Without egress IP, traffic from different namespaces would be indistinguishable because by default outbound traffic is NATed with the IP of the nodes, which are normally shared among projects.
 
 While this process is slightly different from cloud vendor to vendor, Egress IP addresses are implemented as additional IP addresses on the primary network interface of the node and must be in the same subnet as the node’s primary IP address.
 
@@ -115,7 +115,7 @@ For tracing purposes and to simulate external resources being requested from the
 
 We can use a Bastion or an external VM to check the logs, simulating the Pod -> External Host connectivity. In this bastion we will install an Httpd Server:
 
-```sh
+```
 bastion # sudo yum install -y httpd
 
 # grep ^[^#] /etc/httpd/conf/httpd.conf | grep Listen
@@ -135,7 +135,7 @@ as you noticed we set up a minimal index.hmtl page to check the response when we
 
 Let's open our firewall within the public zone using our specific port 8080:
 
-```sh
+```
 bastion # sudo firewall-cmd --zone=public --permanent --add-port=8080/tcp
 bastion # systemctl restart firewalld
 bastion # IP=$(hostname -I | awk '{print $1}')
@@ -143,7 +143,7 @@ bastion # IP=$(hostname -I | awk '{print $1}')
 
 If we curl from the same host using the external IP to our brand new httpd ser, we check that effectively we can trace their source IP:
 
-```sh
+```
 bastion # curl $IP:8080
 <html>
 <head/>
@@ -172,7 +172,7 @@ ocp-8vr6j-worker-0-sl79n   192.168.126.51
 
 * As you noticed the host_IPs are within the CIDR range of 192.168.126.0/24, that is defined in the cluster_install.yaml used during the OCP installation:
 
-```sh
+```
 # cat install-config.yaml | grep machineNetwork -A1
   machineNetwork:
   - cidr: 192.168.126.0/24
