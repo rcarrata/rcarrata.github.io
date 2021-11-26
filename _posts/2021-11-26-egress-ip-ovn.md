@@ -60,19 +60,19 @@ Marge and Homer microservices will be running in the Simpson namespace and Selma
 * Provision Namespace and ArgoProjects for the demo:
 
 ```sh
-oc apply -k argo-projects/
+kubectl apply -k argo-projects/
 ```
 
 * Login to the ArgoCD Server:
 
 ```sh
-echo https://$(oc get route openshift-gitops-server -n openshift-gitops -o jsonpath='{.spec.host}{"\n"}')
+echo https://$(kubectl get route openshift-gitops-server -n openshift-gitops -o jsonpath='{.spec.host}{"\n"}')
 ```
 
 * Use admin user with the password:
 
 ```sh
-oc get secret/openshift-gitops-cluster -n openshift-gitops -o jsonpath='\''{.data.admin\.password}'\'' | base64 -d
+kubectl get secret/openshift-gitops-cluster -n openshift-gitops -o jsonpath='\''{.data.admin\.password}'\'' | base64 -d
 ```
 
 NOTE: you can also login using the Openshift SSO because it's enabled using Dex OIDC integration.
@@ -80,7 +80,7 @@ NOTE: you can also login using the Openshift SSO because it's enabled using Dex 
 * Deploy the ApplicationSet containing the Applications to be secured:
 
 ```sh
-oc apply -f argo-apps/dev-env-apps.yaml
+kubectl apply -f argo-apps/dev-env-apps.yaml
 ```
 
 * Check that the applications are deployed properly in ArgoCD:
@@ -90,17 +90,17 @@ oc apply -f argo-apps/dev-env-apps.yaml
 * Check the pods are up && running:
 
 ```sh
-oc get pods -o wide -n simpson
-oc get pods -o wide -n bouvier
+kubectl get pods -o wide -n simpson
+kubectl get pods -o wide -n bouvier
 ```
 
 * Check that the apps are working properly:
 
 ```sh
-oc -n bouvier exec -ti deploy/patty-deployment -- ./container-helper check
-oc -n bouvier exec -ti deploy/selma-deployment -- ./container-helper check
-oc -n simpson exec -ti deploy/homer-deployment -- ./container-helper check
-oc -n simpson exec -ti deploy/selma-deployment -- ./container-helper check
+kubectl -n bouvier exec -ti deploy/patty-deployment -- ./container-helper check
+kubectl -n bouvier exec -ti deploy/selma-deployment -- ./container-helper check
+kubectl -n simpson exec -ti deploy/homer-deployment -- ./container-helper check
+kubectl -n simpson exec -ti deploy/selma-deployment -- ./container-helper check
 ```
 
 * You can check each Argo Application in ArgoCD:
@@ -486,7 +486,7 @@ kubectl label nodes ocp-8vr6j-worker-0-82t6f k8s.ovn.org/egress-assignable=""
 * Now let's do a bit of chaos, shutting down our worker node where the egressIP is assigned:
 
 ```sh
-oc debug node/$WORKER_EGRESS
+kubectl debug node/$WORKER_EGRESS
 Starting pod/ocp-8vr6j-worker-0-sl79n-debug ...
 To use host binaries, run `chroot /host`
 Pod IP: 192.168.126.51
