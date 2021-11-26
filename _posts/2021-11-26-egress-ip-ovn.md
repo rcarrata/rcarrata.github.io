@@ -27,7 +27,7 @@ As we discovered in the part I of this blog post series, when you have workloads
 
 This causes that the external hosts (or any external firewall/ IDS/IPS that are controlling and filtering the traffic in your networks) can’t distinguish the traffic originated in your pods/workloads because they don’t use the same sourceIp, and will depend which OpenShift node are used for run the workloads.
 
-[![](/images/egressovn-1.png "egressovn-3")]({{site.url}}/images/egressovn-3.png)
+[![](/images/egressovn-3.png "egressovn-3")]({{site.url}}/images/egressovn-3.png)
 
 But how I can reserve private IP source IP for all egress traffic of my workloads in my project X?
 
