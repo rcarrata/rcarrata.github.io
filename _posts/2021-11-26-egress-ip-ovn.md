@@ -307,6 +307,31 @@ this is important, the EgressIPs need to be in the same CIDR range as the rest o
 kubectl apply -f argo-apps/egressip-simpson.yaml
 ```
 
+* This ArgoCD Application within the OpenShift GitOps will deploy using GitOps the EgressIP objects stored [in the example GitHub repo](https://github.com/RedHat-EMEA-SSA-Team/ns-apps/tree/egressip/egressip) and using kustomize will render and apply to the specific simpson namespace:
+
+```sh
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: simpson-egressip
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: simpson
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: egressip/overlays/egressip-simpson
+    repoURL: https://github.com/RedHat-EMEA-SSA-Team/ns-apps
+    targetRevision: egressip
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+    - CreateNamespace=true
+```
+
 * If we check the ArgoCD application where is the EgressIP object managed by the EgressIP Demo ArgoCD application:
 
 [![](/images/egressovn-5.png "egressovn-5")]({{site.url}}/images/egressovn-5.png)
