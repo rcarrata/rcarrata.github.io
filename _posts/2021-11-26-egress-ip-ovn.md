@@ -299,7 +299,7 @@ EGRESS_IP1="192.168.126.100"
 
 this is important, the EgressIPs need to be in the same CIDR range as the rest of the worker nodes.
 
-### Apply the EgressIP with the namespaceSelector
+### 4.2 Apply the EgressIP with the namespaceSelector
 
 * We will apply now the EgressIP object that will assign the egressIPs to the nodes assigned:
 
@@ -469,7 +469,7 @@ Be aware that when creating an EgressIP object, the following conditions apply t
 * An egress IP address is equally balanced between available nodes that can host the egress IP address.
 * If the spec.EgressIPs array in an EgressIP object specifies more than one IP address, no node will ever host more than one of the specified addresses.
 
-## Failover
+### 4.3 Automatic Failover of EgressIP
 
 What's happening when a worker that handles the EgressIP becomes unavailable? We have a Single Point of Failure / SPOF?
 
