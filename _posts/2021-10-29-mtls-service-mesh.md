@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Zero Trust Networks and mTLS Deep Dive in Openshift Service Mesh
+title: Zero Trust Networks and mTLS Deep Dive in OpenShift Service Mesh
 date: 2021-10-29
 type: post
 published: true
@@ -38,7 +38,7 @@ The mTLS Istio feature could be enable at the cluster level, or at namespace lev
 
 All the tests in this mtls deep dive blog post are executed in:
 
-* Openshift 4.7
+* OpenShift 4.7
 * Service Mesh Operator 2.0.8
 * Jaeger 1.24.1
 * Elasticsearch 5.2.2
@@ -48,7 +48,7 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 
 ## B. Install Service Mesh Control Operators and the ControlPlane
 
-We will start this blog post from an Openshift "empty" (fresh installed) because we will install the Service Mesh v2 based in Istio 1.6, that differs a bit from the earlier version of the Service Mesh v1 used in the previous labs.
+We will start this blog post from an OpenShift "empty" (fresh installed) because we will install the Service Mesh v2 based in Istio 1.6, that differs a bit from the earlier version of the Service Mesh v1 used in the previous labs.
 
 * Install the service mesh operators
 
@@ -62,7 +62,7 @@ helm install service-mesh-operators -n openshift-operators service-mesh-operator
 helm ls -n openshift-operators
 ```
 
-* Check also the status of the openshift operator pods.
+* Check also the status of the OpenShift operator pods.
 
 ```sh
 oc get pod -n openshift-operators
@@ -544,7 +544,7 @@ cache-control: private
 
 ### E.3 Check the mTLS within/inside the Mesh
 
-Let's check within our pod inside our mesh and inside our Openshift Cluster.
+Let's check within our pod inside our mesh and inside our OpenShift Cluster.
 
 * Let's execute some requests from inside the pod:
 
@@ -559,7 +559,7 @@ $ for i in {1..10}; do  curl -vI http://productpage:9080/productpage?u=normal &&
 
 ### E.4. Check the mTLS outside the Mesh
 
-* Let's test again the connection from outside the mesh (but inside our Openshift Cluster):
+* Let's test again the connection from outside the mesh (but inside our OpenShift Cluster):
 
 ```sh
 oc exec -n bookinfo -ti deployment/outside-mesh -- bash
@@ -587,7 +587,7 @@ We can see that the curl from the curl pod failed with exit code 56 and Failed!!
 
 This is because preference is now requiring encrypted communication over mutual TLS (STRICT) via a Peer Authentication Istio object, but the curl pod (which is outside the mesh) is not attempting to use mutual TLS.
 
-With STRICT mode you can enforce that your workloads/microservices accepts ONLY encrypted connections (mTLS), but we need to be careful because if a service in your mesh is communicating with a service outside the mesh, strict mTLS could break communication between those services. Use permissive mode while you migrate your workloads to Openshift Service Mesh!
+With STRICT mode you can enforce that your workloads/microservices accepts ONLY encrypted connections (mTLS), but we need to be careful because if a service in your mesh is communicating with a service outside the mesh, strict mTLS could break communication between those services. Use permissive mode while you migrate your workloads to OpenShift Service Mesh!
 
 And with that ends this deep dive about mTLS in Service Mesh!
 

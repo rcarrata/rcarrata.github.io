@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Monitoring and analysis of Network Flow Traffic in Openshift (Part II)
+title: Monitoring and analysis of Network Flow Traffic in OpenShift (Part II)
 date: 2021-07-01
 type: post
 published: true
@@ -12,27 +12,27 @@ author: rcarrata
 comments: true
 ---
 
-How can you monitor and analyse the network flow records of Openshift in a graphical way and execute search queries for specific values? And how to have some dashboards in order to expose this information for your SREs or team members? 
+How can you monitor and analyse the network flow records of OpenShift in a graphical way and execute search queries for specific values? And how to have some dashboards in order to expose this information for your SREs or team members? 
 
-This is the second blog post about Monitor and analysis of Network Flow Traffic in Openshift and it's based in the [Monitoring Network Flow Traffic in Openshift](https://rcarrata.com/openshift/traffic-flow-ovn/) blog post. So if you didn't check it, go ahead and take a look! :)
+This is the second blog post about Monitor and analysis of Network Flow Traffic in OpenShift and it's based in the [Monitoring Network Flow Traffic in OpenShift](https://rcarrata.com/openshift/traffic-flow-ovn/) blog post. So if you didn't check it, go ahead and take a look! :)
 
 ## Overview
 
-Now that we can collect the network flows of our network traffic in the Openshift clusters using OVN Kubernetes CNI plugin our job is done right? But if you have checked the last blog post, the amount of network flows collected is massive, and without the proper categorization it is hard to search for anything valuable without using greps in each flow and deep dive a lot in every record collected. 
+Now that we can collect the network flows of our network traffic in the OpenShift clusters using OVN Kubernetes CNI plugin our job is done right? But if you have checked the last blog post, the amount of network flows collected is massive, and without the proper categorization it is hard to search for anything valuable without using greps in each flow and deep dive a lot in every record collected. 
 
 But is this the only way to do it? 
 
-How about collecting the network flows and aggregating them in a central point to visualize after and create dashboards in order to expose and consume the information in a nicer way? And if we use a stack that is well known in Openshift like the Elastic Stack? 
+How about collecting the network flows and aggregating them in a central point to visualize after and create dashboards in order to expose and consume the information in a nicer way? And if we use a stack that is well known in OpenShift like the Elastic Stack? 
 
 * Elasticsearch - We will use ES as our network flow store, that will be where the flow records in sFlow format will be stored.  
 * Kibana - this will be our UI component that we can use to view the flow records, graphs, dashboards, etc.
 * Logstash - Logstash dynamically ingests, transforms, and ships your data regardless of format or complexity. We will use a specific implementation of Logstash called [ElastiFlow](https://github.com/robcowart/elastiflow)
 
-You can use the ECK Operator, as a [very nice Openshift article](https://www.openshift.com/blog/run-elastic-cloud-on-kubernetes-on-red-hat-openshift) describes.
+You can use the ECK Operator, as a [very nice OpenShift article](https://www.openshift.com/blog/run-elastic-cloud-on-kubernetes-on-red-hat-openshift) describes.
 
 In this specific case, for quick tweaks that we needed to address, I prepared a [github repository](https://github.com/rcarrata/ocp4-netflow) with all the pieces needed for this blog post.
 
-## Installing the ELK and the ElastiFlow in Openshift 4
+## Installing the ELK and the ElastiFlow in OpenShift 4
 
 * Clone the repository:
 
@@ -52,7 +52,7 @@ oc apply -k elastiflow/overlay
 oc adm policy add-scc-to-user privileged -z default -n elastiflow
 ```
 
-this is needed because ES and Elastiflow need some capabilities that are restricted by default in Openshift.
+this is needed because ES and Elastiflow need some capabilities that are restricted by default in OpenShift.
 
 NOTE: this is NOT recommended for a productive environment, nor other critical environments. It's just a PoC, so please DON'T do it in prod/pre environments. Use the proper SAs with the proper rbac :)
 
@@ -121,7 +121,7 @@ If you go to the Dashboards you will see the dashboards available:
 
 [![](/images/flow0.png "Flow 4")]({{site.url}}/images/flow0.png)
 
-This represents all the servers and clients that originated inside of our Openshift cluster within the SDN managed by OVN Kubernetes CNI plugin and CNO.
+This represents all the servers and clients that originated inside of our OpenShift cluster within the SDN managed by OVN Kubernetes CNI plugin and CNO.
 
 And it can be filtered in a nice way, using Client - Servers filtering by the IPs or even some services like Etcd-Client.
 
@@ -165,7 +165,7 @@ If you need more information about one the flow records you can go to the own Fl
 
 [![](/images/flow5.png "Flow 7")]({{site.url}}/images/flow5.png)
 
-And that's all about how to monitor and analyse network traffic from Openshift using Elastic Stack.
+And that's all about how to monitor and analyse network traffic from OpenShift using Elastic Stack.
 
 Thanks for reading and hope that you enjoyed the blog post as much as I did writing it.
 
