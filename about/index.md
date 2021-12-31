@@ -55,7 +55,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 
 #### Google Cloud Platform
 
-* [Preparing for Google Cloud Certification: Cloud DevOps Engineer Professional Certificate](https://www.coursera.org/account/accomplishments/specialization/certificate/4Y3JZ9QAGX5S)
+* [Preparing for Google Cloud Certification: Cloud DevOps Engineer Professional Certificate Specialization](https://www.coursera.org/account/accomplishments/specialization/certificate/4Y3JZ9QAGX5S)
 
 * [Google Cloud Fundamentals: Core Infrastructure Course](https://www.coursera.org/account/accomplishments/verify/LHCJHJ9RGD9E)
 * [Developing a Google SRE Culture Course](https://www.coursera.org/account/accomplishments/verify/DWU4X9GXL9XY)
@@ -87,6 +87,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 
 * [Machine Learning with TensorFlow on Google Cloud Specialization - Ongoing](https://www.coursera.org/specializations/machine-learning-tensorflow-gcp?)
 * [Azure AI Fundamentals - AI900 - Ongoing](https://docs.microsoft.com/es-es/learn/certifications/exams/ai-900)
+* [TensorFlow 2 for Deep Learning Specialization](https://www.coursera.org/specializations/tensorflow2-deeplearning)
 
 ## Conferences and Events
 
