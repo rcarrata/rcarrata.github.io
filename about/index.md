@@ -56,11 +56,12 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 #### Google Cloud Platform
 
 * [Preparing for Google Cloud Certification: Cloud DevOps Engineer Professional Certificate](https://www.coursera.org/account/accomplishments/specialization/certificate/4Y3JZ9QAGX5S)
+
 * [Google Cloud Fundamentals: Core Infrastructure Course](https://www.coursera.org/account/accomplishments/verify/LHCJHJ9RGD9E)
 * [Developing a Google SRE Culture Course](https://www.coursera.org/account/accomplishments/verify/DWU4X9GXL9XY)
 * [Getting Started with Google Kubernetes Engine Course](https://www.coursera.org/account/accomplishments/verify/DZ62XNMF3CSZ)
-* [Reliable Google Cloud Infrastructure: Design and Process](https://www.coursera.org/account/accomplishments/verify/J682T882HBU8)
 * [Logging, Monitoring and Observability in Google Cloud](https://www.coursera.org/account/accomplishments/verify/BSMAMW4PYSF2)
+* [Reliable Google Cloud Infrastructure: Design and Process](https://www.coursera.org/account/accomplishments/verify/J682T882HBU8)
 
 #### AWS
 
