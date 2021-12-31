@@ -43,14 +43,15 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * [Advanced Cloud Engineer Bootcamp Certification](https://www.credly.com/badges/c2564ae7-6299-4c6f-a34a-969bb4f67b99)
 * [Certified Kubernetes Administrator](https://www.credly.com/badges/d13fb262-cc8c-4736-bbf6-2d7de97084c6)
 * [Certified Kubernetes Application Developer](https://www.credly.com/badges/a2393e13-71b9-45f5-b969-c353d285f43a)
-* [Certified Kubernetes Security Specialist - Ongoing](https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/)
+* [Certified Kubernetes Security Specialist](https://www.credly.com/badges/bdb6f7b9-2ad4-4f01-a098-ab59d79b4b73)
 
 ### Public Cloud Certifications
 
 #### Azure
 
 * [Azure Fundamentals - AZ900](https://www.credly.com/earner/earned/badge/ab67c821-8354-4344-a943-fde0754b0a16)
-* [Planned 2021 - Microsoft Azure Architect Technologies](https://docs.microsoft.com/es-es/learn/certifications/exams/az-303)
+* [Planned Q1 2022 - Microsoft Azure Architect Technologies](https://docs.microsoft.com/es-es/learn/certifications/exams/az-303)
+* [Microsoft Azure Architect Technologies Training](https://www.dropbox.com/s/mm79wb3ds4ikd2g/AZ303%20Exam%20Preparation%20Training.png?dl=0)
 
 #### Google Cloud Platform
 
@@ -89,6 +90,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 
 I enjoy very much the opportunity to speak at conferences and events. These conferences and events are a great opportunity to share my knowledge with other IT professionals, and a good way to connect with them.
 
+* [DevConf 2022 - Predictive autoscaling patterns in Kubernetes](https://devconfcz2022.sched.com/event/siIn/predictive-autoscaling-patterns-in-kubernetes)
 * [Openshift Coffee Break - ACS for Kubernetes - DevSecOps Way](https://youtu.be/43Mr30mXq0I?t=1900)
 * [AnsibleFest 2020 - Automate Cybersecurity solutions in a Cloud Native scenario](https://github.com/rcarrata/ansiblefest2020-secdemo)
 * [Red Hat Summit 2020 Speaker](https://www.redhat.com/en/summit)
