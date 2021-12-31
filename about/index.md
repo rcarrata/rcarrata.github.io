@@ -63,7 +63,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 
 #### AWS
 
-* [Planned 2022 - AWS SAA-02](https://aws.amazon.com/es/certification/certified-solutions-architect-associate/)
+* [Planned Q2 2022 - AWS Certified Solutions Architect Associate](https://aws.amazon.com/es/certification/certified-solutions-architect-associate/)
 
 ### Cisco Certifications
 
