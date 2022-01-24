@@ -473,3 +473,9 @@ Revision is not signed
 The controller will emit a ResourceComparison error if it tries to sync to a revision that is either not signed, or is signed by an unknown or not allowed public key.
 
 So we're saved, even if the hacker get's access to our repository to write any rogue or malicious commit, ArgoCD will enforce the GPG Signature Verification against the commit signed (or not), securying in that way the GitOps Supply Chain.
+
+Finally I want to say a big thanks to [Rodrigo Alvares](https://github.com/ralvares) for their security wisdom and to always show me the red and blue team path! And also to mr GitOps [Christian Hernandez](https://github.com/christianh814/) for save tons of hours with the config and deployment of Gitea and for the BGK app that we've deployed in this blog post :) You rock guys!
+
+And with that, ends this blog post about Secure GitOps Supply Chain using GPG Signature Verification in ArgoCD.
+
+Happy hacking!
