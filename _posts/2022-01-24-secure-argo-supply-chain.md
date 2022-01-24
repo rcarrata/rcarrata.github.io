@@ -14,7 +14,7 @@ comments: true
 
 How I can connect my ArgoCD/OpenShift GitOps deployments in each managed cluster, and have full visibility, control and management of my Argo Applications in single pane of glass?  How I can manage all my ApplicationSets in the different managed clusters that I have across public and private clouds?
 
-Let's dig in! 
+Let's dig in!
 
 ## Overview
 
