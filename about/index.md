@@ -38,7 +38,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * [Red Hat Certified System Administrator in Red Hat OpenStack](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3YBRY5HRN67XMD6X5VFP7ULSUKWW2HMIDYOMU6FAH2SEJXEIJCF5Y=)
 * [Red Hat Certified System Administrator](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3T7ULZ55KZZ56SKO7EQ3ETTLYZQ4U5NQYTCNA62RUWOCM34WWBUYQ=)
 
-### Linux Foundations
+### Linux Foundation
 
 * [Advanced Cloud Engineer Bootcamp Certification](https://www.credly.com/badges/c2564ae7-6299-4c6f-a34a-969bb4f67b99)
 * [Certified Kubernetes Administrator](https://www.credly.com/badges/d13fb262-cc8c-4736-bbf6-2d7de97084c6)
@@ -74,6 +74,10 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * [Cisco CCNA Routing and Switching](https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/professional.html)
 * [Cisco Certified Systems Instructor](https://learningnetworkstore.cisco.com/instructor-kits/ccsi-fundamentals-cfnd-v1.0/IK-CFND-V1-025225.html)
 * CNSS 4011 - National Training Standard for Information Systems Security (INFOSEC) Professionals
+
+### Kubernetes & DevOps
+
+* [Fundamentals for Kyverno Certification](https://www.credly.com/badges/6b457393-7a00-4ac3-9a8f-bfab7d90e3bb/public_url)
 
 ### Linux and Programming Languages
 
