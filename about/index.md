@@ -21,7 +21,7 @@ Opinions expressed in this blog are my own and do not necessarily reflect that o
 
 ## Certifications
 
-I'm always trying to learn new things, and I strongly believe that IT Certifications and Courses are a wonderful way to learn, tinker and discover new technologies. These are some of the certifications that I studied and passed in my professional career. 
+I'm always trying to learn new things, and I strongly believe that IT Certifications and Courses are a wonderful way to learn, tinker and discover new technologies. These are some of the certifications that I studied and passed in my professional career.
 
 ### Red Hat Certifications
 
@@ -75,7 +75,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * [Cisco Certified Systems Instructor](https://learningnetworkstore.cisco.com/instructor-kits/ccsi-fundamentals-cfnd-v1.0/IK-CFND-V1-025225.html)
 * CNSS 4011 - National Training Standard for Information Systems Security (INFOSEC) Professionals
 
-### Kubernetes & DevOps
+### DevSecOps
 
 * [Fundamentals for Kyverno Certification](https://www.credly.com/badges/6b457393-7a00-4ac3-9a8f-bfab7d90e3bb/public_url)
 
