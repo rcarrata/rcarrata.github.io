@@ -104,3 +104,5 @@ I enjoy very much the opportunity to speak at conferences and events. These conf
 * [Red Hat Tech Exchange 2019](https://events.redhat.com/profile/form/index.cfm?PKformID=0x779770001)
 * [Ansible Automates Madrid 2019 - Ansible Enterprise Demo](https://www.redhat.com/es/about/videos/ansible-automates-madrid-2019-roberto-carratal%C3%A1)
 * [Openstack Summit 2018 - OpenStack Kuryr Project](https://www.openstack.org/summit/vancouver-2018/summit-schedule/events/21635/kuryr-project-onboarding)
+
+among others events!
