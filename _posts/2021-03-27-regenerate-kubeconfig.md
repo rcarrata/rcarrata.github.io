@@ -16,6 +16,8 @@ You missed your kubeconfig file of your OpenShift cluster? Your dog ate your kub
 
 Let's dig in!
 
+NOTE: Blog Post updated in 11Feb2022 and tested in **OpenShift 4.9.5**. Now it's working with all versions of OpenShift :)
+
 ## Overview
 
 A file that is used to configure access to clusters is called a kubeconfig file. This is a generic
@@ -24,9 +26,9 @@ way of referring to configuration files. It does not mean that there is a file n
 When an openshift 4 cluster is generated a Kubeconfig is created with a system:admin user and with
 administrator access privileges to the cluster.
 
-Usually the system:admin user kubeconfig is available at:
+* Usually the system:admin user kubeconfig is available at:
 
-```
+```sh
 $INSTALL_DIR/auth/kubeconfig
 ```
 
@@ -42,9 +44,9 @@ cluster-admin user, so please log in with your cluster admin privileged user to 
 
 ### 1. Export Useful Variables
 
-Define the Authentication Name for your new key and the new kubeconfig name:
+* Define the Authentication Name for your new key and the new kubeconfig name:
 
-```
+```sh
 AUTH_NAME="auth2kube"
 NEW_KUBECONFIG="newkubeconfig"
 ```
@@ -56,11 +58,10 @@ Let's start to generate a Certificate Request for the system:admin user.
 A CertificateSigningRequest (CSR) resource is used to request that a certificate be signed by a
 denoted signer, after which the request may be approved or denied before finally being signed.
 
-In our case we want to request a CSR for the system:admin user and we need also to provide the
-CommonName as system:admin and the OrganizationName as masters:
+* In our case we want to request a CSR for the system:admin user and we need also to provide the CommonName as system:admin and the OrganizationName as masters:
 
-```
-$ openssl req -new -newkey rsa:4096 -nodes -keyout $AUTH_NAME.key -out $AUTH_NAME.csr -subj "/CN=system:admin/O=system:masters"
+```sh
+$ openssl req -new -newkey rsa:4096 -nodes -keyout $AUTH_NAME.key -out $AUTH_NAME.csr -subj "/CN=system:admin"
 Generating a 4096 bit RSA private key
 .......................................................++
 ....................................++
@@ -72,19 +73,21 @@ writing new private key to 'auth2kube.key'
 
 Once we have the csr file generated from the earlier step we need to create a signing request resource definition for request a certificate for our new kubeconfig file:
 
-```
+```bash
 $ cat << EOF >> $AUTH_NAME-csr.yaml
-apiVersion: certificates.k8s.io/v1beta1
+apiVersion: certificates.k8s.io/v1
 kind: CertificateSigningRequest
 metadata:
   name: $AUTH_NAME-access
 spec:
+  signerName: kubernetes.io/kube-apiserver-client
   groups:
   - system:authenticated
   request: $(cat $AUTH_NAME.csr | base64 | tr -d '\n')
   usages:
   - client auth
 EOF
+
 $ oc create -f auth2kube-csr.yaml
 certificatesigningrequest.certificates.k8s.io/auth2kube-access created
 ```
@@ -95,31 +98,31 @@ You have more information about this procedure and for the CSRs in the [AuthN-Au
 
 ### 4. Approve the CSR and extract the client certificate
 
-Now the Certificate Signing Request is waiting to be approved or denied. Let's approve them!
+* Now the Certificate Signing Request is waiting to be approved or denied. Let's approve them!
 
-```
+```bash
 $ oc get csr
-NAME               AGE   REQUESTOR                                            CONDITION
-auth2kube-access   1s    admin                                                Pending
-dev-aws-926rz      41m   system:serviceaccount:dev-aws:dev-aws-bootstrap-sa   Approved,Issued
+NAME               AGE   SIGNERNAME                                    REQUESTOR               REQUESTEDDURATION   CONDITION
+auth2kube-access   13s   kubernetes.io/kube-apiserver-client           system:admin            <none>              Pending
+csr-s2h9g          21m   kubernetes.io/kube-apiserver-client-kubelet   system:node:compute-0   <none>              Approved,Issued
 
 $ oc adm certificate approve auth2kube-access
 certificatesigningrequest.certificates.k8s.io/auth2kube-access approved
 ```
 
-And now we can extract the client certificate from the csr itself:
+* And now we can extract the client certificate from the csr itself:
 
-```
-$ oc get csr $AUTH_NAME-access -o jsonpath='{.status.certificate}' | base64 -d > $AUTH_NAME-access.crt
+```bash
+oc get csr $AUTH_NAME-access -o jsonpath='{.status.certificate}' | base64 -d > $AUTH_NAME-access.crt
 ```
 
 ### 5. Add the system:admin user entry into the new kubeconfig
 
 Now that we have in our localhost our certificate let's use them. But how can we use our certificate within our new kubeconfig file?
 
-We need to define a new entry in the kubeconfig file for the system:admin using the client-certificate and the client key that we obtained and generated in the earlier steps:
+* We need to define a new entry in the kubeconfig file for the system:admin using the client-certificate and the client key that we obtained and generated in the earlier steps:
 
-```
+```bash
 $ oc config set-credentials system:admin --client-certificate=$AUTH_NAME-access.crt --client-key=$AUTH_NAME.key --embed-certs --kubeconfig=/tmp/$NEW_KUBECONFIG
 User "system:admin" set.
 ```
@@ -132,9 +135,9 @@ Then, we need to create a context for our the system:admin.
 
 A context element in a kubeconfig file is used to group access parameters under a convenient name. Each context has three parameters: cluster, namespace, and user. By default, the oc/kubectl command-line tool uses parameters from the current context to communicate with the cluster.
 
-Based in the previous entry of the system:admin user, we can set up the context for our system:admin user:
+* Based in the previous entry of the system:admin user, we can set up the context for our system:admin user:
 
-```
+```bash
 $ oc config set-context system:admin --cluster=$(oc config view -o jsonpath='{.clusters[0].name}') --namespace=default --user=system:admin --kubeconfig=/tmp/$NEW_KUBECONFIG
 Context "system:admin" modified.
 ```
@@ -143,19 +146,18 @@ Context "system:admin" modified.
 
 Finally we need the CA of our Openshift cluster, because it is needed to complete the kubeconfig file for our system:admin.
 
-We can extract this CA directly from our OpenShift cluster :
+* We can extract this CA directly from our OpenShift cluster :
 
-```
-$ oc -n openshift-authentication rsh `oc get pods -n openshift-authentication -o name | head -1` \
-cat /run/secrets/kubernetes.io/serviceaccount/ca.crt > ingress-ca.crt
+```bash
+oc -n openshift-authentication rsh `oc get pods -n openshift-authentication -o name | head -1` cat /run/secrets/kubernetes.io/serviceaccount/ca.crt > ingress-ca.crt
 ```
 
-With the CA file we can add to the new kubeconfig with the following command:
+* With the CA file we can add to the new kubeconfig with the following command:
 
-```
+```bash
 $ oc config set-cluster $(oc config view -o jsonpath='{.clusters[0].name}') \
 --server=$(oc config view -o jsonpath='{.clusters[0].cluster.server}') --certificate-authority=ingress-ca.crt --kubeconfig=/tmp/$NEW_KUBECONFIG --embed-certs
-Cluster "api-cluster-xx-xx-sandbox-opentlc-com:6443" set.
+Cluster "ocp4" set.
 ```
 
 and with that... voilà! We finished configuring our new kubeconfig file for our system:admin user!
@@ -164,9 +166,9 @@ and with that... voilà! We finished configuring our new kubeconfig file for our
 
 ### 8. Set current context to system:admin
 
-Now that we have our kubeconfig, change the context to use our system:admin context generated in the previous step:
+* Now that we have our kubeconfig, change the context to use our system:admin context generated in the previous step:
 
-```
+```bash
 $ oc config use-context system:admin --kubeconfig=/tmp/$NEW_KUBECONFIG
 Switched to context "system:admin".
 ```
@@ -175,9 +177,9 @@ Switched to context "system:admin".
 
 In the last step we need to use the kubeconfig and test it in our OpenShift cluster.
 
-Export the kubeconfig, log in with the system:admin user and do a privileged action like list nodes
+* Export the kubeconfig, log in with the system:admin user and do a privileged action like list nodes:
 
-```
+```bash
 $ export KUBECONFIG=/tmp/$NEW_KUBECONFIG
 
 $ oc login -u system:admin
@@ -191,9 +193,9 @@ downloads-9cb4cd587-dqdsr   1/1     Running   0          2d3h
 downloads-9cb4cd587-m6pzz   1/1     Running   0          2d3h
 ```
 
-NOTE: tested in OpenShift 4.4.17, but working in OCP3.x and OCP4.x
+NOTE: tested in OpenShift 4.9.5, but working in OCP3.x and OCP4.x
 
-## Automate the process!
+## Automate the process
 
 I'm lazy sometimes to repeat the same process again and again, so I automated in a simple bash script and [posted in a gist](https://gist.github.com/rcarrata/016da295c1421cccbfbd66ed9a7922bc)
 
@@ -202,4 +204,3 @@ Hope that helps!
 Happy OpenShifting!
 
 Rober
-
