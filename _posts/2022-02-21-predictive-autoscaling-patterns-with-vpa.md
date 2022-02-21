@@ -76,7 +76,7 @@ Let's have some fun with VPA, implementing an use case, that will automatically 
 
 Let's first deploy our application without Vertical Pod Autoscaler CR applied.
 
-1. Create a project without LimitRange
+* Create a project without LimitRange
 
 ```bash
 PROJECT=test-novpa-uc2-$RANDOM
@@ -86,13 +86,13 @@ PROJECT=test-novpa-uc2-$RANDOM
 oc new-project $PROJECT
 ```
 
-2. Delete any preexistent LimitRange:
+* Delete any preexistent LimitRange:
 
 ```bash
 kubectl -n $PROJECT delete limitrange --all
 ```
 
-3. Deploy stress application into the ns:
+* Deploy stress application into the ns:
 
 ```bash
 cat <<EOF | kubectl -n $PROJECT apply -f -
@@ -146,7 +146,7 @@ In Kubernetes, every scheduling decision is always made based on the resource re
 
 Now let's check how we can benefit from the VPA controller in order to avoid the OOMKilled situations, where VPA will adjust and apply the recommended resources (requests and limits) automatically without disrupting our application SLA/SLOs.
 
-1. Create a project without LimitRange
+* Create a project without LimitRange
 
 ```bash
 PROJECT=test-vpa-uc2-$RANDOM
@@ -156,13 +156,13 @@ PROJECT=test-vpa-uc2-$RANDOM
 oc new-project $PROJECT
 ```
 
-2. Delete any preexistent LimitRange:
+* Delete any preexistent LimitRange:
 
 ```bash
 kubectl -n $PROJECT delete limitrange --all
 ```
 
-3. Deploy stress application into the ns:
+* Deploy stress application into the ns:
 
 ```bash
 cat <<EOF | kubectl -n $PROJECT apply -f -
@@ -204,7 +204,7 @@ On the other hand, we used the stress image, and as in the [Image Stress Documen
 
 So we defined 150M of memory allocation by the stress process, that's it's between the request and limits defined.
 
-4. Check that the pod is up && running:
+* Check that the pod is up && running:
 
 ```sh
 kubectl get pod
@@ -215,7 +215,7 @@ kubectl logs -l app=stress
 stress: info: [1] dispatching hogs: 0 cpu, 0 io, 1 vm, 0 hdd
 ```
 
-5. Check that the request and limits generated in Pod
+* Check that the request and limits generated in Pod
 
 ```bash
 kubectl get pod -l app=stress -o yaml | grep limit -A1
@@ -229,7 +229,7 @@ kubectl get pod -l app=stress -o yaml | grep requests -A1
           memory: 100Mi
 ```
 
-6. Check the metrics of the pod deployed:
+* Check the metrics of the pod deployed:
 
 ```bash
 kubectl adm top pod --namespace=$PROJECT --use-protocol-buffers
@@ -237,7 +237,7 @@ NAME                      CPU(cores)   MEMORY(bytes)
 stress-7d48fdb6fb-j46b8   1019m        115Mi
 ```
 
-7. It is possible to set a range for the autoscaling: minimum and maximum values, for the requests. Apply the VPA with the minAllowed and maxAllowed as described:
+* It is possible to set a range for the autoscaling: minimum and maximum values, for the requests. Apply the VPA with the minAllowed and maxAllowed as described:
 
 ```sh
 cat <<EOF | kubectl -n $PROJECT apply -f -
@@ -265,7 +265,7 @@ EOF
 
 So since the only truly important things is the requests parameter, the Vertical Pod Autoscaler will always work with this. Whenever you define vertical autoscaling for your app, you are defining what the requests should be.
 
-8. After a couple of minutes, check the VPA to see the Memory and CPU suggested:
+* After a couple of minutes, check the VPA to see the Memory and CPU suggested:
 
 ```sh
 kubectl get vpa
@@ -317,7 +317,7 @@ kubectl get vpa stress-vpa -o jsonpath='{.status}' | jq -r .
 
 * **Upper Bound**: when your pod goes above this usage, it will be evicted and upscaled.
 
-9. Let's increase the memory allocation by the stress process in our container in our stress pod, above the defined limit:
+* Let's increase the memory allocation by the stress process in our container in our stress pod, above the defined limit:
 
 ```sh
 kubectl get pod -l app=stress -n $PROJECT -o yaml | grep limits -A1
@@ -327,13 +327,13 @@ kubectl get pod -l app=stress -n $PROJECT -o yaml | grep limits -A1
 
 the memory limit is 200Mi as is defined in the Deployment.
 
-10. Increase the memory allocation in the pod patching the arg of the --vm-bytes to 250M:
+* Increase the memory allocation in the pod patching the arg of the --vm-bytes to 250M:
 
 ```sh
 oc patch deployment stress --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/args/3", "value": "250M" }]'
 ```
 
-11. Check the pods to see if the OOMKilled or Crashloopbackoff state it's in our stress pod:
+* Check the pods to see if the OOMKilled or Crashloopbackoff state it's in our stress pod:
 
 ```sh
 kubectl get pod -w
@@ -342,7 +342,7 @@ stress-7b9459559c-ntnrv   1/1     Running       0          5s
 stress-7d48fdb6fb-j46b8   1/1     Terminating   0          22m
 ```
 
-12. Check the VPA resources and:
+* Check the VPA resources and:
 
 ```sh
 kubectl get pod -l app=stress -o yaml | grep vpa
@@ -350,7 +350,7 @@ kubectl get pod -l app=stress -o yaml | grep vpa
       vpaUpdates: 'Pod resources updated by stress-vpa: container 0: cpu request,
 ```
 
-13. Check that the VPA changed automatically the requests and limits in the POD, but NOT in the deployment or ReplicaSet:
+* Check that the VPA changed automatically the requests and limits in the POD, but NOT in the deployment or ReplicaSet:
 
 ```sh
 kubectl get pod -l app=stress -o yaml | grep requests -A2
@@ -374,7 +374,7 @@ As mentioned above, this is proportional scaling: in our default stress deployme
 
 So when you get a scaling recommendation, it will respect and keep the same ratio you originally configured, and proportionally set the new values based on your original ratio.
 
-14. The deployment of stress app is not changed at all, the VPA just is changing the Pod spec definition:
+* The deployment of stress app is not changed at all, the VPA just is changing the Pod spec definition:
 
 ```sh
 kubectl get deployment stress -o yaml | egrep -i 'limits|request' -A1         
