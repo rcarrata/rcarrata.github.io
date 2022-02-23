@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Signing and Verifying Images to Secure DevSecOps pipelines using Sigstore and Kyverno
+title: Signing and Verifying Images to Secure CICD pipelines using Sigstore and Kyverno
 date: 2022-02-23
 type: post
 published: true
@@ -526,7 +526,7 @@ check-image:
 
 and voilà! Kyverno prevented the deployment of the pod using a non signed and verified container image, and save the day (and our Software Supply Chain as well).
 
-NOTE: this example uses Kyverno, but other Policy Engines are also [compatible with Cosign](https://docs.sigstore.dev/cosign/overview#kubernetes-integrations) such as [OPA](https://github.com/sigstore/cosign-gatekeeper-provider) or [Conaisseur](https://github.com/sse-secure-systems/connaisseur#what-is-connaisseur). 
+NOTE: this example uses Kyverno, but other Policy Engines are also [compatible with Cosign](https://docs.sigstore.dev/cosign/overview#kubernetes-integrations) such as [OPA](https://github.com/sigstore/cosign-gatekeeper-provider) or [Conaisseur](https://github.com/sse-secure-systems/connaisseur#what-is-connaisseur).
 
 And with that finishes the first part of the blog post around Image Signing and Verification using Sigstore and Kyverno!
 
