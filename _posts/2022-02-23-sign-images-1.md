@@ -527,7 +527,7 @@ check-image:
     signature mismatch'
 ```
 
-and voilà! 
+and voilà!
 
 Kyverno prevented the deployment of the pod using a non signed and verified container image, and save the day (and our Software Supply Chain as well).
 
