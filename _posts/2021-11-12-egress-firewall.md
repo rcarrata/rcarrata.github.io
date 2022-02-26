@@ -30,7 +30,7 @@ An egress firewall supports the following scenarios:
 For example, we can allow one project access to a specified IP range but deny the same access to a different project. Or we can restrict application developers from updating from Python pip mirrors, and force updates to come only from approved sources.
 
 The test on this PoC are executed in a 4.8.17 OpenShift environment.
-	
+ 
 ## 2. Deploy example apps and initial tests
 
 Let's first deploy a app of example that will be our entry point for our connectivity tests with the Egress Firewall feature.
@@ -44,14 +44,14 @@ oc new-project egress-fw-test
 * Deploy the example app based in hello-openshift image:
 
 ```sh
-oc run --image=quay.io/openshifttest/hello-openshift:multiarch test-egress
+kubectl run --image=quay.io/openshifttest/hello-openshift:multiarch test-egress
 pod/test-egress created
 ```
 
 * Test ICMP / Ping to Google's DNS IP (8.8.8.8):
 
 ```sh
-oc exec -ti test-egress -- ping -c2 8.8.8.8
+kubectl exec -ti test-egress -- ping -c2 8.8.8.8
 PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 64 bytes from 8.8.8.8: icmp_seq=1 ttl=52 time=9.09 ms
 64 bytes from 8.8.8.8: icmp_seq=2 ttl=52 time=8.29 ms
@@ -60,13 +60,13 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 * Test ICMP / Ping to Cloudfare DNS IPs:
 
 ```sh
-oc exec -ti test-egress -- ping -c2 1.1.1.1
+kubectl exec -ti test-egress -- ping -c2 1.1.1.1
 ```
 
 * Test curl to the OpenShift docs webpage:
 
 ```sh
-oc exec -ti test-egress -- curl https://docs.openshift.com -I | head -n1
+kubectl exec -ti test-egress -- curl https://docs.openshift.com -I | head -n1
 HTTP/2 200
 ```
 
@@ -103,13 +103,13 @@ as you can notice the egress.cidrSelector, allows the access only to the 8.8.8.8
 * Apply this Egress Firewall rule in the namespace egress-fw-test
 
 ```sh
-oc apply -n egress-fw-test -f egress-fw/ovn/allow-google.yaml
+kubectl apply -n egress-fw-test -f egress-fw/ovn/allow-google.yaml
 ```
 
 * Test ICMP / Ping to Google's DNS IP (8.8.8.8):
 
 ```sh
-oc exec -ti test-egress -- ping -c2 8.8.8.8
+kubectl exec -ti test-egress -- ping -c2 8.8.8.8
 
 PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 64 bytes from 8.8.8.8: icmp_seq=1 ttl=52 time=8.97 ms
@@ -125,7 +125,7 @@ this works like a charm because the IP 8.8.8.8 it's allowed in our EgressFirewal
 * Test ICMP / Ping to Cloudfare DNS IPs:
 
 ```sh
-oc exec -ti test-egress -- ping -c2 1.1.1.1
+kubectl exec -ti test-egress -- ping -c2 1.1.1.1
 PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
 
 --- 1.1.1.1 ping statistics ---
@@ -139,7 +139,7 @@ as expected this ping to 1.1.1.1 failed because it's denied by the EgressFirewal
 * Test curl to the OpenShift docs webpage:
 
 ```sh
-oc exec -ti test-egress -- curl https://docs.openshift.com -I -m2
+kubectl exec -ti test-egress -- curl https://docs.openshift.com -I -m2
 curl: (28) Failed to connect to docs.openshift.com port 443 after 1504 ms: Operation timed out
 command terminated with exit code 28
 ```
@@ -174,13 +174,13 @@ This example allows Pods in the egress-fw-test namespace to connect to the host(
 * Apply the Egress Firewall in the namespace:
 
 ```sh
-oc apply --namespace egress-fw-test -f egress-fw/ovn/allow-dns-and-ip.yaml
+kubectl apply --namespace egress-fw-test -f egress-fw/ovn/allow-dns-and-ip.yaml
 ```
 
 * Check that the Egress Firewall object is generated properly:
 
 ```sh
-oc get egressfirewalls.k8s.ovn.org default -o yaml
+kubectl get egressfirewalls.k8s.ovn.org default -o yaml
 apiVersion: k8s.ovn.org/v1
 kind: EgressFirewall
 metadata:
@@ -207,7 +207,7 @@ status:
 * Test ICMP / Ping to Google's DNS IP (8.8.8.8):
 
 ```sh
-oc exec -ti test-egress -- ping -c2 8.8.8.8
+kubectl exec -ti test-egress -- ping -c2 8.8.8.8
 PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 64 bytes from 8.8.8.8: icmp_seq=1 ttl=52 time=8.98 ms
 64 bytes from 8.8.8.8: icmp_seq=2 ttl=52 time=8.50 ms
@@ -222,7 +222,7 @@ Again as the 8.8.8.8 IP is allowed this works like a charm.
 * Test ICMP / Ping to Cloudfare DNS IPs:
 
 ```sh
-oc exec -ti test-egress -- ping -c2 1.1.1.1
+kubectl exec -ti test-egress -- ping -c2 1.1.1.1
 PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
 
 --- 1.1.1.1 ping statistics ---
@@ -236,7 +236,7 @@ As in the previous example, the rest of the IPs not allowed specifically will be
 * Test curl to the OpenShift docs webpage:
 
 ```sh
-oc exec -ti test-egress -- curl https://docs.openshift.com -I -m2
+kubectl exec -ti test-egress -- curl https://docs.openshift.com -I -m2
 curl: (28) Resolving timed out after 2000 milliseconds
 command terminated with exit code 28
 ```
@@ -245,8 +245,8 @@ What happened? The curl failed! But we allowed the dnsName in the EgressFirewall
 
 Let's check the resolv.conf inside of our pods:
 
-```
-oc exec -ti test-egress -- cat /etc/resolv.conf
+```sh
+kubectl exec -ti test-egress -- cat /etc/resolv.conf
 search egress-fw-test.svc.cluster.local svc.cluster.local cluster.local ocp.rober.lab
 nameserver 172.30.0.10
 options ndots:5
@@ -264,8 +264,8 @@ In our case the rules are allowing only the dnsName, but denying the rest of the
 
 Let's allow the IPs from the Openshift-DNS, but first we need to check which are these IPs.
 
-```
-oc get pod -n openshift-dns -o wide | grep dns
+```sh
+kubectl get pod -n openshift-dns -o wide | grep dns
 dns-default-6wx2g     2/2     Running   2          2d1h   10.128.0.4       ocp-8vr6j-master-2         <none>           <none>
 dns-default-8hm8x     2/2     Running   2          2d1h   10.130.0.3       ocp-8vr6j-master-1         <none>           <none>
 dns-default-bgxqh     2/2     Running   4          2d1h   10.128.2.4       ocp-8vr6j-worker-0-82t6f   <none>           <none>
@@ -292,13 +292,13 @@ So we need to add a specific range from the 10.128.0.0 to the 10.130.0.0, but we
 Apply the new modified EgressFirewall object with the allow rule described before:
 
 ```sh
-oc apply -f egress-fw/ovn/allow-dns-and-ip-good.yaml
+kubectl apply -f egress-fw/ovn/allow-dns-and-ip-good.yaml
 ```
 
 And try again the same curl to the docs.openshift.com:
 
 ```sh
-oc exec -ti test-egress -- curl https://docs.openshift.com -I -m2 | head -n1
+kubectl exec -ti test-egress -- curl https://docs.openshift.com -I -m2 | head -n1
 HTTP/2 200
 ```
 

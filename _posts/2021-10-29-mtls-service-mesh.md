@@ -65,7 +65,7 @@ helm ls -n openshift-operators
 * Check also the status of the OpenShift operator pods.
 
 ```sh
-oc get pod -n openshift-operators
+kubectl get pod -n openshift-operators
 ```
 
 * Then, install the Service Mesh control plane:
@@ -73,7 +73,7 @@ oc get pod -n openshift-operators
 ```sh
 export deploy_namespace=istio-system
 
-oc new-project ${deploy_namespace}
+kubectl new-project ${deploy_namespace}
 
 #Note: you may need to wait a moment for the operators to propagate
 
@@ -83,7 +83,7 @@ helm install control-plane -n ${deploy_namespace} control-plane/
 * Monitor the Service Mesh Control Plane
 
 ```sh
-oc get pod -n istio-system
+kubectl get pod -n istio-system
 NAME                                    READY   STATUS              RESTARTS   AGE
 grafana-58b8d6b866-vkzfz                2/2     Running             0          59s
 istio-egressgateway-74688d758-n9kcw     1/1     Running             0          59s
@@ -94,11 +94,11 @@ kiali-75d59c6544-2r5qp                  0/1     ContainerCreating   0          1
 prometheus-854f88478f-mqlq4             3/3     Running             0          88s
 ```
 
-### B.1. Analyse the ServiceMeshControlPlane object deployed:
+### B.1. Analyse the ServiceMeshControlPlane object deployed
 
 The ServiceMeshControlPlane is a Service Mesh CR that controls the setup and the components of each Service Mesh Control Plane. In our case, we will disable the mtls, automtls and controlPlane mtls in the security section, because we will adjust manually this components, without the interference of the Service Mesh Operator:
 
-```
+```sh
 apiVersion: maistra.io/v2
 kind: ServiceMeshControlPlane
 metadata:
@@ -123,7 +123,7 @@ As we discussed previously, in the deployment of the lab, we disabled the mtls a
 At the ServiceMeshControlPlane in the yaml cluster we can see the specific CR for the security part of the Mesh Control Plane:
 
 ```sh
-oc get smcp -n istio-system basic-install -o jsonpath='{.spec.security}' | jq .
+kubectl get smcp -n istio-system basic-install -o jsonpath='{.spec.security}' | jq .
 {
   "controlPlane": {
     "mtls": false
@@ -168,7 +168,7 @@ CONTROL_PLANE_NAMESPACE=${control_plane_namespace}
 CONTROL_PLANE_NAME=${control_plane_name}
 CONTROL_PLANE_ROUTE_NAME=${control_plane_route_name}
 
-oc project ${DEPLOY_NAMESPACE}
+kubectl project ${DEPLOY_NAMESPACE}
 
 helm upgrade -i basic-gw-config -n ${DEPLOY_NAMESPACE} \
   --set control_plane_namespace=${CONTROL_PLANE_NAMESPACE} \
@@ -179,8 +179,8 @@ helm upgrade -i basic-gw-config -n ${DEPLOY_NAMESPACE} \
 
 * Check the [PeerAuthentication](https://istio.io/latest/docs/reference/config/security/peer_authentication/) object generated in the Bookinfo namespace:
 
-```
-oc get peerauthentications.security.istio.io default -o jsonpath='{.spec}' -n $bookinfo_namespace | jq .
+```sh
+kubectl get peerauthentications.security.istio.io default -o jsonpath='{.spec}' -n $bookinfo_namespace | jq .
 {
   "mtls": {
     "mode": "PERMISSIVE"
@@ -247,19 +247,19 @@ Let's do a test inside our mesh application, simulating that the requests comes 
 * Deploy a test application for execute the tests:
 
 ```sh
-oc create deployment --image nginxinc/nginx-unprivileged inside-mesh -n $bookinfo_namespace
+kubectl create deployment --image nginxinc/nginx-unprivileged inside-mesh -n $bookinfo_namespace
 ```
 
 * Enable the autoinjection, patching the deployment of ou application adding an annotation the sidecar.istio.io/inject to true:
 
 ```sh
-oc patch deploy/inside-mesh -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n bookinfo
+kubectl patch deploy/inside-mesh -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n bookinfo
 ```
 
 * Inside the pod execute several requests toward the ProductPage microservice:
 
 ```sh
-oc exec -ti deploy/inside-mesh -- bash
+kubectl exec -ti deploy/inside-mesh -- bash
 $ for i in {1..10}; do curl -vI http://productpage:9080/productpage?u=normal && sleep 2; done
 ```
 
@@ -276,13 +276,13 @@ Now it's the turn to demonstrate that with the Mode PERMISSIVE, the traffic that
 * Let's generate another deployment for execute the test but without injecting the Istio sidecar:
 
 ```sh
-oc create deployment --image nginxinc/nginx-unprivileged outside-mesh -n $bookinfo_namespace
+kubectl create deployment --image nginxinc/nginx-unprivileged outside-mesh -n $bookinfo_namespace
 ```
 
 * In the the Outside Pod, execute the same request as before:
 
 ```sh
-oc exec -ti deploy/outside-mesh -- bash
+kubectl exec -ti deploy/outside-mesh -- bash
 $ for i in {1..10}; do  curl -vI http://productpage:9080/productpage?u=normal && sleep 2; done
 ```
 
@@ -298,7 +298,7 @@ Now let's check if our traffic it's encrypted using the [istioctl tools](https:/
 
 * Let's execute the experimental authz check with the pod id and grepping for virtual, for checking the status of the Envoy configuration in the Pod:
 
-```
+```sh
 istioctl experimental authz check $(kubectl get pods -n bookinfo | grep details| head -1| awk '{print $1}') | grep virtual
 Checked 13/25 listeners with node IP 10.131.1.100.
 LISTENER[FilterChain]     CERTIFICATE          mTLS (MODE)          AuthZ (RULES)
@@ -354,7 +354,7 @@ INFO[0008] executing command: '[nsenter -n -t 2430077 -- tcpdump -i eth0 -U -w -
 
 * So now go to a new terminal window and execute:
 
-```
+```sh
 curl $GATEWAY_URL -I
 ```
 
@@ -383,7 +383,7 @@ helm upgrade -i basic-gw-config -n ${DEPLOY_NAMESPACE} \
 * Check the PeerAuthentication to verify if it's in mode DISABLE:
 
 ```sh
-oc get peerauthentications.security.istio.io -n bookinfo default -o jsonpath='{.spec}' | jq .
+kubectl get peerauthentications.security.istio.io -n bookinfo default -o jsonpath='{.spec}' | jq .
 {
   "mtls": {
     "mode": "DISABLE"
@@ -394,7 +394,7 @@ oc get peerauthentications.security.istio.io -n bookinfo default -o jsonpath='{.
 * Check the DestinationRule to see if the tls it's in mode DISABLE:
 
 ```sh
-oc get dr {-n bookinfo bookinfo-mtls -o jsonpath='{.spec}' | jq .
+kubectl get dr {-n bookinfo bookinfo-mtls -o jsonpath='{.spec}' | jq .
   "host": "*",
   "trafficPolicy": {
     "tls": {
@@ -455,7 +455,7 @@ kubectl sniff -i eth0 -o ./mtls-disabled.pcap $POD_PRODUCTPAGE -f '((tcp) and (n
 
 * Once we have the Kniff executed, we need to perform some requests:
 
-```
+```sh
 curl $GATEWAY_URL -I
 ```
 
@@ -477,7 +477,7 @@ Finally, let's enforce the use of the mTLS in all of the inbound and outbound tr
 
 * Let's deploy our setup enabling this time the mTLS to STRICT:
 
-```
+```sh
 helm upgrade -i basic-gw-config -n ${DEPLOY_NAMESPACE} \
   --set control_plane_namespace=${CONTROL_PLANE_NAMESPACE} \
   --set control_plane_name=${CONTROL_PLANE_NAME} \
@@ -488,7 +488,7 @@ helm upgrade -i basic-gw-config -n ${DEPLOY_NAMESPACE} \
 * Check the PeerAuthentication for ensure that the mode STRICT is set:
 
 ```sh
-oc get peerauthentications.security.istio.io default -o jsonpath='{.spec}' | jq .
+kubectl get peerauthentications.security.istio.io default -o jsonpath='{.spec}' | jq .
 {
   "mtls": {
     "mode": "STRICT"
@@ -505,7 +505,7 @@ On the other hand, as we not enabled the automatic mTLS, and we have the PeerAut
 * Create a destination rule to configure Maistra to use mTLS when sending requests to other services in the mesh.
 
 ```sh
-oc get dr bookinfo-mtls -o jsonpath='{.spec}' | jq .
+kubectl get dr bookinfo-mtls -o jsonpath='{.spec}' | jq .
 {
   "host": "*.bookinfo.svc.cluster.local",
   "trafficPolicy": {
@@ -549,7 +549,7 @@ Let's check within our pod inside our mesh and inside our OpenShift Cluster.
 * Let's execute some requests from inside the pod:
 
 ```sh
-oc exec -ti deploy/inside-mesh -- bash
+kubectl exec -ti deploy/inside-mesh -- bash
 $ for i in {1..10}; do  curl -vI http://productpage:9080/productpage?u=normal && sleep 2; done
 ```
 
@@ -562,7 +562,7 @@ $ for i in {1..10}; do  curl -vI http://productpage:9080/productpage?u=normal &&
 * Let's test again the connection from outside the mesh (but inside our OpenShift Cluster):
 
 ```sh
-oc exec -n bookinfo -ti deployment/outside-mesh -- bash
+kubectl exec -n bookinfo -ti deployment/outside-mesh -- bash
 ```
 
 * Let's execute some requests, exactly the same as before when we set the Permissive mode:

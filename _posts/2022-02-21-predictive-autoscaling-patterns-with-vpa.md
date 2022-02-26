@@ -330,7 +330,7 @@ the memory limit is 200Mi as is defined in the Deployment.
 * Increase the memory allocation in the pod patching the arg of the --vm-bytes to 250M:
 
 ```sh
-oc patch deployment stress --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/args/3", "value": "250M" }]'
+kubectl patch deployment stress --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/args/3", "value": "250M" }]'
 ```
 
 * Check the pods to see if the OOMKilled or Crashloopbackoff state it's in our stress pod:

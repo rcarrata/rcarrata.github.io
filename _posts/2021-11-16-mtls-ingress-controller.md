@@ -549,7 +549,7 @@ The config map contains the PEM-encoded CA certificate bundle that is used to ve
 * Let's create a config map that is in the openshift-config namespace
 
 ```sh
-oc create configmap router-ca-certs-default --from-file=ca-bundle.pem=certs/cacert.pem -n openshift-config
+kubectl create configmap router-ca-certs-default --from-file=ca-bundle.pem=certs/cacert.pem -n openshift-config
 
 configmap/router-ca-certs-default created
 ```
@@ -557,13 +557,13 @@ configmap/router-ca-certs-default created
 * Edit the IngressController resource in the openshift-ingress-operator project:
 
 ```sh
-oc edit IngressController default -n openshift-ingress-operator
+kubectl edit IngressController default -n openshift-ingress-operator
 ```
 
 * Add the spec.clientTLS field and subfields to configure mutual TLS:
 
 ```sh
-oc edit IngressController default -n openshift-ingress-operator
+kubectl edit IngressController default -n openshift-ingress-operator
 
 spec:
 ...
@@ -580,7 +580,7 @@ This configuration includes setting a clientCA value, which is a reference to a 
 * After edit the ingress operator we can see that the pods of the ingress / Haproxy are restarting:
 
 ```sh
-oc get pod -n openshift-ingress -w
+kubectl get pod -n openshift-ingress -w
 NAME                              READY   STATUS        RESTARTS   AGE
 router-default-6f6dfb449d-ltlhv   1/1     Running       0          3d15h
 router-default-6f6dfb449d-r5p8z   1/1     Terminating   0          3d15h
@@ -590,7 +590,7 @@ router-default-864d7f7f7-dfng2    1/1     Running       0          12s
 * Let's check the changes in the default ingress-operator including the mtls ones:
 
 ```sh
-oc get IngressController default -n openshift-ingress-operator -o jsonpath='{.spec}' | jq -r .
+kubectl get IngressController default -n openshift-ingress-operator -o jsonpath='{.spec}' | jq -r .
 {
   "clientTLS": {
     "allowedSubjectPatterns": [
@@ -614,7 +614,7 @@ oc get IngressController default -n openshift-ingress-operator -o jsonpath='{.sp
 On the other hand, as we change the ingress operator to support the mtls the Canary routes used for check the Ingress pods are showing some errors, so need to update their TLS certificate as well:
 
 ```sh
-oc logs --namespace=openshift-ingress-operator deployments/ingress-operator -c ingress-operator --tail=5
+kubectl logs --namespace=openshift-ingress-operator deployments/ingress-operator -c ingress-operator --tail=5
 
 2021-11-12T11:26:28.343Z        INFO    operator.ingress_controller     controller/controller.go:298    reconciling{"request": "openshift-ingress-operator/default"}
 2021-11-12T11:26:28.415Z        ERROR   operator.ingress_controller     controller/controller.go:298    got retryable error; requeueing    {"after": "1m0s", "error": "IngressController is degraded: CanaryChecksSucceeding=False (CanaryChecksRepetitiveFailures: Canary route checks for the default ingress controller are failing)"}
