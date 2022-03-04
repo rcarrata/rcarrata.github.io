@@ -12,9 +12,9 @@ author: rcarrata
 comments: true
 ---
 
-How I can improve my supply chain security signing my container images, in an open, accessible and transparent manner? How I can store this signatures in a safe and organized way?
+How can we improve my supply chain security signing my container images, in an open, accessible and transparent manner? How can we store this signatures in a safe and organized way?
 
-And then how I can ensure that no one can deploy in my Kubernetes clusters malicious images that can be a risk to my entire software supply chain?
+And then how can we ensure that no one can deploy in my Kubernetes clusters malicious images that can be a risk to my entire software supply chain?
 
 Let's dig in!
 

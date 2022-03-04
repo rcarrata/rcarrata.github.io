@@ -7,7 +7,7 @@ comments: false
 share: false
 ---
 
-## EMEA Senior Specialist Solutions Architect at Red Hat 
+## EMEA Senior Specialist Solutions Architect at Red Hat
 
 I'm Roberto Carratalá, an IT professional with more than ten years of experience in the industry of Linux, Virtualization, Cloud, DevOps and Kubernetes/OpenShift.
 
@@ -38,7 +38,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * [Red Hat Certified System Administrator in Red Hat OpenStack](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3YBRY5HRN67XMD6X5VFP7ULSUKWW2HMIDYOMU6FAH2SEJXEIJCF5Y=)
 * [Red Hat Certified System Administrator](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3T7ULZ55KZZ56SKO7EQ3ETTLYZQ4U5NQYTCNA62RUWOCM34WWBUYQ=)
 
-### Linux Foundation
+### Linux Foundation - CNCF
 
 * [Advanced Cloud Engineer Bootcamp Certification](https://www.credly.com/badges/c2564ae7-6299-4c6f-a34a-969bb4f67b99)
 * [Certified Kubernetes Administrator](https://www.credly.com/badges/d13fb262-cc8c-4736-bbf6-2d7de97084c6)
@@ -69,29 +69,29 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 
 ### Cisco Certifications
 
+* [Cisco CCNA Security](https://www.dropbox.com/s/j4vn5y1uop298t6/CCNASec_Certificado.pdf?dl=0)
+* [Cisco CCNA Routing and Switching](https://www.dropbox.com/s/egym4bos0vkpa3x/CCNA_Certificado.pdf?dl=0)
 * [Cisco CCNP Routing and Switching](https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/professional.html)
-* [Cisco CCNA Security](https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/professional.html)
-* [Cisco CCNA Routing and Switching](https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/professional.html)
 * [Cisco Certified Systems Instructor](https://learningnetworkstore.cisco.com/instructor-kits/ccsi-fundamentals-cfnd-v1.0/IK-CFND-V1-025225.html)
-* CNSS 4011 - National Training Standard for Information Systems Security (INFOSEC) Professionals
 
 ### DevSecOps
 
 * [Fundamentals for Kyverno Certification](https://www.credly.com/badges/6b457393-7a00-4ac3-9a8f-bfab7d90e3bb/public_url)
+* [INFOSEC Professional Recognition - CNSS 4011 Training Standard](https://www.dropbox.com/s/is04i2mvfrosn8x/Certificado_Seguridad_4011%20Recognition.pdf?dl=0)
 
 ### Linux and Programming Languages
 
-* CompTIA Linux+
-* LPIC-1 Linux Server Professional
-* Novel Certified Linux Administrator (CLA)
-* Suse Certified Linux Professional
-* Python Programming Certification - Infinite Skills Inc
+* [CompTIA Linux+](https://www.dropbox.com/s/a4ekan3p5rchb4v/CompTIA%20Linux%2B%20%28Powered%20by%20LPI%29%20certificate.pdf?dl=0)
+* [LPIC-1 Linux Server Professional](https://www.dropbox.com/s/a4ekan3p5rchb4v/CompTIA%20Linux%2B%20%28Powered%20by%20LPI%29%20certificate.pdf?dl=0)
+* [Suse Certified Linux Professional - Suse Linux Enterprise Server 12](https://www.dropbox.com/s/o5e2pmhzdtxsqvq/Suse%20Certified%20Linux%20Admin%20Suse%2012.pdf?dl=0)
+* [Suse Certified Linux Professional - Suse Linux Enterprise Server 11](https://www.dropbox.com/s/0r7fugvzwqv6axd/Suse%20Certified%20Linux%20Administrator.pdf?dl=0)
+* [Python Programming Certification - Infinite Skills Inc](https://www.dropbox.com/s/ndporwndtwrfonz/Python%20Programming%20Certificate%20Infinite%20Skills.pdf?dl=0)
 
 ### Artificial Intelligence / Machine Learning Certifications & Courses
 
+* [Azure AI Fundamentals - AI900](https://www.credly.com/badges/0fc494c6-d0ba-495b-a3df-9c35ce767571/public_url)
 * [Machine Learning with TensorFlow on Google Cloud Specialization - Ongoing](https://www.coursera.org/specializations/machine-learning-tensorflow-gcp?)
-* [Azure AI Fundamentals - AI900 - Ongoing](https://docs.microsoft.com/es-es/learn/certifications/exams/ai-900)
-* [TensorFlow 2 for Deep Learning Specialization](https://www.coursera.org/specializations/tensorflow2-deeplearning)
+* [TensorFlow 2 for Deep Learning Specialization - Ongoing](https://www.coursera.org/specializations/tensorflow2-deeplearning)
 
 ## Conferences and Events
 
