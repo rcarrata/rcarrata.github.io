@@ -469,3 +469,4 @@ So we're saved! We protected our Supply Chain increasing the security and harden
 And with that we finished our second blog post about Signing and Verifying Images to Secure CICD pipelines using Sigstore and Kyverno.
 
 Happy Hacking!
+
