@@ -9,7 +9,7 @@ categories:
 - Kubernetes
 tags: []
 author: rcarrata
-comments: false
+comments: true
 ---
 
 How can we Sign and Verify container images within the CICD Pipelines, adding Security to our DevOps pipelines? How can we ensure that our supply chain is secured, and all the container images deployed in our Kubernetes clusters are signed and secure, and no one can deploy malicious container images?
