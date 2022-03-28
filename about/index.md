@@ -49,8 +49,9 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 
 #### Azure
 
+* [Microsoft Azure Architect Technologies - AZ303](https://www.credly.com/badges/6f4992ca-2a7b-458b-8d8d-6b2b3a78b567/public_url)
+* [Azure AI Fundamentals - AI900](https://www.credly.com/badges/0fc494c6-d0ba-495b-a3df-9c35ce767571/public_url)
 * [Azure Fundamentals - AZ900](https://www.credly.com/earner/earned/badge/ab67c821-8354-4344-a943-fde0754b0a16)
-* [Planned Q1 2022 - Microsoft Azure Architect Technologies](https://docs.microsoft.com/es-es/learn/certifications/exams/az-303)
 * [Microsoft Azure Architect Technologies Training](https://www.dropbox.com/s/mm79wb3ds4ikd2g/AZ303%20Exam%20Preparation%20Training.png?dl=0)
 
 #### Google Cloud Platform
