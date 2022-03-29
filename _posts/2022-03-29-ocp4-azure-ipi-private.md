@@ -447,8 +447,11 @@ as you can check the SOCKSv5 needs to be enabled, we used here the port 9000.
 
 And then the most important check is the "Proxy DNS when using SOCKSv5" option. This option will redirect and resolve all the requests from our browser through the Proxy socks SSH tunnel, reaching the Azure DNS private records, and then resolving our OpenShift Console.
 
-* Now if we use our regular ocp console url in our browser, we will see the OpenShift console without need of setting an expensive VPN or ExpressRoute. 
-But remember that it's only for testing purpose, once the ssh connection is closed, or if the VM suffers any issue, this method is also unavailable 
+* Now if we use our regular ocp console url in our browser, we will see the OpenShift console without need of setting an expensive VPN or ExpressRoute.
+
+[![](/images/azureipi15.png "azureipi15.png")]({{site.url}}/images/azureipi15.png)
+
+But remember that it's only for testing purpose, once the ssh connection is closed, or if the VM suffers any issue, this method is also unavailable.
 
 So with that we finished the first part of this blog around deep dive of deploying Private OpenShift clusters in Azure.
 
