@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Deep dive in Private OpenShift 4 clusters deployments in Azure
-date: 2022-03-29
+title: Secure your Private OpenShift clusters with Azure Firewall and Hub & Spoke architectures
+date: 2022-03-30
 type: post
-published: true
+published: false
 status: publish
 categories:
 - OpenShift
@@ -415,11 +415,9 @@ HTTP/1.1 200 OK
 
 and voilà! This seems to be working as expected.
 
-
-
 ## 5. Connecting to our private cluster from the Internet
 
-We demonstrate how we can reach our API from the Bastion, but how we can reach our OpenShift Console? 
+We demonstrate how we can reach our API from the Bastion, but how we can reach our OpenShift Console?
 
 There are several options, like having a VPN Gateway, an Express Route or even deploying a VM and use Azure Bastion to connecting from there to the Bastion.
 
@@ -447,8 +445,8 @@ as you can check the SOCKSv5 needs to be enabled, we used here the port 9000.
 
 And then the most important check is the "Proxy DNS when using SOCKSv5" option. This option will redirect and resolve all the requests from our browser through the Proxy socks SSH tunnel, reaching the Azure DNS private records, and then resolving our OpenShift Console.
 
-* Now if we use our regular ocp console url in our browser, we will see the OpenShift console without need of setting an expensive VPN or ExpressRoute. 
-But remember that it's only for testing purpose, once the ssh connection is closed, or if the VM suffers any issue, this method is also unavailable 
+* Now if we use our regular ocp console url in our browser, we will see the OpenShift console without need of setting an expensive VPN or ExpressRoute.
+But remember that it's only for testing purpose, once the ssh connection is closed, or if the VM suffers any issue, this method is also unavailable
 
 So with that we finished the first part of this blog around deep dive of deploying Private OpenShift clusters in Azure.
 
