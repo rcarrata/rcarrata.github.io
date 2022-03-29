@@ -28,7 +28,7 @@ By default, OpenShift Container Platform is provisioned to use publicly-accessib
 
 A private cluster sets the DNS, Ingress Controller, and API server to private when you deploy your cluster. This means that the cluster resources are only accessible from your internal network and are not visible to the internet.
 
-This is an example of an OpenShift private cluster architecture that could be helpful to understand the early description:
+This is an example of an OpenShift private cluster architecture that could be helpful to understand the previous description:
 
 [![](/images/azureipi0.png "azureipi0.png")]({{site.url}}/images/azureipi0.png)
 
@@ -42,9 +42,9 @@ For this reason to deploy a private cluster, we need to deploy from a machine th
 
 For example, this machine can be a bastion host on your cloud network or a machine that has access to the network through a VPN.
 
-In this architecture deployment we're using a bastion VM that will be used for deploy the OpenShift cluster from within, and also serve to jump through them to access to the API and the OCP Console
+In this architecture deployment we're using a bastion VM that will be used for deploy the OpenShift cluster from within, and also serve to jump through them to access to the API and the OCP Console.
 
-IMPORTANT: this architecture and others depicted in this blog post works, but are NOT certified neithersupported by Red Hat by all means, it's just a PoC / demo. Please contact to your Red Hat's representative or Red Hat support teams for help in case that you want to install in production.
+IMPORTANT: this architecture and others depicted in this blog post works, but are **NOT certified neither supported by Red Hat** by all means, it's just a PoC / demo. Please contact to your Red Hat's representative or Red Hat support teams for help in case that you want to install in production.
 
 ## 2. Prerequisites
 
@@ -58,12 +58,13 @@ One important thing that we need to know is that with the Private clusters in Az
 
 As we mentioned before when we deploy a cluster by using an existing VNet, we must perform additional network configuration before you install the cluster. We need to provision the following Azure infrastructure components and the VNet where they we will be deployed:
 
-* Master / Workers Subnets (must provide two subnets within your VNet, one for the control plane machines and one for the compute machines)
+* Master / Workers Subnets (we must provide two subnets within your VNet, one for the control plane machines and one for the compute machines)
 * Route tables (in our case by we will use the default Route table)
 * VNets (one VNet containing all the subnets)
 * Network Security Groups (explained in a bit)
 
 Furthermore we will deploy also a Bastion VM that will serve with double purpose, for deploy the cluster resolving all the DNS private records and reaching all the subnets and resources needed for the installation of the private OpenShift cluster, and also once the cluster is installed to reach the API and Console of the OpenShift cluster deployed within the VNet (remember that is not exposed in the internet, and have not any public endpoint).
+
 For this we will need to deploy also:
 
 * Bastion Subnet (10.10.99.0/24 in our case)
@@ -96,7 +97,7 @@ All of the architecture diagrams, schemas, automation code and much more is in m
 
 ## 2.1 Configure Azure Account and increase limits
 
-The OpenShift cluster uses a number of Microsoft Azure components, and the [default Azure subscription](https://github.com/openshift/installer/blob/master/docs/user/azure/account.md) and [service limits](https://github.com/openshift/installer/blob/master/docs/user/azure/limits.md), quotas, and constraints affect your ability to install OpenShift clusters. Check the [official documentation](https://docs.openshift.com/container-platform/4.9/installing/installing_azure/installing-azure-account.html) to know more about this.
+The OpenShift cluster uses a number of Microsoft Azure components, and the [default Azure subscription](https://github.com/openshift/installer/blob/master/docs/user/azure/account.md) and [service limits](https://github.com/openshift/installer/blob/master/docs/user/azure/limits.md), quotas, and constraints affect our ability to install OpenShift clusters. Check the [official documentation](https://docs.openshift.com/container-platform/4.9/installing/installing_azure/installing-azure-account.html) to know more about this.
 
 On the other hand, the Azure User Account need to have the following roles for the subscription:
 
@@ -139,7 +140,7 @@ git clone https://github.com/rcarrata/ocp4-azure-ipi.git
 cd ocp4-azure-ipi
 ```
 
-* Install Azure CLI and configure your account. Follow the [Installation Guide for Azure CLI](https://docs.microsoft.com/es-es/cli/azure/install-azure-cli)
+* Install Azure CLI and configure your account. Follow the [Installation Guide for Azure CLI](https://docs.microsoft.com/es-es/cli/azure/install-azure-cli).
 
 ```sh
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -252,6 +253,8 @@ The outbound will be routed by the Default Azure Route (0.0.0.0/0) to the Azure 
 
 This is the default OpenShift egress in a regular / connected deployment, and also can be used in the private OpenShift deployments, but presents some inconveniences because **needs to have a public IP**, and a "public" Azure Load Balancer that will be used by the OCP cluster VMs to the egress SNAT. Public IPs or External endpoints are not allowed by some organizations, and due to can not be used as is.
 
+When using the default route table for subnets, with 0.0.0.0/0 populated automatically by Azure, all Azure API requests are routed over Azure’s internal network.
+
 * To deploy fully automated this architecture we can use the following Ansible automation code:
 
 ```sh
@@ -273,7 +276,7 @@ as we can see the following items are not required when we or created when you i
 * Public DNS records
 * Public endpoints
 
-When using the default route table for subnets, with 0.0.0.0/0 populated automatically by Azure, all Azure API requests are routed over Azure’s internal network even though the IP addresses are public. As long as the Network Security Group rules allow egress to Azure API endpoints, proxies with user-defined routing configured allow you to create private clusters with no public endpoints.
+When using the default route table for subnets, with 0.0.0.0/0 populated automatically by Azure, all Azure API requests are routed over Azure’s internal network. As long as the Network Security Group rules allow egress to Azure API endpoints, proxies with user-defined routing configured allow you to create private clusters with no public endpoints.
 
 So in a nutshell we're routing all the traffic through the Bastion Proxy (squid in our case), controlling and having the possibility to whitelisting or blacklisting the traffic that goes though the Proxy from the OCP cluster.
 
@@ -388,21 +391,21 @@ If you don't see a command prompt, try pressing enter.
 curl: try 'curl --help' or 'curl --manual' for more information
 ```
 
-Curl with the -m without the proxy enabled
+* Curl with the -m without the proxy enabled
 
 ```
 [root@debug-pod /]# curl https://rcarrata.com -I -m 3
 curl: (7) Failed connect to rcarrata.com:443; Operation now in progress
 ```
 
-Export inside the debug-pod the proxy
+* Export inside the debug-pod the proxy
 
 ```
 [root@debug-pod /]# export http_proxy=http://bastion.az.asimov.lab:3128
 [root@debug-pod /]# export https_proxy=http://bastion.az.asimov.lab:3128
 ```
 
-Check that the connectivity is running ok
+* Check that the connectivity is running ok
 
 ```
 [root@debug-pod /]# curl https://rcarrata.com -I -m 3
@@ -411,6 +414,41 @@ HTTP/1.1 200 OK
 ```
 
 and voilà! This seems to be working as expected.
+
+
+
+## 5. Connecting to our private cluster from the Internet
+
+We demonstrate how we can reach our API from the Bastion, but how we can reach our OpenShift Console? 
+
+There are several options, like having a VPN Gateway, an Express Route or even deploying a VM and use Azure Bastion to connecting from there to the Bastion.
+
+But there is a very simple, cost-effective way to do that, use the Bastion for enable a [Proxy Socks5](https://en.wikipedia.org/wiki/SOCKS) ssh connection.
+
+A SOCKS proxy is an SSH encrypted tunnel in which configured applications forward their traffic down, and then, on the server-end, the proxy forwards the traffic to the general Internet.
+
+Unlike a VPN, a SOCKS proxy has to be configured on an app-by-app basis on the client machine, but we can set up apps without any specialty client software as long as the app is capable of using a SOCKS proxy. On the server-side, all you need to configure is SSH.
+
+Let's do try it!
+
+* Connect to the bastion using the private key generated
+
+```
+ssh -i vault/ssh-key  -D 9000 az-admin@xx.xx.xx.xx
+Activate the web console with: systemctl enable --now cockpit.socket
+[az-admin@bastion ~]$ sudo -i
+```
+
+* And then connect using the Proxy Socks with the DNS option enabled. An example with Firefox is:
+
+[![](/images/azureipi14.png "azureipi14.png")]({{site.url}}/images/azureipi14.png)
+
+as you can check the SOCKSv5 needs to be enabled, we used here the port 9000.
+
+And then the most important check is the "Proxy DNS when using SOCKSv5" option. This option will redirect and resolve all the requests from our browser through the Proxy socks SSH tunnel, reaching the Azure DNS private records, and then resolving our OpenShift Console.
+
+* Now if we use our regular ocp console url in our browser, we will see the OpenShift console without need of setting an expensive VPN or ExpressRoute. 
+But remember that it's only for testing purpose, once the ssh connection is closed, or if the VM suffers any issue, this method is also unavailable 
 
 So with that we finished the first part of this blog around deep dive of deploying Private OpenShift clusters in Azure.
 
