@@ -275,7 +275,7 @@ Let's check the egress traffic from the OpenShift cluster through the Azure Fire
 [root@bastion ~] ssh -D 9000 <<public_bastion_ip>> -l az-admin -i vault/ssh-key
 
 [root@bastion ~] export KUBECONFIG=ocp4/auth/kubeconfig
-```md
+```
 
 * We will select one of the pods that is deployed in the cluster (the console pod, but could be another totally random):
 
