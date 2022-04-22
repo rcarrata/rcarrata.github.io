@@ -60,7 +60,9 @@ Finally NAT Gateway is a fully is a fully managed and distributed service, provi
 
 Let's analyze the last option, that it's use an Azure Firewall to provide outbound Internet routing for the VNet for the OCP cluster installation and usage.
 
-Let's view a possible architecture of an Private OpenShift cluster with Azure Firewall:
+As we mentioned, this solution to securing outbound addresses lies in use of a firewall device that can control outbound traffic based on domain names. Azure Firewall, for example, can restrict outbound HTTP and HTTPS traffic based on the FQDN of the destination. We can also configure your preferred firewall and security rules to allow these required ports and addresses, but in this blog post we will stick with the Azure Firewall managed.
+
+In the following diagram we can view a possible architecture of an Private OpenShift cluster with Azure Firewall for the Outbound / Egress Traffic:
 
 [![](/images/azurefw0.png "azurefw0.png")]({{site.url}}/images/azurefw0.png)
 
@@ -113,8 +115,20 @@ And on the other hand, imagine that instead of 1 cluster of OpenShift, you will 
 
 ### 3.3 User Define Routing and Azure Firewall
 
-Imagine that we deployed 
+Imagine that we want to deploy our OpenShift cluster, how the worker and master nodes and the pods within the OpenShift cluster can communicate with Internet, passing though the Azure Firewall that controls all the outbound traffic that will be egressing the OpenShift cluster (in one of the Spokes) towards the Hub VPC network where the Azure Firewall is deployed. 
 
-Outbound type of UDR requires there is a route for 0.0.0.0/0 and next hop destination of NVA (Network Virtual Appliance) in the route table. 
+That's called User Define Routing or UDR and it's defined when we install the OpenShift cluster as we described in the first blog post [Deep dive in Private OpenShift 4 clusters deployments in Azure](https://rcarrata.com/openshift/ocp4-azure-ipi-private/).
 
-The route table already has a default 0.0.0.0/0 to Internet, without a Public IP to SNAT just adding this route will not provide you egress. AKS will validate that you don't create a 0.0.0.0/0 route pointing to the Internet but instead to NVA or gateway, etc. When using an outbound type of UDR, a load balancer public IP address for inbound requests is not created unless a service of type loadbalancer is configured. A public IP address for outbound requests is never created by AKS if an outbound type of UDR is set.
+In Azure the route table already has a default 0.0.0.0/0 to Internet, but without a Public IP to SNAT just adding this route will not provide you egress. 
+
+We need to remember that when using an outbound type of UDR, a load balancer public IP address for inbound requests is not created unless a service of type loadbalancer is configured. A public IP address for outbound requests is never created by OpenShift installer if an outbound type of UDR is set, ensuring that no public endpoint it's generated in the VPC of our OpenShift cluster.
+
+In the this case, the Outbound type of UDR **requires that there is a Azure route for 0.0.0.0/0 and next hop destination of NVA (Network Virtual Appliance) in the route table**. 
+
+
+
+For this reason we need to create a couple of Route Table entries that will have the next hop the NVA that in our case will be the
+
+[Deep Dive](https://github.com/rcarrata/ocp4-azure-ipi/blob/main/roles/ocp4-cloud-ipi/tasks/azure-infra-firewall.yml#L100)
+
+
