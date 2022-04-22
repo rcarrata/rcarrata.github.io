@@ -16,6 +16,7 @@ How can we generate a Private OpenShift cluster into an existing Azure Virtual N
 
 Let's dig in!
 
+
 ## 1. Overview
 
 From OpenShift 4.3+, you can install an OpenShift private cluster into an existing Azure Virtual Network (VNet) on Microsoft Azure.
