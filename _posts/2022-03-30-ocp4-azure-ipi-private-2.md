@@ -111,7 +111,7 @@ The Azure Firewall lives in their own Subnet, defined as Hub in the Hub-Spoke ar
 
 This allows that ALL the traffic to/from our cluster (or clusters) will go through our VNET - Azure Firewall because of the Route Tables that will be explained below.
 
-And on the other hand, imagine that instead of 1 cluster of OpenShift, you will deploy N OpenShift clusters that are private. With this architecture, you will have the possibility to deploy them as a Spokes in their own VNET / Subnets, having a proper architecture and control of your resources in Azure.
+And on the other hand, imagine that instead of 1 cluster of OpenShift, you will deploy N OpenShift clusters that are private. With this architecture, you will have the possibility to deploy them as a Spokes in their own VNET / Subnets, having a proper architecture and control of your re^sources in Azure.
 
 ### 3.3 User Define Routing and Azure Firewall
 
