@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How can we generate Private clusters OpenShift in Azure, secured by Azure Firewall? How can we have a Fine-Grained egress access from our Applications within our OpenShift cluster, controlling and managing all the inbound and outbound traffic?
+How can we generate Private clusters OpenShift in Azure, secured by Azure Firewall? How can we have a Fine-Grained egress access from our Applications within our OpenShift cluster, controlling and managing all the inbound and outbound traffic? 
 
 This is the second blog post of the series of OpenShift deployments in Azure. Check the first part in [Deep dive in Private OpenShift 4 clusters deployments in Azure](https://rcarrata.com/openshift/ocp4-azure-ipi-private/).
 

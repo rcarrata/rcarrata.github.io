@@ -44,7 +44,7 @@ Putting all of this together in order to analyse and monitor our traffic was not
 
 One very cool feature in my opinion in next OpenShift 4.8 is the ability to track and monitor OVS flows for networking analytics using **OVN Kubernetes CNI plugin**.
 
-As the [Tracking network flows documentation](https://deploy-preview-32089--osdocs.netlify.app/openshift-enterprise/latest/networking/ovn_kubernetes_network_provider/tracking-network-flows.html) of OpenShift (still in preview) refers you can collect information about pod network flows from your cluster to assist with tasks like:
+As the [Tracking network flows documentation](https://docs.openshift.com/container-platform/4.10/networking/ovn_kubernetes_network_provider/tracking-network-flows.html) of OpenShift (still in preview) refers you can collect information about pod network flows from your cluster to assist with tasks like:
 
 * Monitor ingress and egress traffic on the pod network.
 
@@ -67,13 +67,13 @@ When you configure the Cluster Network Operator (CNO) with one or more collector
 For our tests we have our cluster of 4.8 (fc7), with OVN Kubernetes as CNI plugin:
 
 ```
-$ oc get clusterversion
+$ kubectl get clusterversion
 NAME      VERSION      AVAILABLE   PROGRESSING   SINCE   STATUS
 version   4.8.0-fc.7   True        False         28h     Cluster version is 4.8.0-fc.7
 ```
 
 ```
-$ oc get network cluster -o jsonpath='{.status.networkType}'
+$ kubectl get network cluster -o jsonpath='{.status.networkType}'
 OVNKubernetes
 ```
 
@@ -143,13 +143,13 @@ as you noticed, we're using the netFlow format and using also the port of NetFlo
 * Patch the CNO with the network flows collectors configuration defined before:
 
 ```
-$ oc patch network.operator cluster --type merge -p "$(cat networkflow.yaml)"
+$ kubectl patch network.operator cluster --type merge -p "$(cat networkflow.yaml)"
 ```
 
 * View the Operator configuration to confirm that the exportNetworkFlows field is configured
 
 ```
-$ oc get network.operator cluster -o jsonpath="{.spec.exportNetworkFlows}"
+$ kubectl get network.operator cluster -o jsonpath="{.spec.exportNetworkFlows}"
 {"netFlow":{"collectors":["192.168.50.219:2056"]}}
 ```
 
@@ -203,7 +203,7 @@ Let's use the sFlow records now and see the outputs!
 * Change the Network Flow collector from Netflow to sFlow in the CNO configuration:
 
 ```
-oc get network.operator cluster -o jsonpath="{.spec.exportNetworkFlows}"
+kubectl get network.operator cluster -o jsonpath="{.spec.exportNetworkFlows}"
 {"sFlow":{"collectors":["192.168.50.219:6343"]}}
 ```
 
@@ -247,7 +247,7 @@ So in this case we are observing on the host 192.168.50.13 of our cluster one wo
 The IPs are corresponding of the cluster Network subnet of our cluster, inside of the SDN and manage for our Cluster Network Operator:
 
 ```
-oc get networks cluster -o jsonpath={'.status.clusterNetwork}'
+kubectl get networks cluster -o jsonpath={'.status.clusterNetwork}'
 [{"cidr":"10.128.0.0/14","hostPrefix":23}]
 ```
 
@@ -262,16 +262,18 @@ compute-0   Ready    worker   69d   v1.21.0-rc.0+4b2b6ff   192.168.50.13   <none
 The source address is the pod in the OpenShift pipelines namespace, the tekton pipelines controller
 
 ```
-$ oc get pod -A -o wide | grep 10.128.2.9
+$ kubectl get pod -A -o wide | grep 10.128.2.9
 openshift-pipelines                                tekton-pipelines-controller-6f6fc5fc95-kwpks                      1/1     Running     0          29m     10.128.2.9      compute-0   <none>           <none>
 ```
 
 And the destination corresponds to the grafana pod in the OpenShift monitoring namespace:
 
 ```
-$ oc get pod -A -o wide | grep 10.128.2.7
+$ kubectl get pod -A -o wide | grep 10.128.2.7
 openshift-monitoring                               grafana-74655dbf66-f6hjg                                          2/2     Running     0          29m     10.128.2.7      compute-0   <none>           <none>
 ```
+
+Finally, [Ricardo Carrillo have a fork of the GoFlow repo](https://github.com/rcarrillocruz/goflow/commit/18e0fae87ac4bc78fc8c9c37af64b0ce330c4748), that implements an Enricher interface including to StateSFlow / SFlow. Big thanks Ricardo for your work and for sharing this! Teamwork++
 
 And with that, we completed our first network flow collection of our OpenShift cluster! 
 In the next blog post we will use other tools to collect and analyse our Network Flows in a nicer and graphical way!  
