@@ -11,7 +11,7 @@ share: false
 
 I'm Roberto Carratalá, an IT professional with more than ten years of experience in the industry of Linux, Virtualization, Cloud, DevOps and Kubernetes/OpenShift.
 
-Currently I am working as a Senior Technical Sales Black Belt for Red Hat, focused in OpenShift Cloud Services, helping the customers to achieve their goals and objectives with linux, cloud and containers in public and private environments.
+Currently I am working as a Senior Cloud Services Black Belt for Red Hat, focused in OpenShift Cloud Services, helping the customers to achieve their goals and objectives with linux, cloud and containers in public and private environments.
 
 Although I work for Red Hat I still consider myself a Linux Geek and a Unix fanboy, always searching for new tech to learn and try!
 
@@ -53,6 +53,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * [Azure AI Fundamentals - AI900](https://www.credly.com/badges/0fc494c6-d0ba-495b-a3df-9c35ce767571/public_url)
 * [Azure Fundamentals - AZ900](https://www.credly.com/earner/earned/badge/ab67c821-8354-4344-a943-fde0754b0a16)
 * [Microsoft Azure Architect Technologies Training](https://www.dropbox.com/s/mm79wb3ds4ikd2g/AZ303%20Exam%20Preparation%20Training.png?dl=0)
+* [Designing Microsoft Azure Infrastructure Solutions Training](https://www.dropbox.com/s/5cip4zfk7iakz98/AZ305%20Exam%20Preparation%20Training.png?dl=0)
 
 #### Google Cloud Platform
 
