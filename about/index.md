@@ -7,11 +7,11 @@ comments: false
 share: false
 ---
 
-## EMEA Senior Technical Sales Black Belt at Red Hat
+## EMEA Cloud Services Black Belt at Red Hat
 
 I'm Roberto Carratalá, an IT professional with more than ten years of experience in the industry of Linux, Virtualization, Cloud, DevOps and Kubernetes/OpenShift.
 
-Currently I am working as a Senior Cloud Services Black Belt for Red Hat, focused in OpenShift Cloud Services, helping the customers to achieve their goals and objectives with linux, cloud and containers in public and private environments.
+Currently I am working as a **Senior Cloud Services Black Belt for Red Hat**, focused in **OpenShift Cloud Services**, DevSecOps, CICD and Service Mesh, helping the customers to achieve their goals and objectives with linux, cloud and containers in public and private environments.
 
 Although I work for Red Hat I still consider myself a Linux Geek and a Unix fanboy, always searching for new tech to learn and try!
 
@@ -76,6 +76,13 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * [Cisco CCNP Routing and Switching](https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/professional.html)
 * [Cisco Certified Systems Instructor](https://learningnetworkstore.cisco.com/instructor-kits/ccsi-fundamentals-cfnd-v1.0/IK-CFND-V1-025225.html)
 
+### Artificial Intelligence / Machine Learning Certifications & Courses
+
+* [AI Master's Computer Science Degree candidate - UNIR](https://en.unir.net/)
+* [Azure AI Fundamentals - AI900](https://www.credly.com/badges/0fc494c6-d0ba-495b-a3df-9c35ce767571/public_url)
+* [Machine Learning with TensorFlow on Google Cloud Specialization - Ongoing](https://www.coursera.org/specializations/machine-learning-tensorflow-gcp?)
+* [TensorFlow 2 for Deep Learning Specialization - Ongoing](https://www.coursera.org/specializations/tensorflow2-deeplearning)
+
 ### DevSecOps
 
 * [Fundamentals for Kyverno Certification](https://www.credly.com/badges/6b457393-7a00-4ac3-9a8f-bfab7d90e3bb/public_url)
@@ -89,16 +96,11 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * [Suse Certified Linux Professional - Suse Linux Enterprise Server 11](https://www.dropbox.com/s/0r7fugvzwqv6axd/Suse%20Certified%20Linux%20Administrator.pdf?dl=0)
 * [Python Programming Certification - Infinite Skills Inc](https://www.dropbox.com/s/ndporwndtwrfonz/Python%20Programming%20Certificate%20Infinite%20Skills.pdf?dl=0)
 
-### Artificial Intelligence / Machine Learning Certifications & Courses
-
-* [Azure AI Fundamentals - AI900](https://www.credly.com/badges/0fc494c6-d0ba-495b-a3df-9c35ce767571/public_url)
-* [Machine Learning with TensorFlow on Google Cloud Specialization - Ongoing](https://www.coursera.org/specializations/machine-learning-tensorflow-gcp?)
-* [TensorFlow 2 for Deep Learning Specialization - Ongoing](https://www.coursera.org/specializations/tensorflow2-deeplearning)
-
 ## Conferences and Events
 
 I enjoy very much the opportunity to speak at conferences and events. These conferences and events are a great opportunity to share my knowledge with other IT professionals, and a good way to connect with them.
 
+* [Kubernetes Community Days Berlin 2022](https://community.cncf.io/events/details/cncf-kcd-berlin-presents-kubernetes-community-days-berlin-2022-1/)
 * [DevConf 2022 - Predictive autoscaling patterns in Kubernetes](https://devconfcz2022.sched.com/event/siIn/predictive-autoscaling-patterns-in-kubernetes)
 * [OpenShift Coffee Break - ACS for Kubernetes - DevSecOps Way](https://youtu.be/43Mr30mXq0I?t=1900)
 * [AnsibleFest 2020 - Automate Cybersecurity solutions in a Cloud Native scenario](https://github.com/rcarrata/ansiblefest2020-secdemo)
