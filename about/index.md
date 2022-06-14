@@ -101,8 +101,11 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 I enjoy very much the opportunity to speak at conferences and events. These conferences and events are a great opportunity to share my knowledge with other IT professionals, and a good way to connect with them.
 
 * [Kubernetes Community Days Berlin 2022](https://community.cncf.io/events/details/cncf-kcd-berlin-presents-kubernetes-community-days-berlin-2022-1/)
+* [ContainerDays 2022](https://www.containerdays.io/agenda/conferenceday1/#predictive-autoscaling-patterns-in-kubernetes)
+* [DemoDay 2022 - Implementing DevSecOps in production](https://events.redhat.com/profile/form/index.cfm?PKformID=0x5643010001)
+* [Always On 2022 - DevSecOps and RHACS (spanish)](https://events.redhat.com/profile/form/index.cfm?PKformID=0x5235840001)
 * [DevConf 2022 - Predictive autoscaling patterns in Kubernetes](https://devconfcz2022.sched.com/event/siIn/predictive-autoscaling-patterns-in-kubernetes)
-* [OpenShift Coffee Break - ACS for Kubernetes - DevSecOps Way](https://youtu.be/43Mr30mXq0I?t=1900)
+* [OpenShift Coffee Break 2021 - ACS for Kubernetes - DevSecOps Way](https://youtu.be/43Mr30mXq0I?t=1900)
 * [AnsibleFest 2020 - Automate Cybersecurity solutions in a Cloud Native scenario](https://github.com/rcarrata/ansiblefest2020-secdemo)
 * [Red Hat Summit 2020 Speaker](https://www.redhat.com/en/summit)
 * [Red Hat Tech Exchange 2019](https://events.redhat.com/profile/form/index.cfm?PKformID=0x779770001)
