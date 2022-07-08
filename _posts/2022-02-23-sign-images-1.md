@@ -338,8 +338,10 @@ Login Succeeded!
 * Push the image to the GitHub registry:
 
 ```sh
-podman push ghcr.io/${USERNAME}/ubi-minimal:8.5-230
+podman push --remove-signatures ghcr.io/${USERNAME}/ubi-minimal:8.5-230
 ```
+
+NOTE: We're using the --remove-signatures, because the image is pulled from the registry.access.com. By default the Podman ecosystem treats signatures, by default, as an integral part of the image. So "--remove-signatures" [is necessary](https://access.redhat.com/solutions/6568941) to make a copy that doesn’t include the signatures, including copies that don’t preserve the images bit-for-bit-exactly.
 
 * Sign a container and store the signature in the registry:
 
