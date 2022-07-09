@@ -54,6 +54,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * [Azure Fundamentals - AZ900](https://www.credly.com/earner/earned/badge/ab67c821-8354-4344-a943-fde0754b0a16)
 * [Microsoft Azure Architect Technologies Training](https://www.dropbox.com/s/mm79wb3ds4ikd2g/AZ303%20Exam%20Preparation%20Training.png?dl=0)
 * [Designing Microsoft Azure Infrastructure Solutions Training](https://www.dropbox.com/s/5cip4zfk7iakz98/AZ305%20Exam%20Preparation%20Training.png?dl=0)
+* [Designing Microsoft Azure Infrastructure Solutions Course - AZ305](https://www.dropbox.com/s/ueqxinsvq27tsjo/az305_Udemy.pdf?dl=0)
 
 #### Google Cloud Platform
 
@@ -100,6 +101,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 
 I enjoy very much the opportunity to speak at conferences and events. These conferences and events are a great opportunity to share my knowledge with other IT professionals, and a good way to connect with them.
 
+* [ArgoCon 2022](https://sched.co/14lxH)
 * [Kubernetes Community Days Berlin 2022](https://community.cncf.io/events/details/cncf-kcd-berlin-presents-kubernetes-community-days-berlin-2022-1/)
 * [ContainerDays 2022](https://www.containerdays.io/agenda/conferenceday1/#predictive-autoscaling-patterns-in-kubernetes)
 * [DemoDay 2022 - Implementing DevSecOps in production](https://events.redhat.com/profile/form/index.cfm?PKformID=0x5643010001)
