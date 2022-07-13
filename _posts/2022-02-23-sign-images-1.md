@@ -131,9 +131,9 @@ EOF
 
 ## 2. Install Kyverno in OpenShift / Kubernetes
 
-Now it's time to install Kyverno in our OpenShift / Kubernetes clusters. We will be using Helm for install the Kyverno components as the [documentation depicts](https://kyverno.io/docs/installation/#install-kyverno-using-helm).
+Now it's time to install Kyverno in our OpenShift / Kubernetes clusters. We will be using Helm to install Kyverno as per [documentation](https://kyverno.io/docs/installation/#install-kyverno-using-helm).
 
-* Install the Kyverno Helm repository:
+* Add the Kyverno Helm repository:
 
 ```sh
 helm repo add kyverno https://kyverno.github.io/kyverno/
