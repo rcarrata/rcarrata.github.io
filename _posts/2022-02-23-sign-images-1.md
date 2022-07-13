@@ -535,6 +535,6 @@ NOTE: this example uses Kyverno, but other Policy Engines can be used. [compatib
 
 This concludes the first part of my blog post around Image Signing and Verification using Sigstore and Kyverno!
 
-Check out the [second part of this blog post](https://rcarrata.com/kubernetes/sign-images-2/), where we implement a Tekton Pipeline to automate all the entire process and see how Kyverno and Sigstore can help secure the software supply chain!
+Check out the [second part of this blog post](https://rcarrata.com/kubernetes/sign-images-2/), where we implement a Tekton Pipeline to automate the entire process and see how Kyverno and Sigstore can help secure the software supply chain!
 
 Happy hacking!
