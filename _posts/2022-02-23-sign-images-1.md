@@ -268,8 +268,7 @@ NOTE: Check the [Cosign Installation documentation](https://docs.sigstore.dev/co
 * Verify of one known container image with the Public Key:
 
 ```sh
-cosign verify --key https://raw.githubuser
-content.com/tektoncd/chains/main/tekton.pub gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/controller:v0.28.1
+cosign verify --key https://raw.githubusercontent.com/tektoncd/chains/main/tekton.pub gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/controller:v0.28.1
 
 Verification for gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/controller:v0.28.1 --
 The following checks were performed on each of these signatures:
@@ -347,7 +346,7 @@ NOTE: We're using the --remove-signatures, because the image is pulled from the 
 
 ```sh
 cosign sign --key cosign.key ghcr.io/rcarrata/ubi-minimal:8.5-230
-Enter password for private key: 
+Enter password for private key:
 Pushing signature to: ghcr.io/rcarrata/ubi-minimal
 ```
 
@@ -475,7 +474,7 @@ spec:
       verifyImages:
       - image: "$IMAGE:*"
         key: |-
-$(cat cosign.pub | sed 's/^/          /')        
+$(cat cosign.pub | sed 's/^/          /')
 EOF
 ```
 
