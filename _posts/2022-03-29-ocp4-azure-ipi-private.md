@@ -16,6 +16,7 @@ How can we generate a Private OpenShift cluster into an existing Azure Virtual N
 
 Let's dig in!
 
+NOTE: Updated and fixed some minor typos on 12Aug2022.
 
 ## 1. Overview
 
@@ -286,7 +287,7 @@ On the other hand, we must ensure that cluster Operators do not access Azure API
 * To deploy fully automated this architecture we can use the following Ansible automation code:
 
 ```sh
-ansible-playbook install-private.yml -e "egress=Loadbalancer" -e "azure_outboundtype=Loadbalancer" --vault-password-file .vault-file-password
+ansible-playbook install-private.yml -e "egress=proxy" --vault-password-file .vault-file-password
 ```
 
 * This Ansible automation code will deploy, setup and configure all the prerequisites, and the Azure infrastructure needed for this outbound mode, and then the OpenShift private cluster within the VNet and Subnets.

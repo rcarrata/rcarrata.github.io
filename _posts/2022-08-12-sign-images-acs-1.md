@@ -128,3 +128,123 @@ kubectl patch serviceaccount $SERVICE_ACCOUNT_NAME \
 oc secrets link pipeline regcred -n demo-sign
 #oc secrets link default regcred -n demo-sign
 ```
+
+## Deploy Tekton Demo Tasks and Pipelines using GitOps
+
+Let's deploy now the several demo tasks and pipelines that are needed for this demo. We can deploy it manually... or use GitOps to deploy them automatically! 
+
+* Create an ArgoCD App for deploying all the Tekton Pipelines, Tasks and other CICD components needed for these demo:
+
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: signed-pipelines-app
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: demo-sign
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: sign-images/manifests
+    repoURL: https://github.com/rcarrata/ocp4-network-security
+    targetRevision: sign-acs
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+EOF
+```
+
+After a couple of minutes our ArgoCD app will deploy every manifest that it's needed within our Kubernetes / OpenShift cluster:
+
+[![](/images/sign-acs5.png "sign-acs5.png")]({{site.url}}/images/sign-acs5.png)
+
+## Install Stackrox / RHACS using GitOps
+
+Now it's time to install Stackrox / RHACS in our cluster de Kubernetes. We will use again GitOps to deploy all the components needed.
+
+* We will be using the [ACS GitOps repository](https://github.com/rcarrata/rhacs-gitops/tree/main/apps/acs) within our ArgoApp for deploy Stackrox:
+
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: acs-operator
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: apps/acs
+    repoURL: https://github.com/rcarrata/acs-gitops
+    targetRevision: develop
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - PruneLast=true
+EOF
+```
+
+* As you can check in [some of the k8s manifests](https://github.com/rcarrata/rhacs-gitops/blob/main/apps/acs/3.rbac.yaml#L6) of this ArgoApp that we used to deploy Stackrox, we will use [ArgoCD Syncwaves](https://argo-cd.readthedocs.io/en/stable/user-guide/sync-waves/) to orchestrate the steps of the installation:
+
+[![](/images/sign-acs6.png "sign-acs6.png")]({{site.url}}/images/sign-acs6.png)
+
+* After the Argo App is fully synched and finished properly, check the Stackrox / ACS route:
+
+```
+ACS_ROUTE=$(k get route -n stackrox central -o jsonpath='{.spec.host}')
+curl -Ik https://${ACS_ROUTE}
+```
+
+NOTE: Check that you're getting a 200.
+
+* Furthermore you can check that your cluster is secured and managed by Stackrox / RHACS within the ${ACS_ROUTE}/main/clusters:
+
+[![](/images/sign-acs7.png "sign-acs7.png")]({{site.url}}/images/sign-acs7.png)
+TODO: Upload the image
+
+## Generate Roxctl API Token within Stackrox
+
+Now, that we've our Stackrox cluster up && running, securing our cluster of Kubernetes / OpenShift, let's integrate the Stackrox cluster with their CLI, roxctl.
+
+This is needed because we will use roxctl cli within the Tekton Pipelines image-check tasks, with the Stackrox / RHACS central API. 
+
+For this reason, we need to generate an API Token to authenticate and authorize the roxctl cli against the API of Stackrox Central cluster.
+
+* Generate an API Token within Stackrox, go to Platform Configuration -> Integrations -> Authentication Tokens -> API Token and generate new API Token:
+
+<img align="center" width="450" src="assets/acs1.png">
+
+* Grab the token generated, and export into the ROX_API_TOKEN variable:
+
+```
+export ROX_API_TOKEN="xxx"
+```
+
+* [Install the roxctl cli](https://docs.openshift.com/acs/3.66/cli/getting-started-cli.html#installing-cli-on-linux_cli-getting-started) and use the roxctl check image to verify if the API Token is working properly:
+
+```
+roxctl --insecure-skip-tls-verify image check --endpoint $ACS_ROUTE:443 --image quay.io/centos7/httpd-24-centos7:centos7
+```
+
+The output of the command will show that two policies are violated, so the roxctl image check is working as expected:
+
+```
+WARN:   A total of 2 policies have been violated
+ERROR:  failed policies found: 1 policies violated that are failing the check
+ERROR:  Policy "Fixable Severity at least Important" - Possible remediation: "Use your package manager to update to a fixed version in future builds or speak with your security team to mitigate the vulnerabilities."
+ERROR:  checking image failed after 3 retries: failed policies found: 1 policies violated that are failing the check
+```
+
+NOTE: For further information check the [ACS Integration with CI Systems](https://docs.openshift.com/acs/3.70/integration/integrate-with-ci-systems.html#cli-authentication_integrate-with-ci-systems) guide.
