@@ -68,7 +68,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 
 #### AWS
 
-* [Planned Q2 2022 - AWS Certified Solutions Architect Associate](https://aws.amazon.com/es/certification/certified-solutions-architect-associate/)
+* [Planned Q4 2022 - AWS Certified Solutions Architect Associate](https://aws.amazon.com/es/certification/certified-solutions-architect-associate/)
 
 ### Cisco Certifications
 
@@ -80,9 +80,9 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 ### Artificial Intelligence / Machine Learning Certifications & Courses
 
 * [AI Master's Computer Science Degree candidate - UNIR](https://en.unir.net/)
+* [Build Deep Learning Models with TensorFlow Skill Path - Codecademy](https://www.dropbox.com/s/zwb4xd698myp3fh/Build%20Deep%20Learning%20Models%20-%20Codecademy.pdf?dl=0)
 * [Azure AI Fundamentals - AI900](https://www.credly.com/badges/0fc494c6-d0ba-495b-a3df-9c35ce767571/public_url)
 * [Machine Learning with TensorFlow on Google Cloud Specialization - Ongoing](https://www.coursera.org/specializations/machine-learning-tensorflow-gcp?)
-* [TensorFlow 2 for Deep Learning Specialization - Ongoing](https://www.coursera.org/specializations/tensorflow2-deeplearning)
 
 ### DevSecOps
 
