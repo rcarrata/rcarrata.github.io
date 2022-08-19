@@ -355,7 +355,7 @@ Now that we have the cosign public key present in the Stackrox / ACS cluster, we
 
 [![](/images/sign-acs11.png "sign-acs11.png")]({{site.url}}/images/sign-acs11.png)
 
-Also as we can check in the image, we can enable the runtime enforce check, in order to prevent any image to be deployed into the cluster if is not signed properly with the cosign private key that we generated and managed. 
+Also as we can check in the previous pic, we can enable the runtime enforce check, in order to prevent any image to be deployed into the cluster if is not signed properly with the cosign private key that we generated and managed. 
 
 * In the policy scope restrict the Policy Scope of the Policy to the specific cluster and namespace (in my case demo-sign) and save the policy:
 
