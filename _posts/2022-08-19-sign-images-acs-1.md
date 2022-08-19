@@ -298,7 +298,7 @@ This will allow roxctl and ACS to analyze the images uploaded into the Quay Regi
 
 ## 6. Cosign and Stackrox / ACS
 
-Now that we have in place and integrated Tekton Pipelines / Tasks, ArgoCD and Stackrox / ACS it's the turn of generate and integrate our Cosign/Sigstore signatures!
+Now that we have in place and integrated Tekton Pipelines / Tasks, ArgoCD and Stackrox / ACS, it's time to generate and integrate our Cosign/Sigstore signatures!
 
 ### 6.1 Generating KeyPair with Cosign
 
