@@ -351,11 +351,9 @@ Now that we have the cosign public key present in the Stackrox / ACS cluster, we
 
 [![](/images/sign-acs10.png "sign-acs10.png")]({{site.url}}/images/sign-acs10.png)
 
-* After imported, check the policy generated and select the response method as Inform and enforce:
+* After imported, check the policy generated and select the response method as Inform and Enforce:
 
 [![](/images/sign-acs11.png "sign-acs11.png")]({{site.url}}/images/sign-acs11.png)
-
-Also as we can check in the previous pic, we can enable the runtime enforce check, in order to prevent any image to be deployed into the cluster if is not signed properly with the cosign private key that we generated and managed. 
 
 * In the policy scope restrict the Policy Scope of the Policy to the specific cluster and namespace (in my case demo-sign) and save the policy:
 
@@ -371,7 +369,7 @@ roxctl --insecure-skip-tls-verify image check --endpoint $ACS_ROUTE:443 --image 
 +--------------------------------+----------+--------------+--------------------------------+--------------------------------+--------------------------------+
 ```
 
-With this the new policy is ready and generates alerts in the Stackrox / ACS cluster, checking that the container image checked is not signed with the Cosign public key that we defined before.
+With this, the new policy is ready and generates alerts in the Stackrox / ACS cluster, checking that the Container Image checked is not signed with the Cosign public key that we defined before.
 
 NOTE: For more information around this check the [Stackrox / ACS official guide around signature verification](https://docs.openshift.com/acs/3.70/operating/verify-image-signatures.html#configure-signature-integration_verify-image-signatures).
 
@@ -389,17 +387,17 @@ kubectl create -f run/sign-images-pipelinerun.yaml
 
 [![](/images/sign-acs14.png "sign-acs14.png")]({{site.url}}/images/sign-acs14.png)
 
-- 1. Clone Repository
-- 2. Build Container Image and Push to Quay
-- 3. Sign the Container Image generated with the Cosign Private Key and push the signature to Quay
-- 4. Deploy the k8s deployment for the application
-- 5. Update the k8s deployment for the application with the signed image tag
+1. Clone Repository
+2. Build Container Image and Push to Quay
+3. Sign the Container Image generated with the Cosign Private Key and push the signature to Quay
+4. Deploy the k8s deployment for the application
+5. Update the k8s deployment for the application with the signed image tag
 
 * Check in Quay that effectively the Container Image (with v2 tag) pushed is signed properly as you can check in the picture:
 
 [![](/images/sign-acs15.png "sign-acs15.png")]({{site.url}}/images/sign-acs15.png)
 
-as we can check the image says: "This Tag has been signed via cosign".
+as we can check the message in the pic says: "This Tag has been signed via cosign". So our pipeline generated the Container Image, signed with Cosign and pushed both, the Image and the Signature to the Quay registry.
 
 * This Tekton Pipeline will deploy the signed image and also will be validated against Stackrox/ACS Trusted Image Verification system policy:
 
@@ -408,6 +406,8 @@ kubectl get deploy -n workshop pipelines-vote-api
 NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
 pipelines-vote-api   1/1     1            1           29h
 ```
+
+It works!
 
 ## 8. Trying to hack our Tekton Pipeline with unsigned Container Images   
 
@@ -445,7 +445,7 @@ Stackrox / ACS saved the day, blocking the pipeline that tried to hack our CICD 
 
 Let's finally check the violations detected by ACS, related to the Container Image Verification system policies.
 
-* If we go to the Stackrox / ACS console, in the Violations dashboard we can check a Violation related with our Tekton Pipeline that generates n Container Image that was not properly signed in our cluster: 
+* If we go to the Stackrox / ACS console, in the Violations dashboard we can check a Violation related with our Tekton Pipeline that generates a Container Image that was not properly signed in our cluster: 
 
 [![](/images/sign-acs19.png "sign-acs19.png")]({{site.url}}/images/sign-acs19.png)
 
@@ -453,7 +453,7 @@ Let's finally check the violations detected by ACS, related to the Container Ima
 
 [![](/images/sign-acs20.png "sign-acs20.png")]({{site.url}}/images/sign-acs20.png)
 
-because all the images in the namespace that are built needs to be signed by our Cosign private key, and had the signature pushed to Quay registry (in this case but could be other registries as well).
+because all the images in the namespace that are built needs to be signed by our Cosign private key, and had the signature pushed to Quay registry (in this case we're using Quay, but we could use other registries as well).
 
 And with that ends the third blog post around Securing the software supply chain with Sigstore and Stackrox and ACS.
 
