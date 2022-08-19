@@ -28,7 +28,7 @@ Let's dig in!
 In the previous blog posts we've used Kyverno and Sigstore to secure the CICD pipelines within Tekton. 
 Furthermore we worked with GitHub registry to store the signatures of the images that we built, and to store the images that our Tekton Pipelines produced.
 
-But these are not the only options that we have for secure our CICD pipelines.
+But these are not the only options that we have for securing our CICD pipelines.
 
 Let's discover how other Open Source tools like StackRox / RHACS and Quay can help, alongside with Sigstore to sign, verify and enforce our CICD / DevOps pipelines.
 
@@ -42,15 +42,15 @@ And then we will use several components that will help us to secure this pipelin
 NOTE: we will use the SaaS option, Quay.io in this blog post but it's totally possible to reproduce this demo in the non SaaS Quay.
 
 * [StackRox](https://github.com/StackRox/StackRox): StackRox Kubernetes Security Platform performs a risk analysis of the container environment, delivers visibility and runtime alerts, and provides recommendations to proactively improve security by hardening the environment.
-Red Hat offers their supported product based in StackRox, [Red Hat Advanced Security for Kubernetes](https://www.redhat.com/en/technologies/cloud-computing/openshift/advanced-cluster-security-kubernetes).
+Red Hat offers their supported product based on StackRox, [Red Hat Advanced Security for Kubernetes](https://www.redhat.com/en/technologies/cloud-computing/openshift/advanced-cluster-security-kubernetes).
 
 On the other hand, ArgoCD / OpenShift GitOps and Tekton Pipelines / OpenShift Pipelines will be also used in this demo as we did in the previous examples.
 
 [![](/images/sign-acs0.png "sign-acs0.png")]({{site.url}}/images/sign-acs0.png)
 
-Finally all the files and code used in the demo is available in the [K8S sign-acs repository](https://github.com/rcarrata/ocp4-network-security/tree/sign-acs/sign-images).
+Finally all the files and code used in the demo are available in the [K8S sign-acs repository](https://github.com/rcarrata/ocp4-network-security/tree/sign-acs/sign-images).
 
-NOTE: All the demo will be deployed in an OpenShift 4 cluster, but also vanilla K8S can be used, using OLM and modifying the namespaces used.
+NOTE: All the demo will be deployed in an OpenShift 4 cluster, but also vanilla K8S can be used, using OLM by modifying the namespaces used.
 
 ## 2. Installing ArgoCD and Tekton
 
@@ -79,7 +79,7 @@ curl -ks -o /dev/null -w "%{http_code}" https://$ARGOCD_ROUTE
 
 ## 3. Quay.io Repository Setup
 
-We need a repository for store our container images generated in our pipeline, for these reason we will generate an empty public quay.io repository and we will grant the proper RBAC and security to use them in our pipelines.
+We need a repository for storing our container images generated in our pipeline, for this reason we will generate an empty public quay.io repository and we will grant the proper RBAC and security to use them in our pipelines.
 
 * Add a Public Quay Repository in Quay.io (we've used pipelines-vote-api repository as an example):
 
@@ -165,15 +165,15 @@ spec:
 EOF
 ```
 
-After a couple of minutes our ArgoCD app will deploy every manifest that it's needed within our Kubernetes / OpenShift cluster:
+After a couple of minutes our ArgoCD app will deploy every manifest that is needed within our Kubernetes / OpenShift cluster:
 
 [![](/images/sign-acs5.png "sign-acs5.png")]({{site.url}}/images/sign-acs5.png)
 
 ## 5. Install StackRox / RHACS using GitOps
 
-Now it's time to install StackRox / RHACS in our cluster de Kubernetes. We will use again GitOps to deploy all the components needed.
+Now it's time to install StackRox / RHACS in our cluster of K8s/OCP. We will use again GitOps to deploy all the components needed.
 
-* We will be using the [ACS GitOps repository](https://github.com/rcarrata/rhacs-gitops/tree/main/apps/acs) within our ArgoApp for deploy StackRox:
+* We will be using the [ACS GitOps repository](https://github.com/rcarrata/rhacs-gitops/tree/main/apps/acs) within our ArgoApp to deploy StackRox:
 
 ```bash
 cat <<EOF | kubectl apply -f -
@@ -261,7 +261,7 @@ To do this, we need to generate a Secret that will contain the StackRox API Toke
 
 Let's start!
 
-* As we discuss before, to be able to authenticate from the Tekton Pipelines towards the StackRox / ACS API, the roxctl Task used in the pipelines, needs to have both ROX_API_TOKEN (generated in one step before) and the ACS Route as well inside a K8s Secret:
+* As we discussed before, to be able to authenticate from the Tekton Pipelines towards the StackRox / ACS API, the roxctl Task used in the pipelines, needs to have both ROX_API_TOKEN (generated in one step before) and the ACS Route as well inside a K8s Secret:
 
 ```sh
 echo $ROX_API_TOKEN
@@ -327,7 +327,7 @@ The cosign command above prompts the user to enter the password for the private 
 
 When verifying an image signature, using cosign verify, the key will be automatically decrypted using the password stored in the Kubernetes secret under cosign.password.
 
-In the same folder that the cosign generate-key-pair is executed, a cosign.pub is generated as well (the public key of the cosign key-pair). Also is available in the cosign secret in our ${NAMESPACE} generated before as you can check. 
+In the same folder that the cosign generate-key-pair is executed, a cosign.pub is generated as well (the public key of the cosign key-pair). Also the same is available in the cosign secret in our ${NAMESPACE} generated before as you can check. 
 
 ### 6.2 Add Signature Integration within StackRox / ACS
 
@@ -351,7 +351,7 @@ Now that we have the cosign public key present in the StackRox / ACS cluster, we
 
 [![](/images/sign-acs10.png "sign-acs10.png")]({{site.url}}/images/sign-acs10.png)
 
-* After imported, check the policy generated and select the response method as Inform and Enforce:
+* After it's imported, check the policy generated and select the response method as Inform and Enforce:
 
 [![](/images/sign-acs11.png "sign-acs11.png")]({{site.url}}/images/sign-acs11.png)
 
@@ -427,7 +427,7 @@ Let’s see the power of Signing and Verifying container images using StackRox /
 kubectl create -f run/unsigned-images-pipelinerun.yaml
 ```
 
-* The pipeline will fail because ACS/StackRox through the roxtctl image check task will detect that a unsigned image is build during the process and will be used for the app k8s deployment:
+* The pipeline will fail because ACS/StackRox through the roxtctl image check task will detect that an unsigned image is built during the process and will be used for the app k8s deployment:
 
 [![](/images/sign-acs16.png "sign-acs16.png")]({{site.url}}/images/sign-acs16.png)
 
