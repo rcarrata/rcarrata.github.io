@@ -437,7 +437,7 @@ kubectl create -f run/unsigned-images-pipelinerun.yaml
 
 * As you can check in the pipeline we have the full output of the image check with the rationale of the policy violation:
 
-[![](/images/sign-acs18.png "sign-acs18.png")]({{site.url}}/images/sign-acs19.png)
+[![](/images/sign-acs18.png "sign-acs18.png")]({{site.url}}/images/sign-acs18.png)
 
 StackRox / ACS saved the day, blocking the pipeline that tried to hack our CICD / container supply chain! 
 
