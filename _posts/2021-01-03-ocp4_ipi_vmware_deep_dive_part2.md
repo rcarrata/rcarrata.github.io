@@ -36,7 +36,7 @@ Let's check the Haproxy used in IPI to see what's happening behind the hood.
 The Haproxy are running only in the masters also as an static pods:
 
 ```bash
-[root@ocp-bastion ~]# oc get pod -n openshift-vsphere-infra | grep haproxy
+[root@ocp-bastion ~]# kubectl get pod -n openshift-vsphere-infra | grep haproxy
 haproxy-vmware-nwjr2-master-0              2/2     Running   0          71d
 haproxy-vmware-nwjr2-master-1              2/2     Running   0          71d
 haproxy-vmware-nwjr2-master-2              2/2     Running   0          71d
@@ -45,7 +45,7 @@ haproxy-vmware-nwjr2-master-2              2/2     Running   0          71d
 As we can check into the haproxy pods the config files are mounted as a hostPath, with the static-pod-resources and the /etc/haproxy folders:
 
 ```bash
-[root@ocp-bastion ~]# oc get pod -n openshift-vsphere-infra haproxy-vmware-nwjr2-master-0 -o json | jq .spec.volumes[0]
+[root@ocp-bastion ~]# kubectl get pod -n openshift-vsphere-infra haproxy-vmware-nwjr2-master-0 -o json | jq .spec.volumes[0]
 {
   "hostPath": {
     "path": "/etc/kubernetes/static-pod-resources/haproxy",
@@ -54,7 +54,7 @@ As we can check into the haproxy pods the config files are mounted as a hostPath
   "name": "resource-dir"
 }
 
-[root@ocp-bastion ~]# oc get pod -n openshift-vsphere-infra haproxy-vmware-nwjr2-master-0 -o json | jq .spec.volumes[3]
+[root@ocp-bastion ~]# kubectl get pod -n openshift-vsphere-infra haproxy-vmware-nwjr2-master-0 -o json | jq .spec.volumes[3]
 {
   "hostPath": {
     "path": "/etc/haproxy",
@@ -67,7 +67,7 @@ As we can check into the haproxy pods the config files are mounted as a hostPath
 Also an interesting part of the pod definition yaml of the Haproxy pod is the command executed in the second container (the first is an haproxy config reloader):
 
 ```bash
-[root@ocp-bastion ~]# oc get pod -n openshift-vsphere-infra haproxy-vmware-nwjr2-master-0 -o json | jq .spec.containers[1].command
+[root@ocp-bastion ~]# kubectl get pod -n openshift-vsphere-infra haproxy-vmware-nwjr2-master-0 -o json | jq .spec.containers[1].command
 [
   "monitor",
   "/var/lib/kubelet/kubeconfig",
@@ -206,7 +206,7 @@ If one of the two checks is not successful more than 3 times x the advent_time (
 Finally, if we pay attention in the keepalived config file  are that all nodes within the API vrrp instance instance have the same priority, and weight based in the same template (located in the static-pod-resources) and for this reason the load balancing of the VIP are treated equally in terms of priority.
 
 ```bash
-[root@ocp-bastion manu]# for i in $(oc get nodes -o wide | grep master | awk '{ print $6 }');do ssh -i id_rsa core@$i "hostname && cat /etc/keepalived/keepalived.conf | egrep 'priority|weight'"; done
+[root@ocp-bastion manu]# for i in $(kubectl get nodes -o wide | grep master | awk '{ print $6 }');do ssh -i id_rsa core@$i "hostname && cat /etc/keepalived/keepalived.conf | egrep 'priority|weight'"; done
 vmware-nwjr2-master-0
     weight 50
     weight 50
@@ -231,7 +231,7 @@ For more information about the VRRP and Keepalived, check [this useful article](
 Let's see where the VIP is located in our case with a little for loop checking the ip addresses in each master node:
 
 ```bash
-[root@ocp-bastion]# for i in $(oc get nodes -o wide | grep master | awk '{ print $6 }');do ssh -i id_rsa core@$i "hostname && ip -br a | grep ens"; done
+[root@ocp-bastion]# for i in $(kubectl get nodes -o wide | grep master | awk '{ print $6 }');do ssh -i id_rsa core@$i "hostname && ip -br a | grep ens"; done
 vmware-nwjr2-master-0
 ens192           UP             10.0.0.34/24 fe80::4e59:e2d1:e8f6:f78c/64
 vmware-nwjr2-master-1
