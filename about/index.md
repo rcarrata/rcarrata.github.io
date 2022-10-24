@@ -104,6 +104,8 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 
 I enjoy very much the opportunity to speak at conferences and events. These conferences and events are a great opportunity to share my knowledge with other IT professionals, and a good way to connect with them.
 
+* [AnsibleFest 2022 - Deploying and Managing OpenShift Cloud Services at Scale with Ansible Automation Platform](https://www.dropbox.com/s/bd94fj1qbrcqxtd/ansiblefest22.png?dl=0)
+* [AnsibleFest 2022 - Automate Cybersecurity solutions in a cloud native scenario](https://www.dropbox.com/s/mahk0mmmclx2sxf/ansiblefest22_2.png?dl=0)
 * [ArgoCon 2022](https://sched.co/14lxH)
 * [Kubernetes Community Days Berlin 2022](https://community.cncf.io/events/details/cncf-kcd-berlin-presents-kubernetes-community-days-berlin-2022-1/)
 * [ContainerDays 2022](https://www.containerdays.io/agenda/conferenceday1/#predictive-autoscaling-patterns-in-kubernetes)
