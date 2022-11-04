@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How can you monitor and analyse the network flow records of OpenShift in a graphical way and execute search queries for specific values? And how to have some dashboards in order to expose this information for your SREs or team members? 
+How can you monitor and analyze the network flow records of OpenShift in a graphical way and execute search queries for specific values? And how to have some dashboards in order to expose this information for your SREs or team members? 
 
 This is the second blog post about Monitor and analysis of Network Flow Traffic in OpenShift and it's based in the [Monitoring Network Flow Traffic in OpenShift](https://rcarrata.com/openshift/traffic-flow-ovn/) blog post. So if you didn't check it, go ahead and take a look! :)
 
@@ -165,7 +165,7 @@ If you need more information about one the flow records you can go to the own Fl
 
 [![](/images/flow5.png "Flow 7")]({{site.url}}/images/flow5.png)
 
-And that's all about how to monitor and analyse network traffic from OpenShift using Elastic Stack.
+And that's all about how to monitor and analyze network traffic from OpenShift using Elastic Stack.
 
 Thanks for reading and hope that you enjoyed the blog post as much as I did writing it.
 
