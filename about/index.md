@@ -7,7 +7,8 @@ comments: false
 share: false
 ---
 
-## EMEA Sr Cloud Services Black Belt at Red Hat | CK{A,S,AD} | Azure SA Expert | RHCA lvl V | CCNP | MsC Telco Eng. | MsC in AI/ML
+## EMEA Sr Cloud Services Black Belt at Red Hat 
+### CK{A,S,AD} | Azure SA Expert | RHCA lvl V | CCNP | MsC Telco Eng. | MsC in AI/ML
 
 [![](/images/pic-ppt.jpeg "pic-ppt.jpeg")]({{site.url}}/images/pic-ppt.jpeg)
 
