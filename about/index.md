@@ -7,13 +7,18 @@ comments: false
 share: false
 ---
 
-## EMEA Cloud Services Black Belt at Red Hat
+## EMEA Sr Cloud Services Black Belt at Red Hat | CK{A,S,AD} | Azure SA Expert | RHCA lvl V | CCNP | MsC Telco Eng. | MsC in AI/ML
+
+[![](/images/pic-ppt.jpeg "pic-ppt.jpeg")]({{site.url}}/images/pic-ppt.jpeg)
+
 
 I'm Roberto Carratalá, an IT professional with more than ten years of experience in the industry of Linux, Virtualization, Cloud, DevOps and Kubernetes/OpenShift.
 
 Currently I am working as a **Senior Cloud Services Black Belt for Red Hat**, focused in **OpenShift Cloud Services**, DevSecOps, CICD and Service Mesh, helping the customers to achieve their goals and objectives with linux, cloud and containers in public and private environments.
 
 Although I work for Red Hat I still consider myself a Linux Geek and a Unix fanboy, always searching for new tech to learn and try!
+
+I've obtained two MsC, one MsC in Telecommunications Engineering and the other one (still in WIP) in Artificial Intelligence and Machine Learning. Furthermore among others, I've studied and passed several certifications such: Red Hat Certified Architect lvl 5, Azure SA Expert Cert, Linux Foundation Kubernetes CK{A,AD,S}, Cisco CCNP, GCP Cloud DevOps Engineer, and some more IT certifications and courses.
 
 In my free time, I really like basketball (watch and play also!), and spend time with my friends and family.
 
@@ -25,18 +30,18 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 
 ### Red Hat Certifications
 
-* [Red Hat Certified Architect in Infrastructure Level V](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3T4V2LT2DQFPHMZNIKSLKTIWLQQ4U5NQYTCNA62RUWOCM34WWBUYQ=)
-* [Red Hat Certified Specialist in Containers and Kubernetes](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ33TZNCC5VGOAYPFY7HVVIGB5XKUTI5W6QLZX6UMV3D6ILAY7YA4GY=)
-* [Red Hat Certified Specialist in OpenShift Application Development](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3YWP2PKMJOB2FESKFUN2GLGGL67UAA4DNI6PQU27PFU2ZMLS26POA=)
-* [Red Hat Certified Specialist in API Management](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3SSQAR6YY7PL57G2LYSUUBC44H24U5NQYTCNA62RUWOCM34WWBUYQ=)
-* [Red Hat Certified Specialist in Ansible Automation](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ34UFHA6EGV4MX6OEQWWNEDUIWXWPUWTPNOZCAXTQD32BJ2PLFPHS3STVWDCMJUD3KGSZYJTPS2YGTCOKOWYMJRGQPNI2LHBGN6LLA2MI======)
-* [Red Hat Certified Specialist in OpenShift Administration](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3USGMBTDNSOFVX22WYNJ63KCC3BBTAOIVCQWO7U3Z7NRP66BA673I=)
-* [Red Hat Certified Engineer](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3XCZJWRJNV7ILTXVE4I6VB7OTCG4U5NQYTCNA62RUWOCM34WWBUYQ=)
+* [Red Hat Certified Architect in Infrastructure Level V](https://www.credly.com/earner/earned/badge/b414b6b0-a1bb-48c2-9f92-2d98c5963044)
+* [Red Hat Certified Specialist in Containers and Kubernetes](https://www.credly.com/earner/earned/badge/99da4997-31ef-4898-bc0b-799f9d995c83)
+* [Red Hat Certified Specialist in OpenShift Application Development](https://www.credly.com/earner/earned/badge/3ecda264-16a9-4cf0-8d48-4727e3e9f9e7)
+* [Red Hat Certified Specialist in API Management](https://www.credly.com/earner/earned/badge/2cdfeee7-68ac-4c69-9ccd-c5d0c33d42ac)
+* [Red Hat Certified Specialist in Ansible Automation](https://www.credly.com/earner/earned/badge/9af5f1b7-6360-4cde-97a2-0304507c9c3c)
+* [Red Hat Certified Specialist in OpenShift Administration](https://www.credly.com/earner/earned/badge/212e53a0-a913-4078-92a7-a3bd04a65d51)
+* [Red Hat Certified Engineer](https://www.credly.com/earner/earned/badge/f3bf5b7a-9afd-461d-9c4c-0a63c517c4e3)
 * [Red Hat Certified Specialist in Hybrid Cloud Management](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3VXVV7JUSLTW3QRZT6NGILQOXOXS2UX4LKWO4YAS6ZHN7JP4XF4II=)
 * [Red Hat Certified Specialist in Deployment and Systems Management](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3QCADJKNXEIKOSX3BQFMCLZRRJSB6QSLT57NHDFCRE6EISH5FVN5I=)
 * [Red Hat Certified Specialist in Virtualization](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3Z2BMIDE5P5PNXRPSQ3UPCCAUGI4U5NQYTCNA62RUWOCM34WWBUYQ=)
 * [Red Hat Certified System Administrator in Red Hat OpenStack](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3YBRY5HRN67XMD6X5VFP7ULSUKWW2HMIDYOMU6FAH2SEJXEIJCF5Y=)
-* [Red Hat Certified System Administrator](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3T7ULZ55KZZ56SKO7EQ3ETTLYZQ4U5NQYTCNA62RUWOCM34WWBUYQ=)
+* [Red Hat Certified System Administrator](https://www.credly.com/earner/earned/badge/a4187d81-db4a-4d6f-abdb-3b672ebe4343)
 
 ### Linux Foundation - CNCF
 
@@ -44,6 +49,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * [Certified Kubernetes Administrator](https://www.credly.com/badges/d13fb262-cc8c-4736-bbf6-2d7de97084c6)
 * [Certified Kubernetes Application Developer](https://www.credly.com/badges/a2393e13-71b9-45f5-b969-c353d285f43a)
 * [Certified Kubernetes Security Specialist](https://www.credly.com/badges/bdb6f7b9-2ad4-4f01-a098-ab59d79b4b73)
+* [Speaker - ArgoCon 2022](https://www.credly.com/badges/c4ec3620-8f42-4722-af7a-81b8a9852c9c)
 
 ### Public Cloud Certifications
 
