@@ -19,8 +19,6 @@ Currently I am working as a **Senior Cloud Services Black Belt for Red Hat**, fo
 
 Although I work for Red Hat I still consider myself a Linux Geek and a Unix fanboy, always searching for new tech to learn and try!
 
-I've obtained two MsC, one MsC in Telecommunications Engineering and the other one (still in WIP) in Artificial Intelligence and Machine Learning. Furthermore among others, I've studied and passed several certifications such: Red Hat Certified Architect lvl 5, Azure SA Expert Cert, Linux Foundation Kubernetes CK{A,AD,S}, Cisco CCNP, GCP Cloud DevOps Engineer, and some more IT certifications and courses.
-
 In my free time, I really like basketball (watch and play also!), and spend time with my friends and family.
 
 Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.
