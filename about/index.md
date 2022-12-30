@@ -71,7 +71,9 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 
 #### AWS
 
-* [Planned Q4 2022 - AWS Certified Solutions Architect Associate](https://aws.amazon.com/es/certification/certified-solutions-architect-associate/)
+* [Planned Q1 2023 - AWS Certified Solutions Architect Associate](https://aws.amazon.com/es/certification/certified-solutions-architect-associate/)
+* [Planned Q1 2023 - AWS Certified Advanced Networking Specialty](https://aws.amazon.com/certification/certified-solutions-architect-associate/)
+
 
 ### Cisco Certifications
 
@@ -87,8 +89,10 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * [Azure AI Fundamentals - AI900](https://www.credly.com/badges/0fc494c6-d0ba-495b-a3df-9c35ce767571/public_url)
 * [Machine Learning with TensorFlow on Google Cloud Specialization - Ongoing](https://www.coursera.org/specializations/machine-learning-tensorflow-gcp?)
 
-### DevSecOps
+### DevSecOps & GitOps
 
+* [GitOps At Scale Certification](https://www.dropbox.com/s/ql53rdpjn8ar9ql/codefresh-gitops-fundamentals.pdf?dl=0)
+* [GitOps Fundamentals Certification](https://www.dropbox.com/s/ql53rdpjn8ar9ql/codefresh-gitops-fundamentals.pdf?dl=0)
 * [Fundamentals for Kyverno Certification](https://www.credly.com/badges/6b457393-7a00-4ac3-9a8f-bfab7d90e3bb/public_url)
 * [INFOSEC Professional Recognition - CNSS 4011 Training Standard](https://www.dropbox.com/s/is04i2mvfrosn8x/Certificado_Seguridad_4011%20Recognition.pdf?dl=0)
 
