@@ -13,11 +13,11 @@ author: rcarrata
 comments: true
 ---
 
-NOTE: Blog Post updated in 22Jul2022 and tested in **OpenShift 4.10**. Working for all versions of OpenShift.
-
 How the DNS of OpenShift 4 works? And the operators to manage them? And how can I check the resolution basics within and externally to my OCP4 cluster?
 
 Let's dig and nslookup it out!
+
+NOTE: Blog Post updated in 22Jul2022 and tested in **OpenShift 4.10**. Working for all versions of OpenShift.
 
 ### 1. DNS Operator in OpenShift 4
 
