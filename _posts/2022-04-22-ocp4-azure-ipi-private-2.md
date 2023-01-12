@@ -26,39 +26,19 @@ We analyzed a couple of this User Defined Routing (UDR), including Azure Load Ba
 
 Now we're analyzing two of the most complex but flexible and interesting options too:
 
-* Private cluster with network address translation (NAT Gateway)
-
 * Private cluster with Azure Firewall
+
+* Private cluster with network address translation (NAT Gateway)
 
 Both are super useful and try to solve the same issue: manage and control the egress routing traffic from the OCP cluster to Internet, but the point of view of the implementation are quite different.
 
-In this blog post we will focus in both, but we will deep dive in the Azure Firewall mode, because it's a bit more flexible and can control and manage in a fine grain the traffic generated.
+In this blog post we will deep dive in the Azure Firewall mode, showing some of the features and security capabilities, that can help us to secure our workloads and OpenShift private clusters. 
 
-[![](/images/azurefw0.png "azurefw0.png")]({{site.url}}/images/azurefw0.png)
+## 2. Egress / Outbound Mode with Azure Firewall
 
-## 2. Egress / Outbound Mode with NAT Gateway
+Let's start digging a bit deeper!
 
-Let's analyze the third option (remember that we've checked in the first blog post the two initial ones): using Azure VNET network address translation (NAT Gateway) to provide the outbound Internet routing for the subnets of the OCP cluster.
-
-[![](/images/azureipi16.png "azureipi16.png")]({{site.url}}/images/azureipi16.png)
-
-As we can see we have our VNet setup with an [Azure NAT Gateway](https://docs.microsoft.com/en-us/azure/virtual-network/nat-gateway/nat-overview) and the user-defined routing configured, and there are NOT any public endpoint / IPs.
-
-VNet NAT Gateway is a fully managed and highly resilient Network Address Translation (NAT) service. Virtual Network NAT simplifies outbound Internet connectivity for virtual networks. When configured on a subnet, all outbound connectivity uses the Virtual Network NAT's static public IP addresses.
-
-So in a nutshell, when using the default route table for subnets, with 0.0.0.0/0 populated automatically by Azure, all Azure API requests are routed over Azure’s internal network, though the Azure NAT Gateway.
-
-But if there is a NAT, why don't use the Azure Load Balancer SNAT method as we depicted in the first part of the blog post? It's only by the public IPs limitation?
-
-Well, Virtual Network NAT is the recommended method for outbound connectivity. A NAT gateway doesn't have the same limitations of SNAT port exhaustion as does default outbound access and outbound rules of a load balancer.
-
-Other benefit it's the security: with a NAT gateway, individual VMs or other compute resources, don't need public IP addresses and can remain private. Resources without a public IP address can still reach external sources outside the virtual network.
-
-Finally NAT Gateway is a fully is a fully managed and distributed service, providing resiliency and scalability on demand, scaling when it's needed.
-
-## 3. Egress / Outbound Mode with Azure Firewall
-
-Let's analyze the last option, that it's use an Azure Firewall to provide outbound Internet routing for the VNet for the OCP cluster installation and usage.
+As we commented, we can use an Azure Firewall to provide outbound Internet routing for the VNet for the OCP cluster installation and usage.
 
 As we mentioned, this solution to securing outbound addresses lies in use of a firewall device that can control outbound traffic based on domain names. Azure Firewall, for example, can restrict outbound HTTP and HTTPS traffic based on the FQDN of the destination. We can also configure your preferred firewall and security rules to allow these required ports and addresses, but in this blog post we will stick with the Azure Firewall managed.
 
@@ -79,7 +59,7 @@ We can divide this architecture in several parts:
 
 Let's start to dig a bit deeper in all of this Azure resources needed for our architecture.
 
-### 3.1 Azure Hub & Spoke Architecture
+### 2.1 Azure Hub & Spoke Architecture
 
 The [Hub-Spoke topology in Azure](https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/hybrid-networking/hub-spoke?tabs=cli) is a reference architecture provided by Microsoft:
 
@@ -101,7 +81,7 @@ In our case, we've used the Hub-Spoke architecture because we can control all th
 
 That adds much more flexibility to the Private OpenShift cluster deployment, adding more security and control to the ingress/egress traffic that comes from/to our OCP cluster.
 
-### 3.2 Azure Firewall and OCP
+### 2.2 Azure Firewall and OCP
 
 [Azure Firewall](https://docs.microsoft.com/en-us/azure/firewall/overview) is a cloud-native and intelligent network firewall security service that provides the best of breed threat protection for your cloud workloads running in Azure.
 
@@ -121,7 +101,7 @@ This allows that ALL the traffic to/from our cluster (or clusters) will go throu
 
 And on the other hand, imagine that instead of 1 cluster of OpenShift, you will deploy N OpenShift clusters that are private. With this architecture, you will have the possibility to deploy them as a Spokes in their own VNET / Subnets, having a proper architecture and control of your re^sources in Azure.
 
-### 3.3 User Define Routing and Azure Firewall
+### 2.3 User Define Routing and Azure Firewall
 
 Imagine that we want to deploy our OpenShift cluster, but how the worker and master nodes and the pods within the OpenShift cluster can communicate with Internet? They need to go though the Azure Firewall that controls all the outbound traffic that will be egressing the OpenShift cluster (in one of the Spokes) towards the Hub VPC network where the Azure Firewall is deployed.
 
@@ -153,7 +133,7 @@ And finally we have a Public IP for the Azure Firewall, where we can expose our 
 
 If you want to expand the information about the Azure networking part, check the [UDR and the Azure Networking guide](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview#user-defined) and also the [Route traffic through NVAs by using custom settings](https://docs.microsoft.com/en-gb/azure/virtual-wan/scenario-route-through-nvas-custom) in the Azure site.
 
-### 3.4 Setup and configure Azure Firewall security
+### 2.4 Setup and configure Azure Firewall security
 
 Now that we have explained the networking specifics about the UDR and the networking egress, let's assume that our traffic it's within the Azure Firewall Subnet.
 
@@ -181,7 +161,7 @@ But also we allowed others useful sites like the dockerhub, or the Google Servic
 
 But all other traffic is denied, because our pod don't need to go to our favorite sports website or ... a hacker website, or to grab some dangerous rootkit or malware, right?
 
-### 3.5 Automating deployment of the OpenShift cluster using Azure Firewall as Outbound traffic
+### 2.5 Automating deployment of the OpenShift cluster using Azure Firewall as Outbound traffic
 
 Now that we defined and explained all the resources that we will have in the architecture, we need to deploy our architecture and then our OpenShift cluster within.
 
@@ -265,7 +245,7 @@ echo "yourpasswordfancy" >> .vault-password-file
 ansible-playbook install-private.yml -e "egress=firewall" --vault-password-file .vault-file-password
 ```
 
-## 3.6 Checking the Egress from the OpenShift cluster through Azure Firewall
+## 2.6 Checking the Egress from the OpenShift cluster through Azure Firewall
 
 Let's check the egress traffic from the OpenShift cluster through the Azure Firewall, and we will see if the Azure Firewall is securing and filtering the outbound traffic from our pods within our OCP cluster.
 
@@ -349,7 +329,7 @@ bash-4.4$ curl https://www.bbc.co.uk
 curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.bbc.co.uk:443
 ```
 
-## 4. Connecting to our private cluster from the Internet
+## 3. Connecting to our private cluster from the Internet
 
 Now that we have deploy the cluster, how we can access to the console that it's not exposed neither in the Azure Firewall?
 
