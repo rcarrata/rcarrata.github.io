@@ -27,6 +27,8 @@ Opinions expressed in this blog are my own and do not necessarily reflect that o
 
 I'm always trying to learn new things, and I strongly believe that IT Certifications and Courses are a wonderful way to learn, tinker and discover new technologies. These are some of the certifications that I studied and passed in my professional career.
 
+[![](/images/certs.png "certs.png")]({{site.url}}/images/certs.png)
+
 ### Red Hat Certifications
 
 * [Red Hat Certified Architect in Infrastructure Level V](https://www.credly.com/earner/earned/badge/b414b6b0-a1bb-48c2-9f92-2d98c5963044)
