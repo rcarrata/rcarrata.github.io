@@ -96,7 +96,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 
 ### DevSecOps & GitOps
 
-* [GitOps At Scale Certification](https://www.dropbox.com/s/gmum6v0rtzonlj8/codefresh-gitops-scale.pdf?dl=0)
+* [GitOps At Scale Certification](https://www.dropbox.com/s/h02bb2xy24z8jy6/codefresh-gitops-scale.pdf?dl=0)
 * [GitOps Fundamentals Certification](https://www.dropbox.com/s/ql53rdpjn8ar9ql/codefresh-gitops-fundamentals.pdf?dl=0)
 * [Fundamentals for Kyverno Certification](https://www.credly.com/badges/6b457393-7a00-4ac3-9a8f-bfab7d90e3bb/public_url)
 * [INFOSEC Professional Recognition - CNSS 4011 Training Standard](https://www.dropbox.com/s/is04i2mvfrosn8x/Certificado_Seguridad_4011%20Recognition.pdf?dl=0)
