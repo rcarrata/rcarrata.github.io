@@ -115,12 +115,14 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 
 I enjoy very much the opportunity to speak at conferences and events. These conferences and events are a great opportunity to share my knowledge with other IT professionals, and a good way to connect with them.
 
+* [Red Hat Tech Exchange 2023 - Managing GitOps deployments in multi-cluster cloud environments](https://www.dropbox.com/s/e86u5haz3ebghto/gitops_rhte23.png?dl=0)
+* [Red Hat Tech Exchange 2023 - Building a secure delivery pipeline - Code to Production](https://www.dropbox.com/s/0ycsjw8atyn8wv3/devsecops_rhte23.png?dl=0)
 * [AnsibleFest 2022 - Deploying and Managing OpenShift Cloud Services at Scale with Ansible Automation Platform](https://www.dropbox.com/s/bd94fj1qbrcqxtd/ansiblefest22.png?dl=0)
 * [AnsibleFest 2022 - Automate Cybersecurity solutions in a cloud native scenario](https://www.dropbox.com/s/mahk0mmmclx2sxf/ansiblefest22_2.png?dl=0)
 * [ArgoCon 2022](hhttps://www.youtube.com/watch?v=gBJ169_il6k)
 * [Kubernetes Community Days Berlin 2022](https://www.youtube.com/watch?v=eUnF0iBwJII&ab_channel=KubernetesCommunityDaysBerlin)
 * [ContainerDays 2022](https://www.youtube.com/watch?v=tHC780LZiUM&ab_channel=ContainerDays)
-* [DemoDay 2022 - Implementing DevSecOps in production](https://events.redhat.com/profile/form/index.cfm?PKformID=0x5643010001)
+* [DemoDay 2022 - Implementing DevSecOps in production](https://www.dropbox.com/s/427dc270dvi86s8/demoday_2023.png?dl=0)
 * [Always On 2022 - DevSecOps and RHACS (spanish)](https://events.redhat.com/profile/form/index.cfm?PKformID=0x5235840001)
 * [DevConf 2022 - Predictive autoscaling patterns in Kubernetes](https://www.youtube.com/watch?v=znnHnERjnGs&ab_channel=DevConf)
 * [OpenShift Coffee Break 2021 - ACS for Kubernetes - DevSecOps Way](https://youtu.be/43Mr30mXq0I?t=1900)
