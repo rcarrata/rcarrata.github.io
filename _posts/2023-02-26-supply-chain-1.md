@@ -13,8 +13,6 @@ author: rcarrata
 comments: true
 ---
 
-## Overview
-
 How can we secure the integrity of our Software Supply Chains and have confidence that our software has not been tampered with and can be traced to its source? Which are the main parts of the software supply chain security?
 
 Before explaining how to secure the Software Supply Chain, we need first to understand what it is and why it matters to our environments and application deployments.
