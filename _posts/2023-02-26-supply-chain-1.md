@@ -83,7 +83,7 @@ As explained in the [CNCF STAG Security Supply Chain Reference Architecture](htt
 3. **Clarity**: The build environments used in a supply chain should be clearly defined, with limited scope.
 4. **Mutual Authentication**: All entities operating in the supply chain environment must be required to mutually authenticate using hardened authentication mechanisms with regular key rotation.
 
-## Supply Chain Levels for Software Artifacts (SLSA)
+## Supply Chain Levels for Software Artifacts or SLSA
 
 The Open Source Security Foundation (OpenSSF) SLSA Framework (aka Salsa) defines a graded approach to adopt the supply chain for the artefact builds.
 
