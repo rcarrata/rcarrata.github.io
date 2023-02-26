@@ -23,7 +23,7 @@ So, in a nutshell, a software supply chain is the series of steps performed when
 
 NOTE: this blog post was original posted in [Opensourcerers](https://www.opensourcerers.org/2022/11/21/securing-the-integrity-of-software-supply-chains/) the 21th of Nov22.
 
-[![](/images/supply_chain0.png "supply_chain0.png")]({{site.url}}/images/supply_chain0.png)
+[![](/images/supply_chain0.jpg "supply_chain0.jpg")]({{site.url}}/images/supply_chain0.jpg)
 
 ## The Rise of Supply Chain Attacks
 
