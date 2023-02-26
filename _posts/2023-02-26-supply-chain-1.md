@@ -105,6 +105,6 @@ Finally we introduced several groups that are actively helping in developing too
 
 In the next blog posts, we will analyze in depth the tools that can be used to help in one of each parts of the software supply chain security.
 
-Happy securying!
+Happy Securing! 
 
-Peace and Cosign!
+Peace and Cosign ;D
