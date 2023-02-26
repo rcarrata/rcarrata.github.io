@@ -21,7 +21,9 @@ A software supply chain is the collection of entities, processes, policies, serv
 
 So, in a nutshell, a software supply chain is the series of steps performed when writing, testing, packaging and distributing application software to end consumers. It is the process of getting a product to a customer.
 
-NOTE: this blog post was original posted in [Opensourcerers](https://www.opensourcerers.org/2022/11/21/securing-the-integrity-of-software-supply-chains/).
+NOTE: this blog post was original posted in [Opensourcerers](https://www.opensourcerers.org/2022/11/21/securing-the-integrity-of-software-supply-chains/) the 21th of Nov22.
+
+[![](/images/supply_chain0.png "supply_chain0.png")]({{site.url}}/images/supply_chain0.png)
 
 ## The Rise of Supply Chain Attacks
 
