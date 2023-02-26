@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How can we generate Private clusters OpenShift in Azure, controlling our Outbound traffic with scalable, managed Virtual NAT Gateway? What are the benefits of Azure Virtual NAT Gateways? And finally how can we configure our Azure Networking to use and benefit from the Virtual NAT?
+How can we generate Private clusters OpenShift in Azure, controlling our Outbound traffic with scalable, managed Virtual NAT Gateway? What are the benefits of Azure Virtual NAT Gateways? And finally how can we configure our Azure Networking to use and benefit from the Virtual NAT? 
 
 This is the third blog post of the series of OpenShift deployments in Azure. Check the other blog posts in:
 
