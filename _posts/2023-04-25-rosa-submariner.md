@@ -18,6 +18,8 @@ How we can connect the overlay networks of multiple ROSA clusters? How can we de
 
 Submariner is an open source tool that can be used with Red Hat Advanced Cluster Management for Kubernetes to provide direct networking between pods and compatible multicluster service discovery across two or more Kubernetes clusters in your environment, either on-premises or in the cloud.
 
+[![](/images/submariner2.svg "Submariner Diagram")]({{site.url}}/images/submariner2.svg)
+
 ROSA or [Red Hat OpenShift on AWS](https://docs.openshift.com/rosa/rosa_architecture/rosa-understanding.html) is fully-managed, turnkey application platform that allows you to focus on delivering value to your customers by building and deploying applications.
 
 For these blog there are some prerequisites that needs to be in place such as:
@@ -506,7 +508,7 @@ rosa-subm1      true           https://api.rosa-subm1.xxx.p1.openshiftapps.com:6
 rosa-subm2      true           https://api.rosa-subm2.xxx.p1.openshiftapps.com:6443          True     True        51m
 ```
 
-![ROSA Submariner](./rosa-submariner2.png)
+[![](/images/rosa-submariner2.png "ROSA Submariner")]({{site.url}}/images/rosa-submariner2.png)
 
 Now it's time to deploy submariner in our Managed ROSA Clusters. 
 Either deploy using the RHACM UI or with CLI (choose one).
@@ -519,7 +521,8 @@ Either deploy using the RHACM UI or with CLI (choose one).
 
 * Configure the Submariner addons adding both ROSA clusters generated:
 
-![ROSA Submariner](./rosa-submariner3.png)
+[![](/images/rosa-submariner3.png "ROSA Submariner")]({{site.url}}/images/rosa-submariner3.png)
+
 
 ## Deploy Submariner Addon in ROSA clusters
 
