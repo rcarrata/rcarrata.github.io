@@ -662,7 +662,7 @@ kubectl config use hub
 oc apply -k guestbook-app/acm-resources
 ```
 
-![ROSA Submariner](./rosa-submariner4.png)
+[![](/images/rosa-submariner4.png "ROSA Submariner")]({{site.url}}/images/rosa-submariner4.png)
 
 * Deploy the Redis Master App in ROSA Cluster 1
 
