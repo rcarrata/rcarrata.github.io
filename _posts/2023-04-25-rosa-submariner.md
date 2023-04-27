@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How we can connect the overlay networks of multiple ROSA clusters? How can we deploy stateful applications spanning in a multicluster cluster environments? How you can discover other microservices using DNS and Kubernetes Services like if you were in the same cluster?
+How we can connect the overlay networks of multiple ROSA clusters? How can we deploy stateful applications spanning in a Multi-Cluster environments? How you can discover other microservices using DNS and Kubernetes Services like if you were in the same cluster?
 
 ## Overview
 
