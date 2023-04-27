@@ -22,7 +22,7 @@ Submariner is an open source tool that can be used with Red Hat Advanced Cluster
 
 ROSA or [Red Hat OpenShift on AWS](https://docs.openshift.com/rosa/rosa_architecture/rosa-understanding.html) is fully-managed, turnkey application platform that allows you to focus on delivering value to your customers by building and deploying applications.
 
-For these blog there are some prerequisites that needs to be in place such as:
+For this blog there are some prerequisites that needs to be in place such as:
 
 * OpenShift Cluster version 4 (ROSA or non-ROSA)
 * ROSA cli
