@@ -446,7 +446,7 @@ local-cluster   true           https://api.cluster-xxxx.xxxx.xxxx.xxx.com:6443  
 rosa-sbmr1      true           https://api.rosa-subm1.xxxx.p1.openshiftapps.com:6443          True     True        1m
 ```
 
-![ARO Submariner](./aro-submariner1.png)
+[![](/images/aro-submariner1.png "ARO Submariner")]({{site.url}}/images/aro-submariner1.png)
 
 ## Import ARO cluster into ACM (CLI)
 
