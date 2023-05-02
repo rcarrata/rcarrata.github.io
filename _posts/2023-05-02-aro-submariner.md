@@ -562,7 +562,7 @@ Either deploy using the RHACM UI or with CLI (choose one).
 
 * Configure the Submariner addons adding both ROSA and ARO clusters generated:
 
-![ARO Submariner](./aro-submariner5.png)
+[![](/images/aro-submariner5.png "ARO Submariner")]({{site.url}}/images/aro-submariner5.png)
 
 The Submariner Add-on installation will start, and will take up to 10 minutes to finish.
 
