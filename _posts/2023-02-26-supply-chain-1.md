@@ -15,6 +15,8 @@ comments: true
 
 How can we secure the integrity of our Software Supply Chains and have confidence that our software has not been tampered with and can be traced to its source? Which are the main parts of the software supply chain security?
 
+https://raw.githubusercontent.com/rcarrata/rcarrata.github.io/master/assets/audio/supply_chain_1.mp3
+
 Before explaining how to secure the Software Supply Chain, we need first to understand what it is and why it matters to our environments and application deployments.
 
 A software supply chain is the collection of entities, processes, policies, services and infrastructure that have some involvement over any stage of the delivery of software to a customer. A service or a CI/CD pipeline is a subset of a supply chain.
