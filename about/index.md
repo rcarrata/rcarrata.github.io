@@ -43,6 +43,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * [Red Hat Certified Specialist in Virtualization](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3Z2BMIDE5P5PNXRPSQ3UPCCAUGI4U5NQYTCNA62RUWOCM34WWBUYQ=)
 * [Red Hat Certified System Administrator in Red Hat OpenStack](https://rhtapps.redhat.com/certifications/badge/verify/NXAAALEJVKHSWPJYALNXBMF5P4AEQU3CUPSQX2KSDXT6RW46LQ3YBRY5HRN67XMD6X5VFP7ULSUKWW2HMIDYOMU6FAH2SEJXEIJCF5Y=)
 * [Red Hat Certified System Administrator](https://www.credly.com/earner/earned/badge/a4187d81-db4a-4d6f-abdb-3b672ebe4343)
+* [Red Hat Portfolio Practitioner - Foundational](https://www.credly.com/badges/d8fe26d5-1bff-452b-8372-95f462e0cc4b/public_url)
 
 ### Linux Foundation - CNCF
 
@@ -115,6 +116,7 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 
 I enjoy very much the opportunity to speak at conferences and events. These conferences and events are a great opportunity to share my knowledge with other IT professionals, and a good way to connect with them.
 
+* [cdCon and GitOpsCon 2023 - Managing GitOps deployments in multi-cluster production environments](https://cdcongitopscon2023.sched.com/event/1LAFy)
 * [Kubernetes Community Days Amsterdam 2023 - GitOps Patterns for Managing Cloud Native Applications](https://community.cncf.io/events/details/cncf-kcd-netherlands-presents-kubernetes-community-days-amsterdam-2023/)
 * [Red Hat Tech Exchange 2023 - Managing GitOps deployments in multi-cluster cloud environments](https://www.dropbox.com/s/e86u5haz3ebghto/gitops_rhte23.png?dl=0)
 * [Red Hat Tech Exchange 2023 - Building a secure delivery pipeline - Code to Production](https://www.dropbox.com/s/0ycsjw8atyn8wv3/devsecops_rhte23.png?dl=0)
