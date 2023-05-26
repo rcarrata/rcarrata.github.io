@@ -118,7 +118,7 @@ I enjoy very much the opportunity to speak at conferences and events. These conf
 
 * [Red Hat Open Tour Madrid 2023 - Standardize and Manage your hybrid cloud deployments at scale using GitOps](https://events.redhat.com/profile/form/index.cfm?PKformID=0x7898310001)
 * [cdCon and GitOpsCon 2023 - Managing GitOps deployments in multi-cluster production environments](https://youtu.be/deiTf2Zw_FU?list=PLj6h78yzYM2M3-reG8FBlsE5s7P_UOvl4&t=507)
-* [Kubernetes Community Days Amsterdam 2023 - GitOps Patterns for Managing Cloud Native Applications](https://community.cncf.io/events/details/cncf-kcd-netherlands-presents-kubernetes-community-days-amsterdam-2023/)
+* [Kubernetes Community Days Amsterdam 2023 - GitOps Patterns for Managing Cloud Native Applications](https://youtu.be/VqFpIei4Bj4?t=1156)
 * [Red Hat Tech Exchange 2023 - Managing GitOps deployments in multi-cluster cloud environments](https://www.dropbox.com/s/e86u5haz3ebghto/gitops_rhte23.png?dl=0)
 * [Red Hat Tech Exchange 2023 - Building a secure delivery pipeline - Code to Production](https://www.dropbox.com/s/0ycsjw8atyn8wv3/devsecops_rhte23.png?dl=0)
 * [AnsibleFest 2022 - Deploying and Managing OpenShift Cloud Services at Scale with Ansible Automation Platform](https://www.dropbox.com/s/bd94fj1qbrcqxtd/ansiblefest22.png?dl=0)
