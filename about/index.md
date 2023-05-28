@@ -21,11 +21,37 @@ Although I work for Red Hat I still consider myself a Linux Geek and a Unix fanb
 
 In my free time, I really like basketball (watch and play also!), and spend time with my friends and family.
 
-Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
+## Conferences and Events
+
+I enjoy very much the opportunity to speak at conferences and events. These conferences and events are a great opportunity to share my knowledge with other IT professionals, and a good way to connect with them.
+
+* [Red Hat Open Tour Madrid 2023 - Standardize and Manage your hybrid cloud deployments at scale using GitOps](https://events.redhat.com/profile/form/index.cfm?PKformID=0x7898310001)
+* [cdCon and GitOpsCon 2023 - Managing GitOps deployments in multi-cluster production environments](https://youtu.be/deiTf2Zw_FU?list=PLj6h78yzYM2M3-reG8FBlsE5s7P_UOvl4&t=507)
+* [Kubernetes Community Days Amsterdam 2023 - GitOps Patterns for Managing Cloud Native Applications](https://youtu.be/VqFpIei4Bj4?t=1156)
+* [Red Hat Tech Exchange 2023 - Managing GitOps deployments in multi-cluster cloud environments](https://www.dropbox.com/s/e86u5haz3ebghto/gitops_rhte23.png?dl=0)
+* [Red Hat Tech Exchange 2023 - Building a secure delivery pipeline - Code to Production](https://www.dropbox.com/s/0ycsjw8atyn8wv3/devsecops_rhte23.png?dl=0)
+* [AnsibleFest 2022 - Deploying and Managing OpenShift Cloud Services at Scale with Ansible Automation Platform](https://www.dropbox.com/s/bd94fj1qbrcqxtd/ansiblefest22.png?dl=0)
+* [AnsibleFest 2022 - Automate Cybersecurity solutions in a cloud native scenario](https://www.dropbox.com/s/mahk0mmmclx2sxf/ansiblefest22_2.png?dl=0)
+* [ArgoCon 2022](hhttps://www.youtube.com/watch?v=gBJ169_il6k)
+* [Kubernetes Community Days Berlin 2022](https://www.youtube.com/watch?v=eUnF0iBwJII&ab_channel=KubernetesCommunityDaysBerlin)
+* [ContainerDays 2022](https://www.youtube.com/watch?v=tHC780LZiUM&ab_channel=ContainerDays)
+* [DemoDay 2022 - Implementing DevSecOps in production](https://www.dropbox.com/s/427dc270dvi86s8/demoday_2023.png?dl=0)
+* [Always On 2022 - DevSecOps and RHACS (spanish)](https://events.redhat.com/profile/form/index.cfm?PKformID=0x5235840001)
+* [DevConf 2022 - Predictive autoscaling patterns in Kubernetes](https://www.youtube.com/watch?v=znnHnERjnGs&ab_channel=DevConf)
+* [OpenShift Coffee Break 2021 - ACS for Kubernetes - DevSecOps Way](https://youtu.be/43Mr30mXq0I?t=1900)
+* [AnsibleFest 2020 - Automate Cybersecurity solutions in a Cloud Native scenario](https://github.com/rcarrata/ansiblefest2020-secdemo)
+* [Red Hat Summit 2020 Speaker](https://www.redhat.com/en/summit)
+* [Red Hat Tech Exchange 2019](https://events.redhat.com/profile/form/index.cfm?PKformID=0x779770001)
+* [Ansible Automates Madrid 2019 - Ansible Enterprise Demo](https://www.redhat.com/es/about/videos/ansible-automates-madrid-2019-roberto-carratal%C3%A1)
+* [Openstack Summit 2018 - OpenStack Kuryr Project](https://www.openstack.org/summit/vancouver-2018/summit-schedule/events/21635/kuryr-project-onboarding)
+
+among others events!
 
 ## Certifications
 
-I'm always trying to learn new things, and I strongly believe that IT Certifications and Courses are a wonderful way to learn, tinker and discover new technologies. These are some of the certifications that I studied and passed in my professional career.
+I'm always on the lookout to learn new things, and I truly believe that IT Certifications and Courses are awesome for exploring and getting hands-on with new technologies. Here are some of the certifications I've studied for and passed in my career so far.
 
 [![](/images/certs.png "certs.png")]({{site.url}}/images/certs.png)
 
@@ -67,6 +93,8 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * [Designing Microsoft Azure Infrastructure Solutions Training](https://www.dropbox.com/s/5cip4zfk7iakz98/AZ305%20Exam%20Preparation%20Training.png?dl=0)
 * [Designing Microsoft Azure Infrastructure Solutions Course - AZ305](https://www.dropbox.com/s/ueqxinsvq27tsjo/az305_Udemy.pdf?dl=0)
 
+* [Microsoft Azure AI Challenge](https://learn.microsoft.com/en-us/training/challenges?id=12f32cf8-2cd8-42e1-97dd-001b4a042766)
+
 #### Google Cloud Platform
 
 * [Preparing for Google Cloud Certification: Cloud DevOps Engineer Professional Certificate Specialization](https://www.coursera.org/account/accomplishments/specialization/certificate/4Y3JZ9QAGX5S)
@@ -79,8 +107,8 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 
 #### AWS
 
-* [Planned Q1 2023 - AWS Certified Solutions Architect Associate](https://aws.amazon.com/es/certification/certified-solutions-architect-associate/)
-* [Planned Q1 2023 - AWS Certified Advanced Networking Specialty](https://aws.amazon.com/certification/certified-solutions-architect-associate/)
+* [AWS Certified Solutions Architect Associate](https://aws.amazon.com/es/certification/certified-solutions-architect-associate/)
+* [Planned Q2 2023 - AWS Certified Advanced Networking Specialty](https://aws.amazon.com/certification/certified-solutions-architect-associate/)
 
 
 ### Cisco Certifications
@@ -95,7 +123,9 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * [AI Master's Computer Science Degree candidate - UNIR](https://en.unir.net/)
 * [Build Deep Learning Models with TensorFlow Skill Path - Codecademy](https://www.dropbox.com/s/zwb4xd698myp3fh/Build%20Deep%20Learning%20Models%20-%20Codecademy.pdf?dl=0)
 * [Azure AI Fundamentals - AI900](https://www.credly.com/badges/0fc494c6-d0ba-495b-a3df-9c35ce767571/public_url)
+* [Microsoft Azure AI Challenge](https://learn.microsoft.com/en-us/training/challenges?id=12f32cf8-2cd8-42e1-97dd-001b4a042766)
 * [Machine Learning with TensorFlow on Google Cloud Specialization - Ongoing](https://www.coursera.org/specializations/machine-learning-tensorflow-gcp?)
+
 
 ### DevSecOps & GitOps
 
@@ -111,29 +141,3 @@ I'm always trying to learn new things, and I strongly believe that IT Certificat
 * [Suse Certified Linux Professional - Suse Linux Enterprise Server 12](https://www.dropbox.com/s/o5e2pmhzdtxsqvq/Suse%20Certified%20Linux%20Admin%20Suse%2012.pdf?dl=0)
 * [Suse Certified Linux Professional - Suse Linux Enterprise Server 11](https://www.dropbox.com/s/0r7fugvzwqv6axd/Suse%20Certified%20Linux%20Administrator.pdf?dl=0)
 * [Python Programming Certification - Infinite Skills Inc](https://www.dropbox.com/s/ndporwndtwrfonz/Python%20Programming%20Certificate%20Infinite%20Skills.pdf?dl=0)
-
-## Conferences and Events
-
-I enjoy very much the opportunity to speak at conferences and events. These conferences and events are a great opportunity to share my knowledge with other IT professionals, and a good way to connect with them.
-
-* [Red Hat Open Tour Madrid 2023 - Standardize and Manage your hybrid cloud deployments at scale using GitOps](https://events.redhat.com/profile/form/index.cfm?PKformID=0x7898310001)
-* [cdCon and GitOpsCon 2023 - Managing GitOps deployments in multi-cluster production environments](https://youtu.be/deiTf2Zw_FU?list=PLj6h78yzYM2M3-reG8FBlsE5s7P_UOvl4&t=507)
-* [Kubernetes Community Days Amsterdam 2023 - GitOps Patterns for Managing Cloud Native Applications](https://youtu.be/VqFpIei4Bj4?t=1156)
-* [Red Hat Tech Exchange 2023 - Managing GitOps deployments in multi-cluster cloud environments](https://www.dropbox.com/s/e86u5haz3ebghto/gitops_rhte23.png?dl=0)
-* [Red Hat Tech Exchange 2023 - Building a secure delivery pipeline - Code to Production](https://www.dropbox.com/s/0ycsjw8atyn8wv3/devsecops_rhte23.png?dl=0)
-* [AnsibleFest 2022 - Deploying and Managing OpenShift Cloud Services at Scale with Ansible Automation Platform](https://www.dropbox.com/s/bd94fj1qbrcqxtd/ansiblefest22.png?dl=0)
-* [AnsibleFest 2022 - Automate Cybersecurity solutions in a cloud native scenario](https://www.dropbox.com/s/mahk0mmmclx2sxf/ansiblefest22_2.png?dl=0)
-* [ArgoCon 2022](hhttps://www.youtube.com/watch?v=gBJ169_il6k)
-* [Kubernetes Community Days Berlin 2022](https://www.youtube.com/watch?v=eUnF0iBwJII&ab_channel=KubernetesCommunityDaysBerlin)
-* [ContainerDays 2022](https://www.youtube.com/watch?v=tHC780LZiUM&ab_channel=ContainerDays)
-* [DemoDay 2022 - Implementing DevSecOps in production](https://www.dropbox.com/s/427dc270dvi86s8/demoday_2023.png?dl=0)
-* [Always On 2022 - DevSecOps and RHACS (spanish)](https://events.redhat.com/profile/form/index.cfm?PKformID=0x5235840001)
-* [DevConf 2022 - Predictive autoscaling patterns in Kubernetes](https://www.youtube.com/watch?v=znnHnERjnGs&ab_channel=DevConf)
-* [OpenShift Coffee Break 2021 - ACS for Kubernetes - DevSecOps Way](https://youtu.be/43Mr30mXq0I?t=1900)
-* [AnsibleFest 2020 - Automate Cybersecurity solutions in a Cloud Native scenario](https://github.com/rcarrata/ansiblefest2020-secdemo)
-* [Red Hat Summit 2020 Speaker](https://www.redhat.com/en/summit)
-* [Red Hat Tech Exchange 2019](https://events.redhat.com/profile/form/index.cfm?PKformID=0x779770001)
-* [Ansible Automates Madrid 2019 - Ansible Enterprise Demo](https://www.redhat.com/es/about/videos/ansible-automates-madrid-2019-roberto-carratal%C3%A1)
-* [Openstack Summit 2018 - OpenStack Kuryr Project](https://www.openstack.org/summit/vancouver-2018/summit-schedule/events/21635/kuryr-project-onboarding)
-
-among others events!

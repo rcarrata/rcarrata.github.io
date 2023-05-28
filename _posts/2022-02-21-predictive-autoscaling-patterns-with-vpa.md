@@ -392,4 +392,6 @@ If you want to see this demo in action and the explanation of the VPA modes amon
 
 And with that ends this blog post around Vertical Pod Autoscaler in Kubernetes / OpenShift.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy autoscaling!

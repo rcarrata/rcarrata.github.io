@@ -466,4 +466,6 @@ partner                partner-istio-tutorial-istio-system.apps.ocp4.rglab.com  
 
 Check out the part five of this blog series in [Blue Green deployments in Service Mesh](https://rcarrata.com/istio/blue-green-in-service-mesh/)
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy Service Meshing!

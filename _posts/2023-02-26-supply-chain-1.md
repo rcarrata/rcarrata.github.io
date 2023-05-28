@@ -107,6 +107,8 @@ Finally we introduced several groups that are actively helping in developing too
 
 In the next blog posts, we will analyze in depth the tools that can be used to help in one of each parts of the software supply chain security.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy Securing! 
 
 Peace and Cosign ;D

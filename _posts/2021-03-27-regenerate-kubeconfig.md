@@ -199,8 +199,6 @@ NOTE: tested in OpenShift 4.9.5, but working in OCP3.x and OCP4.x
 
 I'm lazy sometimes to repeat the same process again and again, so I automated in a simple bash script and [posted in a gist](https://gist.github.com/rcarrata/016da295c1421cccbfbd66ed9a7922bc)
 
-Hope that helps!
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 
 Happy OpenShifting!
-
-Rober

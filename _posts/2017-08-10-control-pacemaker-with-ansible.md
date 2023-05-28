@@ -42,7 +42,7 @@ In next posts, I will show how works with a fully cluster of Openstack with high
 
 Hope that helps.
  
-BR.
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
  
 Rober 
 

@@ -180,4 +180,6 @@ operator generating dynamically certificates for our microservices / apps runnin
 In the next blog post we will analyse a real example, using the Service CA Operator to secure the
 communication between two microservices without using non external service.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy OpenShifting!

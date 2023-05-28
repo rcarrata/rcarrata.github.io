@@ -209,5 +209,7 @@ And that's it! Hope that helps!
 
 Check out the part three of this blog series in [Including microservices in ServiceMesh](https://rcarrata.com/istio/adding-microservices-within-mesh/)
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy ServiceMeshing!
 

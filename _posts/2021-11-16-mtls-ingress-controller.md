@@ -855,4 +855,6 @@ And with that ends this long blog post about mTLS and Ingress Controller in Open
 
 Special thanks to my mentor, colleague and friend [Luis Arizmendi](https://github.com/luisarizmendi) for his support, guidance and wisdom (and bugfixing :D) with this feature.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy mTLSing!!

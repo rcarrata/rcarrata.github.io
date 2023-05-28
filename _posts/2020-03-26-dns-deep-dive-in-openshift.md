@@ -451,4 +451,6 @@ CoreDNS search -> CoreDNS Forwards towards AWS DNS 10.0.0.2 -> AWS DNS tries to 
 
 So that's it! In the [DNS Forwarding blog post](https://rcarrata.com/openshift/dns-forwarding-openshift/), we will use the DNS Operator to configure the DNS Forwarding to a specific private DNS, to try to solve custom domains.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Stay tuned and happy OpenShifting!

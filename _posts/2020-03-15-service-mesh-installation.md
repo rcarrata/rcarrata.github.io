@@ -272,5 +272,7 @@ Check the [Service Mesh Installation in OpenShift4](https://docs.openshift.com/c
 
 Check out the part two of this blog series in [Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy ServiceMeshing!!
 

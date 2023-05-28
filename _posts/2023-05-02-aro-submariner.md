@@ -671,3 +671,7 @@ The Submariner Add-on installation will start, and will take up to 10 minutes to
 * Few minutes (up to 10 minutes) after we can check that the app Connection Status and the Agent Status are Healthy:
 
 [![](/images/aro-submariner.png "ARO Submariner")]({{site.url}}/images/aro-submariner.png)
+
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
+Happy submarining!

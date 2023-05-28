@@ -727,4 +727,8 @@ done
 [![](/images/rosa-submariner8.png "ROSA Submariner")]({{site.url}}/images/rosa-submariner8.png)
 
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 And that's how the Redis-Master in the ROSA cluster 1 sync properly the data to the redis-slave in the ROSA Cluster 2, using Submariner tunnels, all encrypted with IPSec.
+
+Happy submarining!

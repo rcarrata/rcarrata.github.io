@@ -266,4 +266,6 @@ Updating to latest version 4.3.13
 And that it's, after that you have your OCP4 cluster in the latest version available in this
 moments.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy OpenShifting!

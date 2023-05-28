@@ -144,4 +144,6 @@ Check out the part eight of this blog series in [mTLS Deep Dive in Service Mesh]
 
 And that's it for this blog post!
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy Meshing!!

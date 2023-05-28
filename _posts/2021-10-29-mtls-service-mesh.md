@@ -593,4 +593,6 @@ And with that ends this deep dive about mTLS in Service Mesh!
 
 Special thanks to Asier Cidón, Fran Perea and Ernesto Gonzalez for their wisdom, patience and always willing to help! You rock guys!
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Hope that helps to anyone and Happy Meshing!!

@@ -315,4 +315,6 @@ And that's it for this blog post.
 
 Remember that the DNS forwarding can be useful for define private DNS servers to use, or any nameserver that we want to be used for a custom zone / subdomain of our cluster.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy nslookuping!

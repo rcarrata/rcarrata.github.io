@@ -213,4 +213,6 @@ But remember that it's only for testing purposes, once the ssh connection is clo
 
 So with that we finished the second part of this blog around "Secure your Private OpenShift clusters with Azure Firewall and Hub-Spoke architectures".
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy OpenShifting!

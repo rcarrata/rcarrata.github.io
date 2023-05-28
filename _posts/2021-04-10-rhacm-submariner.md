@@ -368,4 +368,6 @@ aws-sub2   true                                  True     True        4h13m   cl
 
 And that's it for this blog post! In the [next blog post](https://rcarrata.com/openshift/rhacm-submariner-2/) we will deploy the Service discovery for Submariner and we will deploy an stateful application spanning their microservices among our two connected clusters with Submariner.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy Submarining! 

@@ -169,4 +169,6 @@ And that's all about how to monitor and analyse network traffic from OpenShift u
 
 Thanks for reading and hope that you enjoyed the blog post as much as I did writing it.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy NetFlowing! 

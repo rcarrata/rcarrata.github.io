@@ -478,4 +478,6 @@ Finally I want to say a big thanks to [Rodrigo Alvares](https://github.com/ralva
 
 And with that, ends this blog post about Secure GitOps Supply Chain using GPG Signature Verification in ArgoCD.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy hacking!

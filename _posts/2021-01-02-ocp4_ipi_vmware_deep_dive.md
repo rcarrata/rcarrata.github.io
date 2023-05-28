@@ -309,4 +309,6 @@ And with that, we head the end of this first blog post about the LB and DNS in O
 
 In the next blog post, we will analyze how is the Load Balancing handled and analyze in deep the configurations specifics.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy OpenShifting and Happy New Years folks!

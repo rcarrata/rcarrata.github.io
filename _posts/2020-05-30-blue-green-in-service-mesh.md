@@ -200,4 +200,6 @@ So, now you can play with your weight and configure different behaviours to cont
 
 Check out the part six of this blog series in [Canary deployments in Service Mesh](https://rcarrata.com/istio/canary-in-service-mesh/)
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy Service Meshing!

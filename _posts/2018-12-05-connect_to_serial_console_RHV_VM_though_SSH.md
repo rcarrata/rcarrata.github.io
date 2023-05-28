@@ -62,5 +62,7 @@ Last login: Tue Jul 31 09:17:21 on ttyS0
 And that's it! You have a brand new serial console connection through ssh, without using other stuff
 than your favourite terminal console (and avoiding the latency of course).
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Enjoy!
 

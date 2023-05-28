@@ -586,4 +586,6 @@ In this blog post, we worked and explained the Route Sharding in OpenShift 4. Th
 
 In future blog posts, we will explore and analyse the possibility to have Ingresscontrollers using LoadBalancers Service Type with the schema internal, to deploy AWSLoadBalancers only to the Private Subnets of our AWS VPC deployment.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy OpenShifting!

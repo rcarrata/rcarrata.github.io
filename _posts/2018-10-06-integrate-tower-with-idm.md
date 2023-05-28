@@ -241,5 +241,7 @@ And finally try to login with "tower" user via WebUI and at the same time check 
 2018-07-24 04:49:50,678 DEBUG awx.main.tasks Last scheduler run was: 2018-07-23 19:49:20.666694+00:00
 ```
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Enjoy!
 

@@ -287,5 +287,7 @@ Using project "openshift-marketplace".
 
 And voilà! Now we can access the helper vm and therefore the cluster from our laptop :)
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy OpenShifting!
 

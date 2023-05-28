@@ -457,4 +457,6 @@ But remember that it's only for testing purpose, once the ssh connection is clos
 
 So with that we finished the first part of this blog around deep dive of deploying Private OpenShift clusters in Azure.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy OpenShifting!

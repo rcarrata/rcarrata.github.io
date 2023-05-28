@@ -536,4 +536,6 @@ This concludes the first part of my blog post around Image Signing and Verificat
 
 Check out the [second part of this blog post](https://rcarrata.com/kubernetes/sign-images-2/), where we implement a Tekton Pipeline to automate the entire process and see how Kyverno and Sigstore can help secure the software supply chain!
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy hacking!

@@ -310,4 +310,6 @@ NOTE: use Caution when using DNS names in deny rules. The DNS interceptor will n
 
 And that's all for the Egress Firewall with OVN Kubernetes plugin in OpenShift.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Stay tuned for the next blog posts and happy OpenShifting!

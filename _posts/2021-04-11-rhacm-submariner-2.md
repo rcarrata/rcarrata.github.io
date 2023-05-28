@@ -556,4 +556,6 @@ And that's how the Redis-Master in the cluster1 sync properly the data to the re
 
 Thanks for reading and hope that you enjoyed the blog post as much as I did writing it.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Stay tuned and happy submarining!

@@ -695,5 +695,7 @@ And that's it! You have your cluster of Openshif4 in AWS in UPI mode!!
 
 In the next blog post, we will see in much detail what are the following resources generated in a
 OCP4 Install and how we can deploy in a VPC installation.
-.
+
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy OpenShifting!

@@ -184,4 +184,6 @@ $ wireshark example.pcap
 This is very useful for debugging and for see connectivity and app issues within external systems,
 or within interaction with other pods.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy OpenShifting!

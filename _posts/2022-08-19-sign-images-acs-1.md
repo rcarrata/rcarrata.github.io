@@ -457,4 +457,6 @@ because all the images in the namespace that are built needs to be signed by our
 
 And with that ends the third blog post around Securing the software supply chain with Sigstore and StackRox and ACS.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy hacking (and securing :D)!

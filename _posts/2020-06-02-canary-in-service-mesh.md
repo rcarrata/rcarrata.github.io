@@ -402,4 +402,6 @@ And that all for this blog post!
 
 Check out the part seven of this blog series in [Traffic Mirroring in Service Mesh](https://rcarrata.com/istio/traffic-mirroring-in-service-mesh/)
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy Meshing!

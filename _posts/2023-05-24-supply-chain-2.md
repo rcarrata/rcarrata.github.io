@@ -259,4 +259,6 @@ Now that we have discussed the Open Source tools that we can use in our Secure S
 * **Clarity**: The build environments used in a supply chain should be clearly defined, with limited scope.
 Our upcoming blog post will cover the automation of all the steps discussed in this article, including container and metadata artifact signing, within our DevSecOps pipeline. Additionally, we’ll introduce other Open Source tools and projects, like Sigstore or Cosign, to further enhance the security of our Software Supply Chains.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Stay tuned to the next blog post!

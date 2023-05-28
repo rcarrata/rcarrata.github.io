@@ -277,4 +277,8 @@ Finally we will analyze a diagram of how the API Load Balancer works in OpenShif
 3. The Connection if forwarded to the chosen control plane node
 4. The control plane node responds directly to the client, with [Direct Return](https://www.haproxy.com/blog/layer-4-load-balancing-direct-server-return-mode/)
 
-And that's it for this blog post! Check out the [second part of this blog post series](https://rcarrata.com/openshift/ocp4_ipi_vmware_deep_dive_part2/), where we will analyze how is the load balancing for the Ingress (.apps) for OpenShift IPI.
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
+And that's it for this blog post! 
+
+Check out the [second part of this blog post series](https://rcarrata.com/openshift/ocp4_ipi_vmware_deep_dive_part2/), where we will analyze how is the load balancing for the Ingress (.apps) for OpenShift IPI.

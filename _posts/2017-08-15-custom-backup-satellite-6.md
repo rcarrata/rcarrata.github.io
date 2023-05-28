@@ -58,7 +58,7 @@ EDITED: The Satellite in version 6.2 have a new backup script, wrote in ruby tha
  
 Hope that helps!
  
-BR.
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
  
 Rober
 

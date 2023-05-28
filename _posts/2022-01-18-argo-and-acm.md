@@ -220,4 +220,6 @@ these are generated automatically and managed by the GitOps CRD generated in the
 
 And with ends this blog post about OpenShift GitOps, ArgoCD ApplicationSets and ACM!
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy multiclustering!

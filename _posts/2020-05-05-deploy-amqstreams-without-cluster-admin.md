@@ -339,4 +339,6 @@ rober-topic   3            3
 
 And that's it! Hope that helps!
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy AMQStreaming!

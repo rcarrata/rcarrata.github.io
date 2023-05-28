@@ -97,3 +97,6 @@ Group Sync Operator
 Image Registry
 User App Workloads (connecting to ExpressRoute / Internet)
 etc  
+
+
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*

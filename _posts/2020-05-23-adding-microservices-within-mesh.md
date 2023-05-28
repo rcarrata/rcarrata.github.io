@@ -113,6 +113,6 @@ For more information check out the [Istio Autoinject Guide](https://istio.io/doc
 
 Check out the part four of this blog series in [Ingress Routing in Service Mesh](https://rcarrata.com/istio/ingress-routing-service-mesh/)
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy Service Meshing!
-
-

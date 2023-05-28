@@ -144,4 +144,6 @@ bash-4.4# ls -lhrt /host/var/tmp/sosreport-2019-08-08-jnsdcyp.tar.xz
 
 * Just scp/rsync them to any location and after that can be uploaded or analysed for obtain more information.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy OpenShifting!

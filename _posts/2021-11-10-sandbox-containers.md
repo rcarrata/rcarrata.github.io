@@ -542,4 +542,6 @@ root       33707   33678  0 Nov09 ?        00:00:00 /usr/libexec/virtiofsd --fd=
 
 And with that we reviewed how to install, configure and use Sandbox Containers in OpenShift.
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy Sandboxing!

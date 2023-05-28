@@ -539,4 +539,6 @@ And with that ends this blog post about EgressIP with OVN Kubernetes plugin in O
 
 Big thanks to Daniel Mellado, to helped me during this blog post with their wisdom and expertise. Kudos @dmellado++!
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Happy Egressing!

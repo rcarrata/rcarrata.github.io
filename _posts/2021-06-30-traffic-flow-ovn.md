@@ -278,4 +278,6 @@ Finally, [Ricardo Carrillo have a fork of the GoFlow repo](https://github.com/rc
 And with that, we completed our first network flow collection of our OpenShift cluster! 
 In the next blog post we will use other tools to collect and analyse our Network Flows in a nicer and graphical way!  
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
+
 Stay tuned and happy netflowing!

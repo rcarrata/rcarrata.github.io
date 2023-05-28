@@ -218,3 +218,4 @@ router-default-76f869f9dc-4dqhj   1/1     Running   0          18m
 router-default-76f869f9dc-s48rw   1/1     Running   0          23h
 ```
 
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
