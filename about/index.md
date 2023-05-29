@@ -92,6 +92,7 @@ I'm always on the lookout to learn new things, and I truly believe that IT Certi
 * [Microsoft Azure Architect Technologies Training](https://www.dropbox.com/s/mm79wb3ds4ikd2g/AZ303%20Exam%20Preparation%20Training.png?dl=0)
 * [Designing Microsoft Azure Infrastructure Solutions Training](https://www.dropbox.com/s/5cip4zfk7iakz98/AZ305%20Exam%20Preparation%20Training.png?dl=0)
 * [Designing Microsoft Azure Infrastructure Solutions Course - AZ305](https://www.dropbox.com/s/ueqxinsvq27tsjo/az305_Udemy.pdf?dl=0)
+* [Designing and Implementing Microsoft Azure Networking Solutions Training (AcloudGuru) - AZ700](https://www.dropbox.com/s/6h6vzks8hussvbk/Az700-AcloudGuru.pdf?dl=0)
 
 * [Microsoft Azure AI Challenge](https://learn.microsoft.com/en-us/training/challenges?id=12f32cf8-2cd8-42e1-97dd-001b4a042766)
 
