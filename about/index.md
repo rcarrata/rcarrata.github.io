@@ -17,15 +17,15 @@ I'm Roberto Carratalá, an IT professional with more than ten years of experienc
 
 Currently I am working as a **Senior Cloud Services Black Belt for Red Hat**, focused in **OpenShift Cloud Services**, DevSecOps, CICD and Service Mesh, helping the customers to achieve their goals and objectives with linux, cloud and containers in public and private environments.
 
-Although I work for Red Hat I still consider myself a Linux Geek and a Unix fanboy, always searching for new tech to learn and try!
+Despite being employed by Red Hat, I proudly identify as a Linux Geek and a Unix enthusiast, constantly on the hunt for fresh tech to explore and master!
 
-In my free time, I really like basketball (watch and play also!), and spend time with my friends and family.
+When I'm off the clock, I thoroughly enjoy both watching and playing basketball. Spending quality time with friends and family also ranks high on my list of favorite activities.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 
 ## Conferences and Events
 
-I enjoy very much the opportunity to speak at conferences and events. These conferences and events are a great opportunity to share my knowledge with other IT professionals, and a good way to connect with them.
+I greatly enjoy the opportunity to speak at conferences and events. These gatherings provide an excellent platform to share my knowledge with other IT professionals and establish meaningful connections with them.
 
 * [DevConf 2023 Keynote - Open Source Services Keynote](https://youtu.be/FOJa_iAp7eU?list=PLU1vS0speL2bRKCiT8gskP_tikfSniw5e&t=2255)
 * [DevConf 2023 Talk - How much open source is in Cloud Services](https://www.youtube.com/watch?v=faVKqOX6j8c&t=4145s&ab_channel=DevConf)
@@ -53,7 +53,7 @@ among others events!
 
 ## Certifications
 
-I'm always on the lookout to learn new things, and I truly believe that IT Certifications and Courses are awesome for exploring and getting hands-on with new technologies. Here are some of the certifications I've studied for and passed in my career so far.
+I'm always seeking new learning opportunities, and I genuinely believe that IT certifications and courses offer fantastic avenues for delving into and getting practical with new technologies. Here's a glimpse of the certifications I've pursued and successfully obtained throughout my career thus far.
 
 [![](/images/certs.png "certs.png")]({{site.url}}/images/certs.png)
 
