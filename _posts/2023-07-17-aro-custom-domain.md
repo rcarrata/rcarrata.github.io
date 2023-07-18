@@ -20,13 +20,13 @@ Let's dig in!
 
 ## Overview
 
-By default Azure Red Hat OpenShift uses self-signed certificates for all of the routes created on "*.apps.<random>.<location>.aroapp.io."
+By default Azure Red Hat OpenShift uses self-signed certificates for all of the routes created on "*.apps.$random.$location.aroapp.io."
 
 Many companies also seek to leverage the capabilities of Azure Red Hat OpenShift (ARO) to deploy their applications while using their own custom domain. ARO offers the flexibility to integrate custom domains seamlessly, allowing organizations to align their cloud-based applications with their existing domain structure.
 
 By utilizing ARO's custom domain feature, companies can ensure a consistent branding experience by hosting their applications under their own domain name. This enables them to maintain brand recognition and create a cohesive user experience across various online touchpoints.
 
-If we choose to specify a custom domain, for example aro.myorg.com, the OpenShift console will be available at a URL such as "https://console-openshift-console.apps.aro.myorg.com", instead of the built-in domain "https://console-openshift-console.apps.<random>.<location>.aroapp.io."
+If we choose to specify a custom domain, for example aro.myorg.com, the OpenShift console will be available at a URL such as "https://console-openshift-console.apps.aro.myorg.com", instead of the built-in domain "https://console-openshift-console.apps.$random.$location.aroapp.io."
 
 Furthermore, if we choose Custom DNS, after connecting to the cluster, we will need to configure a custom certificate for our ARO ingress controller and custom certificate of our API server.
 
