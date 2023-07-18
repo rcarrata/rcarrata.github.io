@@ -20,13 +20,13 @@ Let's dig in!
 
 ## Overview
 
-By default Azure Red Hat OpenShift uses self-signed certificates for all of the routes created on *.apps.<random>.<location>.aroapp.io.
+By default Azure Red Hat OpenShift uses self-signed certificates for all of the routes created on "*.apps.<random>.<location>.aroapp.io."
 
 Many companies also seek to leverage the capabilities of Azure Red Hat OpenShift (ARO) to deploy their applications while using their own custom domain. ARO offers the flexibility to integrate custom domains seamlessly, allowing organizations to align their cloud-based applications with their existing domain structure.
 
 By utilizing ARO's custom domain feature, companies can ensure a consistent branding experience by hosting their applications under their own domain name. This enables them to maintain brand recognition and create a cohesive user experience across various online touchpoints.
 
-If we choose to specify a custom domain, for example aro.myorg.com, the OpenShift console will be available at a URL such as https://console-openshift-console.apps.aro.myorg.com, instead of the built-in domain https://console-openshift-console.apps.<random>.<location>.aroapp.io.
+If we choose to specify a custom domain, for example aro.myorg.com, the OpenShift console will be available at a URL such as "https://console-openshift-console.apps.aro.myorg.com", instead of the built-in domain "https://console-openshift-console.apps.<random>.<location>.aroapp.io."
 
 Furthermore, if we choose Custom DNS, after connecting to the cluster, we will need to configure a custom certificate for our ARO ingress controller and custom certificate of our API server.
 
@@ -53,9 +53,9 @@ export AZR_DNS_RESOURCE_GROUP="mobb-dns"
 export EMAIL=username.taken@gmail.com
 ```
 
-* Create an Azure resource group
+* Create an Azure resource group:
 
-```md
+```
 az group create                \
   --name $AZR_RESOURCE_GROUP   \
   --location $AZR_RESOURCE_LOCATION
@@ -69,18 +69,18 @@ To successfully run Azure Red Hat OpenShift clusters on OpenShift 4, it is neces
 
 Within the resource group you previously established, we need to proceed to create a new virtual network that will accommodate these requirements.
 
-* Create virtual network
+* Create virtual network:
 
-```md
+```
 az network vnet create                                    \
   --address-prefixes $NETWORK_SUBNET                      \
   --name "$AZR_CLUSTER-aro-vnet-$AZR_RESOURCE_LOCATION"   \
   --resource-group $AZR_RESOURCE_GROUP
 ```
 
-* Create control plane subnet
+* Create control plane subnet:
 
-```md
+```
 az network vnet subnet create                                     \
   --resource-group $AZR_RESOURCE_GROUP                            \
   --vnet-name "$AZR_CLUSTER-aro-vnet-$AZR_RESOURCE_LOCATION"      \
@@ -91,7 +91,7 @@ az network vnet subnet create                                     \
 
 * Create machine subnet:
 
-```md
+```
 az network vnet subnet create                                       \
   --resource-group $AZR_RESOURCE_GROUP                              \
   --vnet-name "$AZR_CLUSTER-aro-vnet-$AZR_RESOURCE_LOCATION"        \
@@ -100,9 +100,9 @@ az network vnet subnet create                                       \
   --service-endpoints Microsoft.ContainerRegistry
 ```
 
-* [Disable network policies](https://learn.microsoft.com/en-us/azure/private-link/disable-private-endpoint-network-policy?tabs=network-policy-portal) for Private Link Service on the control plane subnet
+* [Disable network policies](https://learn.microsoft.com/en-us/azure/private-link/disable-private-endpoint-network-policy?tabs=network-policy-portal) for Private Link Service on the control plane subnet:
 
-```md
+```
 az network vnet subnet update                                       \
   --name "$AZR_CLUSTER-aro-control-subnet-$AZR_RESOURCE_LOCATION"   \
   --resource-group $AZR_RESOURCE_GROUP                              \
@@ -118,7 +118,7 @@ This enables organizations to create an isolated and customized environment for 
 
 * Create private ARO Cluster with Custom Domain:
 
-```md
+```
 az aro create \
 --resource-group $AZR_RESOURCE_GROUP \
 --name $AZR_CLUSTER \
@@ -137,7 +137,7 @@ When the --domain flag with an FQDN (e.g. my.domain.com) is used to create your 
 
 As the cluster operates within a private network, it is possible to create a Jump host during the cluster creation process. This Jump host serves as a secure gateway that allows authorized users to connect to the private cluster environment. 
 
-* Create Jumphost subnet
+* Create Jumphost subnet:
 
 ```
 az network vnet subnet create                                \
@@ -148,9 +148,9 @@ az network vnet subnet create                                \
   --service-endpoints Microsoft.ContainerRegistry
 ```
 
-* Create a jump host
+* Create a JumpHost:
 
-```md
+```
 az vm create --name jumphost                 \
     --resource-group $AZR_RESOURCE_GROUP     \
     --ssh-key-values $HOME/.ssh/id_rsa.pub   \
@@ -162,9 +162,9 @@ az vm create --name jumphost                 \
     --vnet-name "$AZR_CLUSTER-aro-vnet-$AZR_RESOURCE_LOCATION"
 ```
 
-* Save the jump host public IP address
+* Save the jump host public IP address:
 
-```md
+```
 JUMP_IP=$(az vm list-ip-addresses -g $AZR_RESOURCE_GROUP -n jumphost -o tsv \
 --query '[].virtualMachine.network.publicIpAddresses[0].ipAddress')
 echo $JUMP_IP
@@ -172,7 +172,7 @@ echo $JUMP_IP
 
 * Use sshuttle to create a ssh vpn via the jump host as a daemon:
 
-```md
+```
 sshuttle --dns -NHr "aro@${JUMP_IP}"  10.0.0.0/8 --daemon
 ```
 
@@ -188,9 +188,9 @@ These DNS configurations ensure easy access to the cluster's console, applicatio
 
 We need to configure the DNS for the Default Ingress Router (*.apps), to be able to access to the ARO Console, among other things.
 
-* Retrieve the Ingress IP for Azure DNS records
+* Retrieve the Ingress IP for Azure DNS records:
 
-```md
+```
 INGRESS_IP="$(az aro show -n $AZR_CLUSTER -g $AZR_RESOURCE_GROUP --query 'ingressProfiles[0].ip' -o tsv)"
 
 echo $INGRESS_IP
@@ -200,7 +200,7 @@ echo $INGRESS_IP
 
 * Create your Azure DNS zone for $DOMAIN:
 
-```md
+```
 az network dns zone create -g $RESOURCEGROUP -n $DOMAIN
 
 az network dns zone create --parent-name $DOMAIN -g $AZR_DNS_RESOURCE_GROUP -n $DOMAIN
@@ -208,9 +208,9 @@ az network dns zone create --parent-name $DOMAIN -g $AZR_DNS_RESOURCE_GROUP -n $
 
 NOTE: Or use an existing zone if it exists. You need to have configured your domain name registrar to point to this zone.
 
-* Add a record type A pointing the *.apps.DOMAIN to the Ingress LB IP, that is the Azure LB that balances the ARO/OpenShift Routers (Haproxies):
+* Add a record type A pointing the "*.apps.DOMAIN" to the Ingress LB IP, that is the Azure LB that balances the ARO/OpenShift Routers (Haproxies):
 
-```md
+```
 az network dns record-set a add-record \
   -g $AZR_DNS_RESOURCE_GROUP \
   -z $DOMAIN \
@@ -218,7 +218,7 @@ az network dns record-set a add-record \
   -a $INGRESS_IP
 ```
 
-* Adjust default TTL from 1 hour (choose an appropriate value, here 5 mins is used)
+* Adjust default TTL from 1 hour (choose an appropriate value, here 5 mins is used):
 
 ```
 az network dns record-set a update -g $AZR_DNS_RESOURCE_GROUP -z $DOMAIN -n '*.apps' --set ttl=300
@@ -234,14 +234,14 @@ dig +short test.apps.$DOMAIN
 
 We need to configure the DNS for the Kubernetes / OpenShift API of the ARO cluster, to be able to access to the ARO API.
 
-* Retrieve the API Server IP for Azure DNS records
+* Retrieve the API Server IP for Azure DNS records:
 
 ```md
 API_SERVER_IP="$(az aro show -n $AZR_CLUSTER -g $AZR_RESOURCE_GROUP --query 'apiserverProfile.ip' -o tsv)"
 echo $API_SERVER_IP
 ```
 
-* Create an `api` A record to point to the Ingress Load Balancer IP
+* Create an `api` A record to point to the Ingress Load Balancer IP:
 
 ```md
 az network dns record-set a add-record \
@@ -251,7 +251,8 @@ az network dns record-set a add-record \
   -a $API_SERVER_IP
 ```
 
-*  Optional (good for initial testing): Adjust default TTL from 1 hour (choose an appropriate value, here 5 mins is used)
+*  Optional (good for initial testing): Adjust default TTL from 1 hour (choose an appropriate value, here 5 mins is used):
+
 ```
 az network dns record-set a update \
   -g $AZR_DNS_RESOURCE_GROUP \
@@ -352,7 +353,7 @@ certbot certonly --manual \
   -d "api.$DOMAIN"
 ```
 
-NOTE: don't close or interrupt this process, we will finish after the dns challenge with .
+NOTE: don't close or interrupt this process, we will finish after the dns challenge with the certbot.
 
 * Open a second terminal and paste the DNS_Challenge (and remember to export again the variables from the beginning):
 
@@ -370,7 +371,7 @@ az network dns record-set txt add-record \
   -v $API_TXT_RECORD
 ```
 
-* Adjust default TTL from 1 hour (choose an appropriate value, here 5 mins is used)
+* Adjust default TTL from 1 hour (choose an appropriate value, here 5 mins is used):
 
 ```
 az network dns record-set txt update \
