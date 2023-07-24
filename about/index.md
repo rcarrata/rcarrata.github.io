@@ -27,8 +27,8 @@ When I'm off the clock, I thoroughly enjoy both watching and playing basketball.
 
 I greatly enjoy the opportunity to speak at conferences and events. These gatherings provide an excellent platform to share my knowledge with other IT professionals and establish meaningful connections with them.
 
-* [DevConf 2023 Keynote - Open Source Services Keynote](https://youtu.be/FOJa_iAp7eU?list=PLU1vS0speL2bRKCiT8gskP_tikfSniw5e&t=2255)
-* [DevConf 2023 Talk - How much open source is in Cloud Services](https://www.youtube.com/watch?v=faVKqOX6j8c&t=4145s&ab_channel=DevConf)
+* [DevConf 2023 Keynote - Open Source Services Keynote](https://youtu.be/WDg2GEBiwLE?t=903)
+* [DevConf 2023 Talk - How much open source is in Cloud Services](https://youtu.be/7waUHYt3XPk?list=PLU1vS0speL2ZdGybMAqmQjVWsi0GjH7d3&t=755)
 * [Red Hat Open Tour Madrid 2023 - Standardize and Manage your hybrid cloud deployments at scale using GitOps](https://events.redhat.com/profile/form/index.cfm?PKformID=0x7898310001)
 * [cdCon and GitOpsCon 2023 - Managing GitOps deployments in multi-cluster production environments](https://youtu.be/deiTf2Zw_FU?list=PLj6h78yzYM2M3-reG8FBlsE5s7P_UOvl4&t=507)
 * [Kubernetes Community Days Amsterdam 2023 - GitOps Patterns for Managing Cloud Native Applications](https://youtu.be/VqFpIei4Bj4?t=1156)
