@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Securing CICD pipelines with StackRox / RHACS and Sigstore 
+title: ROSA Ingress Controller 
 date: 2022-07-19
 type: post
 published: false
