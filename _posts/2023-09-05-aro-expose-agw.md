@@ -1,9 +1,9 @@
 ---
 layout: post
 title: Exposing apps using Application Gateway LB in Private ARO clusters
-date: 2023-09-04
+date: 2023-09-05
 type: post
-published: false
+published: true
 status: publish
 categories:
 - security
