@@ -28,7 +28,7 @@ Moreover, Application Gateway provides robust security features, safeguarding cu
 
 The objective of this blog post is to demo exposing some Customer Applications deployed in a Private ARO cluster, that requires to expose only the Application itself, not the ARO API Kubernetes Ingress or any other *.apps routes.
 
-Also the certificates needs to be taken in consideration, due to we will NOT use a Custom Domain for our ARO Cluster. Will be using the App FQDN   
+Also the certificates needs to be taken in consideration, due to we will NOT use a Custom Domain for our ARO Cluster. We will be using a Let's Encrypt certificate with the APP FQDN, and we will put the certificate in the AppGW and in the OpenShift App Route in the ARO cluster.  
 
 [![](/images/appgw0.png "AppGW")]({{site.url}}/images/appgw0.png)
 
