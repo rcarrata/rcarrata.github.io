@@ -24,41 +24,15 @@ description: "Rcarrata's Blog"
 url: https://rcarrata.com
 baseurl: # the subpath of your site, e.g. "/blog"
 repository: rcarrata
-teaser: #"/images/teaser_image.png" # path of fallback teaser image, e.g. "/assets/images/500x300.png"
+teaser: "./images/photo3.jpg" # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo: "./favicon.ico" # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title: # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
 words_per_minute: 200
 comments:
-  provider: discus # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "giscus", "custom"
+  provider: discus
   disqus:
-    shortname: rcarrata # https://help.disqus.com/customer/portal/articles/466208-what-s-a-shortname-
-  discourse:
-    server: # https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963 , e.g.: meta.discourse.org
-  facebook:
-    # https://developers.facebook.com/docs/plugins/comments
-    appid:
-    num_posts: # 5 (default)
-    colorscheme: # "light" (default), "dark"
-  utterances:
-    theme: # "github-light" (default), "github-dark"
-    issue_term: # "pathname" (default)
-  giscus:
-    repo_id: # Shown during giscus setup at https://giscus.app
-    category_name: # Full text name of the category
-    category_id: # Shown during giscus setup at https://giscus.app
-    discussion_term: # "pathname" (default), "url", "title", "og:title"
-    reactions_enabled: # '1' for enabled (default), '0' for disabled
-    theme: # "light" (default), "dark", "dark_dimmed", "transparent_dark", "preferred_color_scheme"
-  staticman:
-    branch: # "master"
-    endpoint: # "https://{your Staticman v3 API}/v3/entry/github/"
-reCaptcha:
-  siteKey:
-  secret:
-atom_feed:
-  path: # blank (default) uses feed.xml
-  hide: # true, false (default)
+    shortname: rcarrata
 search: true # true, false (default)
 search_full_content: # true, false (default)
 search_provider: # lunr (default), algolia, google
@@ -79,21 +53,6 @@ naver_site_verification:
 yandex_site_verification:
 baidu_site_verification:
 
-# Social Sharing
-twitter:
-  username:
-facebook:
-  username:
-  app_id:
-  publisher:
-og_image: # Open Graph/Twitter default site image
-# For specifying social profiles
-# - https://developers.google.com/structured-data/customize/social-profiles
-social:
-  type: # Person or Organization (defaults to Person)
-  name: # If the user or organization name differs from the site's name
-  links: # An array of links to social media profiles
-
 # Analytics
 analytics:
   provider: google # false (default), "google", "google-universal", "google-gtag", "custom"
@@ -105,7 +64,7 @@ analytics:
 author:
   name: "Roberto Carratalá"
   avatar: "/images/bio-photo.jpg" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio: "Devops & Kubernetes enthusiast. MsC in AI & MsC Telco Engineering. Cloud Services Black Belt @ Red Hat"
+  bio: "DevOps & Kubernetes enthusiast. MsC in AI & MsC Telco Engineering. Cloud Services Black Belt @ Red Hat"
   location: "Madrid, Spain"
   email:
   links:
@@ -256,3 +215,9 @@ defaults:
       comments: true
       share: true
       related: true
+  - scope:
+      path: "_pages"
+      type: pages
+    values:
+      layout: single
+      author_profile: true

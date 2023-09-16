@@ -6,7 +6,11 @@ type: post
 published: true
 status: publish
 categories:
-- rosa
+- ROSA
+- Kubernetes
+- Cloud
+- OpenShift
+- AWS
 tags: []
 author: rcarrata
 comments: true

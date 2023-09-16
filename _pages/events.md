@@ -1,7 +1,8 @@
 ---
-layout: single
 title: Conferences & Events
-excerpt: "Conferences & Events"
+layout: single
+permalink: /events/
+author_profile: true
 ---
 
 [![](/images/events.png "events.png")]({{site.url}}/images/events.png)

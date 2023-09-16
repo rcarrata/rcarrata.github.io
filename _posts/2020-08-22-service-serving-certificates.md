@@ -7,6 +7,10 @@ published: true
 status: publish
 categories:
 - OpenShift
+- Operators
+- Networking
+- Microservices
+- Kubernetes
 tags: []
 author: rcarrata
 comments: true

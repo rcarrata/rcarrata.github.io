@@ -6,7 +6,12 @@ type: post
 published: true
 status: publish
 categories:
-- Istio
+- OpenShift
+- Observability
+- Networking
+- Kubernetes
+- security
+- DevSecOps
 tags: []
 author: rcarrata
 comments: true

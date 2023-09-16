@@ -7,6 +7,8 @@ published: true
 status: publish
 categories:
 - OpenShift
+- Administration
+- Kubernetes
 tags: []
 author: rcarrata
 comments: true

@@ -7,7 +7,7 @@ published: true
 status: publish
 categories:
 - Ansible
-- Security
+- security
 - Automation
 tags: []
 author: rcarrata

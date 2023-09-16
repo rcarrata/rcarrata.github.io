@@ -6,6 +6,9 @@ type: post
 published: true
 status: publish
 categories:
+- OpenShift
+- security
+- Networking
 - Kubernetes
 tags: []
 author: rcarrata

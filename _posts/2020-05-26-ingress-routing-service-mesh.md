@@ -7,6 +7,9 @@ published: true
 status: publish
 categories:
 - Istio
+- OpenShift
+- Microservices
+- Kubernetes
 tags: []
 author: rcarrata
 comments: true

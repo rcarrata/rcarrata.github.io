@@ -6,7 +6,8 @@ type: post
 published: true
 status: publish
 categories:
-- RHV
+- Virtualization
+- Automation
 tags: []
 author: rcarrata
 comments: true

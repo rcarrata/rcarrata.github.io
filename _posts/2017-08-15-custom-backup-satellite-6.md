@@ -7,6 +7,8 @@ published: true
 status: publish
 categories:
 - Satellite
+- Linux
+- Automation
 tags: []
 author: rcarrata
 comments: true

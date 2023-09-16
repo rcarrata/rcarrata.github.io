@@ -7,6 +7,10 @@ published: true
 status: publish
 categories:
 - OpenShift
+- AWS
+- Administration
+- Kubernetes
+- Cloud
 tags: []
 author: rcarrata
 comments: true

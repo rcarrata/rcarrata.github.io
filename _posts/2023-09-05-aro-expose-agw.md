@@ -6,7 +6,11 @@ type: post
 published: true
 status: publish
 categories:
-- security
+- ARO
+- Kubernetes
+- Cloud
+- OpenShift
+- Azure
 tags: []
 author: rcarrata
 comments: true
@@ -409,5 +413,7 @@ x-request-port: 8080
 [![](/images/appgw7.png "AppGW")]({{site.url}}/images/appgw7.png)
 
 And with that ends the third blog post around exposing Applications using App Gateway Load Balancers in Private ARO clusters.
+
+*NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 
 Happy OpenShifting!

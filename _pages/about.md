@@ -1,11 +1,10 @@
 ---
+title: "About Me"
 layout: single
-title: About me
-tags: [about, Jekyll, theme, responsive]
-modified: 2014-08-08T20:53:07.573882-04:00
-comments: false
-share: false
+permalink: /about/
+author_profile: true
 ---
+
 
 ## Roberto Carratalá<br>  Senior Cloud Services Black Belt @ Red Hat
 [![](/images/pic-ppt.jpeg "pic-ppt.jpeg")]({{site.url}}/images/pic-ppt.jpeg)

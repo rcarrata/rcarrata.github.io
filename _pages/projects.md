@@ -1,12 +1,14 @@
 ---
+title: "Projects"
 layout: single
-title: Projects
-author: rcarrata
-comments: false
-share: false
+permalink: /projects/
+author_profile: true
 ---
 
+
 I have always made sure that almost all of my personal projects and collaborations, as well as contributions to other projects, are open-sourced and freely accessible to colleagues, peers, and community members. This fosters growth as we share and learn together!
+
+[![](/images/devsecops2.png "devsecops2.png")]({{site.url}}/images/devsecops2.png)
 
 Here are a few projects I'm collaborating on or maintaining, further enhancing the giving-back to the community that has provided us with so much.
 
