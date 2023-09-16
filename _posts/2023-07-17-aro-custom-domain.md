@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Deploying Private ARO clusters with Custom Domains
 date: 2023-07-17
 type: post

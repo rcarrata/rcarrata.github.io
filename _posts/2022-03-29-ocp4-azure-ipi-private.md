@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Deep dive in Private OpenShift 4 clusters deployments in Azure
 date: 2022-03-29
 type: post

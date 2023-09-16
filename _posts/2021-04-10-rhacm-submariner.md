@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Deep Dive with RHACM and Submariner - Connecting multicluster overlay networks
 date: 2021-04-10
 type: post

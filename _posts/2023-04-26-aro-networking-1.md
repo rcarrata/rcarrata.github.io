@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Ingress and Egress Networking Deep Dive in Public ARO Clusters
 date: 2023-04-26
 type: post

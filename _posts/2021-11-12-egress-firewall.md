@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Egress Firewall in OpenShift with OVN Kubernetes plugin
 date: 2021-11-10
 type: post

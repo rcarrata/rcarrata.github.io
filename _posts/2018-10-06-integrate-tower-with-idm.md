@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Integrate Ansible Tower with IDM
 date: 2018-09-10
 type: post
@@ -7,6 +7,8 @@ published: true
 status: publish
 categories:
 - Ansible
+- Security
+- Automation
 tags: []
 author: rcarrata
 comments: true

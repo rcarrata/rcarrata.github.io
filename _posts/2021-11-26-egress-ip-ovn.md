@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Managing Egress IP in OpenShift 4 with OVN Kubernetes CNI plugin using OpenShift-GitOps
 date: 2021-11-26
 type: post

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Signing and Verifying Images to Secure CICD pipelines using Sigstore and Kyverno
 date: 2022-02-23
 type: post

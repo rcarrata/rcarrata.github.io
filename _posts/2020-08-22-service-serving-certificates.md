@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Secure inter-cluster traffic in OpenShift with Service CA Operator
 date: 2020-08-22
 type: post

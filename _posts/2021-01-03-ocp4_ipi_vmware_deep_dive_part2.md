@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Load Balancing and DNS with OpenShift IPI in VMware & On-Premise (Part II)
 date: 2021-01-03
 type: post

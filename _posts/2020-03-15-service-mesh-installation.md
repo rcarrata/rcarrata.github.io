@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Service Mesh Installation
 date: 2020-03-15
 type: post

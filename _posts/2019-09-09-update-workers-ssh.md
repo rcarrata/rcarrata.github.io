@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Update SSH Keys into the nodes of OpenShift4 cluster
 date: 2019-09-09
 type: post

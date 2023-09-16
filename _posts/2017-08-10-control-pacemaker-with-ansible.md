@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Control Pacemaker Resources with Ansible
 date: 2017-08-10
 type: post
@@ -7,6 +7,7 @@ published: true
 status: publish
 categories:
 - Ansible
+- Linux
 tags: []
 author: rcarrata
 comments: true

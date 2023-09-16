@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: DNS Forwarding in OpenShift
 date: 2020-08-25
 type: post

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Ingress Routing & Traffic Management in OpenShift Service Mesh
 date: 2020-05-26
 type: post

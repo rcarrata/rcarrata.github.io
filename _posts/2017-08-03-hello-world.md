@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Hello world!
 date: 2017-08-03
 type: post
@@ -10,6 +10,7 @@ categories:
 tags: []
 author: rcarrata
 comments: true
+layout: single
 ---
 
 Finally I have some time to push the first post (and I hope not the last ;D) of my new brand blog.

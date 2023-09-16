@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Scaling your Azure Private OpenShift clusters with Virtual Network NAT 
 date: 2023-01-12
 type: post

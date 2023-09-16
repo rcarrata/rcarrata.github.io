@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Analyse and debug network traffic in OpenShift
 date: 2020-02-02
 type: post

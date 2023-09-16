@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Monitoring and analysis of Network Flow Traffic in OpenShift (Part I)
 date: 2021-06-30
 type: post

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Custom Backup Satellite 6
 date: 2017-08-15
 type: post

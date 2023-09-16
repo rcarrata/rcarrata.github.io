@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Deploying AMQStreams Kafka without Cluster Admin
 date: 2020-05-05
 type: post

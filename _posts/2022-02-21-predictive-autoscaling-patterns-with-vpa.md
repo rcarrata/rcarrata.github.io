@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Predictive Autoscaling Patterns using Vertical Pod Autoscaler in Kubernetes
 date: 2022-02-21
 type: post

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: ROSA Ingress Controller 
 date: 2022-07-19
 type: post

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Including microservices in OpenShift Service Mesh
 date: 2020-05-23
 type: post

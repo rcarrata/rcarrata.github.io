@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Connecting stateful applications in multicluster environments with RHACM and Submariner
 date: 2021-04-11
 type: post

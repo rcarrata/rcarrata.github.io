@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Exposing apps using Application Gateway LB in Private ARO clusters
 date: 2023-09-05
 type: post

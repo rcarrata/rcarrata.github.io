@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Secure GitOps Supply Chain with GnuPG Signature verification in ArgoCD
 date: 2022-01-24
 type: post

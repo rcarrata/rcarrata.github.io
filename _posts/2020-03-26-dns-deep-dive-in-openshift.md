@@ -1,6 +1,6 @@
 ---
 
-layout: post
+layout: single
 title: DNS Deep Dive in OpenShift 4
 date: 2020-03-26
 type: post

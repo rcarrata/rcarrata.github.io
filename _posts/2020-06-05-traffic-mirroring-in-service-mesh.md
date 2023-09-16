@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Traffic Mirroring in OpenShift Service Mesh
 date: 2020-06-05
 type: post

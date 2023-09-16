@@ -3,12 +3,12 @@
 rcarrata:
   name: Roberto Carratalá
   web: https://rcarrata.com
-#  email: Roberto Carratala
-  bio: "Linux Geek. Devops & Kubernetes enthusiast. Cloud Services Black Belt   @ Red Hat."
-  avatar: bio-photo.jpg
+  #  email: Roberto Carratala
+  bio: "Devops & Kubernetes enthusiast. MsC in AI/ML & MsC Telco Engineer. Cloud Services Black Belt @ Red Hat"
+  avatar: "/images/bio-photo.jpg"
   #twitter: rcarrata
   #google:
   #  plus: rcarratalasanchez
   github: rcarrata
-  #stackoverflow:
   linkedin: rcarrata
+  #stackoverflow:

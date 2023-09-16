@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Analysis of Operator Lifecycle Manager in OpenShift 4
 date: 2020-06-16
 type: post

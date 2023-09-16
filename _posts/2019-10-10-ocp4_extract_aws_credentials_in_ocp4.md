@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Extract AWS Credentials in a cluster of OpenShift 4
 date: 2019-10-10
 type: post

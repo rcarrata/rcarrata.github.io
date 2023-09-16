@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Renew Certificates automatically in OpenShift 4
 date: 2019-08-22
 type: post

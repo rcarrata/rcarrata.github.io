@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Upgrade OpenShift 4 clusters with the CLI
 date: 2020-05-01
 type: post

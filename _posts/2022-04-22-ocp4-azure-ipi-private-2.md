@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Secure your Private OpenShift clusters with Azure Firewall and Hub-Spoke architectures
 date: 2022-04-22
 type: post

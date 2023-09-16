@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Regenerating Kubeconfig for system:admin user in OpenShift clusters
 date: 2021-03-27
 type: post

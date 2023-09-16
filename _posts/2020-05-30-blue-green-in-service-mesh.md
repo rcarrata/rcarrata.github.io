@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Blue Green deployments in OpenShift Service Mesh
 date: 2020-05-30
 type: post

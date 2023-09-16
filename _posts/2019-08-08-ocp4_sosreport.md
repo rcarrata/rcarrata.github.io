@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Collect Sosreport in OpenShift 4
 date: 2019-08-08
 type: post

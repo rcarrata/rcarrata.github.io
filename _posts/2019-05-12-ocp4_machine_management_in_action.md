@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Machine Management in action into OpenShift 4
 date: 2019-05-12
 type: post

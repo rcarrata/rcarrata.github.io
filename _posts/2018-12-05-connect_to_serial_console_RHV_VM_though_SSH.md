@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Connect to Serial Console RHV VM through SSH
 date: 2018-12-05
 type: post

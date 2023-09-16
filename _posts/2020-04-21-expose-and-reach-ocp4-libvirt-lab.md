@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Making accesible from our laptop an OpenShift 4 UPI Libvirt/KVM Lab
 date: 2020-04-21
 type: post

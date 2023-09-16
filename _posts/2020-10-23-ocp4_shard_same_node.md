@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Multiple Route Shardings in the same node in a On-Premise OpenShift 4
 date: 2020-10-23
 type: post

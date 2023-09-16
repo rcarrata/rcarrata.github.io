@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Microservices Deployment in Service Mesh
 date: 2020-03-18
 type: post

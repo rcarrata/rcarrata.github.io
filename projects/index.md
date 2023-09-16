@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: single
 title: Projects
 author: rcarrata
 comments: false

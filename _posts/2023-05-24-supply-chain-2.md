@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Building Trust in the Software Supply Chain
 date: 2023-05-24
 type: post

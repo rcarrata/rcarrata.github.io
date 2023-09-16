@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Deep dive of Route Sharding in OpenShift 4
 date: 2019-06-03
 type: post

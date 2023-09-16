@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Securing CICD pipelines with StackRox / RHACS and Sigstore 
 date: 2022-07-19
 type: post

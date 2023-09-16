@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Embracing the Open Hybrid Multi-Cloud connecting overlay networking from ARO and ROSA clusters
 date: 2023-05-02
 type: post

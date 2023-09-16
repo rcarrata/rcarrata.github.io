@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Share Vault between Ansible Core Roles
 date: 2018-11-10
 type: post
@@ -7,6 +7,8 @@ published: true
 status: publish
 categories:
 - Ansible
+- Security
+- Automation
 tags: []
 author: rcarrata
 comments: true

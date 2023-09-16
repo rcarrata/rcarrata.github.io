@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Deep Dive of OpenShift 4 Routers in On-Premise deployments
 date: 2020-10-21
 type: post

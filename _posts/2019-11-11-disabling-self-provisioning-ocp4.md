@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Disabling the self provisioning in OpenShift 4
 date: 2019-11-11
 type: post

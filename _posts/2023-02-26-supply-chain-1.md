@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Securing the integrity of Software Supply Chains
 date: 2023-02-26
 type: post

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Connecting overlay networks of ROSA clusters with Submariner 
 date: 2023-04-25
 type: post

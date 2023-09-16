@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Canary deployments in OpenShift Service Mesh
 date: 2020-06-02
 type: post

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Zero Trust Networks and mTLS Deep Dive in OpenShift Service Mesh
 date: 2021-10-29
 type: post

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Generate and Manage ApplicationSets of OpenShift-GitOps/ArgoCD in ACM
 date: 2022-01-18
 type: post

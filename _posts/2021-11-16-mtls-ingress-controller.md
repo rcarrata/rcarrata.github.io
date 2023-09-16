@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: Configuring mTLS in OpenShift with Ingress Controller Operator
 date: 2021-11-16
 type: post
