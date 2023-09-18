@@ -5,7 +5,8 @@ date: 2023-09-05
 type: post
 published: true
 status: publish
-categories:
+categories: 
+- security
 tags: ["security", "Kubernetes", "Cloud", "OpenShift", "Azure"]
 author: rcarrata
 comments: true
