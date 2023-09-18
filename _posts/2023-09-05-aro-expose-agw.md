@@ -6,12 +6,7 @@ type: post
 published: true
 status: publish
 categories:
-- ARO
-- Kubernetes
-- Cloud
-- OpenShift
-- Azure
-tags: []
+tags: ["security", "Kubernetes", "Cloud", "OpenShift", "Azure"]
 author: rcarrata
 comments: true
 ---
