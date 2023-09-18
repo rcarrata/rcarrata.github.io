@@ -6,12 +6,8 @@ type: post
 published: false
 status: publish
 categories:
-- ARO
-- Kubernetes
-- Cloud
-- OpenShift
-- Azure
-tags: []
+- aro
+tags: ["ARO", "Kubernetes", "Cloud", "OpenShift", "Azure"]
 author: rcarrata
 comments: true
 ---

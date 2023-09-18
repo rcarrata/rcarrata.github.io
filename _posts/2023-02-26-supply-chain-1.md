@@ -6,10 +6,8 @@ type: post
 published: true
 status: publish
 categories:
-- Kubernetes
 - security
-- DevSecOps
-tags: []
+tags: ["Kubernetes", "security", "DevSecOps"]
 author: rcarrata
 comments: true
 ---
