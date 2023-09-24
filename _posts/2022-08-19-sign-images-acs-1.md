@@ -7,10 +7,7 @@ published: true
 status: publish
 categories:
 - Kubernetes
-- security
-- Networking
-- DevSecOps
-tags: []
+tags: ["Kubernetes", "security", "Networking", "DevSecOps"]
 author: rcarrata
 comments: true
 ---

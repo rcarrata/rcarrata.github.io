@@ -6,12 +6,8 @@ type: post
 published: true
 status: publish
 categories:
-- Kubernetes
-- security
-- Networking
-- Azure
-- Cloud
-tags: []
+- OpenShift
+tags: ["Kubernetes", "security", "Networking", "Azure", "Cloud"]
 author: rcarrata
 comments: true
 ---
