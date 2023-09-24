@@ -7,10 +7,7 @@ published: true
 status: publish
 categories:
 - OpenShift
-- Observability
-- Networking
-- Kubernetes
-tags: []
+tags: ["Kubernetes", "security", "Networking", "OpenShift", "Observability"]
 author: rcarrata
 comments: true
 ---

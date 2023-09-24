@@ -7,10 +7,7 @@ published: true
 status: publish
 categories:
 - OpenShift
-- Kafka
-- Administration
-- Kubernetes
-tags: []
+tags: ["Kubernetes", "security", "Administration", "OpenShift", "Networking", "Kafka"]
 author: rcarrata
 comments: true
 ---

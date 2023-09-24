@@ -7,10 +7,7 @@ published: true
 status: publish
 categories:
 - Istio
-- OpenShift
-- Administration
-- Kubernetes
-tags: []
+tags: ["Kubernetes", "security", "Administration", "OpenShift", "Networking", "Istio"]
 author: rcarrata
 comments: true
 ---

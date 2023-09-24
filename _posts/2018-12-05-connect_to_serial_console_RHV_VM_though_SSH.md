@@ -8,7 +8,7 @@ status: publish
 categories:
 - Virtualization
 - Automation
-tags: []
+tags: ["Virtualization", "security", "Administration"]
 author: rcarrata
 comments: true
 ---

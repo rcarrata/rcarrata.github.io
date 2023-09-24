@@ -7,9 +7,7 @@ published: true
 status: publish
 categories:
 - OpenShift
-- Administration
-- Kubernetes
-tags: []
+tags: ["Kubernetes", "security", "Administration", "OpenShift", "AWS", "Cloud"]
 author: rcarrata
 comments: true
 ---

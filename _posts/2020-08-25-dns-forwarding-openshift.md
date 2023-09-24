@@ -7,9 +7,7 @@ published: true
 status: publish
 categories:
 - OpenShift
-- Networking
-- Kubernetes
-tags: []
+tags: ["Kubernetes", "security", "Administration", "OpenShift", "Networking"]
 author: rcarrata
 comments: true
 ---
