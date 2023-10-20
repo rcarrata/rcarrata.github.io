@@ -84,7 +84,7 @@ I'm always seeking new learning opportunities, and I genuinely believe that IT c
 #### AWS
 
 * [AWS Certified Solutions Architect Associate](https://aws.amazon.com/es/certification/certified-solutions-architect-associate/)
-* [Planned Q2 2023 - AWS Certified Advanced Networking Specialty](https://aws.amazon.com/certification/certified-solutions-architect-associate/)
+* [Planned Q4 2023 - AWS Certified Advanced Networking Specialty](https://aws.amazon.com/certification/certified-solutions-architect-associate/)
 
 
 ### Cisco Certifications

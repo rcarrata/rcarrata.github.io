@@ -12,6 +12,8 @@ I have always made sure that almost all of my personal projects and collaboratio
 
 Here are a few projects I'm collaborating on or maintaining, further enhancing the giving-back to the community that has provided us with so much.
 
+<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="rcarrata" data-color="#FFDD00" data-emoji=""  data-font="Cookie" data-text="Buy me a coffee :)" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
+
 ## Demos Featured (more than 100+ stars)
 
 * [DevSecOps demo in Kubernetes](https://github.com/rcarrata/devsecops-demo)
@@ -21,6 +23,7 @@ Here are a few projects I'm collaborating on or maintaining, further enhancing t
 
 ## Talks & Conferences Demo Repositories
 
+* [Red Hat Summit Connect Iberia 2023 - Connecting your productive applications and microservices at scale in a MultiCloud and MultiRegion environments session](https://github.com/rcarrata/rh-summitconnect-iberia-23)
 * [cdCon and GitOpsCon 2023 - Managing GitOps deployments in multi-cluster production environments](https://github.com/rcarrata/CdCon23-GitOpsMultiCluster)
 * [Kubernetes Community Days Amsterdam 2023 - GitOps Patterns for managing cloud-native applications Session](https://github.com/rcarrata/kcd23ams-gitops-patterns)
 * [AnsibleFest 2022 - Automate Cybersecurity solutions in a cloud native scenario Session](https://github.com/rcarrata/ansiblefest2022-devsecops-demo)
@@ -30,9 +33,16 @@ Here are a few projects I'm collaborating on or maintaining, further enhancing t
 * [Kubernetes Community Days Berlin 2022 - Automatic Autoscaling Patterns in Kubernetes](https://github.com/rcarrata/kcd2022-vpa)
 * [SpainSkills 2022 - Automation of End2End Cloud solutions](https://github.com/rcarrata/spainskills2022)
 * [DevConf.CZ 2022 - Autoscaling Approaches within the Kubernetes Framework](https://github.com/rcarrata/devconfcz2022-predictive-autoscaling-patterns-in-kubernetes)
+* [AnsibleFest 2020 - Automate Cybersecurity solutions in a cloud native scenario Lab](https://github.com/rcarrata/ansiblefest2020-secdemo)
 
 ## Artificial Intelligence / Machine Learning Demos and Repositories
 
+* [GTP-Like Chatbot with Llama2 (GGLM) in Kubernetes only with CPU (no GPU required)!](https://github.com/rcarrat-AI/k8s-chatbot-llama2-cpu)
+* [GTP-Like Chatbot with Llama2 in Kubernetes with GPU!](https://github.com/rcarrat-AI/k8s-chatbot-llama2-gpu)
+* [Deploy RH OpenShift AI, Nvidia GPU Operator and Node Feature Discovery using GitOps!](https://github.com/rcarrat-AI/nvidia-odh-gitops)
+* [Terraform Code for deploy AWS SageMaker](https://github.com/rcarrat-AI/tf-sagemaker)
+* [Terraform Code for Deploy Jupyter Notebooks as a Service in AWS](https://github.com/rcarrat-AI/tf-jupyter#terraform-jupyter-notebooks)
+* [MLOps in Kubernetes with Gradio](https://github.com/rcarrat-AI/k8s-mlops-gradio)
 * [Deep Learning Tensorflow Examples](https://github.com/rcarrata/deeplearning_tf_examples)
 * [Kubernetes MLOps Gradio Example](https://github.com/rcarrat-AI/k8s-mlops-gradio)
 * [Neural Network Tensorflow Examples](https://github.com/rcarrat-AI/NN-TF-examples)

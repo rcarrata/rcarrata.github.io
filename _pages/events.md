@@ -10,6 +10,7 @@ author_profile: true
 I greatly enjoy the opportunity to speak at conferences and events. These gatherings provide an excellent platform to share my knowledge with other IT professionals and establish meaningful connections with them.
 
 * [cdCon and GitOpsCon 2023 - Managing GitOps deployments in multi-cluster production environments](https://youtu.be/deiTf2Zw_FU?list=PLj6h78yzYM2M3-reG8FBlsE5s7P_UOvl4&t=507)
+* [Red Hat Summit Connect Iberia 2023 - Connecting your productive applications and microservices at scale in a MultiCloud and MultiRegion environments session](https://github.com/rcarrata/rh-summitconnect-iberia-23)
 * [DevConf 2023 Keynote - Open Source Services Keynote](https://youtu.be/WDg2GEBiwLE?t=903)
 * [DevConf 2023 Talk - How much open source is in Cloud Services](https://youtu.be/7waUHYt3XPk?list=PLU1vS0speL2ZdGybMAqmQjVWsi0GjH7d3&t=755)
 * [Red Hat Open Tour Madrid 2023 - Standardize and Manage your hybrid cloud deployments at scale using GitOps](https://events.redhat.com/profile/form/index.cfm?PKformID=0x7898310001)
