@@ -56,9 +56,9 @@ If you want to take a look of other Gradio Apps, check my Blog Post around [Depl
 
 LangChain stands as a versatile framework designed for developing applications driven by language models. Its core functionalities enable applications to:
 
-* Contextual Awareness: LangChain facilitates the connection of language models to diverse sources of context, including prompt instructions, few-shot examples, and relevant content. This enables applications to respond in a manner grounded in the provided context, enhancing their overall effectiveness.
+* **Contextual Awareness**: LangChain facilitates the connection of language models to diverse sources of context, including prompt instructions, few-shot examples, and relevant content. This enables applications to respond in a manner grounded in the provided context, enhancing their overall effectiveness.
 
-* Intelligent Reasoning: By leveraging LangChain, applications gain the ability to rely on language models for reasoning. This involves determining appropriate responses and actions based on the provided context, enhancing the application's decision-making process significantly.
+* **Intelligent Reasoning**: By leveraging LangChain, applications gain the ability to rely on language models for reasoning. This involves determining appropriate responses and actions based on the provided context, enhancing the application's decision-making process significantly.
 
 The key value propositions offered by LangChain include:
 
