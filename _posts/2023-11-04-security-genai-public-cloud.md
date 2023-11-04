@@ -134,7 +134,8 @@ This integration empowers the cloud infrastructure with enhanced security measur
 
 And with that, we conclude our first blog post on "How to Use Generative AI for Securing Cloud Infrastructures." 
 
-We have explored how Generative AI and its transformative impact on cloud security. Stay tuned for more insightful blogs where we dive deeper into the realms of artificial intelligence, cloud computing, and cybersecurity.
+In this blog post, we delved into the profound influence of Generative AI on cloud security. 
+Our next blog will unravel the mysteries of Vulnerability Assessment, delve into the depths of Threat Intelligence, and prepare us for the challenges of Security Incident Response.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 
