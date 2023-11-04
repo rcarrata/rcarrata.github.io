@@ -101,7 +101,7 @@ I'm always seeking new learning opportunities, and I genuinely believe that IT c
 * [Azure AI Fundamentals - AI900](https://www.credly.com/badges/0fc494c6-d0ba-495b-a3df-9c35ce767571/public_url)
 * [Microsoft Azure AI Challenge](https://learn.microsoft.com/en-us/training/challenges?id=12f32cf8-2cd8-42e1-97dd-001b4a042766)
 * [Machine Learning with TensorFlow on Google Cloud Specialization - Ongoing](https://www.coursera.org/specializations/machine-learning-tensorflow-gcp?)
-
+* [How to Secure Cloud Infrastructure with Generative AI](https://www.dropbox.com/scl/fi/rmzykfxp0ru02xefub5ng/ACloud_Guru-how_to_secure_cloud_gen_ai.pdf?rlkey=8078nsnjnkqbsvwlnhuj1042s&dl=0)
 
 ### DevSecOps & GitOps
 
