@@ -3,7 +3,7 @@ layout: single
 title: Deploying an AI ChatBot in Azure Red Hat OpenShift fully integrated with Azure OpenAI
 date: 2023-10-31
 type: post
-published: false
+published: true
 status: publish
 categories: 
 - aro
