@@ -1,9 +1,9 @@
 ---
 layout: single
 title: How to Use Generative AI for Securing Cloud Infrastructures (Part II)
-date: 2023-11-05
+date: 2023-01-17
 type: post
-published: false
+published: true
 status: publish
 categories: 
 - AI
