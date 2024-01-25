@@ -5,7 +5,7 @@ date: 2023-01-17
 type: post
 published: true
 status: publish
-categories: 
+categories:
 - AI
 tags: ["security", "AI", "Cloud"]
 author: rcarrata
