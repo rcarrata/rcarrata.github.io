@@ -6,14 +6,14 @@ author_profile: true
 ---
 
 
-## Roberto Carratalá<br>  Senior Cloud Services Black Belt @ Red Hat
+## Roberto Carratalá<br> Principal AI Platform Architect | AI BU @ Red Hat
 [![](/images/pic-ppt.jpeg "pic-ppt.jpeg")]({{site.url}}/images/pic-ppt.jpeg)
 
 ### MsC Telco Engineer. | MsC in AI/ML<br>CK{A,S,AD} | Azure SA Expert | RHCA lvl V | CCNP
 
 I'm Roberto Carratalá, an IT professional with more than ten years of experience in the industry of Linux, Virtualization, Cloud, DevOps and Kubernetes/OpenShift.
 
-Currently I am working as a **Senior Cloud Services Black Belt for Red Hat**, focused in **OpenShift Cloud Services**, DevSecOps, CICD and Service Mesh, helping the customers to achieve their goals and objectives with linux, cloud and containers in public and private environments.
+Currently I am working as a **Principal AI Platform Architect for Red Hat** working in the **AI Business Unit**, focused in **OpenShift AI**, Cloud Services, DevSecOps, CICD and MLOps, helping the customers to achieve their goals and objectives with linux, cloud and containers in public and private environments.
 
 Despite being employed by Red Hat, I proudly identify as a Linux Geek and a Unix enthusiast, constantly on the hunt for fresh tech to explore and master!
 
