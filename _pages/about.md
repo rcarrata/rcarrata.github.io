@@ -59,6 +59,7 @@ I'm always seeking new learning opportunities, and I genuinely believe that IT c
 
 * [Microsoft Azure Solutions Architect Expert](https://learn.microsoft.com/api/credentials/share/en-us/rcarrata/8F21BDDF42EEC586?sharingId=5E140EA546C68A03)
 * [Designing Microsoft Azure Infrastructure Solutions Exam - AZ305](https://www.credly.com/badges/14593173-15ed-404e-b500-6be8497d7813/public_url)
+* [Microsoft Certified: Azure AI Engineer Associate](https://learn.microsoft.com/api/credentials/share/en-us/rcarrata/46A8F50D28AA7E35?sharingId=5E140EA546C68A03)
 * [Microsoft Azure Network Engineer Associate](https://learn.microsoft.com/api/credentials/share/en-us/rcarrata/F0402BBC8975FAA5?sharingId=5E140EA546C68A03)
 * [Microsoft Azure Architect Technologies Exam - AZ303](https://www.credly.com/badges/6f4992ca-2a7b-458b-8d8d-6b2b3a78b567/public_url)
 * [Azure AI Fundamentals Certification - AI900](https://learn.microsoft.com/api/credentials/share/en-us/rcarrata/925DA7BA0C99BF39?sharingId=5E140EA546C68A03)
