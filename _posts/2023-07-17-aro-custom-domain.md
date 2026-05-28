@@ -65,13 +65,13 @@ az group create                \
   --location $AZR_RESOURCE_LOCATION
 ```
 
-A resource group in Azure serves as a logical container for deploying and managing Azure resources. During the creation of a resource group, a specific location is required to store its metadata and determine the default region for resource deployment, unless otherwise specified during resource creation. Additionally, this chosen location defines the region in which the resources within the resource group will operate in Azure.
+A resource group in Azure serves as a logical container for deploying and managing Azure resources. When creating a resource group, a specific location is required to store its metadata and determine the default region for resource deployment, unless otherwise specified during resource creation. Additionally, this chosen location defines the region in which the resources within the resource group will run in Azure.
 
 ### 1.2 ARO Networking prerequisites
 
 To successfully run Azure Red Hat OpenShift clusters on OpenShift 4, it is necessary to have a virtual network with two empty subnets specifically designated for the master and worker nodes.
 
-Within the resource group you previously established, we need to proceed to create a new virtual network that will accommodate these requirements.
+Within the resource group you previously established, we need to create a new virtual network that will accommodate these requirements.
 
 * Create virtual network:
 
@@ -135,7 +135,7 @@ az aro create \
 --domain $DOMAIN
 ```
 
-When the --domain flag with an FQDN (e.g. my.domain.com) is used to create your cluster we will need to configure DNS and a certificate authority for your API server and apps ingress.
+When the --domain flag with an FQDN (e.g. my.domain.com) is used to create your cluster, we will need to configure DNS and a certificate authority for your API server and apps ingress.
 
 ### 1.4 Jumphost
 
@@ -174,7 +174,7 @@ JUMP_IP=$(az vm list-ip-addresses -g $AZR_RESOURCE_GROUP -n jumphost -o tsv \
 echo $JUMP_IP
 ```
 
-* Use sshuttle to create a ssh vpn via the jump host as a daemon:
+* Use sshuttle to create an SSH VPN via the jump host as a daemon:
 
 ```
 sshuttle --dns -NHr "aro@${JUMP_IP}"  10.0.0.0/8 --daemon
@@ -190,7 +190,7 @@ These DNS configurations ensure easy access to the cluster's console, applicatio
 
 ### 2.1 Configure DNS for default ingress router
 
-We need to configure the DNS for the Default Ingress Router (*.apps), to be able to access to the ARO Console, among other things.
+We need to configure the DNS for the Default Ingress Router (*.apps) to be able to access the ARO Console, among other things.
 
 * Retrieve the Ingress IP for Azure DNS records:
 
@@ -236,7 +236,7 @@ dig +short test.apps.$DOMAIN
 
 ### 2.2 Configure DNS for API server endpoint
 
-We need to configure the DNS for the Kubernetes / OpenShift API of the ARO cluster, to be able to access to the ARO API.
+We need to configure the DNS for the Kubernetes / OpenShift API of the ARO cluster to be able to access the ARO API.
 
 * Retrieve the API Server IP for Azure DNS records:
 
@@ -273,7 +273,7 @@ dig +short api.$DOMAIN
 
 NOTE: In our scenario, the Jumphost will be used for connecting to the cluster via both console and API. Since we are utilizing various subnets within the same VNet, there's no need to generate a Private Zone to resolve DNS entries from the Jumphost.
 
-However, if you are dividing the Bastion/Jumphost across different VNets, you may need to create an Azure Private Zone and the Privatelink
+However, if you are dividing the Bastion/Jumphost across different VNets, you may need to create an Azure Private Zone and the Private Link.
 
 ## 3. Generate Let's Encrypt Certificates for API Server and default Ingress Router
 
@@ -321,7 +321,7 @@ az network dns record-set txt add-record \
   -v $APPS_TXT_RECORD
 ```
 
-* Update the TTL for the records from 1h to 5minutes to testing purposes:
+* Update the TTL for the records from 1h to 5 minutes for testing purposes:
 
 ```
 az network dns record-set txt update \
@@ -331,7 +331,7 @@ az network dns record-set txt update \
   --set ttl=300
 ```
 
-* Make sure that you get the TXT record from the Azure domain challenge is registered and propagated properly:
+* Make sure that the TXT record from the Azure domain challenge is registered and propagated properly:
 
 ```
 dig +short TXT _acme-challenge.apps.$DOMAIN
@@ -385,7 +385,7 @@ az network dns record-set txt update \
   --set ttl=300
 ```
 
-* Make sure that you get the TXT record from the Azure domain challenge is registered and propagated properly:
+* Make sure that the TXT record from the Azure domain challenge is registered and propagated properly:
 
 ```md
 dig +short TXT _acme-challenge.api.$DOMAIN
@@ -453,13 +453,13 @@ oc patch ingresscontroller.operator default \
 oc get pod -n openshift-ingress
 ```
 
-* Verify that your certificate it's correctly applied:
+* Verify that your certificate is correctly applied:
 
 ```
 echo | openssl s_client -connect console-openshift-console.apps.$DOMAIN:443 | openssl x509 -noout -text | grep Issuer
 ```
 
-* Check that the Certificate when you access to the Console is the Cert issued by Let's Encrypt using Certbot:
+* Check that the certificate when you access the Console is the one issued by Let's Encrypt using Certbot:
 
 [![](/images/aro-custom-domain.png "/aro-custom-domain")]({{site.url}}/images//aro-custom-domain.png)
 
@@ -503,7 +503,7 @@ oc logout
 oc login -u kubeadmin -p $AROPASS --server=$AROURL
 ```
 
-And with that finishes this blog post around how to create Private ARO clusters with Custom Domain.
+And with that, this blog post about how to create Private ARO clusters with Custom Domain comes to a close.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

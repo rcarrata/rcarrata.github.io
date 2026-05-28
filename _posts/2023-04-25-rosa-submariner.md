@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How can we connect the overlay networks of multiple ROSA clusters? How can we deploy stateful applications spanning in a Multi-Cluster environments? How can we discover other microservices using DNS and Kubernetes Services like if we were in the same cluster?
+How can we connect the overlay networks of multiple ROSA clusters? How can we deploy stateful applications spanning multiple Multi-Cluster environments? How can we discover other microservices using DNS and Kubernetes Services as if we were in the same cluster?
 
 ## Overview
 
@@ -22,7 +22,7 @@ Submariner is an open source tool that can be used with Red Hat Advanced Cluster
 
 ROSA or [Red Hat OpenShift on AWS](https://docs.openshift.com/rosa/rosa_architecture/rosa-understanding.html) is fully-managed, turnkey application platform that allows you to focus on delivering value to your customers by building and deploying applications.
 
-For this blog there are some prerequisites that needs to be in place such as:
+For this blog post there are some prerequisites that need to be in place:
 
 * OpenShift Cluster version 4 (ROSA or non-ROSA)
 * ROSA cli
@@ -133,7 +133,7 @@ NOTE: if it's not in Running state, wait a couple of minutes and check again.
 
 ## Deploy First ROSA Cluster
 
-* Define the prerequisites for install the ROSA cluster
+* Define the prerequisites to install the ROSA cluster
 
 ```sh
  export VERSION=4.11.36 \
@@ -144,7 +144,7 @@ NOTE: if it's not in Running state, wait a couple of minutes and check again.
         CIDR="10.0.0.0/16"
 ```
 
-NOTE: it's critical that the Machine CIDR of the ROSA clusters not overlap, for that reason we're setting different CIDRs than the out of the box ROSA cluster install.  
+NOTE: it's critical that the Machine CIDRs of the ROSA clusters do not overlap. For that reason, we're setting different CIDRs than the out-of-the-box ROSA cluster install.  
 
 * Create the IAM Account Roles
 
@@ -221,7 +221,7 @@ kubectl get nodes --show-labels | grep submariner
 
 > **IMPORTANT**: To enable Submariner in both ROSA clusters, the POD_CIDR and SERVICE_CIDR can’t overlap between them. To avoid IP address conflicts, the second ROSA cluster needs to modify the default IP CIDRs. Check the Submariner docs for more information.
 
-* Define the prerequisites for install the second ROSA cluster
+* Define the prerequisites to install the second ROSA cluster
 
 ```sh
  export VERSION=4.11.36 \
@@ -361,7 +361,7 @@ spec:
 EOF
 ```
 
-* Create (in the Hub)` auto-import-secret.yaml` secret defining the the token and server from first ROSA cluster
+* Create (in the Hub) `auto-import-secret.yaml` secret defining the token and server from the first ROSA cluster
 
 ```sh
 cat << EOF | kubectl apply -f -
@@ -448,7 +448,7 @@ spec:
 EOF
 ```
 
-* Create (in the Hub) auto-import-secret.yaml secret defining the the token and server from second ROSA cluster
+* Create (in the Hub) auto-import-secret.yaml secret defining the token and server from the second ROSA cluster
 
 ```sh
 cat << EOF | kubectl apply -f -
@@ -515,7 +515,7 @@ Either deploy using the RHACM UI or with CLI (choose one).
 
 ## Deploy Submariner Addon in Managed ROSA clusters from the RHACM UI
 
-* Inside of the ClusterSets tab, go to the rosa-aro-clusters generated.
+* Inside the ClusterSets tab, go to the rosa-aro-clusters generated.
 
 * Go to Submariner add-ons and Click in "Install Submariner Add-Ons"
 
@@ -548,7 +548,7 @@ spec:
 EOF
 ```
 
-NOTE: Set the the value of `globalnetEnabled: true` if you want to enable Submariner Globalnet in the ManagedClusterSet.
+NOTE: Set the value of `globalnetEnabled: true` if you want to enable Submariner Globalnet in the ManagedClusterSet.
 
 * Check the Submariner Broker in the `rosa-clusters-broker` namespace:
 
@@ -558,7 +558,7 @@ NAME                AGE
 submariner-broker   21s
 ```
 
-* We don’t need to label the ManagedCluster because it was imported the proper labels within the proper ManagedClusterSet.
+* We don’t need to label the ManagedCluster because it was imported with the proper labels within the proper ManagedClusterSet.
 
 * Deploy SubmarinerConfig for the first rosa cluster imported:
 
@@ -594,7 +594,7 @@ spec:
 EOF
 ```
 
-* Deploy Submariner on the first ROSA cluster cluster:
+* Deploy Submariner on the first ROSA cluster:
 
 ```sh
 cat << EOF | kubectl apply -f -
@@ -608,7 +608,7 @@ spec:
 EOF
 ```
 
-* Deploy Submariner on the second ROSA cluster cluster:
+* Deploy Submariner on the second ROSA cluster:
 
 ```sh
 cat << EOF | kubectl apply -f -
@@ -622,7 +622,7 @@ spec:
 EOF
 ```
 
-* Check the submariner status of `managedclusteraddons`  in order to check if submariner is deployed correctly
+* Check the submariner status of `managedclusteraddons` to verify that submariner is deployed correctly
 
 ```sh
 kubectl get managedclusteraddon -A | grep submariner
@@ -643,11 +643,11 @@ A few minutes (up to 10 minutes) after we can check that the app Connection Stat
 
 This final step (**totally optional**), is an extra step to check if the Submariner networking tunnels are built and connected properly.
 
-This example app deploy one FE (guestbook) in the first ROSA cluster, and two redis with active-backup replication.
+This example app deploys one FE (guestbook) in the first ROSA cluster, and two Redis instances with active-backup replication.
 
-One Redis will be in the first ROSA cluster and will sync and replicate the data inserted by the FE, to the second redis (in backup/passive mode) using the submariner tunnel (connecting both ROSA clusters).
+One Redis will be in the first ROSA cluster and will sync and replicate the data inserted by the FE to the second Redis (in backup/passive mode) using the Submariner tunnel (connecting both ROSA clusters).
 
-The connection will be using the ServiceExport feature (DNS Discovery) from Submariner, that allows to call the Redis Service (Active or Passive) from within the Service CIDR. 
+The connection will use the ServiceExport feature (DNS Discovery) from Submariner, which allows calling the Redis Service (Active or Passive) from within the Service CIDR. 
 
 * Clone the example repo app
 
@@ -701,7 +701,7 @@ oc delete pod --all -n guestbook
 
 ### Testing the Synchronization of the Redis Master-Slave between clusters and interacting with our FrontEnd using Submariner tunnels
 
-To test the sync between the data from the Redis Master<->Slave, let's write some data into our frontend. Access to the route of the guestbook App y write some data:
+To test the sync between the data from the Redis Master<->Slave, let's write some data into our frontend. Access the route of the guestbook App and write some data:
 
 [![](/images/rosa-submariner7.png "ROSA Submariner")]({{site.url}}/images/rosa-submariner7.png)
 
@@ -713,7 +713,7 @@ To test the sync between the data from the Redis Master<->Slave, let's write som
 
 The sync is automatic and almost instantaneous between Master-Slave.
 
-* We can check the data write in the redis-slave with the redis-cli and the following command:
+* We can check the data written in the redis-slave with the redis-cli and the following command:
 
 ```
 for key in $(redis-cli -p 6379 keys \*);
@@ -729,7 +729,7 @@ done
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 
-And that's how the Redis-Master in the ROSA cluster 1 sync properly the data to the redis-slave in the ROSA Cluster 2, using Submariner tunnels, all encrypted with IPSec.
+And that's how the Redis-Master in ROSA cluster 1 properly syncs the data to the redis-slave in ROSA Cluster 2, using Submariner tunnels, all encrypted with IPSec.
 
 Happy submarining!
 

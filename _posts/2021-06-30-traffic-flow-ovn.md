@@ -12,21 +12,20 @@ author: rcarrata
 comments: true
 ---
 
-How can we monitor the traffic in and out of our OpenShift cluster in an easy way? How can we do an analysis about the network traffic flows of our workloads in our OpenShift SDN? Let's start to dig in! 
+How can we monitor the traffic in and out of our OpenShift cluster in an easy way? How can we do an analysis of the network traffic flows of our workloads in our OpenShift SDN? Let's start to dig in!
 
 ## Overview
 
-Until the 4.8 release, the network traffic analysis / monitoring within the OpenShift SDN was hard to perform. If you wanted to know the network flows of your traffic of your workloads in the SDN you needed to analyse node to node the Openflow (protocol designed to allow network controllers to determine the path
-) and the Flow tables from the OVS pods, using utilities like ovs-ofctl to extract the flow entries in the flow table.
+Until the 4.8 release, the network traffic analysis / monitoring within the OpenShift SDN was hard to perform. If you wanted to know the network flows of your workloads in the SDN, you needed to analyse node by node the Openflow (protocol designed to allow network controllers to determine the path) and the Flow tables from the OVS pods, using utilities like ovs-ofctl to extract the flow entries in the flow table.
 
-For example to check the flow entries with ovs-ofctl:
+For example, to check the flow entries with ovs-ofctl:
 
 ```
 # ovs-ofctl dump-flows -O OpenFlow13 br0 |head -2 | tail -1
  cookie=0x0, duration=135692.072s, table=0, n_packets=0, n_bytes=0, priority=250,ip,in_port=2,nw_dst=224.0.0.0/4 actions=drop
 ```
 
-Furthermore you needed to check the vSwitches of OVS (br0) to check the ports, vxlans (even we only used vxlan0 in OpenShift), and the tun0 among others:
+Furthermore, you needed to check the vSwitches of OVS (br0) to check the ports, vxlans (even though we only used vxlan0 in OpenShift), and the tun0 among others:
 
 ```
 # ovs-ofctl show -O OpenFlow13 br0 
@@ -38,13 +37,13 @@ OFPST_PORT_DESC reply (OF1.3) (xid=0x3):
  [...]
 ```
 
-Putting all of this together in order to analyse and monitor our traffic was not easy, neither straightforward. We need to [know which table](https://github.com/openshift/origin/blob/release-3.11/pkg/network/node/ovscontroller.go) is used for in each case and try to put together all pieces for debug and analyse our traffic.
+Putting all of this together in order to analyse and monitor our traffic was not easy, nor straightforward. We needed to [know which table](https://github.com/openshift/origin/blob/release-3.11/pkg/network/node/ovscontroller.go) was used in each case and try to put together all the pieces to debug and analyse our traffic.
 
 ## Tracking Network Flows 
 
-One very cool feature in my opinion in next OpenShift 4.8 is the ability to track and monitor OVS flows for networking analytics using **OVN Kubernetes CNI plugin**.
+One very cool feature in my opinion in the next OpenShift 4.8 is the ability to track and monitor OVS flows for networking analytics using the **OVN Kubernetes CNI plugin**.
 
-As the [Tracking network flows documentation](https://docs.openshift.com/container-platform/4.10/networking/ovn_kubernetes_network_provider/tracking-network-flows.html) of OpenShift (still in preview) refers you can collect information about pod network flows from your cluster to assist with tasks like:
+As the [Tracking network flows documentation](https://docs.openshift.com/container-platform/4.10/networking/ovn_kubernetes_network_provider/tracking-network-flows.html) of OpenShift (still in preview) states, you can collect information about pod network flows from your cluster to assist with tasks like:
 
 * Monitor ingress and egress traffic on the pod network.
 
@@ -54,9 +53,9 @@ As the [Tracking network flows documentation](https://docs.openshift.com/contain
 
 When you enable the collection of the network flows, only the metadata about the traffic is collected. And this data is collected using different possible network record formats:
 
-* **NetFlow**: feature that was introduced on Cisco routers that provides the ability to collect IP network traffic as it enters or exits an interface. 
+* **NetFlow**: a feature that was introduced on Cisco routers that provides the ability to collect IP network traffic as it enters or exits an interface. 
 * **sFlow**: or sampled flow is an industry standard for packet export at Layer 2 of the OSI model. It provides a means for exporting truncated packets, together with interface counters for the purpose of network monitoring.
-* **IPFIX**: is an IETF protocol that defines how IP flow information is to be formatted and transferred from an exporter to a collector.
+* **IPFIX**: an IETF protocol that defines how IP flow information is to be formatted and transferred from an exporter to a collector.
 
 When you configure the Cluster Network Operator (CNO) with one or more collector IP addresses and port numbers, the Operator configures Open vSwitch (OVS) on each node to send the network flows records to each collector.
 
@@ -81,7 +80,7 @@ OVNKubernetes
 
 As the documentation says, we need to apply the manifest for the CNO to configure the OVS to send the network flow records to one Network Flow collector.  
 
-But what we can choose as options to collect our Network Flows?
+But what options can we choose to collect our Network Flows?
 
 After some research we found 3 options available:
 
@@ -89,16 +88,16 @@ After some research we found 3 options available:
 * [vFlow](https://github.com/VerizonDigital/vflow)
 * [ElastiFlow](https://github.com/robcowart/elastiflow) 
 
-GoFlow and vFlow are both written in Go which I like and both appear to be highly scalable collectors. What they don’t have are built-in front ends so will require a bit more work to extract interesting data.
+GoFlow and vFlow are both written in Go, which I like, and both appear to be highly scalable collectors. What they don’t have are built-in front ends, so they will require a bit more work to extract interesting data.
 
 ### Using GoFlow to collect our Network Flow data 
 
-Let's start with GoFlow and try collecting some Network Flows from our cluster. As we said before this application is a NetFlow/IPFIX/sFlow collector in Go.
-It gathers network information (IP, interfaces, routers) from different flow protocols
+Let's start with GoFlow and try collecting some Network Flows from our cluster. As we said before, this application is a NetFlow/IPFIX/sFlow collector in Go.
+It gathers network information (IP, interfaces, routers) from different flow protocols.
 
-We will use a Centos8 Stream as our Network Flow Collector node running our GoFlow. 
+We will use a CentOS 8 Stream as our Network Flow Collector node running GoFlow. 
 
-* Download the latest goflow rpm and installed in the centos8 vm:
+* Download the latest goflow rpm and install it in the CentOS 8 vm:
 
 ```
 # wget https://github.com/cloudflare/goflow/releases/download/v3.4.2/goflow-3.4.2-1.x86_64.rpm
@@ -125,7 +124,7 @@ INFO[0000] Listening on UDP :2055                        Type=NetFlow
 192.168.50.219/24
 ```
 
-### Configure OpenShift to Tracking Network Flows
+### Configure OpenShift to Track Network Flows
 
 Create a patch file that specifies the network flows collector type and the IP address and port information of the collectors:
 
@@ -138,7 +137,7 @@ spec:
         - 192.168.50.219:2056
 ```
 
-as you noticed, we're using the netFlow format and using also the port of NetFlowLegacy 2056 as shown in the documentation.
+As you may have noticed, we're using the netFlow format and also the NetFlowLegacy port 2056 as shown in the documentation.
 
 * Patch the CNO with the network flows collectors configuration defined before:
 
@@ -146,7 +145,7 @@ as you noticed, we're using the netFlow format and using also the port of NetFlo
 $ kubectl patch network.operator cluster --type merge -p "$(cat networkflow.yaml)"
 ```
 
-* View the Operator configuration to confirm that the exportNetworkFlows field is configured
+* View the Operator configuration to confirm that the exportNetworkFlows field is configured:
 
 ```
 $ kubectl get network.operator cluster -o jsonpath="{.spec.exportNetworkFlows}"
@@ -178,7 +177,7 @@ targets             : ["192.168.50.219:2056"]
 ```
 ### Checking the GoFlow Collector network flow records
 
-Almost immedialely we observe in our goflow logs running in Centos8 tons of Network Flows running: 
+Almost immediately we observe in our GoFlow logs running on CentOS 8 tons of Network Flows: 
 
 ```
 # goflow -kafka=false -sflow=true -nf=true
@@ -207,7 +206,7 @@ kubectl get network.operator cluster -o jsonpath="{.spec.exportNetworkFlows}"
 {"sFlow":{"collectors":["192.168.50.219:6343"]}}
 ```
 
-In this case we will use the sFlow format for record our network flows.
+In this case we will use the sFlow format to record our network flows.
 
 * Enable the GoFlow only enabling the sFlow format:
 
@@ -222,9 +221,9 @@ Type:NETFLOW_V5 TimeReceived:1624986809 SequenceNum:17277 SamplingRate:0 Sampler
 Type:NETFLOW_V5 TimeReceived:1624986809 SequenceNum:17277 SamplingRate:0 SamplerAddress:192.168.50.13 TimeFlowStart:1624986807 TimeFlowEnd:1624986807 Bytes:1648 Packets:6 SrcAddr:10.129.2.9 DstAddr:10.128.2.7 Etype:2048 Proto:6 SrcPort:60638 DstPort:3000 InIf:8 OutIf:65533 SrcMac:00:00:00:00:00:00 DstMac:00:00:00:00:00:00 SrcVlan:0 DstVlan:0 VlanId:0 IngressVrfID:0 EgressVrfID:0 IPTos:0 ForwardingStatus:0 IPTTL:0 TCPFlags:24 IcmpType:0 IcmpCode:0 IPv6FlowLabel:0 FragmentId:0 FragmentOffset:0 BiFlowDirection:0 SrcAS:0 DstAS:0 NextHop:0.0.0.0 NextHopAS:0 SrcNet:0 DstNet:0 HasEncap:false SrcAddrEncap:<nil> DstAddrEncap:<nil> ProtoEncap:0 EtypeEncap:0 IPTosEncap:0 IPTTLEncap:0 IPv6FlowLabelEncap:0 FragmentIdEncap:0 FragmentOffsetEncap:0 HasMPLS:false MPLSCount:0 MPLS1TTL:0 MPLS1Label:0 MPLS2TTL:0, MPLS2Label: 0, MPLS3TTL:0 MPLS3Label:0 MPLSLastTTL:0 MPLSLastLabel:0 HasPPP:false PPPAddressControl:0
 ```
 
-Amazing! it's gold information showing things like Source Address, destination address, the protocols, the macaddress, and tons of additional information!
+Amazing! It's golden information showing things like source address, destination address, protocols, MAC addresses, and tons of additional information!
 
-Let's take a deeper look on that useful info.
+Let's take a deeper look at that useful info.
 
 ### Looking into the extracted network flows
 
@@ -234,7 +233,7 @@ If we select the last trace obtained (totally random):
 Type:NETFLOW_V5 TimeReceived:1624986809 SequenceNum:17277 SamplingRate:0 SamplerAddress:192.168.50.13 TimeFlowStart:1624986807 TimeFlowEnd:1624986807 Bytes:1648 Packets:6 SrcAddr:10.129.2.9 DstAddr:10.128.2.7 Etype:2048 Proto:6 SrcPort:60638 DstPort:3000 InIf:8 OutIf:65533 SrcMac:00:00:00:00:00:00 DstMac:00:00:00:00:00:00 SrcVlan:0 DstVlan:0 VlanId:0 IngressVrfID:0 EgressVrfID:0 IPTos:0 ForwardingStatus:0 IPTTL:0 TCPFlags:24 IcmpType:0 IcmpCode:0 IPv6FlowLabel:0 FragmentId:0 FragmentOffset:0 BiFlowDirection:0 SrcAS:0 DstAS:0 NextHop:0.0.0.0 NextHopAS:0 SrcNet:0 DstNet:0 HasEncap:false SrcAddrEncap:<nil> DstAddrEncap:<nil> ProtoEncap:0 EtypeEncap:0 IPTosEncap:0 IPTTLEncap:0 IPv6FlowLabelEncap:0 FragmentIdEncap:0 FragmentOffsetEncap:0 HasMPLS:false MPLSCount:0 MPLS1TTL:0 MPLS1Label:0 MPLS2TTL:0, MPLS2Label: 0, MPLS3TTL:0 MPLS3Label:0 MPLSLastTTL:0 MPLSLastLabel:0 HasPPP:false PPPAddressControl:0
 ```
 
-we can have a lot of information that we can use for investigate and analyze the traffic.
+we can extract a lot of information that we can use to investigate and analyze the traffic.
 
 * SamplerAddress:192.168.50.13
 * SrcAddr:10.129.2.9 
@@ -242,9 +241,9 @@ we can have a lot of information that we can use for investigate and analyze the
 * SrcPort:60638 
 * DstPort:3000
 
-So in this case we are observing on the host 192.168.50.13 of our cluster one workload communicating with another from the 10.129.2.9 to the 10.128.2.7.
+So in this case we are observing on host 192.168.50.13 of our cluster one workload communicating with another, from 10.129.2.9 to 10.128.2.7.
 
-The IPs are corresponding of the cluster Network subnet of our cluster, inside of the SDN and manage for our Cluster Network Operator:
+The IPs correspond to the cluster network subnet of our cluster, inside the SDN and managed by our Cluster Network Operator:
 
 ```
 kubectl get networks cluster -o jsonpath={'.status.clusterNetwork}'
@@ -259,24 +258,24 @@ NAME        STATUS   ROLES    AGE   VERSION                INTERNAL-IP     EXTER
 compute-0   Ready    worker   69d   v1.21.0-rc.0+4b2b6ff   192.168.50.13   <none>        Red Hat Enterprise Linux CoreOS 48.84.202105281935-0 (Ootpa)   4.18.0-305.el8.x86_64   cri-o://1.21.0-100.rhaos4.8.git3dfc2a1.el8
 ```
 
-The source address is the pod in the OpenShift pipelines namespace, the tekton pipelines controller
+The source address is the pod in the OpenShift Pipelines namespace, the Tekton Pipelines controller:
 
 ```
 $ kubectl get pod -A -o wide | grep 10.128.2.9
 openshift-pipelines                                tekton-pipelines-controller-6f6fc5fc95-kwpks                      1/1     Running     0          29m     10.128.2.9      compute-0   <none>           <none>
 ```
 
-And the destination corresponds to the grafana pod in the OpenShift monitoring namespace:
+And the destination corresponds to the Grafana pod in the OpenShift monitoring namespace:
 
 ```
 $ kubectl get pod -A -o wide | grep 10.128.2.7
 openshift-monitoring                               grafana-74655dbf66-f6hjg                                          2/2     Running     0          29m     10.128.2.7      compute-0   <none>           <none>
 ```
 
-Finally, [Ricardo Carrillo have a fork of the GoFlow repo](https://github.com/rcarrillocruz/goflow/commit/18e0fae87ac4bc78fc8c9c37af64b0ce330c4748), that implements an Enricher interface including to StateSFlow / SFlow. Big thanks Ricardo for your work and for sharing this! Teamwork++
+Finally, [Ricardo Carrillo has a fork of the GoFlow repo](https://github.com/rcarrillocruz/goflow/commit/18e0fae87ac4bc78fc8c9c37af64b0ce330c4748) that implements an Enricher interface including StateSFlow / SFlow. Big thanks to Ricardo for his work and for sharing this! Teamwork++
 
-And with that, we completed our first network flow collection of our OpenShift cluster! 
-In the next blog post we will use other tools to collect and analyse our Network Flows in a nicer and graphical way!  
+And with that, we completed our first network flow collection of our OpenShift cluster!
+In the next blog post we will use other tools to collect and analyse our Network Flows in a nicer and more graphical way!
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

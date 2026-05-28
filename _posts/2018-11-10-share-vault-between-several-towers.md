@@ -13,17 +13,17 @@ comments: true
 ---
 
 
-Sometimes you need to share the Ansible Vault between the different Ansible Roles, because you want to integrated within Tower or just in different Workflow Templates.
+Sometimes you need to share the Ansible Vault between different Ansible Roles, because you want to integrate it within Tower or just in different Workflow Templates.
 
 Also it can be useful if the playbook is executed by Ansible Tower, or just in the CLI without more options than the vault pass and the ID.
 
-Create a role containing the vault
+Create a role containing the vault:
 
 ```
 mkdir roles/vault1/defaults
 ```
 
-Create the vault
+Create the vault:
 
 ```
 ansible-vault create --new-vault-id=vault1 roles/vault1/defaults/main.yml

@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How I can connect my ArgoCD/OpenShift GitOps deployments in each managed cluster, and have full visibility, control and management of my Argo Applications in single pane of glass?  How I can manage all my ApplicationSets in the different managed clusters that I have across public and private clouds?
+How can I connect my ArgoCD/OpenShift GitOps deployments in each managed cluster, and have full visibility, control and management of my Argo Applications in a single pane of glass? How can I manage all my ApplicationSets in the different managed clusters that I have across public and private clouds?
 
 Let's dig in!
 
@@ -28,11 +28,11 @@ The ApplicationSet controller, when installed with Argo CD, supplements it by ad
 
 * Improved support for monorepos: in the context of Argo CD, a monorepo is multiple Argo CD Application resources defined within a single Git repository
 
-among others features that are interesting for multitenant clustering.
+among other features that are interesting for multitenant clustering.
 
-And how we can connect the ACM with the ApplicationSets of OpenShift GitOps for configure and deploy OpenShift GitOps applications and applicationsets in Managed clusters?
+And how can we connect ACM with the ApplicationSets of OpenShift GitOps to configure and deploy OpenShift GitOps applications and applicationsets in Managed clusters?
 
-## Prerequisites for integrate OpenShift GitOps and ACM with Managed Clusters
+## Prerequisites for integrating OpenShift GitOps and ACM with Managed Clusters
 
 * We need to install OpenShift GitOps in the ACM Hub with the Operator:
 
@@ -42,11 +42,11 @@ until oc apply -k https://github.com/RedHat-EMEA-SSA-Team/ns-gitops/tree/bootstr
 
 * You can also follow the [official documentation for OpenShift GitOps](https://docs.openshift.com/container-platform/4.9/cicd/gitops/installing-openshift-gitops.html)
 
-* On the other we need to deploy and manage different clusters in public or private cloud. In my case I used my BM cluster located in Munich, Germany and also the cluster deployed in AWS in us-west-1 located in North California, and will be used in this blog post for deploy my applications.
+* On the other hand, we need to deploy and manage different clusters in public or private cloud. In my case I used my BM cluster located in Munich, Germany and also the cluster deployed in AWS in us-west-1 located in North California, and these will be used in this blog post to deploy my applications.
 
 ## Configuring Managed Clusters for OpenShift GitOps / ArgoCD
 
-To configure and link OpenShift GitOps in ACM, we can register a set of one or more managed clusters to an instance of Argo CD or OpenShift GitOps operator.
+To configure and link OpenShift GitOps in ACM, we can register a set of one or more managed clusters to an instance of Argo CD or the OpenShift GitOps operator.
 
 After registering, we can deploy applications to those clusters using Application and ApplicationSets managing from the ACM Hub Applications. Then, we can set up a continuous GitOps environment to automate application consistency across clusters in development, staging, and production environments.
 
@@ -62,7 +62,7 @@ metadata:
   spec: {}
 ```
 
-* Add the managed clusters as imported clusters into the ClusterSet. You can imported with the ACM Console or with the CLI:
+* Add the managed clusters as imported clusters into the ClusterSet. You can import them with the ACM Console or with the CLI:
 
 [Add Imported clusterset with Console](https://github.com/open-cluster-management/rhacm-docs/blob/2.4_stage/clusters/managedclustersets.adoc#creating-a-managedclustersetbinding-by-using-the-console)
 
@@ -128,21 +128,21 @@ This enables the Argo CD instance to deploy applications to any of those ACM Hub
 
 As we can see from the previous example the placementRef.name is defined as all-openshift-clusters, and is specified as target clusters for the GitOps instance that is installed in argoNamespace: openshift-gitops.
 
-On the other hand, the argoServer.cluster specification requires the local-cluster value, because will be using the OpenShift GitOps deployed in the OpenShift cluster that is also where the ACM Hub is installed.
+On the other hand, the argoServer.cluster specification requires the local-cluster value, because we will be using the OpenShift GitOps deployed in the OpenShift cluster that is also where the ACM Hub is installed.
 
-* After a couple of minutes than we have the generated the GitOps Cluster CRD in the ACM Hub, we will be able to define Applications and ApplicationSets directly from our ACM Hub console in the Applications section.
+* After a couple of minutes once we have generated the GitOps Cluster CRD in the ACM Hub, we will be able to define Applications and ApplicationSets directly from our ACM Hub console in the Applications section.
 
 ## Deploying ArgoCD/OpenShift GitOps ApplicationSets from ACM Hub
 
-Once we have the integration between OpenShift GitOps and ACM is enabled though the GitOps Cluster CRD in ACM Hub, we have the possibility to deploy ApplicationSets in ACM Hub directly, managing in a single pane of glass all the ArgoCD applications.
+Once the integration between OpenShift GitOps and ACM is enabled through the GitOps Cluster CRD in ACM Hub, we have the possibility to deploy ApplicationSets in ACM Hub directly, managing all the ArgoCD applications in a single pane of glass.
 
 On the other hand we will also benefit from the features of the different [generators of ArgoCD ApplicationSets](https://argocd-applicationset.readthedocs.io/en/stable/Generators/).
 
-Using these generators (specially the [Cluster Decision Resource Generator](https://argocd-applicationset.readthedocs.io/en/stable/Generators-Cluster-Decision-Resource/)) we can deploy several applications from a single repository in different clusters, leveraging from the ApplicationSet for apply the application manifests for the different objects in the repository in each managed cluster.
+Using these generators (especially the [Cluster Decision Resource Generator](https://argocd-applicationset.readthedocs.io/en/stable/Generators-Cluster-Decision-Resource/)) we can deploy several applications from a single repository in different clusters, leveraging the ApplicationSet to apply the application manifests for the different objects in the repository in each managed cluster.
 
 Let's generate the ApplicationSet in ACM Hub.
 
-* With the UI generate a ApplicationSet with for an applicationset of example:
+* With the UI generate an ApplicationSet for an example applicationset:
 
 [![](/images/acmappA.png "acmappA")]({{site.url}}/images/acmappA.png)
 
@@ -178,7 +178,7 @@ spec:
           selfHeal: true
 ```
 
-NOTE: the destination namespace could be openshift-gitops. BGDK could be change, but it leaves in that way because we need to put a destination namespace, even it's not necessary for the applicationset itself (not needed also for the application bgdk)
+NOTE: the destination namespace could be openshift-gitops. BGDK could be changed, but it is left that way because we need to specify a destination namespace, even though it is not necessary for the applicationset itself (not needed for the application bgdk either)
 
 * The result is an ApplicationSet that is generated in OpenShift GitOps but managed by ACM Hub:
 
@@ -186,13 +186,13 @@ NOTE: the destination namespace could be openshift-gitops. BGDK could be change,
 
 as we can see is assigned to two different Clusters, ```bm-germany``` and ```local-cluster``` that will be where the applications will be deployed managed by the ApplicationSet
 
-The application have the ApplicationSet generated for EACH cluster that matches the Placement defined as acm-appsets-placement, during the definition of the ApplicationSet before. Could also match labels of the clusters, to not depend only of Placement object.
+The ApplicationSet has generated an application for EACH cluster that matches the Placement defined as acm-appsets-placement, during the definition of the ApplicationSet before. It could also match labels of the clusters, to not depend only on the Placement object.
 
 * In the application generated, each of the Application will have their own Application, Placement and Cluster as we can check:
 
 [![](/images/acmappC.png "acmappC")]({{site.url}}/images/acmappC.png)
 
-as we can check the ArgoCD Application is deployed correctly and automatically managed by the ApplicationSet of ACM AppSets in the BM-Germany cluster. Also another ArgoCD Application will be used for deploy another Application in the other cluster that matches de Placement.
+as we can check the ArgoCD Application is deployed correctly and automatically managed by the ApplicationSet of ACM AppSets in the BM-Germany cluster. Also another ArgoCD Application will be used to deploy another Application in the other cluster that matches the Placement.
 
 * These are the details of the Application generated by the ApplicationSet:
 
@@ -204,7 +204,7 @@ as we described before two ArgoCD Applications are generated by the ApplicationS
 
 [![](/images/acmappE.png "acmappE")]({{site.url}}/images/acmappE.png)
 
-NOTE: check the destination that are pointing to the different managed clusters defined in early steps.
+NOTE: check the destinations that are pointing to the different managed clusters defined in earlier steps.
 
 * Each Argo ApplicationSet manages the Application in each cluster managed, like for example the deployment of BGDK application in BM-Germany cluster.
 
@@ -216,9 +216,9 @@ this Application will deploy the application manifests in the managed clusters, 
 
 [![](/images/acmappG.png "acmappG")]({{site.url}}/images/acmappG.png)
 
-these are generated automatically and managed by the GitOps CRD generated in the ACM Hub, that corresponds with the Managed Clusters.
+these are generated automatically and managed by the GitOps CRD generated in the ACM Hub, which corresponds to the Managed Clusters.
 
-And with ends this blog post about OpenShift GitOps, ArgoCD ApplicationSets and ACM!
+And with that ends this blog post about OpenShift GitOps, ArgoCD ApplicationSets and ACM!
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

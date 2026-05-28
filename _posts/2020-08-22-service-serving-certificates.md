@@ -12,8 +12,8 @@ author: rcarrata
 comments: true
 ---
 
-How I can secure the inter-cluster communication within two pods running into OpenShift? How can I
-secure one service calling another service using SSL both running OpenShift in a easy way?
+How can I secure the inter-cluster communication between two pods running in OpenShift? How can I
+secure one service calling another service using SSL, both running in OpenShift, in an easy way?
 
 Let's dig in!
 
@@ -30,8 +30,8 @@ two options:
 
 ## 2. Prerequisites and environment
 
-This blog post is tested and runs in every OCP4.x environment, but its specifically tested in a
-4.4.5 version in AWS.
+This blog post is tested and runs in every OCP4.x environment, but it's specifically tested in a
+4.4.5 version on AWS.
 
 No specific configuration is needed (out of the box).
 
@@ -90,7 +90,7 @@ service-serving-cert-signer-b5665b6f5-lx7bl     1/1     Running   3          2d7
 
 ## 4. Service CA Certificates in OpenShift 4
 
-For OpenShift 4.x the service ca certificates are managed by the service CA operator.
+For OpenShift 4.x, the service CA certificates are managed by the Service CA operator.
 
 The key and certificate are in a secret in the namespace openshift-service-ca as signing-key secret:
 
@@ -110,7 +110,7 @@ Certificate:
 ...
 ```
 
-as we can check, the signing key certificate is generated and and issued by the openshift service serving signer.
+As we can check, the signing key certificate is generated and issued by the openshift service serving signer.
 
 ## 5. Service CA Operator Controllers
 
@@ -125,18 +125,18 @@ The Service CA operator runs the following controllers:
 
 * **Generic cabundle injector**: Watches for apiservices, mutatingwebhookconfig, validatingwebhookconfig and crds annotated with 'service.beta.openshift.io/inject-cabundle=true' and sets the appropriate ca bundle field with a base64url-encoded CA signing bundle
 
-The controllers that we are interested in is the Configmap cabundle injector, because is capable to with an annotation to the configmap, injects the service CA certificate into the service-ca.crt
+The controller that we are interested in is the Configmap cabundle injector, because it is capable of injecting the service CA certificate into the service-ca.crt by adding an annotation to the configmap.
 
-An important note here, is that the access to this CA certificate allows TLS clients to verify connections to services using this service serving certificates, and validating this way the secure connection inside the cluster.
+An important note here is that access to this CA certificate allows TLS clients to verify connections to services using service serving certificates, validating in this way the secure connection inside the cluster.
 
-In order to compare the service-ca.crt that are injected into the configmaps by the service ca operator, to the original signing-key secret generated into the openshift-service-ca, we need to extract the signing-key certificate (in the openshift-service-ca namespace) and one example of the service-ca.crt injected by the service ca operator:
+In order to compare the service-ca.crt that is injected into the configmaps by the service ca operator with the original signing-key secret generated in the openshift-service-ca namespace, we need to extract the signing-key certificate (in the openshift-service-ca namespace) and one example of the service-ca.crt injected by the service ca operator:
 
 ```
 $ oc get cm service-ca-bundle  -n openshift-insights -o jsonpath="{.data['service-ca\.crt']}" > /tmp/ca1.crt
 $ oc get secrets -n openshift-service-ca signing-key -o jsonpath="{.data['tls\.crt']}" |  base64 -d | openssl x509 > /tmp/ca2.crt
 ```
 
-If we compare the two extracted certificates with openssl md5, we noticed that are the same file:
+If we compare the two extracted certificates with openssl md5, we notice that they are the same file:
 
 ```
 $ openssl md5 /tmp/ca1.crt
@@ -145,17 +145,17 @@ $ openssl md5 /tmp/ca2.crt
 MD5(/tmp/ca2.crt)= 4072c8d1c32d38bb659cc506f14a81d1
 ```
 
-this is because the service-ca.crt certificate is automatically injected by the service ca operator,
+This is because the service-ca.crt certificate is automatically injected by the service ca operator,
 and the operator injects the same exact cert of the signing-key.
 
 ## 6. Benefits of Service Serving Certificates
 
-And how this helps to me?
+And how does this help me?
 
-* With the OpenShift Service CA operator, you can dynamic generate the certificates, allowing
-secure connections (TLS) to services that utilize service-service certificates.
+* With the OpenShift Service CA operator, you can dynamically generate the certificates, allowing
+secure connections (TLS) to services that utilize service-serving certificates.
 
-This certificates will added automatically using the configmap ca bundle injector annotation:
+These certificates will be added automatically using the configmap ca bundle injector annotation:
 
 ```
 $ oc get cm service-ca-bundle  -n openshift-insights -o yaml | yq .metadata.annotations
@@ -164,8 +164,8 @@ $ oc get cm service-ca-bundle  -n openshift-insights -o yaml | yq .metadata.anno
  }
 ```
 
-This will allow that the consumers of the configmap can then trust service-ca.crt in their TLS
-client configurations, allowing connections to these services that uses the service-serving certs.
+This will allow the consumers of the configmap to trust service-ca.crt in their TLS
+client configurations, allowing connections to services that use service-serving certs.
 
 * Furthermore, another benefit is that the certificate and key dynamically generated by the CA
   operator are automatically replaced when they get close to expiration. The service CA certificate,
@@ -173,12 +173,12 @@ client configurations, allowing connections to these services that uses the serv
 
 ## 7. Conclusion and Next Steps
 
-OpenShift Service CA Operator helps other operators and elements inside of the cluster to generate
-certificates that can secure communication between services, and we can benefit also of this
-operator generating dynamically certificates for our microservices / apps running in our cluster.
+OpenShift Service CA Operator helps other operators and elements inside the cluster generate
+certificates that can secure communication between services, and we can also benefit from this
+operator by dynamically generating certificates for our microservices / apps running in our cluster.
 
 In the next blog post we will analyse a real example, using the Service CA Operator to secure the
-communication between two microservices without using non external service.
+communication between two microservices without using any external service.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

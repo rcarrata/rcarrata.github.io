@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How we can install OpenShift4 in UPI mode in AWS? How we can do in an semi-automatic way? Which are
+How can we install OpenShift 4 in UPI mode on AWS? How can we do it in a semi-automatic way? What are
 the caveats and the steps to execute?
 
 This blog post is using some code available in a Github Repo for [OCP4 in AWS in UPI
@@ -22,7 +22,7 @@ Let's deep dive a little bit!
 
 ## 1. Overview
 
-This procedure is based in the [official installation of OpenShift4 for AWS](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-user-infra.html). Please refer to this guide for more information
+This procedure is based on the [official installation of OpenShift 4 for AWS](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-user-infra.html). Please refer to this guide for more information.
 
 Fully tested in OpenShift 4.2 in AWS.
 
@@ -67,8 +67,8 @@ sudo tar -xvzf $openshift_cli -C /usr/local/bin/
 ? Pull Secret [? for help] xxxx
 ```
 
-* Change the worker number to 0, because the workers will be deployed with Cloudformation templates
-(and not with the MachineSets as the IPI installation does):
+* Change the worker count to 0, because the workers will be deployed with CloudFormation templates
+(and not with MachineSets as the IPI installation does):
 
 ```
 sed -i '3,/replicas: / s/replicas: .*/replicas: 0/' install-config.yaml
@@ -187,8 +187,8 @@ for i in $(ls *.json.orig); do cp -p $i $(echo $i | sed -e "s/\.json\.orig/\.jso
 
 ## 3. Creating the VPC and the Load Balancing Resources
 
-As this client is not necessary to create the VPC and their resources, because the client need to
-install OCP4 into their own AWS network infrastructure already created.
+In this case, it is not necessary to create the VPC and its resources, because the client needs to
+install OCP4 into their own existing AWS network infrastructure.
 
 ### 3.1 Creating Networking and Load Balancing Components in AWS
 
@@ -218,8 +218,8 @@ sed -i -e "s/infrastructurename/$infrastructurename/g" *.json
 hostedzonename="aa37.sandbox675.opentlc.com"
 ```
 
-NOTE: Remember to do not include the absolute domain name "with the dot(.) at the end", use the
-relative domain name (without the dot(.) at the end"
+NOTE: Remember not to include the absolute domain name "with the dot(.) at the end"; use the
+relative domain name (without the dot(.) at the end).
 
 ```
 sed -i -e "s/hostedzonename/$hostedzonename/g" *.json
@@ -250,8 +250,8 @@ sed -i -e "s/vpcid/$vpcid/g" *.json
 
 * PrivateSubnets
 
-* NOTE: The filter for identify the Private and the Public subnets in this case is
-  Tags.Key=="kubernetes.io/role/internal-elb because the Subnets are deployed with this tags
+* NOTE: The filter to identify the private and public subnets in this case is
+  Tags.Key=="kubernetes.io/role/internal-elb because the subnets are deployed with these tags.
 
 ```
 [root@clientvm 130 ~/06-cloudformation]# privatesubnets=$( aws ec2 describe-subnets --filter="Name=vpc-id,Values=$vpcid" | jq -r '.Subnets[] | select(.Tags[].Value=="private")  | .SubnetId' | paste -s -d",")
@@ -672,7 +672,7 @@ openshift-install wait-for bootstrap-complete --dir=.
 
 **IMPORTANT STEP:**
 
-You must watch if the csrs are aprroved, if not you must approve them with the next command:
+You must check if the CSRs are approved. If not, you must approve them with the following command:
 
 ```
 export KUBECONFIG="kubeconfig"
@@ -691,10 +691,10 @@ if $csr oc get csr -ojson | jq -r '.items[] | select(.status == {} ) | .metadata
 openshift-install wait-for install-complete --dir=.
 ```
 
-And that's it! You have your cluster of Openshif4 in AWS in UPI mode!!
+And that's it! You have your OpenShift 4 cluster on AWS in UPI mode!!
 
-In the next blog post, we will see in much detail what are the following resources generated in a
-OCP4 Install and how we can deploy in a VPC installation.
+In the next blog post, we will see in much more detail what resources are generated in an
+OCP4 install and how we can deploy in a VPC installation.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

@@ -14,11 +14,11 @@ comments: true
 
 How can I deploy my applications in multiclustering environments and connect my microservices across the different clusters using the SDN and overlay networks?
 
-This is the second blog post about Submariner and RHACM and it's based in the [Installation and configuration of Submariner within RHACM](https://rcarrata.com/openshift/rhacm-submariner/) blog post. So if you didn't check it, go ahead and take a look! :)
+This is the second blog post about Submariner and RHACM and it's based on the [Installation and configuration of Submariner within RHACM](https://rcarrata.com/openshift/rhacm-submariner/) blog post. So if you didn't check it, go ahead and take a look! :)
 
 ### Overview
 
-Now that we know Submariner and RHACM a bit more, let's go to the Service Discovery configuration, following by deploying one simple Nginx application for testing the communication, and finally deploying a more complex stateful application using a Frontend and a Redis Master/Slave, spanned across the clusters.
+Now that we know Submariner and RHACM a bit more, let's go to the Service Discovery configuration, followed by deploying a simple Nginx application for testing the communication, and finally deploying a more complex stateful application using a Frontend and a Redis Master/Slave, spanned across the clusters.
 
 ### Install Submariner with Service Discovery
 
@@ -28,7 +28,7 @@ To make a service from a cluster visible and discoverable to other clusters in t
 
 The ServiceExport is used to specify which Services should be exposed across all clusters in the cluster set. If multiple clusters export a Service with the same name and from the same namespace, they will be recognized as a single logical Service.
 
-We will install the Service Broker using the subctl util that simplifies very much the installation of the Service Broker and also have a very handy tool to manage and see the status of the submariner connections, endpoints, etc.
+We will install the Service Broker using the subctl util that simplifies very much the installation of the Service Broker and also has a very handy tool to manage and see the status of the submariner connections, endpoints, etc.
 
 * Install subctl tool into your system:
 
@@ -75,7 +75,7 @@ $ subctl join --kubeconfig /tmp/test/aws-sub2/aws-sub2-kubeconfig.yaml broker-in
  ✓ Submariner is up and running
 ```
 
-NOTE: we're using the kubeconfigs because the subctl tool works better if you specifies them, in order to identify and use the clusters to configure into the Broker.
+NOTE: we're using the kubeconfigs because the subctl tool works better if you specify them, in order to identify and use the clusters to configure in the Broker.
 
 * Configure the cluster2 (aws-sub2) as Submariner Broker
 
@@ -113,7 +113,7 @@ $ subctl join --kubeconfig /tmp/test/aws-sub2/aws-sub2-kubeconfig.yaml broker-in
  ✓ Submariner is up and running
 ```
 
-* In the process of joining clusters to the Broker, also a submariner-operator is deployed and configured, among other elements.
+* In the process of joining clusters to the Broker, a submariner-operator is also deployed and configured, among other elements.
 
 ```
 $ oc get pod -n submariner-operator
@@ -136,7 +136,7 @@ Check the [documentation of the Architecture of Submariner](https://submariner.i
 
 ### Checking the Submariner Details in our Managed Clusters
 
-Subctl is a very nice tool in order to investigate more details about the status of the Endpoints, connections, and gateway details among others.
+Subctl is a very nice tool to investigate more details about the status of the Endpoints, connections, and gateway details among others.
 
 * Execute a general 'subctl show' to get all the details and the current status:
 
@@ -191,7 +191,7 @@ Showing network details for cluster "aws-sub2":
         Cluster CIDRs:   [10.128.0.0/14]
 ```
 
-As you can see it's using the Cluster Networks and Service Netwoks. For this reason was so important to not overlap each network! Now can be communicated in a L2/L3 level!
+As you can see, it's using the Cluster Networks and Service Networks. For this reason it was so important not to overlap each network! Now they can communicate at L2/L3 level!
 
 ### Verify the Submariner connectivity with Service Discovery
 
@@ -297,7 +297,7 @@ ETag: "5f9ade5a-264"
 Accept-Ranges: bytes
 ```
 
-* Let's perform a quick test for see the latency between the curl in the aws-sub2 cluster2 to the nginx in the aws-sub1 cluster1:
+* Let's perform a quick test to see the latency between the curl in the aws-sub2 cluster2 to the nginx in the aws-sub1 cluster1:
 
 ```
 bash-5.0# curl -w "dns_resolution: %{time_namelookup}, tcp_established: %{time_connect}, TTFB: %{time_starttransfer}\n"
@@ -315,7 +315,7 @@ bash-5.0# ip ad | grep eth0
     inet 10.128.2.58/23 brd 10.128.3.255 scope global eth0
 ```
 
-so the IP of our pod is 10.128.2.58 (within the aws-sub1 cluster network CIDR).
+so the IP of our pod is 10.128.2.58 (within the aws-sub2 cluster network CIDR).
 
 * Check the logs back in the Nginx Pod of the first cluster (aws-sub1):
 
@@ -335,7 +335,7 @@ $ oc logs -n default -f --tail=5 nginx-6fdb7ffd5b-pk6f7
 
 The source IP where the curl originated is THE SAME! Wonderful, isn't it?
 
-* Finally check with the subctl with the connections are working properly:
+* Finally, check with subctl that the connections are working properly:
 
 ```
 $ subctl show connections --kubeconfig=/tmp/test/aws-sub1/aws-sub1-kubeconfig.yaml
@@ -345,9 +345,9 @@ GATEWAY                         CLUSTER                 REMOTE IP       CABLE DR
 ip-10-0-31-78                   aws-sub2                10.0.31.78      libreswan           172.30.0.0/16, 10.128.0.0/14            connected
 ```
 
-So both clusters are connected with the remote IP (gw node) of 10.0.31.78! The cable protocol used is [libreswan](https://libreswan.org/), a free software implementation that IPsec and IKE uses.
+So both clusters are connected with the remote IP (gw node) of 10.0.31.78! The cable protocol used is [libreswan](https://libreswan.org/), a free software implementation that IPsec and IKE use.
 
-#### Deep Dive in the Submariner connectivity between clusters
+#### Deep Dive into the Submariner connectivity between clusters
 
 What's happened? And why can we reach the nginx service from the second cluster? How does the connection work?
 
@@ -355,7 +355,7 @@ Let's see the journey when we perform our curl from the cluster2 to the servicee
 
 [![](/images/submariner9.png "Submariner Diagram 1")]({{site.url}}/images/submariner9.png)
 
-* When the source Pod (our submariner-test pod when perform our curl) is on a worker node that is not the elected gateway node, the traffic destined for the remote cluster will transit through the submariner VXLAN tunnel (vx-submariner) to the local cluster gateway node.
+* When the source Pod (our submariner-test pod when performing our curl) is on a worker node that is not the elected gateway node, the traffic destined for the remote cluster will transit through the submariner VXLAN tunnel (vx-submariner) to the local cluster gateway node.
 
 * On the gateway node, traffic is encapsulated in an IPsec tunnel and forwarded to the remote cluster.
 
@@ -365,17 +365,17 @@ Let's see the journey when we perform our curl from the cluster2 to the servicee
 
 * If the destination CIDR is a Service network, then traffic is routed through the facility configured via kube-proxy on the destination gateway node.
 
-### Deploy an Stateful Application and connect within different clusters with Submariner
+### Deploy a Stateful Application and connect across different clusters with Submariner
 
-Now that we know that our submariner connectivities and tunnels work properly, and we understand a bit more about what's happening behind the hood, let's do our real business: connecting different microservices of our application spanned across different clusters. Cool, right?
+Now that we know that our submariner connectivities and tunnels work properly, and we understand a bit more about what's happening under the hood, let's do our real business: connecting different microservices of our application spanned across different clusters. Cool, right?
 
 We will deploy a FrontEnd and a Redis with a master-slave replication:
 
 [![](/images/submariner10.png "Submariner Diagram 2")]({{site.url}}/images/submariner10.png)
 
-The frontend will be deployed in the cluster1 with the Redis master and the and Redis slave in cluster2. Redis Master will replicate into the redis-slave using the serviceexport of the redis-slave.
+The frontend will be deployed in cluster1 with the Redis master, and the Redis slave in cluster2. Redis Master will replicate to the redis-slave using the serviceexport of the redis-slave.
 
-The frontend (GuestBook app), will connect as well to the ServiceExports of the Redis Master and Redis Slave for store and consume the data for our app.
+The frontend (GuestBook app), will connect as well to the ServiceExports of the Redis Master and Redis Slave to store and consume the data for our app.
 
 The application and all of the elements are available in the [public repo for this demo](https://github.com/rcarrata/acm-demo-app/).
 
@@ -385,11 +385,11 @@ NOTE: this app was forked from the [original repo](https://github.com/skeeey/acm
 
 We can deploy our app by hand, correct? But this is not using the full potential of ACM. Let's do GitOps!
 
-The repository of our app is divided in 3 main folders for each microservice of our app: guestbook-app, redis-master-app and redis-slave-app.
+The repository of our app is divided into 3 main folders for each microservice of our app: guestbook-app, redis-master-app and redis-slave-app.
 
-Inside of each repository, we have 2 main folders:
+Inside each repository, we have 2 main folders:
 
-* acm-resources: the files for do the GitOps deployment through ACM
+* acm-resources: the files to do the GitOps deployment through ACM
 * <microservice>-app: the specific files for our microservice (deployment, service, routes, namespaces, etc).
 
 For more information about the GitOps and RHACM check a [fantastic blog post](https://www.openshift.com/blog/applications-here-applications-there-part-1-deploying-an-application-to-multiple-environments) of my pal Mario Vazquez.
@@ -404,7 +404,7 @@ Switched to context "hubcluster".
 $ oc apply -k guestbook-app/acm-resources
 ```
 
-As we can see the guestbook microservice is deployed into the cluster1 because of the placementrules.
+As we can see, the guestbook microservice is deployed in cluster1 because of the placementrules.
 
 [![](/images/submariner4.png "Submariner Diagram 3")]({{site.url}}/images/submariner4.png)
 
@@ -414,7 +414,7 @@ As we can see the guestbook microservice is deployed into the cluster1 because o
 $ oc apply -k redis-master-app/acm-resources
 ```
 
-As we can see the redis-master microservice is deployed into the cluster1 because of the placementrules.
+As we can see, the redis-master microservice is deployed in cluster1 because of the placementrules.
 
 [![](/images/submariner5.png "Submariner Diagram 4")]({{site.url}}/images/submariner5.png)
 
@@ -424,12 +424,12 @@ As we can see the redis-master microservice is deployed into the cluster1 becaus
 $ oc apply -k redis-slave-app/acm-resources
 ```
 
-As we can see the redis-slave microservice is deployed into the cluster2 because of the placementrules.
+As we can see, the redis-slave microservice is deployed in cluster2 because of the placementrules.
 
 [![](/images/submariner6.png "Submariner Diagram 5")]({{site.url}}/images/submariner6.png)
 
 
-* We need to do a final tweak into the guestbook namespace in both managed clusters and allow our apps to run as anyuid temporally:
+* We need to do a final tweak in the guestbook namespace in both managed clusters and allow our apps to run as anyuid temporarily:
 
 ```
 $ oc config use-context cluster1
@@ -451,11 +451,11 @@ clusterrole.rbac.authorization.k8s.io/system:openshift:scc:anyuid added: "defaul
 $ oc delete pod --all -n guestbook
 ```
 
-NOTE: this is only for a PoC and for demo. In production envs you need to adjust the UIDs, and not run pods as root as much as possible.
+NOTE: this is only for a PoC and for a demo. In production envs you need to adjust the UIDs, and not run pods as root as much as possible.
 
 #### Using the ServiceExport to communicate between the multiclustering overlay networks
 
-The guestbook frontend connects to the redis-master and redis-slave microservices using the ServiceExport from the redis-master and the redis-slave defines envs in their deployment:
+The guestbook frontend connects to the redis-master and redis-slave microservices using the ServiceExport from the redis-master and the redis-slave, defined as envs in its deployment:
 
 ```
 - name: REDIS_MASTER_SERVICE_HOST
@@ -464,7 +464,7 @@ The guestbook frontend connects to the redis-master and redis-slave microservice
   value: redis-slave.guestbook.svc.clusterset.local
 ```
 
-And on the other hand the Redis-Slave uses the following envs in their deployment:
+And on the other hand the Redis-Slave uses the following envs in its deployment:
 
 ```
 - name: REDIS_MASTER_SERVICE_HOST
@@ -484,7 +484,7 @@ $ oc logs --tail=4 -f $REDIS_POD
 [1] 10 Apr 23:54:38.565 * Synchronization with slave 10.128.2.80:6379 succeeded
 ```
 
-The pods of the Redis-Master shows that the slave is synching properly with the master going through the IPsec tunnels of the Submariner from Cluster2 to Cluster1 and viceversa.
+The pods of the Redis-Master show that the slave is syncing properly with the master going through the IPsec tunnels of the Submariner from Cluster2 to Cluster1 and viceversa.
 
 * Change to the cluster2 (aws-sub2) and see the logs of the Redis-Slave:
 
@@ -497,7 +497,7 @@ redis-slave-7976dcf88d-knb7v   1/1     Running   0          11m
 
 #### Testing the Synchronization of the Redis Master-Slave between clusters and interacting with our FrontEnd
 
-To test the sync between the data from the Redis Master<->Slave, let's write some data into our frontend. Access to the route of the guestbook, from the ACM y write some data:
+To test the sync between the data from the Redis Master<->Slave, let's write some data into our frontend. Access the route of the guestbook from ACM and write some data:
 
 [![](/images/submariner7.png "Submariner Diagram 7")]({{site.url}}/images/submariner7.png)
 
@@ -517,9 +517,9 @@ $ oc logs --tail=10 -f redis-slave-7976dcf88d-dzcvg -n guestbook
 8:S 11 Apr 00:00:37.592 * MASTER <-> SLAVE sync: Finished with success
 ```
 
-The sync is automatic and almost instanteneous between Master-Slave.
+The sync is automatic and almost instantaneous between Master-Slave.
 
-* We can check the data write in the redis-slave with the redis-cli and the following command:
+* We can check the data written in the redis-slave with the redis-cli and the following command:
 
 ```
 for key in $(redis-cli -p 6379 keys \*);
@@ -528,7 +528,7 @@ for key in $(redis-cli -p 6379 keys \*);
 done
 ```
 
-* Let's performed in the redis-slave pod:
+* Let's run this in the redis-slave pod:
 
 ```
 $ oc exec -ti -n guestbook redis-slave-7976dcf88d-dzcvg -- bash
@@ -540,9 +540,9 @@ Key : 'messages'
 ",hello,this is a message for the submariner demo! :)"
 ```
 
-Alright! Everything that we writed in our guestbook frontend, is there in the Redis-Slave!
+Alright! Everything that we wrote in our guestbook frontend is there in the Redis-Slave!
 
-* Finally we can add more data and observe if there is also synched:
+* Finally, we can add more data and observe if it is also synced:
 
 [![](/images/submariner8.png "Submariner Diagram 8")]({{site.url}}/images/submariner8.png)
 
@@ -552,7 +552,7 @@ Key : 'messages'
 ",hello,this is a message for the submariner demo! :),hello from the aws-sub1 frontend!!"
 ```
 
-And that's how the Redis-Master in the cluster1 sync properly the data to the redis-slave in the cluster2.
+And that's how the Redis-Master in cluster1 properly syncs the data to the redis-slave in cluster2.
 
 Thanks for reading and hope that you enjoyed the blog post as much as I did writing it.
 

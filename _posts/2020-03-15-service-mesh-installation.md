@@ -12,23 +12,23 @@ author: rcarrata
 comments: true
 ---
 
-How to install Service Mesh easy, straight forward and with a basic but fully operational installation on top of OpenShift 4? And how are the advantages and caveats of each configuration parameter?
+How to install Service Mesh easily, in a straightforward way, with a basic but fully operational installation on top of OpenShift 4? And what are the advantages and caveats of each configuration parameter?
 
-I been playing with Service Mesh more than 1 year in this moments. I tweaked, broke it a lot of times, tried with
-different configurations and after a bit off playing with other things, I wanted to write some blog
-post with all the things that I discovered.
+I have been playing with Service Mesh for more than a year at this point. I tweaked it, broke it a lot of times, tried
+different configurations, and after a bit of playing with other things, I wanted to write some blog
+posts with all the things that I discovered.
 
 This is a blog post series (I hope :D), that involves all of the configurations, tools, components,
 pros/cons about this wonderful world of the Service Mesh.
 
-All of the blog post will be about Service Mesh on top of OpenShift, but as you know you can deploy
-very easily the exact examples in Kubernetes.
+All of the blog posts will be about Service Mesh on top of OpenShift, but as you know, you can deploy
+the exact same examples very easily in Kubernetes.
 
 So, let's start!
 
 ## Overview
 
-Installing the Service Mesh involves :
+Installing the Service Mesh involves:
 
 * Installing Elasticsearch, Jaeger, Kiali
 
@@ -42,7 +42,7 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 
 ## 1. Installing the Service Mesh Operators from OperatorHub
 
-The Red Hat OpenShift Service Mesh Operator has dependencies Elasticsearch, Jaeger and Kiali operators.
+The Red Hat OpenShift Service Mesh Operator has dependencies on the Elasticsearch, Jaeger, and Kiali operators.
 
 Check the [Service Mesh Installation in OpenShift4](https://docs.openshift.com/container-platform/4.3/service_mesh/service_mesh_install/installing-ossm.html#ossm-operatorhub-install_installing-ossm) of the official documentation of OpenShift and install
 
@@ -85,16 +85,16 @@ jaeger-operator.v1.17.2                      Red Hat OpenShift Jaeger         1.
 ### 1.3 Installing the Kiali Operator
 
 * In the OperatorHub catalog of your OCP Web Console, type Kiali Operator into the filter
-box to locate the Elasticsearch Operator.
+box to locate the Kiali Operator.
 
 [![](/images/istio-install3.png "Kiali Operator")]({{site.url}}/images/istio-install3.png)
 
-* Check the Kiali operators installation
+* Check the Kiali operator installation
 
 ### 1.4 Installing Service Mesh Operators
 
 * In the OperatorHub catalog of your OCP Web Console, type ServiceMesh Operator into the filter
-box to locate the Elasticsearch Operator.
+box to locate the Service Mesh Operator.
 
 [![](/images/istio-install4.png "Service Mesh Operator")]({{site.url}}/images/istio-install4.png)
 
@@ -156,7 +156,7 @@ $ oc apply -f istio-files/mesh-install/servicemesh-namespace.yml
 
 ### 2.2 Deploy Service Mesh Control Plane
 
-Let's dig in in the installation of a Service Mesh Control Plane, once we have the operators in
+Let's dig into the installation of a Service Mesh Control Plane, once we have the operators in
 place, and the namespace for the installation of the mesh deployed:
 
 The file of the basic-istio-install.yaml contains the description of a basic mesh installation with
@@ -263,8 +263,8 @@ spec:
   - istio-tutorial
 ```
 
-NOTE: if you want to add more namespaces inside of the mesh, add the namespaces in the members list
-inside of the smmr.
+NOTE: if you want to add more namespaces to the mesh, add the namespaces in the members list
+of the smmr.
 
 ## Links
 

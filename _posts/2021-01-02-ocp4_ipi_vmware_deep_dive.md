@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How is managed the LoadBalancers and the DNS in OpenShift IPI in VMWARE and the rest of On-Premises platforms such as BareMetal, Openstack, or RHV? What are the new elements introduced and how are integrating within the cluster?
+How are the LoadBalancers and DNS managed in OpenShift IPI on VMware and the rest of the on-premises platforms such as BareMetal, OpenStack, or RHV? What are the new elements introduced and how do they integrate within the cluster?
 
 Let's dig in!
 
@@ -22,27 +22,27 @@ NOTE: Blog Post updated to the latest OCP4.10. Minor fixes and added clarificati
 
 IPI for on-premises platforms (Installer Provisioned Infrastructure) is scoped to automate a number of networking infrastructure requirements that are handled on other platforms by cloud infrastructure services.
 
-From OpenShift version 4.5 a new IPI installation is introduced for vSphere, automating the installation in these platforms, becoming easier and faster in comparison of the traditional UPI mode available from version 4.2.
+From OpenShift version 4.5, a new IPI installation is introduced for vSphere, automating the installation on these platforms, making it easier and faster in comparison to the traditional UPI mode available from version 4.2.
 
-But with the introduction of the of the IPI mode, a new way of doing DNS and load balancing for the api, api-int, DNS and ingress endpoints (apps) is used.
+But with the introduction of the IPI mode, a new way of doing DNS and load balancing for the api, api-int, DNS, and ingress endpoints (apps) is used.
 
-This method is based in the kubernetes native infrastructure concepts, and its used as well in Openstack IPI (4.2), RHV IPI (4.4) and BM IPI (4.4).
+This method is based on Kubernetes-native infrastructure concepts, and it is used as well in OpenStack IPI (4.2), RHV IPI (4.4), and BM IPI (4.4).
 
-The main goal of this blog post, is to show the differences between IPI and UPI installations in VMWARE and also between cloud and on-premises platforms (RHV IPI, OSP IPI, BM IPI and VMWARE IPI).
+The main goal of this blog post is to show the differences between IPI and UPI installations in VMware and also between cloud and on-premises platforms (RHV IPI, OSP IPI, BM IPI, and VMware IPI).
 
-Special thanks to my colleague Manu Valle (@manuvaldi in Twitter) for lending me the environment and for always help with their wisdom and support.
+Special thanks to my colleague Manu Valle (@manuvaldi on Twitter) for lending me the environment and for always helping with his wisdom and support.
 
 ## 1. Scenario
 
 This blog post is developed and tested in a VMWARE vCenter v6.7 and with OpenShift 4.5.
 
-As said before, this is not an [installation procedure of IPI VMWARE](https://docs.openshift.com/container-platform/4.5/installing/installing_vsphere/installing-vsphere-installer-provisioned-network-customizations.html) , its the analysis of the Load Balancer and DNS resources in IPI On-Premise environments, to show the differences between Cloud environments (IPI and UPI) and the IPI On-premise environments (VMWARE, RHV, Openstack and BareMetal).
+As said before, this is not an [installation procedure of IPI VMware](https://docs.openshift.com/container-platform/4.5/installing/installing_vsphere/installing-vsphere-installer-provisioned-network-customizations.html); it is the analysis of the Load Balancer and DNS resources in IPI on-premise environments, to show the differences between cloud environments (IPI and UPI) and the IPI on-premise environments (VMware, RHV, OpenStack, and BareMetal).
 
-The scenario is installed by the IPI mode in the vCenter v6.7 and have 6 nodes (3 masters and 3 workers) within the OpenShift 4.5 cluster.
+The scenario is installed using IPI mode in vCenter v6.7 and has 6 nodes (3 masters and 3 workers) within the OpenShift 4.5 cluster.
 
 ## 2. OpenShift IPI Load Balancer and DNS
 
-As we described before a new way of doing DNS and load balancing for OpenShift Cluster is introduced in IPI On-premises mode.
+As we described before, a new way of doing DNS and load balancing for the OpenShift cluster is introduced in IPI on-premises mode.
 
 To start our analysis we will divide the different components of LB and DNS in IPI in three main sections:
 
@@ -54,7 +54,7 @@ To start our analysis we will divide the different components of LB and DNS in I
 
 The Control Plane Access refers to the access to the Kubernetes/OpenShift API Server (port 6443) from clients both external and external to the cluster, that should be load balanced across control plane machines.
 
-Furthermore, also is needed to access to the Ignition config files served by the Machine Config Server in the port 22623, from clients WITHIN the cluster (not from clients outside the OCP4 cluster) that should be also load-balanced across control plane machines (masters).
+Furthermore, access to the Ignition config files served by the Machine Config Server on port 22623 is also needed, from clients WITHIN the cluster (not from clients outside the OCP4 cluster), and this should also be load-balanced across control plane machines (masters).
 
 In both cases, the installation of the IPI process (and also in BareMetal and other UPIs) expects
 these ports to be reachable on the bootstrap VM first and then later on the newly-deployed control
@@ -66,14 +66,14 @@ provide this access.
 ### 3.1 API VIP (Virtual IP)
 
 Here is where a Virtual IP (virtual IP) becomes very handy. In the VMware platform (and also in
-every IPI on-premise, including RHV, and BareMetal) a VIP is used to provide failover of the API
-server across the control plane machines (including the own bootstrap VM).
+every IPI on-premise, including RHV and BareMetal) a VIP is used to provide failover of the API
+server across the control plane machines (including the bootstrap VM itself).
 
 This API VIP is defined by the user in the install-config.yaml in the installation process, and the installation process configures a keepalived service to manage this VIP.
 
 In our lab we selected the 10.0.0.200 as the VIP address for the API.
 
-These keepalived services run within [static pods](https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/) and are these are resources that are rendered and deployed into the OpenShift cluster by the Machine Config Operator (MCO).
+These keepalived services run within [static pods](https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/), and these are resources that are rendered and deployed into the OpenShift cluster by the Machine Config Operator (MCO).
 
 The static pods are managed directly by the Kubelet daemon on a specific node, without the API server observing them.
 Also Static Pods are always bound to one Kubelet on a specific node. This means that the Pods running on a node are visible on the API server, but cannot be controlled from there.
@@ -86,7 +86,7 @@ drwxr-xr-x.  2 root root  244 Nov 18 10:00 manifests
 drwxr-xr-x. 29 root root 4.0K Dec 25 00:18 static-pod-resources
 ```
 
-and in the manifests there is the yaml used for create and manage the static pods for this specific node:
+and in the manifests there is the YAML used to create and manage the static pods for this specific node:
 
 ```bash
 [root@vmware-nwjr2-master-0 /]# ls -lrht /etc/kubernetes/manifests/
@@ -102,7 +102,7 @@ total 64K
 -rw-r--r--. 1 root root 5.4K Dec 25 00:15 kube-apiserver-pod.yaml
 ```
 
-and specifically we are interest in the ones that helps us to manage the LoadBalancers and DNS:
+and specifically we are interested in the ones that help us manage the LoadBalancers and DNS:
 
 ```bash
 [root@vmware-nwjr2-master-0 /]# ll /etc/kubernetes/manifests/ | egrep -i 'dns|haproxy|keepalivd'
@@ -114,19 +114,19 @@ and specifically we are interest in the ones that helps us to manage the LoadBal
 
 ### 4. Keepalived in OpenShift IPI
 
-As we described earlier, Keepalived is used to ensure that the API (and also de Ingress .apps) Virtual IPs (VIP) are always available.
+As we described earlier, Keepalived is used to ensure that the API (and also the Ingress .apps) Virtual IPs (VIPs) are always available.
 
-Keepalived uses a protocol called [Virtual Router Redundancy Protocol](https://en.wikipedia.org/wiki/Virtual_Router_Redundancy_Protocol) or VRRP that determine the node health and elect an IP owner, and have several requirements:
+Keepalived uses a protocol called [Virtual Router Redundancy Protocol](https://en.wikipedia.org/wiki/Virtual_Router_Redundancy_Protocol) or VRRP that determines the node health and elects an IP owner, and has several requirements:
 
-* Only one host own the IP at any time
+* Only one host owns the IP at any time
 * All nodes have equal priority
 * Failover can take several seconds
 
-Node health is checked every one second. There is separated checks for each service, one for the API and another separated for the Ingress services.
+Node health is checked every second. There are separate checks for each service, one for the API and another for the Ingress services.
 
 ##### Deep Dive in Keepalived in OCP IPI
 
-As we discussed before, Keepalived runs as static pods inside of our OpenShift cluster, but also we can check the pods running with the OCP API in the namespace of "openshift-vsphere-infra":
+As we discussed before, Keepalived runs as static pods inside our OpenShift cluster, but we can also check the pods running via the OCP API in the namespace "openshift-vsphere-infra":
 
 ```bash
 [root@ocp-bastion ~]# kubectl get pod -n openshift-vsphere-infra | grep keepalived
@@ -151,14 +151,14 @@ vmware-nwjr2-worker-f5zbm   Ready      worker   70d   v1.18.3+47c0e71
 vmware-nwjr2-worker-v5vvn   Ready      worker   70d   v1.18.3+47c0e71
 ```
 
-This are running not as DaemonSet as we can expected, are running as static pods as we discussed before, managed by Kubelet:
+These are not running as a DaemonSet as we might expect — they are running as static pods as we discussed before, managed by Kubelet:
 
 ```bash
 [root@ocp-bastion ~]# kubectl get pod -n openshift-vsphere-infra keepalived-vmware-nwjr2-master-0  -o yaml  | grep manager
  manager: kubelet
 ```
 
-These keepalive pods have their configuration based in the config files defined in the static-pods-resources in the node, as a hostPath:
+These keepalived pods have their configuration based on the config files defined in the static-pod-resources on the node, as a hostPath:
 
 ```bash
 [root@ocp-bastion ~]# kubectl get pod -n openshift-vsphere-infra keepalived-vmware-nwjr2-master-0  -o json | jq .spec.volumes[0]
@@ -171,7 +171,7 @@ These keepalive pods have their configuration based in the config files defined 
 }
 ```
 
-And manages as we can check the two VIPs defined and needed for the IPI installation of OpenShift:
+And as we can check, it manages the two VIPs defined and needed for the IPI installation of OpenShift:
 
 ```bash
 [root@ocp-bastion ~]# kubectl get pod -n openshift-vsphere-infra keepalived-vmware-nwjr2-master-0  -o json | jq .spec.containers[1].command
@@ -221,7 +221,7 @@ On the other hand, the config file for Keepalived is stored in /etc/kubernetes/s
 -rw-r--r--. 1 root root 1.3K Nov 18 10:00 /etc/kubernetes/static-pod-resources/keepalived/keepalived.conf.tmpl
 ```
 
-So, the keepalived.conf.tmpl is used as a template and is rendered with the specifications (ip addresses, services to monitor, etc) and stored once is rendered in the /etc/keepalived/keepalived.conf
+So, the keepalived.conf.tmpl is used as a template and is rendered with the specifications (IP addresses, services to monitor, etc.) and stored once rendered in /etc/keepalived/keepalived.conf
 
 ```bash
 [root@vmware-nwjr2-master-0 /]# ls -lrht /etc/keepalived/keepalived.conf
@@ -297,17 +297,17 @@ Let's check a small diagram with some notes about the flow request:
 
 * As we discussed in the sections before, the VRRP protocol is used by Keepalived to determine node health and elect an IP owner.
 
-* The node health are checked every second for each service (separated checks, one for API and another for INGRESS)
+* The node health is checked every second for each service (separate checks, one for API and another for INGRESS)
 
-* The RARP is used by the Active node for claim traffic.
+* RARP is used by the active node to claim traffic.
 
 * The active node (who owns effectively the VIP) passes the traffic to the endpoint.
 
 For more information about the Keepalived and VRRP process, check out the [keepalived basics](https://www.redhat.com/sysadmin/keepalived-basics) article from Red Hat Enable Sysadmin Blogs.
 
-And with that, we head the end of this first blog post about the LB and DNS in OpenShift IPI for On-Premises platforms, focusing in VMWARE case.
+And with that, we reach the end of this first blog post about LB and DNS in OpenShift IPI for on-premises platforms, focusing on the VMware case.
 
-In the next blog post, we will analyze how is the Load Balancing handled and analyze in deep the configurations specifics.
+In the next blog post, we will analyze how Load Balancing is handled and dive deep into the specific configurations.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

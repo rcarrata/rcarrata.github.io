@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How to perform an OCP4 upgrade from the CLI safe, securely and fully CLI executed?
+How to perform an OCP4 upgrade from the CLI safely, securely, and fully from the command line?
 
 Let's take a look!
 
@@ -20,7 +20,7 @@ Let's take a look!
 
 The OpenShift Container Platform update service is the hosted service that provides over-the-air
 updates to both OpenShift Container Platform and Red Hat Enterprise Linux CoreOS (RHCOS). It
-provides a graph, or diagram that contain vertices and the edges that connect them, of component
+provides a graph, or diagram that contains vertices and the edges that connect them, of component
 Operators.
 
 The Cluster Version Operator (CVO) in your cluster checks with the OpenShift Container Platform
@@ -48,7 +48,7 @@ of OpenShift Container Platform.
 
 ## Planning the upgrade - Graph Upgrade
 
-For take a view in the upgrade plan before to start to upgrade process, there is a useful tool to
+To get a view of the upgrade plan before starting the upgrade process, there is a useful tool to
 visualize this path in a SVG format:
 
 
@@ -84,7 +84,7 @@ before, the upgrade will be performed to 4.2.29 and then to 4.3.13.
 
 ## Check your cluster health
 
-Before to start your upgrade, verify that everything is ok in your cluster:
+Before starting your upgrade, verify that everything is ok in your cluster:
 
 First of all, check that all nodes are in a Ready status.
 
@@ -263,8 +263,8 @@ $ oc adm upgrade --to="4.3.13"
 Updating to latest version 4.3.13
 ```
 
-And that it's, after that you have your OCP4 cluster in the latest version available in this
-moments.
+And that's it! After that, you have your OCP4 cluster on the latest version available at this
+point.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

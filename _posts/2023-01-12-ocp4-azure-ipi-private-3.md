@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How can we generate Private clusters OpenShift in Azure, controlling our Outbound traffic with scalable, managed Virtual NAT Gateway? What are the benefits of Azure Virtual NAT Gateways? And finally how can we configure our Azure Networking to use and benefit from the Virtual NAT? 
+How can we generate private OpenShift clusters in Azure, controlling our outbound traffic with a scalable, managed Virtual NAT Gateway? What are the benefits of Azure Virtual NAT Gateways? And finally, how can we configure our Azure Networking to use and benefit from the Virtual NAT? 
 
 This is the third blog post of the series of OpenShift deployments in Azure. Check the other blog posts in:
 
@@ -21,13 +21,13 @@ This is the third blog post of the series of OpenShift deployments in Azure. Che
 
 Let's dig in!
 
-NOTE: this blog post series is not an ARO implementation, is a regular OpenShift in Azure (non-ARO).
+NOTE: this blog post series is not an ARO implementation; it is a regular OpenShift on Azure (non-ARO).
 
 ## 1. Overview
 
-As we checked in the previous blog post, we have several options to deploy our Private OpenShift clusters, depending of their Outbound / User-Defined Routing modes that we want to use.
+As we checked in the previous blog post, we have several options to deploy our Private OpenShift clusters, depending on their Outbound / User-Defined Routing modes that we want to use.
 
-We analyzed a couple of this User Defined Routing (UDR), including the usage of Azure Load Balancers (default), usage of a Proxy Configuration and finally how to secure Private OpenShift clusters with Azure Firewall and Hub-Spoke Architectures.
+We analyzed a couple of these User Defined Routing (UDR) options, including the usage of Azure Load Balancers (default), usage of a Proxy Configuration, and finally how to secure Private OpenShift clusters with Azure Firewall and Hub-Spoke Architectures.
 
 Now we're describing and analyzing the last but not least option that we have: installing **OpenShift Private Clusters with Virtual NAT (Network Address Translation)**, providing outbound internet access for the subnets (and therefore VMs) of our clusters.
 
@@ -45,18 +45,18 @@ NAT gateway provides outbound internet connectivity for one or more subnets of a
 
 ## 2.1 Benefits of Azure Virtual NAT Gateway
 
-Offers a lot of benefits and features, but for our case with Private OpenShift clusters in Azure, there are some of them that are very interesting such as:
+It offers a lot of benefits and features, but for our case with Private OpenShift clusters in Azure, some of them are particularly interesting:
 
-* **Security**: with a NAT gateway, our VMs and other resources that are part of our Private OpenShift clusters doesn't have public IP addresses and can remain fully private.
-* **Resiliency**: Because Virtual NAT is a fully managed and distributed system, and because it always has multiple fault domains makes this service highly resilient.
-* **Scalability**: One of the most important benefits it's that the Virtual Network NAT is scaled out from creation, Azure manages itself the operator of the Virtual NAT by itself, scaling up to 16 IP addresses to NAT Gateway.
-* **Performance**: because it's based in a SDN service, NAT GW won't affect the network bandwidth of the compute resources.  
+* **Security**: with a NAT gateway, our VMs and other resources that are part of our Private OpenShift clusters don't have public IP addresses and can remain fully private.
+* **Resiliency**: Because Virtual NAT is a fully managed and distributed system, and because it always has multiple fault domains, this service is highly resilient.
+* **Scalability**: One of the most important benefits is that the Virtual Network NAT is scaled out from creation. Azure manages the operation of the Virtual NAT by itself, scaling up to 16 IP addresses per NAT Gateway.
+* **Performance**: because it's based on an SDN service, NAT GW won't affect the network bandwidth of the compute resources.  
 
 ## 2.2 Outbound Connectivity for NAT Gateway
 
 In the standard OpenShift in Azure deployment, the frontend IPs of a public load balancer can be used to provide outbound connectivity to the internet for backend instances. This configuration uses source network address translation (SNAT) to translate virtual machine's private IP into the load balancer's public IP address. SNAT maps the IP address of the backend to the public IP address of your load balancer. SNAT prevents outside sources from having a direct address to the backend instances.
 
-One of the reasons that we can ask is, why don't we stick with the Azure Load Balancer for the Outbound traffic to the internet from our Azure vNets and Subnets?
+One question we might ask is: why don't we stick with the Azure Load Balancer for the outbound traffic to the internet from our Azure vNets and Subnets?
 
 Virtual Network NAT (NAT Gateway) is the recommended method for outbound connectivity. NAT gateway doesn't have the same limitations of SNAT port exhaustion as does default outbound access and outbound rules of a load balancer.
 
@@ -67,7 +67,7 @@ So what Azure says about the SNAT port exhaustion?
 
 So if when you're growing your OpenShift cluster in Azure (adding more Workers), your backend pool scales as well, and you can be impacted by the SNAT exhaustion impacting also your outbound connections if ports need to be reallocated. 
 
-Now that we know more about SNAT exhaustion and what are the benefits of the virtual NAT Gateways, let's discover how we can use it alongside our OpenShift cluster.
+Now that we know more about SNAT exhaustion and the benefits of virtual NAT Gateways, let's discover how we can use them alongside our OpenShift cluster.
 
 ## 3. Egress / Outbound Mode with NAT Gateway
 
@@ -75,13 +75,13 @@ Let's analyze the Private OpenShift clusters in Azure, using Azure VNET network 
 
 [![](/images/azureipi16.png "azureipi16.png")]({{site.url}}/images/azureipi16.png)
 
-As we can see we have our VNet setup with an [Azure NAT Gateway](https://docs.microsoft.com/en-us/azure/virtual-network/nat-gateway/nat-overview) and the user-defined routing configured, and there are NOT any public endpoint / IPs.
+As we can see, we have our VNet set up with an [Azure NAT Gateway](https://docs.microsoft.com/en-us/azure/virtual-network/nat-gateway/nat-overview) and the user-defined routing configured, and there are no public endpoints / IPs.
 
 One important thing about the Outbound Connectivity using NAT Gateway is that NAT gateway allows flows to be created from the virtual network to the services outside your virtual network. Return traffic from the internet is only allowed in response to an active flow. Services outside your virtual network can’t initiate an inbound connection through NAT gateway.
 
 ### 3.1 Configuring NAT Gateway to be used as default route for the outbound 
 
-In the implementation of Azure Firewall in OpenShift 4, we needed to configure the User Define Routes for force the traffic to go to the Hub and through the Firewall itself. So what is needed in this scenario?
+In the implementation of Azure Firewall in OpenShift 4, we needed to configure the User Defined Routes to force the traffic to go to the Hub and through the Firewall itself. So what is needed in this scenario?
 
 Nothing! Azure NAT Gateway default configurations will help us!
 
@@ -99,7 +99,7 @@ First we need to deploy the VPC and Subnets, then the Firewall and the Route Tab
 
 Then we need to deploy our bastion, and finally deploy our cluster of OpenShift using all the Azure resources that we needed as prerequisites.
 
-Do we need to deploy all of this things, manually? No, let's use Ansible for that!
+Do we need to deploy all of these things manually? No, let's use Ansible for that!
 
 1. Clone the repository where the ocp4 azure ipi demo is stored:
 
@@ -125,7 +125,7 @@ sudo dnf install azure-cli
 az login
 ```
 
-3. Fill and create the Azure Creds for the Service Principal inherit by the Openshift Installer:
+3. Fill and create the Azure Creds for the Service Principal inherited by the OpenShift Installer:
 
 ```sh
 cat ~/.azure/osServicePrincipal.json
@@ -160,7 +160,7 @@ azure_tenant: SECRET
 ocp4_pull_secret: '<<< pull_secret_azure >>>'
 ```
 
-7. For obtain the pull_secret go to [OCP4 Install](https://cloud.redhat.com/openshift/install)
+7. To obtain the pull_secret, go to [OCP4 Install](https://cloud.redhat.com/openshift/install)
 
 8. Generate the .vault-password-file and put the password:
 
@@ -177,7 +177,7 @@ ansible-playbook install-private.yml -e "egress=natgateway" -e "azure_outboundty
 
 ## 4. Connecting to our private cluster from the Internet
 
-Now that we have deployed the cluster, how can we access the console that it's not exposed publicly?
+Now that we have deployed the cluster, how can we access the console that is not exposed publicly?
 
 As we discussed in the previous blog post, there are several options, like having a VPN Gateway, an Express Route or even deploying a VM and using Azure Bastion to connect from there to the Bastion.
 
@@ -187,7 +187,7 @@ A SOCKS proxy is an SSH encrypted tunnel in which configured applications forwar
 
 Unlike a VPN, a SOCKS proxy has to be configured on an app-by-app basis on the client machine, but we can set up apps without any specialty client software as long as the app is capable of using a SOCKS proxy. On the server-side, all you need to configure is SSH.
 
-Let's do try it!
+Let's try it!
 
 * Connect to the bastion using the private key generated
 
@@ -201,7 +201,7 @@ Activate the web console with: systemctl enable --now cockpit.socket
 
 [![](/images/azureipi14.png "azureipi14.png")]({{site.url}}/images/azureipi14.png)
 
-as you can check the SOCKSv5 needs to be enabled, we used the port 9000.
+As you can see, SOCKSv5 needs to be enabled; we used port 9000.
 
 And then the most important check is the "Proxy DNS when using SOCKSv5" option. This option will redirect and resolve all the requests from our browser through the Proxy socks SSH tunnel, reaching the Azure DNS private records, and then resolving our OpenShift Console.
 

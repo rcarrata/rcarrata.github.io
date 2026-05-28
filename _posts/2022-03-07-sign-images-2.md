@@ -14,7 +14,7 @@ comments: true
 
 How can we Sign and Verify container images within the CICD Pipelines, adding Security to our DevOps pipelines? How can we ensure that our supply chain is secured, and all the container images deployed in our Kubernetes clusters are signed and secure, and no one can deploy malicious container images?
 
-This is the second blog post about Signing and Verify container images to improve security in CICD pipelines, using Sigstore, Kyverno and Tekton pipelines among others.
+This is the second blog post about Signing and Verifying container images to improve security in CICD pipelines, using Sigstore, Kyverno and Tekton pipelines among others.
 
 Check the first part in [Signing and Verifying Images to Secure CICD pipelines using Sigstore and Kyverno - Part I](https://rcarrata.com/kubernetes/sign-images-1/).
 
@@ -22,15 +22,15 @@ Let's dig in!
 
 ## 1. Overview
 
-In the previous blog post we've demonstrate how Sigstore is an awesome project focused on software signing and transparency log technologies and can help us to improve software supply chain security.
+In the previous blog post we've demonstrated how Sigstore is an awesome project focused on software signing and transparency log technologies and can help us improve software supply chain security.
 
 Cosign is a tool within this project that provides image-signing and verification, so we can sign our container images, to ensure that our container image stored in our registry is signed properly and also the signature is stored within the Registry and always available to be verified.
 
-On the other hand, we also checked that Kyverno is an policy engine designed for Kubernetes, capable to manage policies that can validate, mutate and generate Kubernetes resources and also ensure OCI image supply chain security.
+On the other hand, we also checked that Kyverno is a policy engine designed for Kubernetes, capable of managing policies that can validate, mutate and generate Kubernetes resources and also ensure OCI image supply chain security.
 
 We will see in this blog post how we can combine Sigstore signing images and Kyverno in a CICD pipeline, to increase the security in the supply chain of a software DevOps pipeline.
 
-In this blog post we will using Tekton Pipelines, but other CICD tools like Jenkins, GitHub Actions, GitLab CI and others can be used. On the other hand we used here Kyverno, but other policy engine like OPA could be also used to verify the images in our cluster.
+In this blog post we will be using Tekton Pipelines, but other CICD tools like Jenkins, GitHub Actions, GitLab CI and others can be used. On the other hand we used Kyverno here, but other policy engines like OPA could also be used to verify the images in our cluster.
 
 NOTE: All the code / examples used in this blog post are [available in a GitHub repository](https://github.com/rcarrata/ocp4-network-security/tree/main/sign-images). Check this out!
 
@@ -40,7 +40,7 @@ As we checked in the previous part of this blog post, cosign can be used for sig
 
 Now we will demonstrate how container images can be signed during the build phase of a CI/CD pipeline using Cosign.
 
-Let's present our CICD pipeline that we will used during this blog post:
+Let's present the CICD pipeline that we will use during this blog post:
 
 [![](/images/signing0.png "signing0.png")]({{site.url}}/images/signing0.png)
 
@@ -56,7 +56,7 @@ B. **Buildah Custom** - These Buildah Custom step is divided in 3 different subs
 
 In a nutshell these tasks are Build, Push to the registry and Collect the Image Digest to use it in further steps.
 
-Why don't use the Buildah task out of the box? Because this specific task uses the Registry Credentials for allow Buildah to push the images to a private Registry (GitHub registry in this case, but private repository).
+Why not use the Buildah task out of the box? Because this specific task uses the Registry Credentials to allow Buildah to push the images to a private Registry (GitHub registry in this case, but private repository).
 +
 [![](/images/signing10.png "signing10.png")]({{site.url}}/images/signing10.png)
 
@@ -66,9 +66,9 @@ C. **Sign Images** - That's the interesting part that we want to deep dive a bit
 
 As we can remember from the [previous part](https://rcarrata.com/kubernetes/sign-images-1/) of this blog post series, Cosign supports container signing, verification and storage in an OCI registry, and in a nutshell is a tool that greatly simplifies how content is signed and verified by storing signatures from container images and other types in OCI registries.
 
-Cosign store it in a Kubernetes secret using their current context. The secret contains the private and public keys, as well as the password to decrypt the private key.
+Cosign stores it in a Kubernetes secret using the current context. The secret contains the private and public keys, as well as the password to decrypt the private key.
 
-If we remember, for sign a container and store the signature in the registry there is a command with cosign:
+If we remember, to sign a container and store the signature in the registry there is a command with cosign:
 
 ```sh
 cosign sign --key cosign.key ghcr.io/rcarrata/ubi-minimal:8.5-230
@@ -111,23 +111,23 @@ The Kyverno verifyImages rule uses Cosign to verify container image signatures, 
 
 So when we try to deploy the image in our cluster of Kubernetes/OpenShift, Kyverno will ensure that the image is verified with the Public Key generated by Cosign, and will verify the signature that the Cosign used to sign the image using the Private Key generated by Cosign.
 
-D. **Apply the manifests** - Once that the container image is generated and pushed into the registry along with the signature produced using cosign, the k8s manifests needs to be applied, for example the Deployments and the Services.
+D. **Apply the manifests** - Once the container image is generated and pushed into the registry along with the signature produced using cosign, the k8s manifests need to be applied, for example the Deployments and the Services.
 
 E. **Update Deployment** - This final step will update the image of the Deployment with the image tag that is created in the pipeline (my_image:sha256-xxx). This will update and apply the new image and will be validated by Kyverno.
 
-If the Kyverno verifyImages policy rule check fails due to the signature is not found in the OCI registry, or if the image was not signed using the specified key, Kyverno won't allow the deployment of the image updated, and the Tekton pipeline will fail.
+If the Kyverno verifyImages policy rule check fails because the signature is not found in the OCI registry, or if the image was not signed using the specified key, Kyverno won't allow the deployment of the updated image, and the Tekton pipeline will fail.
 
 ## 3. Deploying the Tekton Tasks and Pipeline
 
 To run this pipeline first you need to create / apply all the Tekton Tasks and Pipelines that we will be using during this blog post.
 
-**IMPORTANT**: This blog post assume that we've followed all the steps of the previous blog post including installing Tekton, generate keypairs, among other things.
+**IMPORTANT**: This blog post assumes that we've followed all the steps of the previous blog post including installing Tekton, generating keypairs, among other things.
 
 We have two options, deploying with kubectl or... use GitOps and ArgoCD!
 
 ### 3.1 Deploy Tekton Tasks and Kyverno using GitOps
 
-First of all we want to mention that deploy the demo with GitOps it's optional, you can use the kubectl to deploy the objects, but because we're cool kids we will use GitOps to save some time.
+First of all we want to mention that deploying the demo with GitOps is optional; you can use kubectl to deploy the objects, but because we're cool kids we will use GitOps to save some time.
 
 First, let's install Kyverno with GitOps using Helm chart.
 
@@ -217,9 +217,9 @@ spec:
 
 as you can check we're using the [ignoreDifferences](https://argo-cd.readthedocs.io/en/stable/user-guide/diffing/#application-level-configuration) pattern in this case, to ensure that ArgoCD ignores differences within some CRD of Kyverno such as ClusterPolicy or Policy.
 
-For what reason? If we don't do that, we will have OutOfSync this object in our ArgoCD Application, because it's synched and managed by the Kyverno controller that changes dynamically the CR and it's content shows differences with the Git server manifest, showing this OutOfSync.
+For what reason? If we don't do that, this object will be OutOfSync in our ArgoCD Application, because it is synced and managed by the Kyverno controller that dynamically changes the CR and its content shows differences with the Git server manifest, causing this OutOfSync.
 
-* Let's apply the Tetkon Tasks and Pipelines, and our Kyverno ClusterPolicy too:
+* Let's apply the Tekton Tasks and Pipelines, and our Kyverno ClusterPolicy too:
 
 ```sh
 kubectl apply -f argocd/kyverno-app.yaml
@@ -235,7 +235,7 @@ kubectl apply -f argocd/kyverno-app.yaml
 
 ### 3.2 Deploy Tekton Tasks and Kyverno with cli
 
-Let's deploy our Tekton Tasks and other objects using the CLI. If you followed the step before, skip this step because we installed all of the needed for continue, so jump to the next step.
+Let's deploy our Tekton Tasks and other objects using the CLI. If you followed the step before, skip this step because we installed everything needed to continue, so jump to the next step.
 
 * Clone the repository and change the directory to access to the demo:
 
@@ -254,7 +254,7 @@ kubectl apply -k manifests/
 
 Now that we have deployed our Tekton Tasks and Tekton Pipelines, let's test them running the [Signed Tekton Pipeline](https://github.com/rcarrata/ocp4-network-security/blob/main/sign-images/manifests/sign-images-pipeline.yaml).
 
-* But before to start, we need to add the imagePullSecrets to the ServiceAccount "pipeline" and "default":
+* But before starting, we need to add the imagePullSecrets to the ServiceAccount "pipeline" and "default":
 
 ```sh
 export NAMESPACE=workshop
@@ -299,7 +299,7 @@ spec:
         claimName: source-pvc
 ```
 
-as we can check we defined in the PipelineRun several interesting things that we can check:
+as we can see, we defined several interesting things in the PipelineRun that we can check:
 
 1. Tekton Params to be used:
 
@@ -323,22 +323,22 @@ as we can check we defined in the PipelineRun several interesting things that we
 kubectl create -f run/sign-images-pipelinerun.yaml
 ```
 
-* After that the Build and Deploy Signed pipeline will start with the parameters described, going though each step declared before:
+* After that the Build and Deploy Signed pipeline will start with the parameters described, going through each step declared before:
 
 [![](/images/signing9.png "signing9.png")]({{site.url}}/images/signing9.png)
 
-* We can check as we have the container image pushed into the GitHub Registry, as well as the Signature generated by cosign in the sign:
+* We can check that we have the container image pushed into the GitHub Registry, as well as the Signature generated by cosign:
 
 [![](/images/signing11.png "signing11.png")]({{site.url}}/images/signing11.png)
 
-* After that we can check as our K8s Deployment is successfully generated and updated with the image generated in this step:
+* After that we can check that our K8s Deployment is successfully generated and updated with the image generated in this step:
 
 ```sh
 kubectl get deploy pipelines-vote-api -o jsonpath='{.spec.template.spec.containers[0].image}'
 ghcr.io/rcarrata/pipelines-vote-api:v2@sha256:c6da814d4ed548d6bad1336521375803d0c8f441112df845b02377215c639f26
 ```
 
-if we checked the tag image used, corresponds with the tag published in the GitHub Registry, matching the **c6da8...39f26** sha256 hash.
+if we check the image tag used, it corresponds with the tag published in the GitHub Registry, matching the **c6da8...39f26** sha256 hash.
 
 * If we check the Deployment, we will see that our application is up && running within our pod:
 
@@ -384,7 +384,7 @@ spec:
           -----END PUBLIC KEY-----
 ```
 
-as we can check the key is a public key generated by cosign and it's used by Kyverno + Cosign for verify the image signature stored in the GitHub Registry.
+as we can see, the key is a public key generated by cosign and is used by Kyverno + Cosign to verify the image signature stored in the GitHub Registry.
 
 This policy will validate that all images that match ghcr.io/rcarrata/pipelines-vote-api:* are signed with the specified key that is stored as a secret in the cluster and contains the private key used to sign the container image.
 
@@ -434,9 +434,9 @@ spec:
         claimName: source-pvc
 ```
 
-as we can check, we will be generate and push a container image that will have the tag of unsigned, and that won't be signed by Cosign with our Keypair.
+as we can see, we will generate and push a container image that will have the tag of unsigned, and that won't be signed by Cosign with our Keypair.
 
-* Run the pipeline for build the image and push to the GitHub registry, but this time without sign with cosign private key:
+* Run the pipeline to build the image and push to the GitHub registry, but this time without signing with the cosign private key:
 
 ```bash
 kubectl create -f run/unsigned-images-pipelinerun.yaml
@@ -458,7 +458,7 @@ Not really :) Kyverno and ClusterPolicies to the rescue!
 
 we need to remember that the Kyverno policy rule check fails if the signature is not found in the OCI registry, or if the image was not signed using the specified key.
 
-* As we can see the error that the pipeline outputs it's due to the Kyverno Cluster Policy with the image signature mismatch error:
+* As we can see, the error that the pipeline outputs is due to the Kyverno Cluster Policy with the image signature mismatch error:
 
 [![](/images/signing7.png "signing7.png")]({{site.url}}/images/signing7.png)
 

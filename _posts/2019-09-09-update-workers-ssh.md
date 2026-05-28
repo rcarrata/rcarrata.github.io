@@ -12,8 +12,8 @@ author: rcarrata
 comments: true
 ---
 
-How to update the ssh keys into your OpenShift4 clusters once is deployed and up&running? And how to
-automate this easy and straightforward?
+How do you update the SSH keys in your OpenShift 4 clusters once they are deployed and up & running? And how can you
+automate this easily and in a straightforward way?
 
 ## Overview
 
@@ -50,7 +50,7 @@ rendered-master-3443b14f13eb6d4f489ae0901a898e80            4.1.0-201905070232-d
 rendered-worker-820426a0516a3ce9aaefeedb44c15990            4.1.0-201905070232-dirty   2.2.0             7d17h
 ```
 
-* If we take a look about the ssh machineconfig for the workers, named as 99-worker-ssh:
+* If we take a look at the SSH machineconfig for the workers, named 99-worker-ssh:
 
 ```
 oc get machineconfigs 99-worker-ssh -o yaml
@@ -85,7 +85,7 @@ spec:
   osImageURL: ""
 ```
 
-This specific machineconfig are where are stored the ssh keys allowed to access to the worker nodes (with the user core). So we need to update them in order to give access to a new ssh-key.
+This specific machineconfig is where the SSH keys allowed to access the worker nodes (with the user core) are stored. So we need to update it to give access to a new SSH key.
 
 * Export the 99-worker-ssh to edit the SSHAuthorizedKeys.
 
@@ -130,7 +130,7 @@ A short time after updating the worker configuration the machine config daemon w
 
 ### Deep dive in the node status and the logs of the ssh-key updates
 
-After that the worker ssh is applied, you can check the status with several ways. Let's dig on a bit.
+After the worker SSH config is applied, you can check the status in several ways. Let's dig in a bit.
 
 * Check that the 99-worker-ssh MachineConfig is updated:
 
@@ -164,9 +164,9 @@ ip-10-0-165-73.eu-central-1.compute.internal    Ready                      maste
 ip-10-0-167-20.eu-central-1.compute.internal    Ready                      worker    7d17h     v1.13.4+43acbc5e5
 ```
 
-NOTE: the OpenShift Machine Config operator, will handle the reboots and the apply of the updated MachineConfigs.
+NOTE: the OpenShift Machine Config Operator will handle the reboots and the application of the updated MachineConfigs.
 
-* On the other hand you can check the Machine Config Daemon logs, that are in charge of rebooting the nodes in order.
+* On the other hand, you can check the Machine Config Daemon logs, which are in charge of rebooting the nodes in order.
 
 ```
 $ oc logs -f -n openshift-machine-config-operator machine-config-daemon-<same-hash>
@@ -200,7 +200,7 @@ Failed Units: 1
 
 ## Unsupported Operations
 
-There is some operations that nowadays are not supported by the Machine Config Daemon (the operator that handles part of the ssh-key updates.
+There are some operations that are currently not supported by the Machine Config Daemon (the operator that handles part of the SSH key updates).
 
 The most important are:
 

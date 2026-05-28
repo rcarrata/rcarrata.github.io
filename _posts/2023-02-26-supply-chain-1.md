@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How can we secure the integrity of our Software Supply Chains and have confidence that our software has not been tampered with and can be traced to its source? Which are the main parts of the software supply chain security?
+How can we secure the integrity of our Software Supply Chains and have confidence that our software has not been tampered with and can be traced to its source? What are the main parts of software supply chain security?
 
 https://raw.githubusercontent.com/rcarrata/rcarrata.github.io/master/assets/audio/supply_chain_1.mp3
 
@@ -22,13 +22,13 @@ A software supply chain is the collection of entities, processes, policies, serv
 
 So, in a nutshell, a software supply chain is the series of steps performed when writing, testing, packaging and distributing application software to end consumers. It is the process of getting a product to a customer.
 
-NOTE: this blog post was original posted in [Opensourcerers](https://www.opensourcerers.org/2022/11/21/securing-the-integrity-of-software-supply-chains/) the 21th of Nov22.
+NOTE: this blog post was originally posted on [Opensourcerers](https://www.opensourcerers.org/2022/11/21/securing-the-integrity-of-software-supply-chains/) on the 21st of Nov 2022.
 
 [![](/images/supply_chain0.jpg "supply_chain0.jpg")]({{site.url}}/images/supply_chain0.jpg)
 
 ## The Rise of Supply Chain Attacks
 
-The [Sunburst supply chain](https://www.opensourcerers.org/2022/11/21/securing-the-integrity-of-software-supply-chains/) compromise was a hostile intrusion of Fortune-500 and US and UK Government networks through malware hidden in a signed legitimately, but compromised server monitoring agent.
+The [Sunburst supply chain](https://www.opensourcerers.org/2022/11/21/securing-the-integrity-of-software-supply-chains/) compromise was a hostile intrusion of Fortune-500 and US and UK Government networks through malware hidden in a legitimately signed but compromised server monitoring agent.
 
 The Cozy Bear hacking group managed to hack the update server of Solarwinds, a widely used and trusted network monitoring software, compromising over 18000 organizations, including billion dollar companies, simultaneously. It’s speculated that the recovery may cost upward of $100B. 
 
@@ -36,7 +36,7 @@ SUNBURST attacks infected SolarWinds CI/CD pipelines and modified and altered so
 
 The SUNBURST supply attacks in 2020 directed the attention on the importance of how software is built, and what vulnerabilities are potentially left open by that process. 
 
-But this was not the only Supply Chain Attack in history, examples such as Kaseya Ransomware Attack, [CodeCov](https://blog.gitguardian.com/codecov-supply-chain-breach/) or [Log4j Vulnerability](https://www.cisa.gov/uscert/apache-log4j-vulnerability-guidance) among others, are also excellent examples of supply chain attacks affecting thousands of systems and companies, causing inimaginable losses of data and money.
+But this was not the only Supply Chain Attack in history. Examples such as the Kaseya Ransomware Attack, [CodeCov](https://blog.gitguardian.com/codecov-supply-chain-breach/), or [Log4j Vulnerability](https://www.cisa.gov/uscert/apache-log4j-vulnerability-guidance) among others, are also excellent examples of supply chain attacks affecting thousands of systems and companies, causing unimaginable losses of data and money.
 
 ## OpenSSF and CNCF Tag-Security
 
@@ -50,13 +50,13 @@ Furthermore, the [CNCF Security Technical Advisory Group](https://github.com/cnc
 
 ## Types of Supply Chain Attack
 
-Not all attacks towards the Supply Chain are the same, and we can categorize these in several types to tackle and secure each of these types of attacks.
+Not all attacks on the Supply Chain are the same, and we can categorize them into several types to tackle and secure against each of these types of attacks.
 
 The CNCF Security Technical Advisory Group (STAG) published a list of [Types of Supply Chain Compromises Definitions](https://github.com/cncf/tag-security/blob/main/supply-chain-security/compromises/compromise-definitions.md), providing a consistent set of definitions of each compromise type.
 
-Also the STAG published and maintains a [Catalog of Supply Chain Compromises](https://github.com/cncf/tag-security/tree/main/supply-chain-security/compromises), capturing many examples of different types of attacks, helping to understand the patterns and developing in that way best practices and tools to defend against.
+The STAG also published and maintains a [Catalog of Supply Chain Compromises](https://github.com/cncf/tag-security/tree/main/supply-chain-security/compromises), capturing many examples of different types of attacks, helping to understand the patterns and develop best practices and tools to defend against them.
 
-Finally the [National Cyber Security Centre from the UK Government](https://www.ncsc.gov.uk/collection/supply-chain-security/supply-chain-attack-examples) provides guidance to identify the types of supply chain attacks examples.
+Finally, the [National Cyber Security Centre from the UK Government](https://www.ncsc.gov.uk/collection/supply-chain-security/supply-chain-attack-examples) provides guidance to identify the types of supply chain attack examples.
 
 ## Securing cloud native systems from Supply Chain Attacks
 
@@ -100,11 +100,11 @@ SLSA is organized into a [series of levels](https://slsa.dev/spec/v0.1/levels) t
 
 In this blog post, we reviewed the importance of securing our Software Supply Chains, describing the most relevant attacks that happened in recent history and how to identify the types of supply chain attacks available.
 
-Furthermore, we analyzed how we can secure our Software Supply Chains, and described the main parts of the Supply Chain security, identifying which parts we need to focus and secure.
+Furthermore, we analyzed how we can secure our Software Supply Chains, and described the main parts of Supply Chain security, identifying which parts we need to focus on and secure.
 
-Finally we introduced several groups that are actively helping in developing tools and frameworks to improve the defenses against software supply chain attacks such as OpenSSF or CNCF STAG, among others. Also we reviewed the SLSA framework, providing a series of levels to increase the confidence that our software has not been tampered and can be traced to its source.
+Finally, we introduced several groups that are actively helping develop tools and frameworks to improve the defenses against software supply chain attacks, such as OpenSSF or CNCF STAG, among others. We also reviewed the SLSA framework, which provides a series of levels to increase the confidence that our software has not been tampered with and can be traced to its source.
 
-In the next blog posts, we will analyze in depth the tools that can be used to help in one of each parts of the software supply chain security.
+In the next blog posts, we will analyze in depth the tools that can be used to help with each part of software supply chain security.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

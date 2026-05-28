@@ -12,28 +12,28 @@ author: rcarrata
 comments: true
 ---
 
-How you can configure the EgressIP when you are using the OVN Kubernetes CNI Plugin? What are the differences between the EgressIP implementation of OVN and Openshift SDN CNI Plugins? How to manage your EgressIP objects using GitOps and OpenShift-GitOps?
+How can you configure the EgressIP when you are using the OVN Kubernetes CNI Plugin? What are the differences between the EgressIP implementation of OVN and OpenShift SDN CNI Plugins? How do you manage your EgressIP objects using GitOps and OpenShift-GitOps?
 
 Let's dig in!
 
-This is the second blog post of Egress IP in Openshift 4.
+This is the second blog post of Egress IP in OpenShift 4.
 
 Check the earlier posts:
-* [Part I - Deep Dive of Egress IP in Openshift 4 with Openshift SDN CNI](https://rcarrata.com/openshift/egress_ip/)
+* [Part I - Deep Dive of Egress IP in OpenShift 4 with OpenShift SDN CNI](https://rcarrata.com/openshift/egress_ip/)
 
 ## 1. Overview
 
-As we discovered in the part I of this blog post series, when you have workloads in your OpenShift cluster, and you try to reach external hosts/resources, by default cluster egress traffic gets NAT’ed to the node IP where it’s deployed your workload / pod.
+As we discovered in Part I of this blog post series, when you have workloads in your OpenShift cluster and you try to reach external hosts/resources, by default cluster egress traffic gets NAT’ed to the node IP where your workload / pod is deployed.
 
-This causes that the external hosts (or any external firewall/ IDS/IPS that are controlling and filtering the traffic in your networks) can’t distinguish the traffic originated in your pods/workloads because they don’t use the same sourceIp, and will depend which OpenShift node are used for run the workloads.
+This causes the external hosts (or any external firewall/IDS/IPS that are controlling and filtering the traffic in your networks) to be unable to distinguish the traffic originating from your pods/workloads because they don’t use the same source IP, and it will depend on which OpenShift node is used to run the workloads.
 
 [![](/images/egressovn-3.png "egressovn-3")]({{site.url}}/images/egressovn-3.png)
 
-But how I can reserve private IP source IP for all egress traffic of my workloads in my project X?
+But how can I reserve a private source IP for all egress traffic of my workloads in my project X?
 
 [Egress IPs is an OpenShift feature](https://docs.openshift.com/container-platform/4.8/networking/openshift_sdn/assigning-egress-ips.html) that allows for the assignment of an IP to a namespace (the egress IP) so that all outbound traffic from that namespace appears as if it is originating from that IP address (technically it is NATed with the specified IP).
 
-So in a nutshell is used to provide an application or namespace the ability to use a static IP for egress traffic regardless of the node the workload is running on. This allows for the opening of firewalls, whitelisting of traffic and other controls to be placed around traffic egressing the cluster.
+So in a nutshell, it is used to provide an application or namespace the ability to use a static IP for egress traffic regardless of the node the workload is running on. This allows for the opening of firewalls, whitelisting of traffic, and other controls to be placed around traffic egressing the cluster.
 
 [![](/images/egressovn-4.png "egressovn-4")]({{site.url}}/images/egressovn-4.png)
 
@@ -41,17 +41,17 @@ The egress IP becomes the network identity of the namespace and all the applicat
 
 While this process is slightly different from cloud vendor to vendor, Egress IP addresses are implemented as additional IP addresses on the primary network interface of the node and must be in the same subnet as the node’s primary IP address.
 
-Depending the SDN that you are using, the implementation of the EgressIP are slightly different, we're using OpenShift OVN Kubernetes, that it's the default CNI one.
+Depending on the SDN that you are using, the implementation of the EgressIP is slightly different. We're using OpenShift OVN Kubernetes, which is the default CNI.
 
-This blog post is using [a GitOps repository](https://github.com/RedHat-EMEA-SSA-Team/ns-apps/tree/egressip) for provisioning all the objects in our OpenShift cluster, and it's using OpenShift-GitOps, that it's based in an opinionated ArgoCD deployment. For install OpenShift-GitOps check the [official docs](https://docs.openshift.com/container-platform/4.9/cicd/gitops/installing-openshift-gitops.html).
+This blog post uses [a GitOps repository](https://github.com/RedHat-EMEA-SSA-Team/ns-apps/tree/egressip) for provisioning all the objects in our OpenShift cluster, and it uses OpenShift-GitOps, which is based on an opinionated ArgoCD deployment. To install OpenShift-GitOps, check the [official docs](https://docs.openshift.com/container-platform/4.9/cicd/gitops/installing-openshift-gitops.html).
 
-The blog post is tested in an On-Premises OpenShift based in Libvirt and OpenShift IPI 4.9.4.
+The blog post is tested on an on-premises OpenShift based on Libvirt and OpenShift IPI 4.9.4.
 
-NOTE: even though this blog post is using OpenShift GitOps, the EgressIP can work without installing or using GitOps, ArgoCD / OpenShift GitOps. It's just an example that how cool is GitOps and OpenShift GitOps.
+NOTE: Even though this blog post is using OpenShift GitOps, the EgressIP can work without installing or using GitOps, ArgoCD, or OpenShift GitOps. It's just an example of how cool GitOps and OpenShift GitOps are.
 
 ## 2. Microservices Demo provisioning
 
-We will be using a couple of microservices as example based in the popular TV Show "the Simpsons", so where we will have two main namespace "Simpson" and "Bouvier" and two microservices deployed in each namespace:
+We will be using a couple of example microservices based on the popular TV show "The Simpsons", where we will have two main namespaces "Simpson" and "Bouvier" and two microservices deployed in each namespace:
 
 [![](/images/egressovn-0.png "egressovn-0")]({{site.url}}/images/egressovn-0.png)
 
@@ -75,7 +75,7 @@ echo https://$(kubectl get route openshift-gitops-server -n openshift-gitops -o 
 kubectl get secret/openshift-gitops-cluster -n openshift-gitops -o jsonpath='\''{.data.admin\.password}'\'' | base64 -d
 ```
 
-NOTE: you can also login using the Openshift SSO because it's enabled using Dex OIDC integration.
+NOTE: You can also log in using the OpenShift SSO because it is enabled using Dex OIDC integration.
 
 * Deploy the ApplicationSet containing the Applications to be secured:
 
@@ -109,9 +109,9 @@ kubectl -n simpson exec -ti deploy/selma-deployment -- ./container-helper check
 
 ## 3. EgressIP Prerequisites
 
-Now that we have our microservices that will help us during this blog post, we need to check the default behaviour and set up a scenario to debug and trace our workloads source IPs and the flow between the pods/containers of our workloads and the External resources outside of the cluster.
+Now that we have our microservices that will help us during this blog post, we need to check the default behavior and set up a scenario to debug and trace our workloads' source IPs and the flow between the pods/containers of our workloads and the external resources outside of the cluster.
 
-For tracing purposes and to simulate external resources being requested from the workloads inside of OpenShift cluster, we will set up a simple Httpd web server and monitor the source IP in the access logs of the webserver, when we’ll request from our workloads.
+For tracing purposes and to simulate external resources being requested from the workloads inside the OpenShift cluster, we will set up a simple httpd web server and monitor the source IP in the access logs of the web server when we make requests from our workloads.
 
 We can use a Bastion or an external VM to check the logs, simulating the Pod -> External Host connectivity. In this bastion we will install an Httpd Server:
 
@@ -131,7 +131,7 @@ EOF
 bastion # sudo systemctl start httpd
 ```
 
-as you noticed we set up a minimal index.hmtl page to check the response when we hit the httpd server from our different set of pods.
+As you noticed, we set up a minimal index.html page to check the response when we hit the httpd server from our different sets of pods.
 
 Let's open our firewall within the public zone using our specific port 8080:
 
@@ -141,7 +141,7 @@ bastion # systemctl restart firewalld
 bastion # IP=$(hostname -I | awk '{print $1}')
 ```
 
-If we curl from the same host using the external IP to our brand new httpd ser, we check that effectively we can trace their source IP:
+If we curl from the same host using the external IP to our brand new httpd server, we can verify that we can effectively trace the source IP:
 
 ```
 bastion # curl $IP:8080
@@ -154,7 +154,7 @@ bastion # curl $IP:8080
 10.1.8.72 - - [25/Nov/2021:07:50:45 -0500] "GET / HTTP/1.1" 200 39 "-" "curl/7.61.1"
 ```
 
-Ok! All working as expected! From the logs of the httpd server we can check the source IP where is originated the request (from the curl in this case).
+OK! All working as expected! From the logs of the httpd server we can check the source IP where the request originated (from the curl in this case).
 
 * Check the different nodes and their HOST_IP, that are the IPs assigned to the master and workers that are part of the OpenShift cluster running RHCoreOS:
 
@@ -187,7 +187,7 @@ container-helper   ocp-8vr6j-worker-0-82t6f   10.128.3.139   192.168.126.53
 container-helper   ocp-8vr6j-worker-0-82t6f   10.128.3.138   192.168.126.53
 ```
 
-in this case the POD_IP is 10.128.3.139 and 138 (a pod ip inside of the SDN) and the Host_IP is the 192.168.126.53 that corresponds with the worker0 of our cluster.
+In this case the POD_IP is 10.128.3.139 and 138 (a pod IP inside the SDN) and the Host_IP is 192.168.126.53, which corresponds to worker0 of our cluster.
 
 * Furthermore, in the simpson namespace the pods within are running in the following workers with these PodIPs:
 
@@ -198,9 +198,9 @@ container-helper   ocp-8vr6j-worker-0-sl79n   10.129.3.232   192.168.126.51
 container-helper   ocp-8vr6j-worker-0-sl79n   10.129.3.233   192.168.126.51
 ```
 
-These information is relevant because we will use this Host_IP to check from which source IP is coming the requests from.
+This information is relevant because we will use this Host_IP to check from which source IP the requests are coming.
 
-* If we execute a curl inside of the OpenShift Cluster, requesting the IP of our external resource (web server from before). We need to execute first from the Bouvier namespace pods this request:
+* Let's execute a curl inside the OpenShift cluster, requesting the IP of our external resource (web server from before). We need to execute this request first from the Bouvier namespace pods:
 
 ```sh
 for i in {1..4}; do kubectl exec -ti -n bouvier deploy/patty-deployment -- curl  -s -o /dev/null -I -w "%{http_code}" http://192.168.126.1:8080; echo "-> num $i" ; done
@@ -233,7 +233,7 @@ for i in {1..4}; do kubectl exec -ti -n simpson deploy/homer-deployment -- curl 
 200-> num 4
 ```
 
-* And check the logs of the httpd server, we can see the exact same behaviour as before, the source IP is corresponding to the other worker where is running the pods of Simpson namespace:
+* And if we check the logs of the httpd server, we can see the exact same behavior as before: the source IP corresponds to the other worker where the pods of the Simpson namespace are running:
 
 ```sh
 tail -n5 /var/log/httpd/access_log
@@ -244,7 +244,7 @@ tail -n5 /var/log/httpd/access_log
 192.168.126.51 - - [25/Nov/2021:08:33:15 -0500] "HEAD / HTTP/1.1" 200 - "-" "curl/7.61.1"
 ```
 
-If we moved the workload to another node, we will receive another source IP totally different, and this is not friendly for traditional firewall systems, to add whitelistings or firewall rules to identify and control our workloads requests / egress traffic.
+If we moved the workload to another node, we would receive a totally different source IP, and this is not friendly for traditional firewall systems that need to add whitelisting or firewall rules to identify and control our workloads' requests / egress traffic.
 
 ## 4. Egress IP with OpenShift OVN Kubernetes
 
@@ -261,9 +261,9 @@ NOTE: Check the [platform supportability](https://docs.openshift.com/container-p
 
 ### 4.1 Assigning EgressIP to specific worker
 
-Our purpose is to allow the pods running in the Simpson Namespace to use the EgressIP to be able to always use the same IP from the specific worker assigned (and not use the worker where is running the pod that can change if it's rescheduled or deleted).
+Our purpose is to allow the pods running in the Simpson namespace to use the EgressIP so they always use the same IP from the specific assigned worker (and not use the worker where the pod is running, which can change if it is rescheduled or deleted).
 
-As we is described in the step before, first of all we need to assign a worker with an specific label to allow the OVN Kubernetes plugin to "assign" this specific EgressIP to the worker node.
+As described in the step before, first of all we need to assign a worker with a specific label to allow the OVN Kubernetes plugin to "assign" this specific EgressIP to the worker node.
 
 * Let's identify which is the worker where the Homer pod is running:
 
@@ -297,7 +297,7 @@ kubectl get namespace simpson -o jsonpath='{.metadata.labels}' | jq -r .
 EGRESS_IP1="192.168.126.100"
 ```
 
-this is important, the EgressIPs need to be in the same CIDR range as the rest of the worker nodes.
+This is important: the EgressIPs need to be in the same CIDR range as the rest of the worker nodes.
 
 ### 4.2 Apply the EgressIP with the namespaceSelector
 
@@ -332,7 +332,7 @@ spec:
     - CreateNamespace=true
 ```
 
-* If we check the ArgoCD application where is the EgressIP object managed by the EgressIP Demo ArgoCD application:
+* If we check the ArgoCD application where the EgressIP object is managed by the EgressIP Demo ArgoCD application:
 
 [![](/images/egressovn-5.png "egressovn-5")]({{site.url}}/images/egressovn-5.png)
 
@@ -353,9 +353,9 @@ spec:
       house: simpson
 ```
 
-we can check several interesting things in the EgressIP definition. First the apiVersion correspond with k8s.ovn.org/v1, because as we said before where are using the OVN Kubernetes plugin. On the other hand the egressIPs is the defined in the previous step, and finally the namespaceSelector is using a matchLabel that is selecting the Simpson project (house=simpson).
+We can check several interesting things in the EgressIP definition. First, the apiVersion corresponds to k8s.ovn.org/v1, because as we said before we are using the OVN Kubernetes plugin. On the other hand, the egressIPs value is the one defined in the previous step, and finally the namespaceSelector is using a matchLabel that selects the Simpson project (house=simpson).
 
-After couple of seconds if we check the object that we've created:
+After a couple of seconds, if we check the object that we've created:
 
 ```sh
 kubectl get egressip
@@ -363,9 +363,9 @@ NAME            EGRESSIPS         ASSIGNED NODE              ASSIGNED EGRESSIPS
 egressip-demo   192.168.126.100   ocp-8vr6j-worker-0-sl79n   192.168.126.100
 ```
 
-the egressIP1 is assigned properly to the labeled worker node in the previous step.
+The egressIP1 is properly assigned to the worker node we labeled in the previous step.
 
-If we check specifically the egressip-demo object we can confirm that the status it's the egressIP is assigned to the node:
+If we check the egressip-demo object specifically, we can confirm that the status shows the egressIP is assigned to the node:
 
 ```sh
 apiVersion: k8s.ovn.org/v1
@@ -394,9 +394,9 @@ status:
     node: ocp-8vr6j-worker-0-82t6f
 ```
 
-Let's dig a big deeper, to check how the OVN Kubernetes handles the EgressIP and how we can check them.
+Let's dig a bit deeper to check how OVN Kubernetes handles the EgressIP and how we can inspect it.
 
-* Within of to the OVN Kube Master pod in the Northbound container, we can check the an OVN Northbound overview of the database contents with the command ovn-nbctl:
+* Within the OVN Kube Master pod in the Northbound container, we can check an OVN Northbound overview of the database contents with the command ovn-nbctl:
 
 ```sh
 kubectl -n openshift-ovn-kubernetes exec -ti ovnkube-master-7m58n  -c northd -- ovn-nbctl show | grep -B1 -A3 "192.168.126.100"
@@ -410,7 +410,7 @@ kubectl -n openshift-ovn-kubernetes exec -ti ovnkube-master-7m58n  -c northd -- 
         type: "snat"
 ```
 
-If we grep the output with our EgressIP, we can check several interesting things, two IPs are matching the external IP (EgressIP) as the logical IPs with the type SNAT (source Network Address Translation)
+If we grep the output with our EgressIP, we can see several interesting things: two IPs are matching the external IP (EgressIP) as the logical IPs with the type SNAT (Source Network Address Translation).
 
 * Let's check to whom correspond these logical IPs:
 
@@ -421,9 +421,9 @@ homer-deployment-5b7857cc48-fs2w4   1/1     Running   0          6d23h   10.129.
 marge-deployment-75474c9ff-jpkkv    1/1     Running   0          6d23h   10.129.3.233   ocp-8vr6j-worker-0-sl79n   <none>           <none>
 ```
 
-Aha! The ips correspond with the two pods that are created within the namespace Simpson. That's makes a lot of sense, because the EgressIP it's assigned with a namespaceSelector to a matching labels that selects the Simpson namespace, and all of the pods inside this namespace will use the EgressIP.
+Aha! The IPs correspond to the two pods that are created within the Simpson namespace. That makes a lot of sense, because the EgressIP is assigned with a namespaceSelector to matching labels that select the Simpson namespace, and all of the pods inside this namespace will use the EgressIP.
 
-If you want to dig further, check within the OVN Github source code the [addNamespaceEgressIP](https://github.com/ovn-org/ovn-kubernetes/blob/master/go-controller/pkg/ovn/egressip.go#L361) function that adds the egressIP to the specific namespace and the [createEgressReroutePolicy](https://github.com/ovn-org/ovn-kubernetes/blob/master/go-controller/pkg/ovn/egressip.go#L948) that uses logical router policies to force egress traffic to the egress node. 
+If you want to dig further, check within the OVN GitHub source code the [addNamespaceEgressIP](https://github.com/ovn-org/ovn-kubernetes/blob/master/go-controller/pkg/ovn/egressip.go#L361) function that adds the egressIP to the specific namespace and the [createEgressReroutePolicy](https://github.com/ovn-org/ovn-kubernetes/blob/master/go-controller/pkg/ovn/egressip.go#L948) that uses logical router policies to force egress traffic to the egress node.
 
 In a nutshell the [addPodEgressIP](https://github.com/ovn-org/ovn-kubernetes/blob/master/go-controller/pkg/ovn/egressip.go#L809) function retrieves all the pods in the namespace that matches the namespaceSelector and will [Add to Pod EgressIP and ReroutePolicy](https://github.com/ovn-org/ovn-kubernetes/blob/master/go-controller/pkg/ovn/egressip.go#L821) generating a [NATRule](https://github.com/ovn-org/ovn-kubernetes/blob/master/go-controller/pkg/ovn/egressip.go#L1296) for each pod and rerouting the traffic from the PodIP to the EgressIP in the worker Node.
 
@@ -443,9 +443,9 @@ tail -n4 /var/log/httpd/access_log
 192.168.126.100 - - [26/Nov/2021:12:53:18 -0500] "HEAD / HTTP/1.1" 200 - "-" "curl/7.61.1"
 ```
 
-as we can check the source IP received in the httpd server is as we expected the EgressIP IP (source IP). No matters where is running, that always these pods will be using the same IP when are reaching external services / hosts, increasing the traceability and the security in that way. Cool isn't?
+As we can see, the source IP received by the httpd server is, as expected, the EgressIP (source IP). No matter where they are running, these pods will always use the same IP when reaching external services / hosts, increasing traceability and security. Cool, isn't it?
 
-* Let's check again the pods of the Bouvier namespace, that have not the labels that matches the namespaceSelector in the EgressIP, and let's execute the same request as before:
+* Let's check again the pods of the Bouvier namespace, which do not have the labels that match the namespaceSelector in the EgressIP, and let's execute the same request as before:
 
 ```sh
 for i in {1..4}; do kubectl exec -ti -n bouvier deploy/patty-deployment -- curl  -s -o /dev/null -I -w "%{http_code}" http://192.168.126.1:8080; echo "-> num $i" ; done
@@ -461,7 +461,7 @@ tail -n4 /var/log/httpd/access_log
 192.168.126.53 - - [26/Nov/2021:13:23:42 -0500] "HEAD / HTTP/1.1" 200 - "-" "curl/7.61.1"
 ```
 
-as we can figure out the source IP received by the external server/host is the worker node where the pod of Patty-deployment within the Bouvier namespace is running.
+As we can see, the source IP received by the external server/host is the worker node where the pod of Patty-deployment within the Bouvier namespace is running.
 
 Be aware that when creating an EgressIP object, the following conditions apply to nodes that are labeled with the k8s.ovn.org/egress-assignable: "" label:
 
@@ -471,13 +471,13 @@ Be aware that when creating an EgressIP object, the following conditions apply t
 
 ### 4.3 Automatic Failover of EgressIP
 
-What's happening when a worker that handles the EgressIP becomes unavailable? We have a Single Point of Failure / SPOF?
+What happens when a worker that handles the EgressIP becomes unavailable? Do we have a Single Point of Failure / SPOF?
 
 As is specified in the [official documentation](https://docs.openshift.com/container-platform/4.9/networking/ovn_kubernetes_network_provider/configuring-egress-ips-ovn.html) if a node becomes unavailable, any egress IP addresses assigned to it are automatically reassigned, subject to the previously described conditions.
 
 Let's try it!
 
-* First let's label another worker node with the egress-assignable, that will be our failover egressip worker node: 
+* First let's label another worker node with the egress-assignable label, which will be our failover EgressIP worker node:
 
 ```sh
 kubectl label nodes ocp-8vr6j-worker-0-82t6f k8s.ovn.org/egress-assignable=""
@@ -515,7 +515,7 @@ NAME            EGRESSIPS         ASSIGNED NODE              ASSIGNED EGRESSIPS
 egressip-demo   192.168.126.100   ocp-8vr6j-worker-0-82t6f   192.168.126.100
 ```
 
-it automatically rescheduled the egressIP when detects the failure of the node that was assigned with the EgressIP!
+It automatically rescheduled the EgressIP when it detected the failure of the node that was assigned the EgressIP!
 
 * Let's try to curl the external Host and check the source IP in that server:
 
@@ -537,7 +537,7 @@ Amazing! OVN automatically handled the failure of the node, and now we have anot
 
 And with that ends this blog post about EgressIP with OVN Kubernetes plugin in OpenShift.
 
-Big thanks to Daniel Mellado, to helped me during this blog post with their wisdom and expertise. Kudos @dmellado++!
+Big thanks to Daniel Mellado, who helped me during this blog post with his wisdom and expertise. Kudos @dmellado++!
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

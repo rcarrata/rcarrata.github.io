@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How can we embrace the Open Hybrid Multi-Cloud connecting overlay networking from ARO and ROSA clusters? How you can connect Managed OpenShift clusters running all over the world, within different clouds in a secure and effective way? How can we discover other microservices using DNS and Kubernetes Services like if we were in the same cluster?
+How can we embrace the Open Hybrid Multi-Cloud by connecting overlay networking from ARO and ROSA clusters? How can you connect Managed OpenShift clusters running all over the world, across different clouds, in a secure and effective way? How can we discover other microservices using DNS and Kubernetes Services as if we were in the same cluster?
 
 ## Overview
 
@@ -25,7 +25,7 @@ Azure Red Hat OpenShift is jointly engineered, operated, and supported by Red Ha
 
 ROSA or **[Red Hat OpenShift on AWS](https://docs.openshift.com/rosa/rosa_architecture/rosa-understanding.html)** is fully-managed, turnkey application platform that allows you to focus on delivering value to your customers by building and deploying applications.
 
-Let's discover how to set up RHACM Submariner for connecting overlay networking for ARO and ROSA cluster!
+Let's discover how to set up RHACM Submariner for connecting overlay networking between ARO and ROSA clusters!
 
 ## Prerequisites
 
@@ -105,7 +105,7 @@ spec:
 EOF
 ```
 
-NOTE: you can select from ACM 2.7 onwards for install ACM Submariner for ROSA/ARO. 
+NOTE: you can select ACM 2.7 onwards to install ACM Submariner for ROSA/ARO. 
 
 * Check that the Operator has installed successfully
 
@@ -142,7 +142,7 @@ NOTE: if it's not in Running state, wait a couple of minutes and check again.
 
 ## Deploy ROSA Cluster
 
-* Define the prerequisites for install the ROSA cluster
+* Define the prerequisites to install the ROSA cluster
 
 ```sh
  export VERSION=4.11.36 \
@@ -153,7 +153,7 @@ NOTE: if it's not in Running state, wait a couple of minutes and check again.
         CIDR="10.10.0.0/16"
 ```
 
-NOTE: it's critical that the Machine CIDR of the ROSA and ARO clusters not overlap, for that reason we're setting different CIDRs than the out of the box ROSA / ARO cluster install.  
+NOTE: it's critical that the Machine CIDRs of the ROSA and ARO clusters do not overlap. For that reason, we're setting different CIDRs than the out-of-the-box ROSA / ARO cluster install.  
 
 * Create the IAM Account Roles
 
@@ -230,7 +230,7 @@ kubectl get nodes --show-labels | grep submariner
 
 > **IMPORTANT**: To enable Submariner in ROSA - ARO clusters, the POD_CIDR and SERVICE_CIDR can’t overlap between them. To avoid IP address conflicts, the ARO cluster needs to modify the default IP CIDRs. Check the Submariner docs for more information.
 
-* Define the prerequisites for install the ROSA cluster
+* Define the prerequisites to install the ARO cluster
 
 ```sh
 AZR_RESOURCE_LOCATION=eastus
@@ -327,7 +327,7 @@ kubectl config use $AZR_CLUSTER
 kubectl get dns cluster -o jsonpath='{.spec.baseDomain}'
 ```
 
-NOTE: ARO doesn't need to generate extra nodes to have the ACM submariner components deployed. 
+NOTE: ARO doesn't need extra nodes to have the ACM Submariner components deployed. 
 
 ## Create ManagedClusterSets
 
@@ -369,7 +369,7 @@ kubectl config use hub
 kubectl get dns cluster -o jsonpath='{.spec.baseDomain}'
 ```
 
-* Create (in ACM Hub cluster) `ManagedCluster` object defining the 
+* Create (in ACM Hub cluster) `ManagedCluster` object defining the ROSA cluster
 
 ```sh
 cat << EOF | kubectl apply -f -
@@ -389,7 +389,7 @@ spec:
 EOF
 ```
 
-* Create (in ACM Hub cluster) auto-import-secret.yaml secret defining the the token and server from ROSA cluster:
+* Create (in ACM Hub cluster) auto-import-secret.yaml secret defining the token and server from the ROSA cluster:
 
 ```sh
 cat << EOF | kubectl apply -f -
@@ -450,7 +450,7 @@ rosa-sbmr1      true           https://api.rosa-subm1.xxxx.p1.openshiftapps.com:
 
 ## Import ARO cluster into ACM (CLI)
 
-* Retrieve the ARO token and the ARO API url from the ARO cluster
+* Retrieve the ARO token and the ARO API URL from the ARO cluster
 
 ```sh
 kubectl config use $AZR_CLUSTER
@@ -489,7 +489,7 @@ spec:
 EOF
 ```
 
-* Create (in the Hub) `auto-import-secret.yaml` secret defining the the token and server from ARO cluster: 
+* Create (in the Hub) `auto-import-secret.yaml` secret defining the token and server from the ARO cluster: 
 
 ```sh
 cat << EOF | kubectl apply -f -
@@ -556,7 +556,7 @@ Either deploy using the RHACM UI or with CLI (choose one).
 
 ## Deploy Submariner Addon in Managed ROSA and ARO clusters from the RHACM UI
 
-* Inside of the ClusterSets tab, go to the `rosa-aro-clusters` generated.
+* Inside the ClusterSets tab, go to the `rosa-aro-clusters` generated.
 
 * Go to Submariner add-ons and Click in "Install Submariner Add-Ons"
 
@@ -568,7 +568,7 @@ The Submariner Add-on installation will start, and will take up to 10 minutes to
 
 ## Deploy Submariner Addon in Managed ROSA and ARO clusters with CLI
 
-NOTE: All of this commands are executed in the ACM Hub cluster, not in the ACM Managed Clusters (ROSA / ARO created).
+NOTE: All of these commands are executed in the ACM Hub cluster, not in the ACM Managed Clusters (ROSA / ARO created).
 
 * After the `ManagedClusterSet` is created, the submariner-addon creates a namespace called `managed-cluster-set-name-broker` and deploys the Submariner broker to it.
 
@@ -592,7 +592,7 @@ spec:
 EOF
 ```
 
-NOTE: Set the the value of globalnetEnabled to true if you want to enable Submariner Globalnet in the `ManagedClusterSet`.
+NOTE: Set the value of globalnetEnabled to true if you want to enable Submariner Globalnet in the `ManagedClusterSet`.
 
 * Check the Submariner Broker in the rosa-clusters-broker namespace:
 
@@ -668,7 +668,7 @@ The Submariner Add-on installation will start, and will take up to 10 minutes to
 
 ## Check the Status of the Submariner Networking Add-On 
 
-* Few minutes (up to 10 minutes) after we can check that the app Connection Status and the Agent Status are Healthy:
+* A few minutes later (up to 10 minutes), we can check that the app Connection Status and the Agent Status are Healthy:
 
 [![](/images/aro-submariner.png "ARO Submariner")]({{site.url}}/images/aro-submariner.png)
 

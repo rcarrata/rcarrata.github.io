@@ -12,13 +12,13 @@ author: rcarrata
 comments: true
 ---
 
-How generate certificates for our apps and sign them with a free and trusted Certificate Authority? And the most important, how I can automate this process for generate and renew this certificates?
+How can we generate certificates for our apps and sign them with a free and trusted Certificate Authority? And most importantly, how can we automate the process of generating and renewing these certificates?
 
 Let's start!
 
-First of all we will use for this purpose, [Let's Encrypt certificates](https://letsencrypt.org/) for this purpose. Let’s Encrypt is a automated, and open Certificate Authority and that can be used for sign our certificates without expend a dime (or euro in my case :D).
+First of all, we will use [Let’s Encrypt certificates](https://letsencrypt.org/) for this purpose. Let’s Encrypt is an automated and open Certificate Authority that can be used to sign our certificates without spending a dime (or euro in my case :D).
 
-But for sign the certificate with the let's encrypt CA some steps must be executed. That's were the magic of the [cert-manager](https://docs.cert-manager.io/en/latest/) operator can be very helpful.
+But to sign the certificate with the Let's Encrypt CA, some steps must be executed. That's where the magic of the [cert-manager](https://docs.cert-manager.io/en/latest/) operator can be very helpful.
 
 ## Installation of the cert-manager
 
@@ -72,13 +72,13 @@ cert-manager-cainjector   1/1     1            1           4m11s
 cert-manager-webhook      1/1     1            1           4m11s
 ```
 
-* Patch the certmanager deployment for allow resolv an external DNS (8.8.8.8)
+* Patch the certmanager deployment to allow resolving an external DNS (8.8.8.8)
 
-Due to the cert-manager deployment have the spec of dnsPolicy: ClusterFirst, can not reach an
-External DNS for perform the DNS Challenge and communicate with Lets Encrypt API (one of the reasons
-for deploy the cert-manager).
+Because the cert-manager deployment has the spec dnsPolicy: ClusterFirst, it cannot reach an
+external DNS to perform the DNS Challenge and communicate with the Let's Encrypt API (one of the reasons
+for deploying cert-manager).
 
-For this reason, a patch for the Deployment of the cert-manager must to be performed:
+For this reason, a patch for the cert-manager Deployment must be applied:
 
 Original
 
@@ -154,9 +154,9 @@ identify you with the ACME server.
 
 To set up a basic ACME issuer, you should create a new Issuer or ClusterIssuer resource.
 
-But first of all, cert-manager requires an IAM Policy that must to be defined.
+But first of all, cert-manager requires an IAM Policy that must be defined.
 
-* First generate an IAM policy with the permissions related below:
+* First, generate an IAM policy with the permissions listed below:
 
 ```
 # aws iam list-policies | grep acme
@@ -186,7 +186,7 @@ But first of all, cert-manager requires an IAM Policy that must to be defined.
 }
 ```
 
-* Generate an IAM Role User and attach the new brand IAM Policy:
+* Generate an IAM user and attach the new IAM Policy:
 
 ```
 # aws iam  list-users | grep cert
@@ -269,7 +269,7 @@ apps-ocp4-dev-opentlc-com   2m12s
 
 The Certificate resource type is used to request certificates from different Issuers.
 
-A Certificate resource specifies fields that are used to generated certificate signing requests which are then fulfilled by the issuer type you have referenced.
+A Certificate resource specifies fields that are used to generate certificate signing requests, which are then fulfilled by the issuer type you have referenced.
 
 ```
 # oc get certificates -n openshift-ingress -o yaml
@@ -302,18 +302,15 @@ metadata:
   selfLink: ""
 ```
 
-A Certificate resource specifies fields that are used to generated certificate signing requests
-which are then fulfilled by the issuer type you have referenced.
-
 Certificates specify which issuer will be used to obtain the certificate
-from by specifying the spec.issuerRef field (in our case the cluster issuer created in
+by specifying the spec.issuerRef field (in our case, the cluster issuer created in
 the step above).
 
-Furhtermore, the Certificate resource will generate the certificate for the wildcard domain (the route
-*.apps in our cluster)  with an specific duration (90d) and will be renewed automatically 15d before
-their expiration.
+Furthermore, the Certificate resource will generate the certificate for the wildcard domain (the route
+*.apps in our cluster) with a specific duration (90d) and will be renewed automatically 15d before
+its expiration.
 
-The signed certificate (Let's Encrypt) for the default ingress controller exposing *.apps routes, will be generated automatically into the namespace of openshift-ingress and stored un a Secret resource named apps-ocp4, once the issuer has successfully issued the requested certificate.
+The signed certificate (Let's Encrypt) for the default ingress controller exposing *.apps routes will be generated automatically in the openshift-ingress namespace and stored in a Secret resource named apps-ocp4, once the issuer has successfully issued the requested certificate.
 
 The Certificate will be issued using the issuer named ca-issuer in the openshift-ingress namespace.
 
@@ -329,7 +326,7 @@ I0809 12:10:15.959599       1 dns.go:126] ACME DNS01 validation record propagate
 "_acme-challenge.apps.rcarrata-ipi-aws.8237.sandbox258.opentlc.com."
 ```
 
-* After wait some minutes for the DNS Challenge between the cert-manager operator and the ACME API, a Certificate is generate and stored into a Secret (check SecretName value into the Certificate CRD before):
+* After waiting some minutes for the DNS Challenge between the cert-manager operator and the ACME API, a Certificate is generated and stored in a Secret (check the SecretName value in the Certificate CRD above):
 
 ```
 # oc get secrets -n openshift-ingress
@@ -365,9 +362,9 @@ router-default-84ff5bdcb8-ktmk9   1/1     Running             0          3d19h
       name: apps-ocp4
 ```
 
-## Check the Certificated expose by the OCP routers
+## Check the Certificate exposed by the OCP routers
 
-If we check the certificated exposed by the OpenShift Routers with openssl, we can realized that the certificated exposed is the Let's Encrypt generated:
+If we check the certificate exposed by the OpenShift Routers with openssl, we can see that the certificate exposed is the one generated by Let's Encrypt:
 
 ```
 # openssl s_client -showcerts -servername console-openshift-console.apps.rcarrata-ipi-aws.8237.sandbox258.opentlc.com  -connect  console-openshift-console.apps.rcarrata-ipi-aws.8237.sandbox258.opentlc.com:443 </dev/null | grep Issuer

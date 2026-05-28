@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How we can provide more isolation to our containers running on OpenShift? What are Kata Containers and how we can implement them in OpenShift? What are the differences between the regular containers and the kata containers workloads?
+How can we provide more isolation to our containers running on OpenShift? What are Kata Containers and how can we implement them in OpenShift? What are the differences between regular containers and Kata Containers workloads?
 
 Let's Kata in!
 
@@ -34,13 +34,13 @@ You can use the OpenShift sandboxed containers Operator to perform tasks such as
 
 NOTE: Sandboxed containers are only supported on bare metal.
 
-This Blog Post it's tested in 4.9.5 using the Sandbox Containers Preview 1.1.
+This blog post is tested in 4.9.5 using the Sandbox Containers Preview 1.1.
 
 NOTE: this blog post is supported by the [Sandbox Container repository](https://github.com/rcarrata/sandbox-containers) located in my personal Github.
 
 ## 2. Install Sandbox Containers Operator in OpenShift
 
-We will start this blog post from an Openshift "empty" (fresh installed) because we will install the OpenShift Sandbox Container, version Preview 1.1.
+We will start this blog post from a freshly installed OpenShift cluster because we will install the OpenShift Sandbox Container, version Preview 1.1.
 
 NOTE: Please be aware that this version is currently in Technology Preview. OpenShift sandboxed containers is not intended for production use. Be careful!
 
@@ -83,7 +83,7 @@ NAME                                               READY   UP-TO-DATE   AVAILABL
 sandboxed-containers-operator-controller-manager   1/1     1            1           20s
 ```
 
-NOTE: Notice that it's in the Phase Succeeded.
+NOTE: Notice that it is in the Phase Succeeded.
 
 ## 3. Creating and configuring the KataConfig in OpenShift cluster
 
@@ -162,7 +162,7 @@ Status:
 Events:  <none>
 ```
 
-as you can notice the KataConfig installation it's in progress in One Total Node Count and using the Runtime Class kata
+As you can notice, the KataConfig installation is in progress on one Total Node Count and using the Runtime Class kata.
 
 You can check to see if the nodes in the machine-config-pool object are going through a config update.
 
@@ -172,7 +172,7 @@ NAME      CONFIG                                              UPDATED   UPDATING
 kata-oc   rendered-kata-oc-7ce66b5e9e1c51753ebf99c1d9603bd8   True      False      False      1              1                   1                     0                      3m
 ```
 
-If we check the machine config pool we can check that the kata-oc mcp it's based in several machine configs, and in specific there is one that defines the sandbox-containers extensions:
+If we check the machine config pool, we can see that the kata-oc MCP is based on several machine configs, and specifically there is one that defines the sandbox-containers extensions:
 
 ```
 oc get mcp kata-oc -o yaml | egrep -i 'kata|sandbox'
@@ -229,7 +229,7 @@ spec:
   osImageURL: ""
 ```
 
-as you can noticed the extensions have the sandbox-containers. The [RHCOS extensions](https://github.com/openshift/machine-config-operator/blob/master/docs/MachineConfiguration.md#rhcos-extensions) users can enable a limited set of additional functionality on the RHCOS nodes. In 4.8+ only [usbguard and sandboxed-containers](https://docs.openshift.com/container-platform/4.9/post_installation_configuration/machine-configuration-tasks.html#rhcos-add-extensions_post-install-machine-configuration-tasks) are supported extensions
+As you can see, the extensions include sandbox-containers. The [RHCOS extensions](https://github.com/openshift/machine-config-operator/blob/master/docs/MachineConfiguration.md#rhcos-extensions) allow users to enable a limited set of additional functionality on the RHCOS nodes. In 4.8+ only [usbguard and sandboxed-containers](https://docs.openshift.com/container-platform/4.9/post_installation_configuration/machine-configuration-tasks.html#rhcos-add-extensions_post-install-machine-configuration-tasks) are supported extensions.
 
 Automatically the Machine Config Operator will apply the MachineConfigPool rendered containing the different MachineConfigs, including the last MC of sandboxed-containers-extension described in the previous step.
 
@@ -241,9 +241,9 @@ ocp-8vr6j-worker-0-kvxr9   Ready                      worker   26h   v1.22.0-rc.
 ocp-8vr6j-worker-0-sl79n   Ready                      worker   26h   v1.22.0-rc.0+a44d0f0
 ```
 
-As you can check the first selected worker labeled with the kata: 'true' is automatically installing and configuring the KataConfig extension.
+As you can see, the first selected worker labeled with kata: 'true' is automatically installing and configuring the KataConfig extension.
 
-We can check when the Machine Config Operator finishes their work, when the Updating, and Degraded sections of the MCP are in False state:
+We can check when the Machine Config Operator finishes its work: the Updating and Degraded sections of the MCP should be in a False state:
 
 ```sh
 # oc get mcp kata-oc
@@ -253,7 +253,7 @@ kata-oc   rendered-kata-oc-999617e684ef816391be460254498d18   True      False   
 
 ## 4. Runtimes configurations
 
-Now, let's check the configuration of the CRIO, if it's configured correctly for the Kata runtime handlers.
+Now, let's check the configuration of CRI-O to verify it is configured correctly for the Kata runtime handlers.
 
 Let's jump to the worker node labeled with the Kata containers:
 
@@ -282,9 +282,9 @@ If we check the crio.conf.d folder, we can see the 50-kata file containing the s
 
 RuntimeClass defines a class of container runtime supported in the cluster. The RuntimeClass is used to determine which container runtime is used to run all containers in a pod.
 
-RuntimeClasses are manually defined by a user or cluster provisioner, and referenced in the PodSpec. In our case we will have the RuntimeClass "kata", because we will demoing the Sandbox Containers use in our OpenShift clusters.
+RuntimeClasses are manually defined by a user or cluster provisioner, and referenced in the PodSpec. In our case we will have the RuntimeClass "kata", because we will be demoing the Sandbox Containers use in our OpenShift clusters.
 
-After a while, the Kata runtime is now installed on the cluster and ready for use as a secondary runtime. 
+After a while, the Kata runtime is now installed on the cluster and ready for use as a secondary runtime.
 
 Let's verify that we have a newly created RuntimeClass for Kata on our cluster.
 
@@ -340,7 +340,7 @@ spec:
       command: ["/bin/bash", "-c", "sleep 99999999999"]
 ```
 
-if you noticed, the pod have a nodeSelector with the label for ensure that the workloads are running in the labeled kata container worker.
+If you noticed, the pod has a nodeSelector with the label to ensure that the workloads are running on the labeled Kata Container worker.
 
 ```sh
 oc get pod -o wide
@@ -383,9 +383,9 @@ oc get pod example-net-tools-kata -o jsonpath='{.spec.runtimeClassName}' -o yaml
 
 ## 7. Analysis of the Kata Containers Workloads and Qemu VMs
 
-As all we know, workloads in Kubernetes/OpenShift runs within a Pod, the minimal representation of a workload in Kubernetes/OpenShift.
+As we all know, workloads in Kubernetes/OpenShift run within a Pod, the minimal representation of a workload in Kubernetes/OpenShift.
 
-In case of the Kata Containers / Sandbox Containers, pods are bound to a QEMU Virtual Machine (qemu-vm), which provides this extra layer of isolation and furthermore extra layer of security.
+In the case of Kata Containers / Sandbox Containers, pods are bound to a QEMU Virtual Machine (qemu-vm), which provides an extra layer of isolation and furthermore an extra layer of security.
 
 Each VM runs in a qemu process and hosts a kata-agent process that acts as a supervisor for managing container workloads and processes that are running in those containers.
 
@@ -407,7 +407,7 @@ oc exec -ti example-net-tools-regular -- cat /proc/uptime
 3074.51 11793.48
 ```
 
-For what reason is there a difference so significant? The uptime of the standard container kernel is the same as the uptime of the node that is running the container, while the uptime of the sandboxed kata container pod is of its sandbox (VM) that was created at the pod creation time.
+Why is there such a significant difference? The uptime of the standard container kernel is the same as the uptime of the node that is running the container, while the uptime of the sandboxed Kata Container pod reflects its sandbox (VM) that was created at the pod creation time.
 
 * On the other hand, let's compare the kernel command lines from the /proc/cmdline:
 
@@ -427,7 +427,7 @@ BOOT_IMAGE=(hd0,gpt3)/ostree/rhcos-9d5687c13259b146f9e918ae7ee8e03f697789ddb69e3
 
 As we can see in the output of both cmdline commands, the containers are using two different kernel instances running in different environments (a worker node and a lightweight VM).
 
-* On the third place, we will check the number of cores on both containers:
+* In third place, we will check the number of cores on both containers:
 
 A. Sandboxed Workloads
 
@@ -461,9 +461,9 @@ oc exec -ti example-net-tools-kata -- cat /proc/cpuinfo | grep processor | wc -l
 1
 ```
 
-But they are the same kernel version! But we checked that are different kernel instances in the cmdline before, what's happening?
+But they are the same kernel version! We checked that they are different kernel instances in the cmdline before, so what's happening?
 
-Despite of the mentioned differences, Kata Containers used by the OpenShift Sandbox Containers it's always running with the very same kernel version on the VM as the underlying RHCOS is running with (OS). The VM image is generated at the startup of the host, ensuring that is compatible with the kernel currently used by the RHCOS host.
+Despite the mentioned differences, Kata Containers used by the OpenShift Sandbox Containers always run with the very same kernel version on the VM as the underlying RHCOS is running with (OS). The VM image is generated at the startup of the host, ensuring that it is compatible with the kernel currently used by the RHCOS host.
 
 ## 8. Analysis of the QEMU processes of the Sandbox Containers
 
@@ -471,7 +471,7 @@ Sandbox Containers are containers that are sandboxed by a VM running a QEMU proc
 
 If we check the node where the workload is running, we can verify that this QEMU process is also running there:
 
-* Let's check which node our example kata pod has been assigned to:  
+* Let's check which node our example Kata pod has been assigned to:
 
 ```sh
 pod_node_kata=$(oc get pod/example-net-tools-kata -o=jsonpath='{.spec.nodeName}')
@@ -480,7 +480,7 @@ echo $pod_node_kata
 ocp-8vr6j-worker-0-82t6f
 ```
 
-as we expected is the same as we defined using the label kata: 'true'.
+As expected, it is the same node we defined using the label kata: 'true'.
 
 * Let's extract the containerID CRI:
 
@@ -505,7 +505,7 @@ sandbox-712a4cb4a28dff8655bd92fd6bd5e761173a2b2c23b8b7615a5bbb12ca1b75a3 -uuid 2
 ...
 ```
 
-as we can see, there is one qemu process running. It is expected to see a qemu process running for each pod running sandbox containers / kata containers on that host/node.
+As we can see, there is one QEMU process running. It is expected to see a QEMU process running for each pod running Sandbox Containers / Kata Containers on that host/node.
 
 * Let's check the sandboxID with the crictl inspect. We will use the containerID from the earlier step:
 
@@ -527,7 +527,7 @@ sandbox-712a4cb4a28dff8655bd92fd6bd5e761173a2b2c23b8b7615a5bbb12ca1b75a3
 0
 ```
 
-The QEMU process is indeed running the container we inspected, because the CRI sandboxID is associated with your containerID. The Ids from the crictl inspect that outputs the sandboxID and the QEMU process running the workload are the same.
+The QEMU process is indeed running the container we inspected, because the CRI sandboxID is associated with our containerID. The IDs from the crictl inspect that outputs the sandboxID and the QEMU process running the workload are the same.
 
 Finally we have two additional processes that add more overhead:
 
@@ -540,7 +540,7 @@ root       33707   33678  0 Nov09 ?        00:00:00 /usr/libexec/virtiofsd --fd=
 1. containerd-shim-kata-v2 is used to communicate with the pod.
 2. virtiofsd handles host file system access on behalf of the guest.
 
-And with that we reviewed how to install, configure and use Sandbox Containers in OpenShift.
+And with that, we reviewed how to install, configure, and use Sandbox Containers in OpenShift.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

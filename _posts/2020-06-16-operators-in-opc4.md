@@ -12,8 +12,8 @@ author: rcarrata
 comments: true
 ---
 
-How can I use the Operators in my OpenShift4 cluster? And how are updated and managed by the
-Operator Lifecycle Manager? What is the components of their architecture?
+How can I use Operators in my OpenShift 4 cluster? And how are they updated and managed by the
+Operator Lifecycle Manager? What are the components of its architecture?
 
 Let's dig in!
 
@@ -22,14 +22,14 @@ Let's dig in!
 In OpenShift 4 the Operators are key for main operations, deployments and upgrades within our
 cluster.
 
-The Operator Lifecycle Manager (OLM in short name), helps users install, update, and manage the
+The Operator Lifecycle Manager (OLM for short) helps users install, update, and manage the
 lifecycle of all Operators and their associated services running across their clusters.
 
-This OLM is part of the Operator Framework, defined by CoreOS and widely spread into the Kubernetes
-Community among these years.
+This OLM is part of the Operator Framework, defined by CoreOS and widely adopted across the Kubernetes
+community over the years.
 
 The Operator Framework is an open source toolkit designed to manage Kubernetes native apps (also
-called Operators) in a automated, time-effective and scalable way.
+called Operators) in an automated, time-effective, and scalable way.
 
 ## 2. Operator Lifecycle Manager Architecture
 
@@ -87,8 +87,8 @@ The resources created by the OLM and Catalog Operators are the following:
 
 ## 3. Operator Lifecycle Manager ecosystem
 
-So, now that we already explained the components of the OLM, we need to describe the ecosystem in
-order to deploy, upgrade and maintain our operators within the OLM.
+So, now that we have explained the components of the OLM, we need to describe the ecosystem in
+order to deploy, upgrade, and maintain our operators within the OLM.
 
 In the Operator Lifecycle Manager (OLM) ecosystem, the following resources are used to resolve Operator installations and upgrades:
 
@@ -177,7 +177,7 @@ servicemeshoperator            servicemeshoperator            redhat-operators  
 
 If a Subscription is made to a package that has not yet been installed in the namespace, the latest Operator for that package is installed.
 
-For example the Kiali subscription:
+For example, the Kiali subscription:
 
 ```
 $ oc get subscription -n openshift-operators kiali-ossm -o yaml --export
@@ -197,7 +197,7 @@ spec:
   startingCSV: kiali-operator.v1.12.11
 ```
 
-And that's its for this blog post!
+And that's it for this blog post!
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

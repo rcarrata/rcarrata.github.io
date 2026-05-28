@@ -20,13 +20,13 @@ Let's take a look!
 
 This example is applicable in all UPI deployments in On-premise (Baremetal, VMWare UPI, RHV UPI,
 OSP UPI, etc) and also the RHV IPI, VMWARE IPI and Baremetal IPI (with some differences that will be
-analyzed in next blog posts) of OpenShift 4.
+analyzed in upcoming blog posts) of OpenShift 4.
 
-In this example a OpenShift 4.5 UPI on top of Openstack is used.
+In this example, an OpenShift 4.5 UPI on top of OpenStack is used.
 
 ### Ingresscontrollers in On-premise deployments
 
-By default when a UPI OpenShift 4 is installed a default ingresscontroller is configured. Let's take
+By default, when a UPI OpenShift 4 is installed, a default ingresscontroller is configured. Let's take
 a look:
 
 ```
@@ -54,13 +54,13 @@ If you want n replicas, you must use at least n nodes where those replicas can b
 
 * HostNetwork spec
 
-Interesting right? But what is the HostNetwork and to what applies?
+Interesting, right? But what is HostNetwork and to what does it apply?
 
 The hostNetwork setting applies to the Kubernetes pods. When a pod is configured with hostNetwork: true, the applications running in such a pod can directly see the network interfaces of the host machine where the pod was started. An application that is configured to listen on all network interfaces will in turn be accessible on all network interfaces of the host machine.
 
-Creating a pod with ```hostNetwork: true``` on OpenShift is a privileged operation. For these reasons, the host networking is not a good way to make your applications accessible from outside of the cluster.
+Creating a pod with ```hostNetwork: true``` on OpenShift is a privileged operation. For these reasons, host networking is not a good way to make your applications accessible from outside the cluster.
 
-What is the host networking good for? For cases where a direct access to the host networking is required. As we have in our UPI installation of OpenShift, where the pods of the HAproxy need to access to the host machine interfaces for expose the HAproxy ports in order to LoadBalance them.
+What is host networking good for? For cases where direct access to the host networking is required. As we have in our UPI installation of OpenShift, where the HAproxy pods need to access the host machine interfaces to expose the HAproxy ports in order to load balance them.
 
 Let's check the OpenShift Routers created by the ingresscontroller then.
 
@@ -75,7 +75,7 @@ router-default-754bf5f974-62ntm   1/1     Running   0          41h   10.0.92.117
 router-default-754bf5f974-qqmx5   1/1     Running   0          41h   10.0.93.214   worker-1.sharedocp4upi45.lab.upshift.rdu2.redhat.com   <none>           <none>
 ```
 
-Also, look at that the IP is from the hostsubnet and not from the pod network as by default is:
+Also, notice that the IP is from the hostsubnet and not from the pod network as it would be by default:
 
 ```
 $ oc get clusternetworks
@@ -87,16 +87,16 @@ NAME                                                   HOST                     
 worker-0.sharedocp4upi45.lab.upshift.rdu2.redhat.com   worker-0.sharedocp4upi45.lab.upshift.rdu2.redhat.com   10.0.92.117   10.128.2.0/23
 ```
 
-Let's inspect in detail one of the instances of the OpenShift routers:
+Let's inspect one of the instances of the OpenShift routers in detail:
 
 ```
 $ oc get pod router-default-754bf5f974-62ntm -n openshift-ingress -o json | jq -r '.spec.hostNetwork'
 true
 ```
 
-As we can see the hostNetwork is enabled as we expected.
+As we can see, hostNetwork is enabled as we expected.
 
-Also more interesting things in the routers yaml definition are:
+There are also more interesting things in the routers YAML definition:
 
 ```
 $ oc get pod router-default-754bf5f974-62ntm -n openshift-ingress -o json | jq -r '.spec.containers[].ports'
@@ -123,13 +123,13 @@ $ oc get pod router-default-754bf5f974-62ntm -n openshift-ingress -o json | jq -
 ```
 
 The hostPort setting applies to the Kubernetes containers. The container port will be exposed to the external network at <hostIP>:<hostPort>, where the hostIP is the IP address of the Kubernetes node where the container is running and the hostPort is the port requested by the user.
-So, the hostPort feature allows to expose a single container port on the host IP.
+So, the hostPort feature allows exposing a single container port on the host IP.
 
 * HostPort spec
 
-What is the hostPort used for? As we checked the OpenShift routers are deployed as a set of containers running on top of our OpenShift cluster. These containers are configured to use hostPorts 80 and 443 to allow the inbound traffic on these ports from the outside of the OpenShift cluster (from an external Loadbalancer, physical as f5 or a virtual as Nginx)
+What is the hostPort used for? As we checked, the OpenShift routers are deployed as a set of containers running on top of our OpenShift cluster. These containers are configured to use hostPorts 80 and 443 to allow inbound traffic on these ports from outside the OpenShift cluster (from an external load balancer, physical like F5 or virtual like Nginx).
 
-For this reason each OpenShift router pods are located in different OpenShift nodes, because it can not be overlapped due to the hostPort as we mentioned before.
+For this reason, each OpenShift router pod is located on a different OpenShift node, because they cannot overlap due to the hostPort as we mentioned before.
 
 If we check inside the pod of the OpenShift Routers (haproxy):
 
@@ -147,9 +147,9 @@ bash-4.2$ ip ad | grep veth
 ...
 ```
 
-As we can see they can see every interface because is a privileged pod with the hostnetwork: true
+As we can see, the pod can see every interface because it is a privileged pod with hostNetwork: true.
 
-Furthermore, as we check the services we have a ClusterIP svc that have as backends the OpenShift router pods:
+Furthermore, if we check the services, we have a ClusterIP service that has the OpenShift router pods as backends:
 
 ```
 $ oc get svc -n openshift-ingress
@@ -157,7 +157,7 @@ NAME                      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)     
 router-internal-default   ClusterIP   172.30.109.20   <none>        80/TCP,443/TCP,1936/TCP   3d14h
 ```
 
-As we can see the ports are 80/443/1936 for http, https, and metrics:
+As we can see, the ports are 80/443/1936 for HTTP, HTTPS, and metrics:
 
 ```
 $ oc get svc router-internal-default -o json | jq .spec.ports

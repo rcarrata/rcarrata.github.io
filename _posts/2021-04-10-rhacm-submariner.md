@@ -12,21 +12,21 @@ author: rcarrata
 comments: true
 ---
 
-How to connect your overlay networks of different Kubernetes clusters? How can you deploy stateful applications spanning in a multicluster cluster environments? 
+How to connect the overlay networks of different Kubernetes clusters? How can you deploy stateful applications spanning multicluster environments? 
 
 Let's dig in! 
 
 ### Overview
 
-Deploy our workloads in multiclustering environment is hard. And if you want to span your applications and connect them between them, to deploy it in several datacenters / clouds, it's even more difficult. 
+Deploying our workloads in a multiclustering environment is hard. And if you want to span your applications and connect them to each other, deploying them across several datacenters / clouds, it's even more difficult. 
 
 But with the help of RHACM and Submariner this is a bit easier.
 
 RHACM can help deploying apps, managing multiple clusters, and enforcing policies across multiple clusters at scale. 
 
-But how to connect our pods and services between two different clusters, enabling the communication between different microservices deployed into different clusters? 
+But how to connect our pods and services between two different clusters, enabling the communication between different microservices deployed in different clusters? 
 
-The first thought is to use the Ingress Controllers or Openshift Routers, right? But this have several setbacks and it's not quite flexible, because all of your traffic needs to egress through one of your clusters to another, and ingress in the destination cluster using the specific routes / ingresses exposing our apps. 
+The first thought is to use the Ingress Controllers or Openshift Routers, right? But this has several setbacks and it's not quite flexible, because all of your traffic needs to egress through one of your clusters to another, and ingress into the destination cluster using the specific routes / ingresses exposing our apps. 
 
 But, if I want to connect or extend my Pod / Service overlays networks from one cluster to another? 
 
@@ -36,7 +36,7 @@ Let's introduce Submariner that helps with our problem.
 
 Submariner is an open source tool that can be used with RHACM to provide direct networking between two or more Kubernetes clusters in your environment, either on-premises or in the cloud. Submariner connects multiple Kubernetes clusters in a way that is secure and performant. 
 
-For doing that, Submariner flattens the networks between the connected clusters, and enables IP reachability between Pods and Services. Submariner also provides, via Lighthouse, service discovery capabilities. 
+To do that, Submariner flattens the networks between the connected clusters, and enables IP reachability between Pods and Services. Submariner also provides, via Lighthouse, service discovery capabilities. 
 
 The diagram below illustrates the basic architecture of Submariner:
 
@@ -61,7 +61,7 @@ The ClusterNetworks and ServiceNetworks for our clusters are the following:
 
 * Cluster2 (aws-sub2): **ClusterNetwork** 10.128.0.0/14 and **ServiceNetwork** 172.30.0.0/16
 
-NOTE: check that in your region is available the type of instance m5n.large. This will be used within the installation of the submariner addon.
+NOTE: check that the instance type m5n.large is available in your region. This will be used during the installation of the submariner addon.
 
 ### Set up the context of our clusters
 
@@ -77,34 +77,34 @@ $ export CLUSTER1=aws-sub1
 $ export CLUSTER2=aws-sub2
 ```
 
-* Log in in the hub cluster (where ACM is deployed), and set the context:
+* Log in to the hub cluster (where ACM is deployed), and set the context:
 
 ```
 $ oc login -u ocp-admin -p xxxx --insecure-skip-tls-verify --server=https://api.cluster-xxxx.xxxx.example.rcarrata.com:6443
 $ oc config rename-context $(oc config current-context) hubcluster
 ```
 
-* Log in in the cluster1 (aws-sub1), and set the context:
+* Log in to cluster1 (aws-sub1), and set the context:
 
 ```
 $ oc login -u kubeadmin --server=https://api.aws-sub1.xxxx.example.rcarrata.com:6443 -p xxxx
 $ oc config rename-context $(oc config current-context) cluster1
 ```
 
-* Log in in the cluster2 (aws-sub1), and set the context:
+* Log in to cluster2 (aws-sub2), and set the context:
 
 ```
 $ oc login -u kubeadmin -p xxxx https://api.aws-sub2.xxxx.example.rcarrata.com:6443
 $ oc config rename-context $(oc config current-context) cluster2
 ```
 
-### Preparing the OCP hosts for deploy Submariner
+### Preparing the OCP hosts for deploying Submariner
 
 Before deploying Submariner with RHACM, you must prepare the clusters on the hosting environment for the connection. 
 
 There are two ways that you can configure the OpenShift Container Platform cluster that is hosted on Amazon Web Services to integrate with a Submariner deployment.
 
-Let's use the automated way because both clusters are in AWS (in this moment is the only supported way to connect automatically). If you are in other environments check the [RHACM Documentation for the 2.2 version of ACM](https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.2/html-single/manage_cluster/index#preparing-gcp)
+Let's use the automated way because both clusters are in AWS (at this moment it is the only supported way to connect automatically). If you are in other environments check the [RHACM Documentation for the 2.2 version of ACM](https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.2/html-single/manage_cluster/index#preparing-gcp)
 
 * Switch back to the Hub Cluster (ACM):
 
@@ -163,7 +163,7 @@ NAME        AGE
 subconfig   26s
 ```
 
-* Let's check the logs of the Submariner Addon Pod in the ACM Hub and figure out what's behind the hood:
+* Let's check the logs of the Submariner Addon Pod in the ACM Hub and figure out what's happening under the hood:
 
 ```
 $ SUBMARINER_POD=$(oc get pod -n open-cluster-management | grep submari | awk '{ print $1 }')
@@ -179,9 +179,9 @@ I0409 22:12:53.123697       1 event.go:282] Event(v1.ObjectReference{Kind:"Deplo
 
 #### IPsec and IKE in Submariner
 
-After the generation and configuration of SubmarinerConfig for our both managed clusters that wanted to connect. Let's deep dive a bit in what's generated in our OCP cluster and in AWS environments.
+After generating and configuring the SubmarinerConfig for both managed clusters that we want to connect, let's deep dive a bit into what's generated in our OCP cluster and in AWS environments.
 
-Submariner uses IPsec tunnels and IKE Protocols for the communications of their clusters:
+Submariner uses IPsec tunnels and IKE Protocols for communication between clusters:
 
 * Internet Key Exchange is the protocol used to set up a security association (SA) in the IPsec protocol suite. 
 
@@ -191,11 +191,11 @@ For that purpose, Submariner Gateway nodes need to be able to accept traffic ove
 
 Submariner also uses UDP port 4800 to encapsulate traffic from the worker and master nodes to the Gateway nodes, and TCP port 8080 to retrieve metrics from the Gateway nodes. 
 
-So both needs to be opened at the AWS level, for this reason these ports are opened into the security groups during the SubmarinerConfig automatic configuration:
+So both need to be opened at the AWS level; for this reason, these ports are opened in the security groups during the SubmarinerConfig automatic configuration:
 
 [![](/images/submariner3.png "ACM Diagram 3")]({{site.url}}/images/submariner3.png)
 
-Also into the Security Group of the workers of OCP, ports 4800 and 8080 are opened too, beside the 4800, 4500 and 500 UDP needed for IKE and IPsec.
+Also in the Security Group of the OCP workers, ports 4800 and 8080 are opened too, besides the 4500 and 500 UDP ports needed for IKE and IPsec.
 
 #### Specific nodes for Submariner
 
@@ -203,7 +203,7 @@ Additionally, the default OpenShift deployment does not allow assigning an elast
 
 On the other hand, the SubmarinerConfig deploys an m5n.large EC2 instance type by default, optimized for improved network throughput and packet rate performance, for the Submariner gateway node.
 
-Let check the MachineSet generated for this purpose:
+Let's check the MachineSet generated for this purpose:
 
 ```
 $ oc config use-context cluster1
@@ -215,7 +215,7 @@ $ oc get machines -n openshift-machine-api | grep submariner
 aws-sub1-xxx-submariner-gw-eu-west-1b-xx52q   Running   m5n.large   eu-west-1   eu-west-1b   4m
 ```
 
-In the machineset we found some interesting points, as for example have labels of submariner.io/gateway, that labels the node as the Submariner Gateway node:
+In the machineset we find some interesting points; for example, it has labels of submariner.io/gateway, which label the node as the Submariner Gateway node:
 
 ```
 $ oc get machineset aws-sub1-xxx-submariner-gw-eu-west-1b -n openshift-machine-api -o jsonpath={'.spec.template'}  | jq -r .spec.metadata
@@ -226,14 +226,14 @@ $ oc get machineset aws-sub1-xxx-submariner-gw-eu-west-1b -n openshift-machine-a
 }
 ```
 
-As we commented the type of the Instance is [m5n.large](https://aws.amazon.com/blogs/aws/new-m5n-and-r5n-instances-with-up-to-100-gbps-networking/), AWS EC2 instances with up to 100Gbps networking, and significant improvements in packet processing performance. : 
+As we mentioned, the instance type is [m5n.large](https://aws.amazon.com/blogs/aws/new-m5n-and-r5n-instances-with-up-to-100-gbps-networking/), an AWS EC2 instance with up to 100Gbps networking and significant improvements in packet processing performance: 
 
 ```
 $ oc get machineset aws-sub1-xxx-submariner-gw-eu-west-1b -n openshift-machine-api -o jsonpath={'.spec.template'}  | jq -r .spec.providerSpec.value.instanceType
 m5n.large
 ```
 
-On the other hand also have attached the two security groups with the ports for IPsec and IKE opened for connecting the overlay networks of both clusters:
+On the other hand, it also has the two security groups attached with the ports for IPsec and IKE opened for connecting the overlay networks of both clusters:
 
 ```
 $ oc get machineset aws-sub1-xxx-submariner-gw-eu-west-1b -n openshift-machine-api -o jsonpath={'.spec.template'}  | jq -r .spec.providerSpec.value.securityGroups
@@ -252,7 +252,7 @@ $ oc get machineset aws-sub1-xxx-submariner-gw-eu-west-1b -n openshift-machine-a
 ]
 ```
 
-Finally we have two interesting values additionally, the subnet id where the node is deployed and the value tags, defining that this node is the submariner gateway node used for this purpose: 
+Finally, we have two additional interesting values: the subnet id where the node is deployed and the value tags, defining that this node is the submariner gateway node used for this purpose: 
 
 ```
 $ oc get machineset aws-sub1-xxx-submariner-gw-eu-west-1b -n openshift-machine-api -o jsonpath={'.spec.template'}  | jq -r .spec.providerSpec.value.subnet
@@ -366,7 +366,7 @@ NAME       HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE     LA
 aws-sub2   true                                  True     True        4h13m   cloud=Amazon,cluster.open-cluster-management.io/clusterset=submariner,cluster.open-cluster-management.io/submariner-agent=true,clusterID=xxx,environment=qa,name=aws-sub2,region=eu-west-1,vendor=OpenShift
 ```
 
-And that's it for this blog post! In the [next blog post](https://rcarrata.com/openshift/rhacm-submariner-2/) we will deploy the Service discovery for Submariner and we will deploy an stateful application spanning their microservices among our two connected clusters with Submariner.
+And that's it for this blog post! In the [next blog post](https://rcarrata.com/openshift/rhacm-submariner-2/) we will deploy the Service discovery for Submariner and we will deploy a stateful application spanning its microservices across our two connected clusters with Submariner.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

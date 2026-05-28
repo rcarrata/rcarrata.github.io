@@ -17,7 +17,7 @@ Why embrace Generative AI in Vulnerability Assessment, Threat Intelligence, Secu
 
 ## Overview
 
-This is the second blog post about How to Use Generative AI for Securing Cloud Infrastructures, exploring advanced techniques and innovative solutions to fortify cloud security.
+This is the second blog post about how to use Generative AI for Securing Cloud Infrastructures, exploring advanced techniques and innovative solutions to fortify cloud security.
 
 Check the first part in [How to Use Generative AI for Securing Cloud Infrastructures - Part I](https://rcarrata.com/ai/security-genai-public-cloud/).
 
@@ -56,7 +56,7 @@ In the realm of vulnerability assessment, Generative AI (Gen AI) emerges as a po
   - *Machine Learning Classifiers:* Gen AI employs machine learning classifiers trained on labeled vulnerability data to identify patterns and predict the presence of vulnerabilities in new data, enabling accurate and efficient vulnerability assessments.
   - *Deep Learning Models:* Gen AI leverages deep learning models to analyze complex data, including code snippets and network traffic, enabling the identification of vulnerabilities and prediction of vulnerable code segments, enhancing our understanding of potential weaknesses.
 
-Gen AI's contribution to vulnerability assessment empowers our cloud kingdom, enabling us to fortify our defenses against potential exploits and security breaches.
+Gen AI's contribution to vulnerability assessment strengthens our cloud defenses, enabling us to fortify our protections against potential exploits and security breaches.
 
 
 ## 5. Threat Intelligence with Generative AI
@@ -83,7 +83,7 @@ Within the realm of threat intelligence, Generative AI can analyze extensive vol
 * **Description:** Gen AI captures contextual information and relationships between various threat data elements for nuanced analysis.
 * **Gen AI's Role:** By understanding context, Gen AI enables precise threat assessments, ensuring accurate responses tailored to specific scenarios.
 
-In summary, armed with insights from vulnerability assessment and knowledge of impending threats from threat intelligence, we interpret Gen AI's enhancements to make strategic decisions.
+In summary, armed with insights from vulnerability assessment and knowledge of impending threats from threat intelligence, we can leverage Gen AI's enhancements to make strategic decisions.
 
 ### 5.1. Integration of GenAI in Vulnerability Assessment
 

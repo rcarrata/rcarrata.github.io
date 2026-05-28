@@ -12,17 +12,17 @@ author: rcarrata
 comments: true
 ---
 
-How to disable the Self Provisioning in OpenShift 4 clusters to gain more control for the projects created? How to apply a fancy new message when someone with not enough privileges try to create a new project?
+How to disable the Self Provisioning in OpenShift 4 clusters to gain more control over the projects created? How to display a custom message when someone without enough privileges tries to create a new project?
 
 ### Overview
 
 One of the coolest things about OpenShift is the Role Based Access Control, that allows the
 administrators, SREs, etc to control and manage who/when/how the users can create/manage the
-different objects inside of OpenShift cluster.
+different objects inside an OpenShift cluster.
 
-In this particular case, we want to control the possibility that developers creates their own
-projects. This have many use cases, such as controlling the projects in a namespace of Production,
-avoid the starvation of the resources in a cluster, among others.
+In this particular case, we want to control the possibility that developers create their own
+projects. This has many use cases, such as controlling the projects in a production namespace,
+avoiding resource starvation in a cluster, among others.
 
 Let's deep dive!
 
@@ -50,7 +50,7 @@ Subjects:
 ```
 
 As we can see, the group that is allowed is the system:authenticated:oauth, that is every user that
-is authenticated in the cluster (that have proper login in the cluster).
+is authenticated in the cluster (that has a valid login).
 
 ### Removing Self Provisioning Projects
 
@@ -72,7 +72,7 @@ disable this, you need to set the annotation
 oc patch clusterrolebinding.rbac self-provisioners -p '{ "metadata": { "annotations": { "rbac.authorization.kubernetes.io/autoupdate": "false" } } }'
 ```
 
-* Check that the clusterrolebinding have not the group system:authenticated:oauth among the
+* Check that the clusterrolebinding no longer has the group system:authenticated:oauth among the
 allowed groups
 
 ```
@@ -107,9 +107,9 @@ It works!
 
 ### Customizing the request message
 
-Now any time a user tries to create a project they will be greated with the
+Now any time a user tries to create a project they will be greeted with the
 same message `You may not request a new project via this API`. You can
-customize this message to give a more meaningful response
+customize this message to give a more meaningful response.
 
 ```
 oc patch --type=merge project.config.openshift.io cluster -p '{"spec":{"projectRequestMessage":"Please visit https://myticket.rober.com to request a project"}}'

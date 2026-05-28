@@ -12,8 +12,8 @@ author: rcarrata
 comments: true
 ---
 
-How we can include within Service Mesh our microservices deployed easily and automatically? How to control and
-istiofying them? And what are the main components involved?
+How can we include our microservices within Service Mesh easily and automatically? How to control and
+istiofy them? And what are the main components involved?
 
 Let's Mesh in!!
 
@@ -23,8 +23,8 @@ This is the third blog post of the Service Mesh in OpenShift series. Check the e
 
 ## Overview
 
-In this blog post, we will istiofying our four microservices and we will explain terms like
-autoinjection, and the main differences between RH Service mesh based in Maistra and with Istio
+In this blog post, we will istiofy our four microservices and we will explain terms like
+autoinjection, and the main differences between RH Service Mesh based on Maistra and Istio
 upstream.
 
 NOTE: this blog post is supported by the [istio-files repository](https://github.com/rcarrata/istio-files) located in my personal Github
@@ -38,7 +38,7 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 
 ## 1. Enable sidecar autoinjection
 
-Istio data plane is build as a sidecar container, which is living together with the application container running at the same pod.
+The Istio data plane is built as a sidecar container, which lives together with the application container running in the same pod.
 
 So, in order to take advantage of all of Istio’s features, pods in the mesh must be running an Istio sidecar proxy.
 
@@ -61,22 +61,22 @@ As we defined before, to enable the sidecar autoinjection in our pods, we will h
 sidecar.istio.io/inject: true
 ```
 
-The annotation needs to be reflected in the Pod, but instead we're to define this annotation in the
-controller that in this case is the DeploymentConfig (or Deployments, etc).
+The annotation needs to be reflected in the Pod, but instead we need to define this annotation in the
+controller, which in this case is the DeploymentConfig (or Deployment, etc.).
 
-It's important to set properly the annotation above the correct structure:
+It is important to properly set the annotation in the correct structure:
 
 ```
 spec.template.metadata.annotations
 ```
 
-If it's defined into the metadata.annotations have not any effect and the autoinjection its not
+If it is defined in the metadata.annotations, it will not have any effect and the autoinjection is not
 correctly applied.
 
-Remember that this is one of the biggest difference between Istio upstream, where you annotate the
-namespace istead.
+Remember that this is one of the biggest differences from Istio upstream, where you annotate the
+namespace instead.
 
-Again focusing in our specific case, we'll patch our current DeploymentConfig of our microservices
+Again focusing on our specific case, we'll patch our current DeploymentConfig of our microservices
 deployed in the previous lab, in order to enable autoinjection:
 
 ```

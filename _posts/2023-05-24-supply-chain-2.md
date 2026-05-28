@@ -14,15 +14,15 @@ author: rcarrata
 comments: true
 ---
 
-What steps can we take to establish trust in our Software Supply Chain and ensure that our software can be traced back to its origin without introducing malicious code or dependencies? Moreover, how can we integrate Open Source tools to enhance the security of our Software Supply Chain’s lifecycle?
+What steps can we take to establish trust in our Software Supply Chain and ensure that our software can be traced back to its origin without malicious code or dependencies being introduced? Moreover, how can we integrate Open Source tools to enhance the security of our Software Supply Chain’s lifecycle?
 
 As we explained in our [first blog post](https://rcarrata.com/kubernetes/security/supply-chain-1/), software supply chain is the series of steps performed when writing, testing, packaging, and distributing application software to end consumers.
 
-Establishing trust in the software supply chain has become essential to ensuring software components’ security and reliability. With the majority of open-source software and the growing demand for supply chain management, it’s crucial to have robust processes to prevent malicious code or dependencies from being introduced; integrating open-source tools can enhance the software supply chain’s lifecycle security. 
+Establishing trust in the software supply chain has become essential to ensuring the security and reliability of software components. With the majority of software being open-source and the growing demand for supply chain management, it’s crucial to have robust processes to prevent malicious code or dependencies from being introduced; integrating open-source tools can enhance the software supply chain’s lifecycle security. 
 
 In this blog post that my friend and colleague [Rodrigo Alvares](https://www.linkedin.com/in/ralvares/) prepared, we will discuss the actions you can take to establish trust in the software supply chain and the critical role that open-source tools can play in verifying the reliability of software components.
 
-NOTE: this blog post was original posted in [Opensourcerers](https://www.opensourcerers.org/2023/04/24/building-trust-in-the-software-supply-chain/) the 24th of April of 2023.
+NOTE: this blog post was originally posted on [Opensourcerers](https://www.opensourcerers.org/2023/04/24/building-trust-in-the-software-supply-chain/) on the 24th of April 2023.
 
 ## 1. Distributed components of the Secure Software Factory
 
@@ -117,7 +117,7 @@ Dependency-check works by collecting information about the files it scans (using
 
 For instance, the JarAnalyzer will collect information from the Manifest, pom.xml, and the package names within the JAR files scanned. It has heuristics to place the information from various sources into one or more buckets of evidence.
 
-If we open the report generated from the dependency-check execution we can see a summary of the dependencies and more interesting information around CVEs, Evidences, etc:
+If we open the report generated from the dependency-check execution, we can see a summary of the dependencies and more interesting information about CVEs, Evidence, etc:
 
 [![](/images/supply_chain5.png "supply_chain")]({{site.url}}/images/supply_chain5.png)
 
@@ -125,7 +125,7 @@ If we open the report generated from the dependency-check execution we can see a
 
 [OWASP dependency-check](https://jeremylong.github.io/DependencyCheck/analyzers/index.html) contains several file type analyzers that are used to extract identification information from the files analyzed.
 
-Due to that, it is not only analyzing Java applications or Jar artifacts, it can analyze many more file types:
+Because of that, it is not only analyzing Java applications or JAR artifacts; it can analyze many more file types:
 
 [![](/images/supply_chain6.png "supply_chain")]({{site.url}}/images/supply_chain6.png)
 
@@ -133,7 +133,7 @@ Due to that, it is not only analyzing Java applications or Jar artifacts, it can
 
 Now it’s time to build our Container image!
 
-We will use the Dockerfile provided to build the image using Podman or Docker in order to be able to push it to a container registry.
+We will use the Dockerfile provided to build the image using Podman or Docker so that we can push it to a container registry.
 
 We can then run the image in distributed systems such as Kubernetes or OpenShift (or in other systems):
 
@@ -168,9 +168,9 @@ sprint-petclinic                                              v1.0      ca660a5b
 Syft is compatible with various widely-used package formats in the most popular operating systems and programming languages. The list includes
 
 * APK (Alpine), DEB (Debian), and RPM (Fedora) OS packages.
-* Identification of Linux distributions across Alpine, CentOS, Debian, and RHEL favors.
+* Identification of Linux distributions across Alpine, CentOS, Debian, and RHEL flavors.
 * Go modules
-* Java inJAR, EAR, and WAR variations
+* Java in JAR, EAR, and WAR variations
 * NPM and Yarn packages
 * Python Wheels and Eggs
 * Ruby bundles
@@ -247,7 +247,7 @@ After uploading the SBOM to the Dependency Track project (we created one called 
 
 [![](/images/supply_chain7.png "supply_chain")]({{site.url}}/images/supply_chain7.png)
 
-Alongside, we can see the Risk Score and the Vulnerabilities that affects each layer of our software, and therefore the risks that could be affecting our Supply Chain.
+Alongside, we can see the Risk Score and the Vulnerabilities that affect each layer of our software, and therefore the risks that could be affecting our Supply Chain.
 
 Furthermore, we will have a Project-Wide dashboard with the Overview of our demo Artifact and software:
 
@@ -259,6 +259,7 @@ Now that we have discussed the Open Source tools that we can use in our Secure S
 * **Automation**: Automation is critical to supply chain security and can significantly reduce the possibility of human error and configuration drift.
 
 * **Clarity**: The build environments used in a supply chain should be clearly defined, with limited scope.
+
 Our upcoming blog post will cover the automation of all the steps discussed in this article, including container and metadata artifact signing, within our DevSecOps pipeline. Additionally, we’ll introduce other Open Source tools and projects, like Sigstore or Cosign, to further enhance the security of our Software Supply Chains.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*

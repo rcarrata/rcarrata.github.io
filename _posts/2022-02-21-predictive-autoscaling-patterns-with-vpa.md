@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How you can adjust your application / workloads resource requests automatically, to ensure that your pods stay up during periods of high demand, like Black Friday periods? How can we ensure than as an administrators of our Kubernetes clusters, we're implementing an appropriated cluster resource management, ensuring that the capacity planning is properly defined?
+How can you adjust your application / workloads resource requests automatically, to ensure that your pods stay up during periods of high demand, like Black Friday periods? How can we ensure that as administrators of our Kubernetes clusters, we're implementing appropriate cluster resource management, ensuring that the capacity planning is properly defined?
 
 Let's dig in!
 
@@ -20,7 +20,7 @@ Let's dig in!
 
 Determining the proper values for pod resources is challenging. In an organization, it can be difficult to identify a team that has the proper insights regarding the resource requirements in production for a given application.
 
-Translating the idea that the cluster should become aware of the necessary compute resources required into Kubernetes concepts, a controller can be used to perform this task on a set of a set of pods and provide its best recommendation for memory and cpu (and potentially other metrics).
+Translating the idea that the cluster should become aware of the necessary compute resources required into Kubernetes concepts, a controller can be used to perform this task on a set of pods and provide its best recommendation for memory and cpu (and potentially other metrics).
 
 This is what the Vertical Pod Autoscaler (VPA) does.
 
@@ -44,7 +44,7 @@ The VPA monitors the resources that workloads are actually using and adjusts the
 
 ## Installing VPA in Kubernetes / OpenShift
 
-To use Vertical Pod Autoscaler, you need to first install them in your Kubernetes / OpenShift clusters.
+To use Vertical Pod Autoscaler, you need to first install it in your Kubernetes / OpenShift clusters.
 
 * **Option 1**: To install VPA in Kubernetes vanilla clusters:
 
@@ -70,7 +70,7 @@ verticalpodautoscalers.autoscaling.k8s.io
 
 ## VPA demo - Automatically adjust requests / limits when Apps are OOMKilled
 
-Let's have some fun with VPA, implementing an use case, that will automatically adjust our request and limits of our application, avoiding to fail with an OOMKilled status when the requests are increased.
+Let's have some fun with VPA, implementing a use case that will automatically adjust the requests and limits of our application, avoiding failure with an OOMKilled status when the requests are increased.
 
 ### A - Deploying Application Without VPA
 
@@ -125,14 +125,14 @@ EOF
 
 We defined the requests as 100Mi and the limits with 200Mi for the container stress.
 
-On the other hand, we used the stress image, and as in the [Image Stress Documentation](https://linux.die.net/man/1/stress) is described, we can define the arguments for allocate certain amount of memory:
+On the other hand, we used the stress image, and as described in the [Image Stress Documentation](https://linux.die.net/man/1/stress), we can define the arguments to allocate a certain amount of memory:
 
 ```md
 - -m, --vm N: spawn N workers spinning on malloc()/free()
 - --vm-bytes B: malloc B bytes per vm worker (default is 256MB) 
 ```
 
-So we defined 250M of memory allocation by the stress process, that's more than the limits of the container is defined, **exceeding the Container's memory limit**, and this will produce an OOMKilled.
+So we defined 250M of memory allocation by the stress process, which is more than the defined container limits, **exceeding the Container's memory limit**, and this will produce an OOMKilled.
 
 ```sh
 kubectl get pod
@@ -195,14 +195,14 @@ EOF
 
 We defined the requests as 100Mi and the limits with 200Mi for the container stress.
 
-On the other hand, we used the stress image, and as in the [Image Stress Documentation](https://linux.die.net/man/1/stress) is described, we can define the arguments for allocate certain amount of memory:
+On the other hand, we used the stress image, and as described in the [Image Stress Documentation](https://linux.die.net/man/1/stress), we can define the arguments to allocate a certain amount of memory:
 
 ```md
 - -m, --vm N: spawn N workers spinning on malloc()/free()
 - --vm-bytes B: malloc B bytes per vm worker (default is 256MB) 
 ```
 
-So we defined 150M of memory allocation by the stress process, that's it's between the request and limits defined.
+So we defined 150M of memory allocation by the stress process, which is between the request and limits defined.
 
 * Check that the pod is up && running:
 
@@ -215,7 +215,7 @@ kubectl logs -l app=stress
 stress: info: [1] dispatching hogs: 0 cpu, 0 io, 1 vm, 0 hdd
 ```
 
-* Check that the request and limits generated in Pod
+* Check the requests and limits generated in the Pod
 
 ```bash
 kubectl get pod -l app=stress -o yaml | grep limit -A1
@@ -263,7 +263,7 @@ spec:
 EOF
 ```
 
-So since the only truly important things is the requests parameter, the Vertical Pod Autoscaler will always work with this. Whenever you define vertical autoscaling for your app, you are defining what the requests should be.
+Since the only truly important thing is the requests parameter, the Vertical Pod Autoscaler will always work with this. Whenever you define vertical autoscaling for your app, you are defining what the requests should be.
 
 * After a couple of minutes, check the VPA to see the Memory and CPU suggested:
 
@@ -325,7 +325,7 @@ kubectl get pod -l app=stress -n $PROJECT -o yaml | grep limits -A1
           memory: 200Mi
 ```
 
-the memory limit is 200Mi as is defined in the Deployment.
+the memory limit is 200Mi as defined in the Deployment.
 
 * Increase the memory allocation in the pod patching the arg of the --vm-bytes to 250M:
 
@@ -333,7 +333,7 @@ the memory limit is 200Mi as is defined in the Deployment.
 kubectl patch deployment stress --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/args/3", "value": "250M" }]'
 ```
 
-* Check the pods to see if the OOMKilled or Crashloopbackoff state it's in our stress pod:
+* Check the pods to see if the OOMKilled or CrashLoopBackOff state is present in our stress pod:
 
 ```sh
 kubectl get pod -w
@@ -342,7 +342,7 @@ stress-7b9459559c-ntnrv   1/1     Running       0          5s
 stress-7d48fdb6fb-j46b8   1/1     Terminating   0          22m
 ```
 
-* Check the VPA resources and:
+* Check the VPA resources:
 
 ```sh
 kubectl get pod -l app=stress -o yaml | grep vpa

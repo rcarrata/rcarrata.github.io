@@ -12,15 +12,15 @@ author: rcarrata
 comments: true
 ---
 
-This blog post aims to provide a guide for collect a Sosreport in a node of an OpenShift 4 Cluster.
+This blog post aims to provide a guide for collecting a Sosreport on a node of an OpenShift 4 Cluster.
 
-Because OpenShift 4 uses RHCOS as Operating system for their nodes, the procedure for collect an sosreport for further analysis changed a bit between OpenShift3/Rhel7.x. This procedure is also valid for OpenShift Worker nodes based in RHEL8, instead of RHCOS.
+Because OpenShift 4 uses RHCOS as the operating system for its nodes, the procedure for collecting a sosreport for further analysis has changed a bit compared to OpenShift 3/RHEL 7.x. This procedure is also valid for OpenShift worker nodes based on RHEL 8, instead of RHCOS.
 
 ## Access to the OpenShift node
 
 By default, the OpenShift 4 installer creates a single user named core with optional SSH keys specified at install time.
 
-In our case, the ssh-key generated and injected into the cluster at install time could be used, but another ssh-keys can be updated into the OCP nodes following the procedure of [Updating SSH Keys with the MCD](https://github.com/openshift/machine-config-operator/blob/master/docs/Update-SSHKeys.md).
+In our case, the SSH key generated and injected into the cluster at install time can be used, but additional SSH keys can be added to the OCP nodes following the procedure in [Updating SSH Keys with the MCD](https://github.com/openshift/machine-config-operator/blob/master/docs/Update-SSHKeys.md).
 
 * SSH to the OpenShift cluster specific node
 
@@ -36,7 +36,7 @@ $ sudo -i
 
 ## Obtain the support-tools container in the node
 
-* Using podman, login with your RH credentials into the node:
+* Using podman, log in with your RH credentials on the node:
 
 ```
 # podman login registry.redhat.io
@@ -47,7 +47,7 @@ Password:
 Login Succeeded!
 ```
 
-For perform the sosreport into the node, a specific container could be used: [support-tools](https://access.redhat.com/containers/?tab=overview&get-method=red-hat-login#/registry.access.redhat.com/rhel8/support-tools).
+To collect the sosreport on the node, a specific container can be used: [support-tools](https://access.redhat.com/containers/?tab=overview&get-method=red-hat-login#/registry.access.redhat.com/rhel8/support-tools).
 The Red Hat Enterprise Linux Support Tools image contains tools to analyze the host system including sosreport, strace, and tcpdump.
 
 * Pull the support-tools container to the specific node (in our case a Master node):
@@ -74,9 +74,9 @@ Storing signatures
 Command: /proc/self/exe run -it --name support-tools --privileged --ipc=host --net=host --pid=host -e HOST=/host -e NAME=support-tools -e IMAGE=registry.redhat.io/rhel8/support-tools:latest -v /run:/run -v /var/log:/var/log -v /etc/machine-id:/etc/machine-id -v /etc/localtime:/etc/localtime -v /:/host registry.redhat.io/rhel8/support-tools:latest
 ```
 
-## Execute the sosreport for collect data
+## Execute the sosreport to collect data
 
-* Once into the support-tools container, perform the sosreport command to collect the data:
+* Once inside the support-tools container, run the sosreport command to collect the data:
 
 ```
 bash-4.4# sosreport
@@ -127,7 +127,7 @@ The checksum is: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 Please send this file to your support representative.
 ```
 
-* The sosreport file is located into the /host/var/tmp/ folder into the container:
+* The sosreport file is located in the /host/var/tmp/ folder inside the container:
 
 ```
 
@@ -135,14 +135,14 @@ bash-4.4# ls -lhrt /host/var/tmp/sosreport-2019-08-08-jnsdcyp.tar.xz
 -rw-------. 1 root root 11M Aug  8 10:00 /host/var/tmp/sosreport-ip-10-148-204-82-02444698-2019-08-08-jnsdcyp.tar.xz
 ```
 
-* And outside the container (and due to the scc that the container was executed) the sosreport is located into the /var/tmp/ folder of our RHCOS node:
+* Outside the container (due to the SCC under which the container was executed), the sosreport is located in the /var/tmp/ folder of our RHCOS node:
 
 ```
 # ll /var/tmp/sosreport-2019-08-08-jnsdcyp.tar.xz
 -rw-------. 1 root root 11233928 Aug  8 10:00 /var/tmp/sosreport-2019-08-08-jnsdcyp.tar.xz
 ```
 
-* Just scp/rsync them to any location and after that can be uploaded or analysed for obtain more information.
+* Just scp/rsync it to any location, and after that it can be uploaded or analysed to obtain more information.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

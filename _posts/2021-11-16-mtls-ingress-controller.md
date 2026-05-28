@@ -12,14 +12,14 @@ author: rcarrata
 comments: true
 ---
 
-How you can enable mTLS authentication with OpenShift using the Ingress Controller Operator (without Service Mesh)?
-How this is implemented in the Ingress Controller and in the OpenShift Routers? Which are the benefits of implementing mTLS?
+How can you enable mTLS authentication with OpenShift using the Ingress Controller Operator (without Service Mesh)?
+How is this implemented in the Ingress Controller and in the OpenShift Routers? What are the benefits of implementing mTLS?
 
 Let's dig in!
 
 ## 1. Overview
 
-Let's start with the basics. All of us heard, about TLS but which protections and benefits provides?
+Let's start with the basics. All of us have heard about TLS, but what protections and benefits does it provide?
 
 TLS provides us with two primary protections:
 
@@ -39,9 +39,9 @@ This provides a higher level of security compared to normal TLS/HTTPS usage, whe
 
 From the version 4.9+ of OpenShift we can enable mTLS authentication in the Ingress Controller, and configure them to verify client certificates.
 
-So this involves that, we don't need to be forced to use Service Mesh ONLY for enable the [mTLS authentication](https://rcarrata.com/istio/mtls-service-mesh/)
+This means that we don't need to use Service Mesh ONLY to enable [mTLS authentication](https://rcarrata.com/istio/mtls-service-mesh/).
 
-NOTE: Service Mesh it's marvelous tech that enables tons of other features, as you can discover in the blog post series, so please check them!.
+NOTE: Service Mesh is marvelous tech that enables tons of other features, as you can discover in the blog post series, so please check them out!
 
 The tests on this blog post are executed in a 4.9.4 OpenShift environment.
 
@@ -51,11 +51,11 @@ The Ingress Operator in OpenShift makes it possible for external clients to acce
 
 You can use the Ingress Operator to route traffic by specifying OpenShift Container Platform Route and Kubernetes Ingress resources.
 
-As we pointed out in the previous section, from the 4.9 version of OpenShift the [Ingress Controller can enable mTLS authentication](https://docs.openshift.com/container-platform/4.9/networking/ingress-operator.html#nw-mutual-tls-auth_configuring-ingress), and configure the Ingresses (based in Haproxy) to verify the client certificates.
+As we pointed out in the previous section, from the 4.9 version of OpenShift the [Ingress Controller can enable mTLS authentication](https://docs.openshift.com/container-platform/4.9/networking/ingress-operator.html#nw-mutual-tls-auth_configuring-ingress), and configure the Ingresses (based on HAProxy) to verify the client certificates.
 
 Let's test it with an example and check how this feature can help us with our use cases.
 
-But before to start testing out the mTLS in the Ingress Controller, we need to prepare some prerequisites, like generate CA certificates, client certificates, etc.
+But before we start testing out the mTLS in the Ingress Controller, we need to prepare some prerequisites, like generating CA certificates, client certificates, etc.
 
 ## 3. Creating the CA certificate
 
@@ -167,7 +167,7 @@ Generating RSA private key, 4096 bit long modulus (2 primes)
 e is 65537 (0x010001)
 ```
 
-NOTE: It is important that any CSR you generate either for client or server certificates, should have matching Country Name, State and Organization Name with the CA certificate or else while signing the certificate.
+NOTE: It is important that any CSR you generate, either for client or server certificates, should have matching Country Name, State, and Organization Name with the CA certificate, or else signing the certificate will fail.
 
 * Generate Certificate Signing Request (CSR). Next we need to generate the CSR for the client certificate. For our CA certificate we had given few details such as Country Name. State, Locality etc.
 
@@ -282,7 +282,7 @@ Certificate:
 ...
 ```
 
-as we can see the certificate is signed by of our brand new CA cert as we can check in the Issuer.
+As we can see, the certificate is signed by our brand new CA cert, as we can verify in the Issuer field.
 
 * Now we have generated this certificate, the index.txt will be updated reflecting the generated certificate:
 
@@ -299,9 +299,9 @@ rm -rf certs/client.csr
 
 ## 5. Create Server Certificate
 
-In the mTLS, both server and client are verified, so we need to generate certs for client and server and signed with our CA generated in the first place.
+In mTLS, both server and client are verified, so we need to generate certs for client and server, signed with our CA generated in the first place.
 
-In this blog post only we will be using the client certificate, but in a real environment / scenario we need to generate the certificate to the server and update them in the Ingress Controller.
+In this blog post we will only be using the client certificate, but in a real environment / scenario we would need to generate the certificate for the server and update it in the Ingress Controller.
 
 Let's review the generation of the server certificate for educational purposes (and because sometimes I have bad memory and I need to check how to do it! :D).
 
@@ -352,7 +352,7 @@ Certificate Request:
                 RSA Public-Key: (4096 bit)
 ```
 
-* Let's extract the IP of the LB of the Baremetal node where is virtualized with KVM + Libvirt the VMs where the OpenShift cluster runs, and that will be the entrypoint towards the *apps and the api of OpenShift cluster:
+* Let's extract the IP of the LB of the bare metal node where the VMs running the OpenShift cluster are virtualized with KVM + Libvirt, and that will be the entrypoint for the *apps and the API of the OpenShift cluster:
 
 ```sh
 SERVER_IP=$(ip addr show eno1 | grep inet | head -n1 | awk '{ print $2 }' | cut -f 1 -d '/')
@@ -361,7 +361,7 @@ echo $SERVER_IP
 10.1.8.72
 ```
 
-* Add **certificate extensions**. Similar to client certificate, we will again add some extensions to our server certificate. Additionally we are adding Subject Alternative Name field also known as SAN. This is used to define multiple Common Name.
+* Add **certificate extensions**. Similar to the client certificate, we will again add some extensions to our server certificate. Additionally, we are adding the Subject Alternative Name field, also known as SAN. This is used to define multiple Common Names.
 
 ```sh
 cat <<EOF > server_ext.cnf
@@ -379,7 +379,7 @@ DNS.1 = ${SERVER_NAME}
 EOF
 ```
 
-as you can see the SERVER_IP is the IP of my BM node where is allocated the OpenShift cluster virtualized, and we will add also as another SAN.
+As you can see, the SERVER_IP is the IP of my bare metal node where the virtualized OpenShift cluster is allocated, and we will also add it as another SAN.
 
 * Create server certificate. Now we will use this extension file along with the private key and CSR to generate our server certificate:
 
@@ -480,11 +480,11 @@ rm -f serial*
 rm -f index.*
 ```
 
-My colleague Luis Arizmendi create a script for automate this steps and its available in [their repo](https://github.com/luisarizmendi/create-self-signed-certs). Great job Luis!
+My colleague Luis Arizmendi created a script to automate these steps, and it is available in [his repo](https://github.com/luisarizmendi/create-self-signed-certs). Great job Luis!
 
 ## 6. Test the OpenShift Ingress Controller without the mTLS enabled
 
-Before to enable the mTLS we need to ensure that we can reach properly the OpenShift ingress controller, and we will use the console url because have a secure route with TLS (reencrypt/Redirect):
+Before enabling mTLS, we need to ensure that we can properly reach the OpenShift Ingress Controller, and we will use the console URL because it has a secure route with TLS (reencrypt/Redirect):
 
 ```sh
  curl -LIv https://console-openshift-console.apps.ocp.rober.lab
@@ -534,11 +534,11 @@ Before to enable the mTLS we need to ensure that we can reach properly the OpenS
 HTTP/1.1 200 OK
 ```
 
-All seems ok, and the ingress-controller is presenting the default certificate with the wildcard *.apps.ocp.rober that matches the FQDN of the console host url.
+All seems OK, and the ingress-controller is presenting the default certificate with the wildcard *.apps.ocp.rober that matches the FQDN of the console host URL.
 
 ## 7. Create CA ConfigMap and enable the mTLS in the IngressController
 
-Now that we have the prerequistes configured, let's move towards the configuration of the mTLS in the Ingress Controller.
+Now that we have the prerequisites configured, let's move towards the configuration of mTLS in the Ingress Controller.
 
 As we checked, we can configure the Ingress Controller to enable mutual TLS (mTLS) authentication by setting a spec.clientTLS value.
 
@@ -577,7 +577,7 @@ spec:
 
 This configuration includes setting a clientCA value, which is a reference to a config map. The config map contains the PEM-encoded CA certificate bundle that is used to verify a client’s certificate.
 
-* After edit the ingress operator we can see that the pods of the ingress / Haproxy are restarting:
+* After editing the Ingress Operator, we can see that the pods of the ingress / HAProxy are restarting:
 
 ```sh
 kubectl get pod -n openshift-ingress -w
@@ -611,7 +611,7 @@ kubectl get IngressController default -n openshift-ingress-operator -o jsonpath=
 }
 ```
 
-On the other hand, as we change the ingress operator to support the mtls the Canary routes used for check the Ingress pods are showing some errors, so need to update their TLS certificate as well:
+On the other hand, as we changed the Ingress Operator to support mTLS, the Canary routes used to check the Ingress pods are showing some errors, so we need to update their TLS certificate as well:
 
 ```sh
 kubectl logs --namespace=openshift-ingress-operator deployments/ingress-operator -c ingress-operator --tail=5
@@ -674,15 +674,15 @@ curl -LIv https://console-openshift-console.apps.ocp.rober.lab
 curl: (56) OpenSSL SSL_read: error:1409445C:SSL routines:ssl3_read_bytes:tlsv13 alert certificate required, errno 0
 ```
 
-* As we can see the curl is not successful, and if we check the last part of the output we have an Openssl error:
+* As we can see, the curl is not successful, and if we check the last part of the output we have an OpenSSL error:
 
 ```sh
 curl: (56) OpenSSL SSL_read: error:1409445C:SSL routines:ssl3_read_bytes:tlsv13 alert certificate required, errno 0
 ```
 
-as we expected the client certificate is requested by the Ingress pods, because it's configured in the ingress controller.
+As expected, the client certificate is requested by the Ingress pods, because it is configured in the Ingress Controller.
 
-* Let's try with curl and with the proper certificates to execute then the same curl to the ingress controller. We will use:
+* Let's try with curl and with the proper certificates to execute the same request to the Ingress Controller. We will use:
 
 ```sh
 curl --cacert certs/cacert.pem --cert certs/client.cert.pem --key private/client.key.pem  -LIv https://console-openshift-console.apps.ocp.rober.lab -k
@@ -738,7 +738,7 @@ curl --cacert certs/cacert.pem --cert certs/client.cert.pem --key private/client
 HTTP/1.1 200 OK
 ```
 
-as you can see the client was able to connect to the web server using the client certificate. So this proves the mutual TLS authentication where both server and client are using TLS certificate to prove their identity.
+As you can see, the client was able to connect to the web server using the client certificate. This proves the mutual TLS authentication where both server and client are using TLS certificates to prove their identity.
 
 * You can also check this with the openssl util using the private key and the cacert:
 

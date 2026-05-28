@@ -12,17 +12,17 @@ author: rcarrata
 comments: true
 ---
 
-How can you monitor and analyse the network flow records of OpenShift in a graphical way and execute search queries for specific values? And how to have some dashboards in order to expose this information for your SREs or team members? 
+How can you monitor and analyse the network flow records of OpenShift in a graphical way and execute search queries for specific values? And how can you have dashboards to expose this information for your SREs or team members?
 
-This is the second blog post about Monitor and analysis of Network Flow Traffic in OpenShift and it's based in the [Monitoring Network Flow Traffic in OpenShift](https://rcarrata.com/openshift/traffic-flow-ovn/) blog post. So if you didn't check it, go ahead and take a look! :)
+This is the second blog post about monitoring and analysis of Network Flow Traffic in OpenShift and it's based on the [Monitoring Network Flow Traffic in OpenShift](https://rcarrata.com/openshift/traffic-flow-ovn/) blog post. So if you didn't check it, go ahead and take a look! :)
 
 ## Overview
 
-Now that we can collect the network flows of our network traffic in the OpenShift clusters using OVN Kubernetes CNI plugin our job is done right? But if you have checked the last blog post, the amount of network flows collected is massive, and without the proper categorization it is hard to search for anything valuable without using greps in each flow and deep dive a lot in every record collected. 
+Now that we can collect the network flows of our network traffic in the OpenShift clusters using the OVN Kubernetes CNI plugin, our job is done, right? But if you have checked the last blog post, the amount of network flows collected is massive, and without proper categorization it is hard to search for anything valuable without using greps on each flow and diving deep into every record collected.
 
 But is this the only way to do it? 
 
-How about collecting the network flows and aggregating them in a central point to visualize after and create dashboards in order to expose and consume the information in a nicer way? And if we use a stack that is well known in OpenShift like the Elastic Stack? 
+How about collecting the network flows and aggregating them in a central point to visualize later and create dashboards to expose and consume the information in a nicer way? What if we use a stack that is well known in OpenShift like the Elastic Stack?
 
 * Elasticsearch - We will use ES as our network flow store, that will be where the flow records in sFlow format will be stored.  
 * Kibana - this will be our UI component that we can use to view the flow records, graphs, dashboards, etc.
@@ -30,7 +30,7 @@ How about collecting the network flows and aggregating them in a central point t
 
 You can use the ECK Operator, as a [very nice OpenShift article](https://www.openshift.com/blog/run-elastic-cloud-on-kubernetes-on-red-hat-openshift) describes.
 
-In this specific case, for quick tweaks that we needed to address, I prepared a [github repository](https://github.com/rcarrata/ocp4-netflow) with all the pieces needed for this blog post.
+In this specific case, for quick tweaks that we needed to address, I prepared a [GitHub repository](https://github.com/rcarrata/ocp4-netflow) with all the pieces needed for this blog post.
 
 ## Installing the ELK and the ElastiFlow in OpenShift 4
 
@@ -52,7 +52,7 @@ oc apply -k elastiflow/overlay
 oc adm policy add-scc-to-user privileged -z default -n elastiflow
 ```
 
-this is needed because ES and Elastiflow need some capabilities that are restricted by default in OpenShift.
+This is needed because ES and ElastiFlow need some capabilities that are restricted by default in OpenShift.
 
 NOTE: this is NOT recommended for a productive environment, nor other critical environments. It's just a PoC, so please DON'T do it in prod/pre environments. Use the proper SAs with the proper rbac :)
 
@@ -66,7 +66,7 @@ elastiflow-75cfd94848-btqjl   1/1     Running   0          1h
 kibana-658885cf88-wp54g       1/1     Running   0          1h
 ```
 
-we are using in this PoC the following versions:
+We are using the following versions in this PoC:
 
 * ES - 7.0.1
 * ElastiFlow - 3.5.0
@@ -85,7 +85,7 @@ NAME                                     HOST/PORT                              
 route.route.openshift.io/kibana-secure   kibana-elastiflow.apps.xxx.xxx.com          kibana     5601   edge/Redirect   None
 ```
 
-NOTE: Red Hat NOT offers support of ANY kind to ElastiFlow or any associations, so please be aware of that. 
+NOTE: Red Hat does NOT offer support of ANY kind for ElastiFlow or any associations, so please be aware of that.
 
 ## Configure the ElastiFlow dashboards in Kibana
 
@@ -95,9 +95,9 @@ Once the page loads, go to Management -> Index Patterns -> Create Index Pattern.
 
 [![](/images/flow0_99.png "Flow 0")]({{site.url}}/images/flow0_99.png)
 
-Now we need to import some dashboards, which is one of the things I really like about this project is that it has a nice collection ready for import.
+Now we need to import some dashboards. One of the things I really like about this project is that it has a nice collection ready for import.
 
-We will use one of the dashboard templates created originally in the [elastiflow repository](https://github.com/robcowart/elastiflow/tree/master/kibana). We will use an specific version matching to our elastiflow version, located in [our example repository](https://github.com/rcarrata/ocp4-netflow/blob/main/dashboards/elastiflow.kibana.7.0.x.json).
+We will use one of the dashboard templates created originally in the [elastiflow repository](https://github.com/robcowart/elastiflow/tree/master/kibana). We will use a specific version matching our ElastiFlow version, located in [our example repository](https://github.com/rcarrata/ocp4-netflow/blob/main/dashboards/elastiflow.kibana.7.0.x.json).
 
 Go to Management -> Saved Objects -> Import saved objects and upload the "elastiflow.kibana.7.0.x.json" file.
 
@@ -109,9 +109,9 @@ After waiting a bit, you will receive a lot of very nice dashboards available to
 
 ## Check the Network Flow traffic in Kibana dashboards
 
-Now that we can have the whole ELK and ElastiFlow set up properly and the dashboards properly configured, let's dig in into the dashboards and in the information exposed!
+Now that we have the whole ELK and ElastiFlow set up properly and the dashboards properly configured, let's dig into the dashboards and the information they expose!
 
-If you go Discover you will see a lot of sFlow flow records of our network traffic collected in ES:
+If you go to Discover you will see a lot of sFlow flow records of our network traffic collected in ES:
 
 [![](/images/flow0_1.png "Flow 3")]({{site.url}}/images/flow0_1.png)
 
@@ -121,17 +121,17 @@ If you go to the Dashboards you will see the dashboards available:
 
 [![](/images/flow0.png "Flow 4")]({{site.url}}/images/flow0.png)
 
-This represents all the servers and clients that originated inside of our OpenShift cluster within the SDN managed by OVN Kubernetes CNI plugin and CNO.
+This represents all the servers and clients that originated inside our OpenShift cluster within the SDN managed by the OVN Kubernetes CNI plugin and CNO.
 
 And it can be filtered in a nice way, using Client - Servers filtering by the IPs or even some services like Etcd-Client.
 
 ## Filtering and obtaining information about our network traffic
 
-For example if you want to know the Network Flows with the destination of our Kubernetes Api service, you can filtered with the Server tab:
+For example, if you want to know the Network Flows with the destination of our Kubernetes API service, you can filter with the Server tab:
 
 [![](/images/flow2.png "Flow 5")]({{site.url}}/images/flow2.png)
 
-Another example is to use the Traffic Details tab inside of this dashboard to select one of the workloads interested in.
+Another example is to use the Traffic Details tab inside this dashboard to select one of the workloads you are interested in.
 
 For example, we want to know what's the traffic originated from the Grafana instance:
 
@@ -140,7 +140,7 @@ $ oc get pod -A -o wide | grep grafana
 openshift-monitoring                               grafana-74655dbf66-f6hjg                                          2/2     Running     0          43h     10.128.2.7      compute-0   <none>           <none>
 ```
 
-In the Traffic details tab, filter from the source address and select the ClusterIP address from our grafana (10.128.2.7):
+In the Traffic Details tab, filter by the source address and select the ClusterIP address of our Grafana instance (10.128.2.7):
 
 [![](/images/flow7.png "Flow 6")]({{site.url}}/images/flow7.png)
 
@@ -151,17 +151,17 @@ oc get pod -A -o wide | grep 10.129.2.9
 openshift-monitoring                               prometheus-k8s-0                                                  7/7     Running     1          43h     10.129.2.9      compute-2   <none>           <none>
 ```
 
-Our traffic was originated from the Grafana with direction to the Prometheus instance in order to access the metrics stored.
+Our traffic originated from Grafana going to the Prometheus instance in order to access the stored metrics.
 
 ## Analysing Flow Records of the etcd clients
 
-One nice thing of this dashboard, is that allow us to filter also by categories, like for example by service etcd-client.
+One nice thing about this dashboard is that it allows us to filter also by categories, for example by service etcd-client.
 
-With that we can extract very useful information that who originated the request, amount of traffic generated, which type of traffic, etc:
+With that we can extract very useful information such as who originated the request, the amount of traffic generated, which type of traffic, etc:
 
 [![](/images/flow4.png "Flow 7")]({{site.url}}/images/flow4.png)
 
-If you need more information about one the flow records you can go to the own Flow Records tab in order to check the sFlow records collected from our cluster:
+If you need more information about one of the flow records, you can go to the Flow Records tab to check the sFlow records collected from our cluster:
 
 [![](/images/flow5.png "Flow 7")]({{site.url}}/images/flow5.png)
 

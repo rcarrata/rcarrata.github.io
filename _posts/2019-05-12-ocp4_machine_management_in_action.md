@@ -12,17 +12,17 @@ author: rcarrata
 comments: true
 ---
 
-When you deploy a cluster of OpenShift 4.1 using the UPI (User-Provisioned Infrastructure) AWS installation, the deployment can be performed using the AWS Cloudformation templates provided, for create the infrastructure required and afterwards deploy the OCP cluster on top.
+When you deploy an OpenShift 4.1 cluster using the UPI (User-Provisioned Infrastructure) AWS installation, the deployment can be performed using the AWS CloudFormation templates provided, to create the required infrastructure and afterwards deploy the OCP cluster on top.
 
-By default the cloudformation templates provided, deploys 3 masters but only one worker (in IPI installations 2 workers are deployed instead using the Machine Config Operator).
+By default, the CloudFormation templates provided deploy 3 masters but only one worker (in IPI installations, 2 workers are deployed instead using the Machine Config Operator).
 
-On the other hand and also by default, when the OpenShift cluster is deployed, two routers are deployed (for give the proper HA to the OCP routes) into the worker nodes of our cluster. For avoid that this two OCP routers are running into the same worker node, two worker nodes minimum are needed to host this routers, but only one is deployed with the Cloudformation templates and only one router is running (the other is in Pending state, as we will see above).
+On the other hand, also by default, when the OpenShift cluster is deployed, two routers are deployed (to provide proper HA for the OCP routes) on the worker nodes of our cluster. To avoid having both OCP routers running on the same worker node, a minimum of two worker nodes are needed to host these routers, but only one is deployed with the CloudFormation templates and only one router is running (the other is in Pending state, as we will see below).
 
-The solution for this problem is to use the Machine Api Operator, for deploy and scale to 2 (or 3) the workers deployed in our cluster. With the proper number of workers, the OCP routers will run perfectly (one into each worker node) and will have the proper HA required for production environments.
+The solution for this problem is to use the Machine API Operator to deploy and scale to 2 (or 3) the workers in our cluster. With the proper number of workers, the OCP routers will run perfectly (one on each worker node) and will have the proper HA required for production environments.
 
 ## Overview
 
-First of all, we need our OCP4  deployed into AWS using the UPI installation. The result of this installation something will be like this:
+First of all, we need our OCP4 deployed on AWS using the UPI installation. The result of this installation will be something like this:
 
 ```
 [root@clientvm 0 ~/new-ocp4-cf]# oc get nodes
@@ -49,14 +49,14 @@ router-default-76f869f9dc-s48rw   1/1     Running   0          23h   10.131.0.6 
 router-default-76f869f9dc-xh7w4   0/1     Pending   0          98s   <none>       <none>                                      <none>
 ```
 
-As we can observe, the second router are not running ok, because there isn't a second worker node for host them, and is waiting in "Pending" state.
+As we can observe, the second router is not running because there isn't a second worker node to host it, and it is waiting in "Pending" state.
 
 
 ## Machine Management - Deploy additional worker nodes
 
-So, for fix this and have two routers fully available, we can deploy a new worker node using a MachineSet and the Machine API Operator.
+So, to fix this and have two routers fully available, we can deploy a new worker node using a MachineSet and the Machine API Operator.
 
-First of all, we can check that are not any MachineSet and Machine present/available:
+First of all, we can check that there are no MachineSets or Machines present/available:
 
 ```
 [root@clientvm 0 ~/new-ocp4-cf]# oc get machinesets -n openshift-machine-api
@@ -76,7 +76,7 @@ i-008f1d37b01200ffb
 ip-10-0-158-99.eu-west-1.compute.internal    Ready    worker   23h   v1.13.4+cb455d664
 ```
 
-We can create a MachineSet for deploy a new worker node in eu-west-1a (AZ1 of AWS Ireland region):
+We can create a MachineSet to deploy a new worker node in eu-west-1a (AZ1 of the AWS Ireland region):
 
 ```
 [root@clientvm 0 ~/new-ocp4-cf]# cat machineset_worker.yml
@@ -166,7 +166,7 @@ NAME                                          INSTANCE              STATE     TY
 rcarrata-cf-7lk9g-worker-2-eu-west-1a-r4sqk   i-0a07c73b9d8b438bc   pending   m4.large   eu-west-1   eu-west-1a   7s
 ```
 
-Check with the aws-cli tool the brand new instance that will be our new brand worker node:
+Check with the aws-cli tool the new instance that will be our new worker node:
 
 ```
 [root@clientvm 0 ~/new-ocp4-cf]# aws ec2 describe-instances | jq -r '.Reservations[].Instances[] \
@@ -175,7 +175,7 @@ Check with the aws-cli tool the brand new instance that will be our new brand wo
 i-0a07c73b9d8b438bc
 ```
 
-Once the worker node is in state "Running", the machineset reflects that the Desired State and the Ready / Available States have matching resources (1 worker in this case):
+Once the worker node is in "Running" state, the machineset reflects that the Desired State and the Ready / Available States have matching resources (1 worker in this case):
 
 ```
 [root@clientvm 0 ~/new-ocp4-cf]# aws ec2 describe-instances | jq -r '.Reservations[].Instances[] | \
@@ -209,7 +209,7 @@ ip-10-0-158-99.eu-west-1.compute.internal    Ready    worker   23h     v1.13.4+c
 ip-10-0-165-234.eu-west-1.compute.internal   Ready    master   23h     v1.13.4+cb455d664
 ```
 
-Because of we have an additional worker node in our cluster, the second router can run in this brand new worker:
+Because we now have an additional worker node in our cluster, the second router can run on this new worker:
 
 ```
 [root@clientvm 0 ~/new-ocp4-cf]# oc get pod -n openshift-ingress

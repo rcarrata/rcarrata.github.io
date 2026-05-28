@@ -13,15 +13,15 @@ author: rcarrata
 comments: true
 ---
 
-Imagine that you have one or several VMs deployed on top of your deployment of RHV, and you have not
-access with ssh configured (because is a brand new VM without network config settings, or just
-because you have some issues and you have not direct ssh connection).
+Imagine that you have one or several VMs deployed on top of your RHV deployment, and you do not
+have SSH access configured (because it is a brand new VM without network config settings, or just
+because you have some issues and you do not have a direct SSH connection).
 
-In this case, you must to connect with a Serial console, through for example the Remote Viewer, to
-configure or just for check if the VM is doing ok.
+In this case, you must connect with a serial console, through for example the Remote Viewer, to
+configure or just to check if the VM is doing ok.
 
 But sometimes, when you have a lot of latency between your source point of connection (like your
-laptop) and your destination VM through the serial console port, you must to struggle to enter one
+laptop) and your destination VM through the serial console port, you must struggle to enter even one
 command.
 
 To avoid this, you can connect through the serial console of any VM directly from the RHV Manager,
@@ -41,10 +41,10 @@ Available Serial Consoles:
 cephpocnode1[aacf1c46-5a7d-44aa-b953-7cff00d390fb]‍‍‍‍‍‍‍‍
 ```
 
-NOTE: in the connection through the 2222 port, use -l option instead of @, because its a serial
+NOTE: when connecting through port 2222, use the -l option instead of @, because it's a serial
 port.
 
-After that you will be prompted with the whole list of VMs that are available in your cluster.
+After that, you will be prompted with the whole list of VMs that are available in your cluster.
 
 Select the VM that you want to connect:
 

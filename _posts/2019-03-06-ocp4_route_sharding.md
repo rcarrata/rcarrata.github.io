@@ -29,14 +29,14 @@ In OCP, each route can have any number of labels in its metadata field. A router
 
 ## Default IngressController in OCP4
 
-In the OCP 3.x version, the router sharding was implemented with patching directly the routers with the "oc adm router" commands for create/manage the routers and their labels, to apply the namespace and route selectors. For more information, check the [OCP3.11 Route Sharding](https://docs.openshift.com/container-platform/3.11/architecture/networking/routes.html#router-sharding) official documentation.
+In OCP 3.x, router sharding was implemented by patching the routers directly with the "oc adm router" commands to create/manage the routers and their labels, and to apply the namespace and route selectors. For more information, check the [OCP3.11 Route Sharding](https://docs.openshift.com/container-platform/3.11/architecture/networking/routes.html#router-sharding) official documentation.
 
 But in OCP 4.x, the rules of the game changed: the OCP Routers (and other elements including LBs, DNS entries, etc) are managed by the [OpenShift Ingress Operator](https://github.com/openshift/cluster-ingress-operator).
 
 Ingress Operator is an OpenShift component which enables external access to cluster services by configuring Ingress Controllers, which route traffic as specified by OpenShift Route and Kubernetes Ingress resources.
 Furthermore, the Ingress Operator implements the OpenShift ingresscontroller API.
 
-Into every new OCP4 cluster, the ingresscontroller "default" is deployed into the openshift-ingress-operator namespace:
+In every new OCP4 cluster, the ingresscontroller "default" is deployed in the openshift-ingress-operator namespace:
 
 ```
 # oc get ingresscontroller -n openshift-ingress-operator
@@ -46,7 +46,7 @@ default   50m
 
 NOTE: Ingress Operator is a core feature of OpenShift and is enabled out of the box.
 
-As we can see into the ingresscontroller "default", a ingress controller with replica 2 is deployed. Also pay attention that the spec definition is empty (spec: {}).
+As we can see in the ingresscontroller "default", an ingress controller with 2 replicas is deployed. Also pay attention that the spec definition is empty (spec: {}).
 
 ```
 # oc get ingresscontroller default -n openshift-ingress-operator -o yaml
@@ -76,7 +76,7 @@ status:
 
 ```
 
-In the namespace of "openshift-ingress" the two replicas of the ingress controller "default" are deployed and are running in two separates worker nodes.
+In the "openshift-ingress" namespace, the two replicas of the ingress controller "default" are deployed and running on two separate worker nodes.
 
 ```
 # oc get pod -n openshift-ingress
@@ -84,7 +84,7 @@ router-default-d994bf4b-jdhj8      1/1     Running   0          106m
 router-default-d994bf4b-zqv2z      1/1     Running   0          106m
 ```
 
-This is because of the pod antiaffinity rule defined, that requires that the replicas are not deployed into the same worker node:
+This is because of the pod antiaffinity rule, which requires that the replicas are not deployed on the same worker node:
 
 ```
 # oc get pod router-default-5446cd6d49-cbjcg -n openshift-ingress -o yaml | grep -A9 affinity
@@ -100,7 +100,7 @@ This is because of the pod antiaffinity rule defined, that requires that the rep
         topologyKey: kubernetes.io/hostname
 ```
 
-Furthermore, the [Kubernetes ServiceTypes](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) are managed also by the OpenShift Ingress Operator. In this case the default ingresscontroller,deployed and manages a LoadBalancer Service Type (router-default svc) and a ClusterIP Service Type (router-internal-default svc).
+Furthermore, the [Kubernetes ServiceTypes](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) are also managed by the OpenShift Ingress Operator. In this case, the default ingresscontroller deploys and manages a LoadBalancer Service Type (router-default svc) and a ClusterIP Service Type (router-internal-default svc).
 
 The LoadBalancer Service Type in AWS, deploys and manages an AWS ELB (Classic LoadBalancer type) for each ingresscontroller defined:
 
@@ -111,22 +111,22 @@ router-default            LoadBalancer   172.30.154.159   a53e0048d9d7611e9a92d0
 router-internal-default   ClusterIP      172.30.136.191   <none>                                                                      80/TCP,443/TCP,1936/TCP      81m
 ```
 
-Checking the ELB deployed on top of AWS by the Ingress Operator, see that have an scheme "Internet Facing".
+Checking the ELB deployed on AWS by the Ingress Operator, we can see that it has a scheme of "Internet Facing".
 
 ```
  aws elb describe-load-balancers --load-balancer-name $(oc get svc -n openshift-ingress | grep router-default | awk '{ print $4 }' | cut -d"." -f1 | cut -d"-" -f1) | jq .LoadBalancerDescriptions[].Scheme
 "internet-facing"
 ```
 
-This involves that every ELB deployed by the ingressoperator in this way, is publicly exposed to Internet.
+This means that every ELB deployed by the Ingress Operator in this way is publicly exposed to the Internet.
 
-In this moments, and until the 4.2 there is no possibility to deploy an ELB with an Schema "Private", focused in have a Load Balancer facing only "Private" subnets and reachable only within this Subnets (for example to use with the routes *internalapps).
-At 4.2 there will be available [the implementation](https://github.com/openshift/api/blob/release-4.2/operator/v1/types_ingress.go#L179) to expose only on the cluster's private network using the LoadBalancerScope = "Internal"
+At this point, and until version 4.2, there is no possibility to deploy an ELB with a "Private" schema, focused on having a Load Balancer facing only "Private" subnets and reachable only within those subnets (for example, to use with the *internalapps routes).
+In 4.2, [the implementation](https://github.com/openshift/api/blob/release-4.2/operator/v1/types_ingress.go#L179) will be available to expose only on the cluster's private network using LoadBalancerScope = "Internal".
 
 
 ## Router sharding - Adding Ingress Controller for internal traffic application routes
 
-In several cases, customers want to isolated DMZ traffic routes of their applications, from the internal traffic application routes (for example, only reachable from inside the Private subnet of the cluster).
+In several cases, customers want to isolate DMZ traffic routes of their applications from the internal traffic application routes (for example, only reachable from inside the private subnet of the cluster).
 
 For this purpose, the :
 
@@ -157,15 +157,14 @@ metadata:
   selfLink: ""
 ```
 
-There is several key values into this ingresscontroller:
+There are several key values in this ingresscontroller:
 
-* **Domain**: AWS Route53 wildcard A record *internalapps created and manage automatically by the operator
-* **endpointPublishingStrategy**: used to publish the ingress controller endpoints to other networks, enable load balancer integrations, etc. LoadBalancerService in our case (AWS) for deploy the ELB.
-* **nodePlacement**: NodePlacement describes node scheduling configuration for an ingress controller. In our case
-have a matchLabel to deploy the ingress controller only into Workers.
-* **routeSelector**: routeSelector is used to filter the set of Routes serviced by the ingress controller. If unset, the default is no filtering. In our case, a label "type: internal" is selected for define these internal routes.
+* **Domain**: AWS Route53 wildcard A record *internalapps, created and managed automatically by the operator.
+* **endpointPublishingStrategy**: used to publish the ingress controller endpoints to other networks, enable load balancer integrations, etc. LoadBalancerService in our case (AWS) to deploy the ELB.
+* **nodePlacement**: describes node scheduling configuration for an ingress controller. In our case, it has a matchLabel to deploy the ingress controller only on workers.
+* **routeSelector**: used to filter the set of Routes serviced by the ingress controller. If unset, the default is no filtering. In our case, the label "type: internal" is selected to define these internal routes.
 
-For more info, check the [Ingress Operator API](https://github.com/openshift/api/blob/master/operator/v1/types_ingress.go) code that is well documented with the all the possibilities (including those defined above).
+For more info, check the [Ingress Operator API](https://github.com/openshift/api/blob/master/operator/v1/types_ingress.go) code, which is well documented with all the possibilities (including those defined above).
 
 Apply the ingresscontroller internal yaml:
 
@@ -173,7 +172,7 @@ Apply the ingresscontroller internal yaml:
 # oc apply -f router-internal.yaml
 ```
 
-And check that is created in the cluster:
+And check that it is created in the cluster:
 
 ```
 # oc get ingresscontroller -n openshift-ingress-operator
@@ -205,7 +204,7 @@ The logs of the ingress operator reflects the management of the AWS ELB loadbala
 2019-07-03T11:21:56.213Z        INFO    operator.controller     controller/controller_dns.go:33 ensured DNS record for ingresscontroller       {"namespace": "openshift-ingress-operator", "name": "internal", "record": {"Zone":{"tags":{"Name":"rcarrata-ipi2-aws-rf2h9-int","kubernetes.io/cluster/rcarrata-ipi2-aws-rf2h9":"owned"}},"Type":"ALIAS","Alias":{"Domain":"*.internalapps.rcarrata-ipi2-aws.c398.sandbox389.opentlc.com","Target":"ab15128d29d8411e98dd80a317a65344-719607428.eu-central-1.elb.amazonaws.com"}}}
 ```
 
-Furthermore, two replicas of the new brand ingress controllers appears in the openshift-ingress namespace:
+Furthermore, two replicas of the new ingress controllers appear in the openshift-ingress namespace:
 
 ```
 # oc get pod -n openshift-ingress
@@ -235,7 +234,7 @@ django-psql-example   django-psql-example-test-sharding.apps.rcarrata-ipi2-aws.c
 
 This route is exposed by default to the "router-default", using the *apps. domain route.
 
-Let's tweak the route, and add the label that matches to the routeSelector defined into our internal ingresscontroller:
+Let's tweak the route and add the label that matches the routeSelector defined in our internal ingresscontroller:
 
 ```
 # cat route-django-psql-example.yaml
@@ -258,9 +257,9 @@ spec:
   wildcardPolicy: None
 ```
 
-Check that in this tweaked route, a new label "type: internal" is added, and also the host into the spec definition is adapted to use the *internalapps domain route.
+Note that in this tweaked route, a new label "type: internal" is added, and the host in the spec definition is adapted to use the *internalapps domain route.
 
-Let's delete the old route and apply the new one
+Let's delete the old route and apply the new one:
 
 ```
 # oc delete route django-psql-example -n test-sharding
@@ -302,9 +301,9 @@ Requested Host:         django-psql-example-test-sharding.internalapps.rcarrata-
 
 What happened?
 
-By default, the default router have not routeSelector (remember the spec:{} from above?), and for this reason is exposed not only to our internal router, also is exposed to the default.
+By default, the default router has no routeSelector (remember the spec:{} from above?), and for this reason it is exposed not only to our internal router, but also to the default.
 
-Check if the route expose by the internal router is working:
+Check if the route exposed by the internal router is working:
 
 ```
 # curl -I  django-psql-example-test-sharding.internalapps.rcarrata-ipi2-aws.c398.sandbox389.opentlc.com
@@ -318,11 +317,11 @@ Set-Cookie: 76d45f9cc1a5dfd70510f1d6e9de2f11=8b4050c0c44e03d912c4d741f7e95699; p
 Cache-control: private
 ```
 
-It works! A basic curl is probing us that the route is exposed correctly and is reachable from outside the cluster.
+It works! A basic curl proves that the route is exposed correctly and is reachable from outside the cluster.
 
 ## Apply a routeSelector into Router Default of OCP4
 
-For ONLY expose the routes of *.internalapps to one router (the internal router), and avoid to the default router (that expose the *.apps routes normally), a routeSelector must be defined into the ingresscontroller "default" in the namespace of openshift-ingress-operator:
+To ONLY expose the routes of *.internalapps to one router (the internal router), and exclude them from the default router (that exposes the *.apps routes normally), a routeSelector must be defined in the "default" ingresscontroller in the openshift-ingress-operator namespace:
 
 ```
 # oc get ingresscontroller -n openshift-ingress-operator default -o yaml
@@ -354,7 +353,7 @@ status:
   selector: ingresscontroller.operator.openshift.io/deployment-ingresscontroller=default
 ```
 
-As we see into the definition of the ingresscontroller, the key is:
+As we can see in the definition of the ingresscontroller, the key is:
 
 ```
 spec:
@@ -363,7 +362,7 @@ spec:
       type: public
 ```
 
-Now, and after the edition of the ingresscontroller default with the proper routeSelector, our route is only exposed by the ingresscontroller/router internal only:
+Now, after editing the default ingresscontroller with the proper routeSelector, our route is only exposed by the internal ingresscontroller/router:
 
 ```
 # oc describe route route django-psql-example -n test-sharding
@@ -387,7 +386,7 @@ Weight:         100 (100%)
 Endpoints:      10.129.2.13:8080
 ```
 
-Obviously, the route is still working perfectly because is exposed by our internal router:
+Obviously, the route is still working perfectly because it is exposed by our internal router:
 
 ```
 Requested Host:         django-psql-example-test-sharding.internalapps.rcarrata-ipi2-aws.c398.sandbox389.opentlc.com
@@ -411,7 +410,7 @@ Cache-control: private
 
 So, now that the default ingresscontroller includes the routeSelector label "public", the router is serving routes including this label in the route definition.
 
-For example, for testing out this if we deploy an app example:
+For example, to test this out, let's deploy a sample app:
 
 ```
 # oc new-app cakephp-mysql-example
@@ -431,7 +430,7 @@ postgresql-1-deploy             0/1     Completed   0          36m
 postgresql-1-xhhrt              1/1     Running     0          36m
 ```
 
-The route exposed of the services for our new brand applications are:
+The exposed route for our new application is:
 
 ```
 # oc get route
@@ -439,7 +438,7 @@ NAME                    HOST/PORT                                               
 cakephp-mysql-example   cakephp-mysql-example-test-sharding.apps.rcarrata-ipi2-aws.c398.sandbox389.opentlc.com                cakephp-mysql-example   <all>                 None
 ```
 
-So, if we test the route exposed of our application, we receive an 503 error (Service Unavailable):
+So, if we test the exposed route of our application, we receive a 503 error (Service Unavailable):
 
 ```
 # curl -I  cakephp-mysql-example-test-sharding.apps.rcarrata-ipi2-aws.c398.sandbox389.opentlc.com
@@ -450,7 +449,7 @@ Connection: close
 Content-Type: text/html
 ```
 
-This error is because of the router is serving routes defined with the routeSelector "type: public".
+This error occurs because the router is only serving routes defined with the routeSelector "type: public".
 
 If we apply the labels to the route of our app:
 
@@ -489,9 +488,9 @@ Cache-control: private
 
 ## Namespace selector in Route Sharding
 
-Another selectors in the ingresscontrollers are the namespaceSelectors. This selectors, allow that only the routes exposed in that namespaces are served by the routers labeled with this.
+Another type of selector in the ingresscontrollers is namespaceSelectors. These selectors allow only the routes exposed in those namespaces to be served by the routers labeled accordingly.
 
-As example we can add the namespaceSelector "environment: dmz", and also combine to the routeSelector: "type: public". With this combination, we can ensure that our developers only deploys routes to the default/public ingresscontroller/router with two conditions: being in the namespace appropiated and with the label for the routeSelector type public. With only routeSelector, anyone can expose apps to our default/public without any restriction or limit, that with the namespaceSelector have:
+As an example, we can add the namespaceSelector "environment: dmz" and also combine it with the routeSelector "type: public". With this combination, we can ensure that our developers only deploy routes to the default/public ingresscontroller/router under two conditions: being in the appropriate namespace and having the label for the routeSelector type public. With only the routeSelector, anyone can expose apps to our default/public router without any restriction or limit, which the namespaceSelector addresses:
 
 ```
 # oc get ingresscontroller default -n openshift-ingress-operator -o yaml
@@ -526,7 +525,7 @@ status:
   selector: ingresscontroller.operator.openshift.io/deployment-ingresscontroller=default
 ```
 
-As we can check, our previous route doesn't work properly (503 error received), because the label into our namespace of "environment: dmz" is not applied:
+As we can check, our previous route doesn't work properly (503 error received), because the label "environment: dmz" is not applied to our namespace:
 
 ```
 # curl -I cakephp-mysql-example-test-sharding.apps.rcarrata-ipi2-aws.c398.sandbox389.opentlc.com
@@ -582,9 +581,9 @@ Cache-control: private
 
 ## Conclusion
 
-In this blog post, we worked and explained the Route Sharding in OpenShift 4. This Route Sharding changed slightly operational, but maintain the basis of the implementation into OpenShift 3.
+In this blog post, we explored and explained Route Sharding in OpenShift 4. Route Sharding has changed slightly operationally, but maintains the basis of the implementation from OpenShift 3.
 
-In future blog posts, we will explore and analyse the possibility to have Ingresscontrollers using LoadBalancers Service Type with the schema internal, to deploy AWSLoadBalancers only to the Private Subnets of our AWS VPC deployment.
+In future blog posts, we will explore and analyse the possibility of having IngressControllers using the LoadBalancer Service Type with the internal schema, to deploy AWS LoadBalancers only to the private subnets of our AWS VPC deployment.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

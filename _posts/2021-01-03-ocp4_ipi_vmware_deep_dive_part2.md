@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-This is the second blog post of Load Balancing and DNS with OpenShift IPI series .
+This is the second blog post of the Load Balancing and DNS with OpenShift IPI series.
 
 Check the earlier posts:
 * [Part I - Load Balancing and DNS with OpenShift IPI](https://rcarrata.com/openshift/ocp4_ipi_vmware_deep_dive/)
@@ -21,19 +21,19 @@ Check the earlier posts:
 
 As we checked in the previous section, the Keepalived helps to manage the VIPs for the API OpenShift services used in our OpenShift cluster.
 
-But the thing is... who is in charge to Load Balancing between the different masters of our cluster?
+But the thing is... who is in charge of load balancing between the different masters of our cluster?
 
-The well-know **Haproxy**.
+The well-known **Haproxy**.
 
 #### 5.1 Deep Dive Haproxy for API Load Balancer
 
 Haproxy is also used as a Load Balancer for our Routers in OCP, since OpenShift 3 and is well-known by their performance and flexibility acting as a Load Balancer and Ingress for our applications within the cluster.
 
-And in IPI mode, a **separated instance of Haproxy** its also used for provide Load Balancing for our API and Ingress services.
+And in IPI mode, a **separate instance of Haproxy** is also used to provide load balancing for our API and Ingress services.
 
-Let's check the Haproxy used in IPI to see what's happening behind the hood.
+Let's check the Haproxy used in IPI to see what's happening under the hood.
 
-The Haproxy are running only in the masters also as an static pods:
+The Haproxy instances are running only on the masters, also as static pods:
 
 ```bash
 [root@ocp-bastion ~]# kubectl get pod -n openshift-vsphere-infra | grep haproxy
@@ -42,7 +42,7 @@ haproxy-vmware-nwjr2-master-1              2/2     Running   0          71d
 haproxy-vmware-nwjr2-master-2              2/2     Running   0          71d
 ```
 
-As we can check into the haproxy pods the config files are mounted as a hostPath, with the static-pod-resources and the /etc/haproxy folders:
+As we can see in the haproxy pods, the config files are mounted as a hostPath, with the static-pod-resources and the /etc/haproxy folders:
 
 ```bash
 [root@ocp-bastion ~]# kubectl get pod -n openshift-vsphere-infra haproxy-vmware-nwjr2-master-0 -o json | jq .spec.volumes[0]
@@ -64,7 +64,7 @@ As we can check into the haproxy pods the config files are mounted as a hostPath
 }
 ```
 
-Also an interesting part of the pod definition yaml of the Haproxy pod is the command executed in the second container (the first is an haproxy config reloader):
+Also an interesting part of the pod definition yaml of the Haproxy pod is the command executed in the second container (the first is a haproxy config reloader):
 
 ```bash
 [root@ocp-bastion ~]# kubectl get pod -n openshift-vsphere-infra haproxy-vmware-nwjr2-master-0 -o json | jq .spec.containers[1].command
@@ -86,7 +86,7 @@ total 4.0K
 -rw-r--r--. 1 root root 918 Nov 18 10:00 haproxy.cfg.tmpl
 ```
 
-If we analyse the lines more significant about the config file of haproxy we discover some interesting and useful things:
+If we analyze the most significant lines of the haproxy config file, we discover some interesting and useful things:
 
 ```bash
 [root@vmware-nwjr2-master-0 /]# grep -A2 frontend /etc/haproxy/haproxy.cfg
@@ -95,7 +95,7 @@ frontend  main
   default_backend masters
 ```
 
-the frontend its exposed in the 9445 port for both ipv4 and ipv6 and have as default backends the masters (we will see that the routers of OpenShift are balanced not using this haproxy instance, this haproxy is ONLY for the API).
+the frontend is exposed on port 9445 for both ipv4 and ipv6 and has as default backends the masters (we will see that the routers of OpenShift are balanced not using this haproxy instance; this haproxy is ONLY for the API).
 
 Also we can analyze the backend masters in the same config file:
 
@@ -114,15 +114,15 @@ in this backend we can figure out some things:
 
 * the backends are the 3 masters of the OpenShift cluster, specifically the port 6443 that correspond to the OpenShift/Kubernetes API server.
 * The API is balanced using the roundrobin protocol
-* The weight defined in the backends are the same, so each master is equally load balanced (no priority neither weight is used).
+* The weight defined in the backends is the same, so each master is equally load balanced (neither priority nor weight differentiation is used).
 
 #### 5.2 Haproxy, KeepAlived and VRRP
 
-As we discussed before the Keepalived uses VRRP as the protocol for determine the node health and elect the IP owner.
+As we discussed before, Keepalived uses VRRP as the protocol to determine the node health and elect the IP owner.
 
-But how the Keepalived uses the VRRP for monitor VIPs and also how is linked with the Haproxy?
+But how does Keepalived use VRRP to monitor VIPs, and how is it linked with Haproxy?
 
-First we need to check again the Keepalived keepalived.tmpl used as a template (we focused only in the API checks and vrrp in this config file, in the next blog post we will analyze the Ingress checks and vrrps):
+First we need to check again the Keepalived keepalived.tmpl used as a template (we focus only on the API checks and vrrp in this config file, in the next blog post we will analyze the Ingress checks and vrrps):
 
 ```bash
 [core@vmware-nwjr2-master-0 ~]$ cat /etc/kubernetes/static-pod-resources/keepalived/keepalived.conf.tmpl
@@ -151,7 +151,7 @@ vrrp_instance {{ .Cluster.Name }}_API {
 }
 ```
 
-In the Keepalived config file we see that the script have one track_script with the name "chk_ocp" that checks two main urls:
+In the Keepalived config file we see that the script has one track_script with the name "chk_ocp" that checks two main urls:
 
 * https://localhost:6443/readyz
 * http://localhost:50936/readyz
@@ -183,7 +183,7 @@ listen health_check_http_url
   option dontlognull
 ```
 
-The haproxy is listening (bind :::50936) to the port 50936 and have the line of monitor-uri /readyz configured.
+The haproxy is listening (bind :::50936) on port 50936 and has the monitor-uri /readyz line configured.
 
 So, in conclusion the vrrp script checks the http://localhost:50936/readyz that is the haproxy health_check for determine if the haproxy is running in this node in a **healthy state**.
 
@@ -194,7 +194,7 @@ Service ready.
 </body></html>
 ```
 
-If one of the two checks is not successful more than 3 times x the advent_time (configured 1 second ), track_script of the vrrp fails and the keepalived considers that the service of this node failed and switchs the virtual_address to the other master.
+If one of the two checks is not successful more than 3 times the advert_interval (configured to 1 second), the track_script of the vrrp fails and keepalived considers that the service on this node has failed and switches the virtual_address to another master.
 
 ```bash
 [root@vmware-nwjr2-master-0 ~]# cat /etc/keepalived/keepalived.conf | egrep -A16 "vrrp_instance vmware_API" | grep -A2 virtual_ipaddress
@@ -203,7 +203,7 @@ If one of the two checks is not successful more than 3 times x the advent_time (
     }
 ```
 
-Finally, if we pay attention in the keepalived config file  are that all nodes within the API vrrp instance instance have the same priority, and weight based in the same template (located in the static-pod-resources) and for this reason the load balancing of the VIP are treated equally in terms of priority.
+Finally, if we pay attention to the keepalived config file, we see that all nodes within the API vrrp instance have the same priority and weight, based on the same template (located in the static-pod-resources), and for this reason the load balancing of the VIP is treated equally in terms of priority.
 
 ```bash
 [root@ocp-bastion manu]# for i in $(kubectl get nodes -o wide | grep master | awk '{ print $6 }');do ssh -i id_rsa core@$i "hostname && cat /etc/keepalived/keepalived.conf | egrep 'priority|weight'"; done
@@ -240,7 +240,7 @@ vmware-nwjr2-master-2
 ens192           UP             10.0.0.90/24 10.0.0.200/24 fe80::d39c:82a6:1f15:b8c8/64
 ```
 
-Check the ens192 of the master2, have an ip address more than the others, right?
+Check the ens192 of master2 -- it has one more IP address than the others, right?
 
 If we check specifically this master2, we can deep dive a bit in the interface ens192:
 
@@ -252,7 +252,7 @@ If we check specifically this master2, we can deep dive a bit in the interface e
        valid_lft forever preferred_lft forever
 ```
 
-As we can see in the master-2 of our cluster beside of the primary IP from the node 10.0.0.x/24, is assigned a secondary IP that corresponds with our VIP assigned (10.0.0.200/24).
+As we can see in the master-2 of our cluster, besides the primary IP of the node 10.0.0.x/24, a secondary IP is assigned that corresponds to our VIP (10.0.0.200/24).
 
 ##### Haproxy & Keepalived request flow
 
@@ -261,7 +261,7 @@ So, now that we have all the pieces involved explained, let's check again the fl
 [![](/images/vmware_ipi_3.png "Keepalive Diagrams")]({{site.url}}/images/vmware_ipi_3.png)
 
 * The VRRP protocol is used by Keepalived to determine the node health and elect an IP owner
-* The node health are checked every second for each service (separated checks, one for API and another for INGRESS)
+* The node health is checked every second for each service (separated checks, one for API and another for INGRESS)
 * The ARP is used to associate the VIP with the owner node's interface (masters)
 * Active Node uses RARP (Reverse ARP) to claim traffic
 * Active node passes traffic to endpoint
@@ -273,8 +273,8 @@ Finally we will analyze a diagram of how the API Load Balancer works in OpenShif
 [![](/images/vmware_ipi_4.png "Keepalive Diagrams")]({{site.url}}/images/vmware_ipi_4.png)
 
 1. The client creates a new request to api.ocp4.example.com
-2. The pod of Haproxy on the actively host the API IP address (as determined by keepalived) load balances across control plane nodes (masters) using round robin protocol.
-3. The Connection if forwarded to the chosen control plane node
+2. The Haproxy pod on the node actively hosting the API IP address (as determined by keepalived) load balances across control plane nodes (masters) using round robin protocol.
+3. The connection is forwarded to the chosen control plane node
 4. The control plane node responds directly to the client, with [Direct Return](https://www.haproxy.com/blog/layer-4-load-balancing-direct-server-return-mode/)
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*

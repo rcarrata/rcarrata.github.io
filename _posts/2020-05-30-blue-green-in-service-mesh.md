@@ -12,8 +12,8 @@ author: rcarrata
 comments: true
 ---
 
-Whats a Blue Green deployment and how to configure it our microservices within the Service Mesh? How
-change the balancing of our requests in a easy and quick way?
+What's a Blue Green deployment and how do we configure it for our microservices within the Service Mesh? How
+do we change the balancing of our requests in an easy and quick way?
 
 Let's Mesh in!!
 
@@ -25,8 +25,8 @@ This is the fifth blog post of the Service Mesh in OpenShift series. Check the e
 
 ## Overview
 
-In this blog post, we will deep dive in the traffic management, specifically into the Blue Green
-deployments and how to implemented into our Mesh
+In this blog post, we will deep dive into the traffic management, specifically into the Blue Green
+deployments and how to implement them in our Mesh.
 
 NOTE: this blog post is supported by the [istio-files repository](https://github.com/rcarrata/istio-files) located in my personal Github
 
@@ -39,7 +39,7 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 * Microservices added within Service Mesh (follow the third blog post)
 * Including microservices in Service Mesh (follow the fourth blog post)
 
-Export this environment variables to identify your cluster and namespace:
+Export these environment variables to identify your cluster and namespace:
 
 ```
 $ export APP_SUBDOMAIN=$(oc get route -n istio-system | grep -i kiali | awk '{ print $2 }' | cut -f 2- -d '.')
@@ -81,7 +81,7 @@ recommendation-v2-1-deploy   0/1     Completed   0          4m5s
 recommendation-v2-1-n5t9f    1/1     Running     0          4m1s
 ```
 
-Apply the istio sidecar injector:
+Apply the Istio sidecar injector:
 
 ```
  oc patch dc/recommendation-v2 -p '{"spec":{"
@@ -96,7 +96,7 @@ recommendation-v2-2-deploy   0/1     Completed   0          89s
 recommendation-v2-2-nqq9f    2/2     Running     0          85s
 ```
 
-Once your pod has 2/2 containers and it is Running, execute some test either using customer or partner services.
+Once your pod has 2/2 containers and it is Running, execute some tests using either the customer or partner services.
 
 ```
 $ oc get routes -n istio-system | egrep "customer|partner"
@@ -114,7 +114,7 @@ customer v1 => preference => recommendation v2 from '2-nqq9f': 2
 customer v1 => preference => recommendation v1 from 'recommendation-2-kjpsc': 530
 ```
 
-If you check the traffic you can notice that its load balanced with Round Robin algorithm (50/50% to v1 and v2). This is because is not configured any VirtualService or DestinationRule yet.
+If you check the traffic you can notice that it is load balanced with a Round Robin algorithm (50/50% to v1 and v2). This is because no VirtualService or DestinationRule is configured yet.
 
 
 ## 1.2 Applying routing weights in our mesh
@@ -145,7 +145,7 @@ spec:
 ---
 ```
 
-Then you need the destination rule to define the subsets that are going to route between:
+Then you need the destination rule to define the subsets that traffic is going to be routed between:
 
 ```
 apiVersion: networking.istio.io/v1alpha3
@@ -174,7 +174,7 @@ Apply the recommendations:
 oc apply -f istio-files/recommendation-v1_v2_25_75.mtls.yml
 ```
 
-Let's generate some load. For doing this we can do it with curls, but with this simple program you can generate this load:
+Let's generate some load. We could do this with curl, but with this simple script you can generate load more easily:
 
 ```
 $ cat istio-files/test.sh
@@ -192,11 +192,11 @@ do
 done
 ```
 
-And after that we can check in Kiali that the traffic balanced with 25/75 (approx) to the v1 and v2:
+And after that we can check in Kiali that the traffic is balanced at approximately 25/75 between v1 and v2:
 
 [![](/images/istio3.png "Istio Blue Green Balancing")]({{site.url}}/images/istio3.png)
 
-So, now you can play with your weight and configure different behaviours to control the routing between your different versions of your same repository deployed.
+So, now you can play with your weights and configure different behaviors to control the routing between different versions of your application.
 
 Check out the part six of this blog series in [Canary deployments in Service Mesh](https://rcarrata.com/istio/canary-in-service-mesh/)
 

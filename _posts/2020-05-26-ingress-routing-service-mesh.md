@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How configure ingress routing in Service Mesh and what components are involved? And which are the main
+How do we configure ingress routing in Service Mesh and what components are involved? And what are the main
 differences between OpenShift Routes and Ingress routing in Service Mesh?
 
 Let's Mesh in!!
@@ -24,8 +24,8 @@ This is the fourth blog post of the Service Mesh in OpenShift series. Check the 
 
 ## Overview
 
-In this blog post, we will deep dive in the traffic management, ingress routing of Service Mesh and
-the components involved for getting traffic into our applications deployed within our Service Mesh.
+In this blog post, we will deep dive into the traffic management and ingress routing of Service Mesh, and
+the components involved to get traffic into our applications deployed within our Service Mesh.
 
 NOTE: this blog post is supported by the [istio-files repository](https://github.com/rcarrata/istio-files) located in my personal Github
 
@@ -39,10 +39,10 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 
 ## 1. Adapt Existing K8S Services
 
-In OpenShift, when a oc new-app is used, several kubernetes resources are created within this
-command. One of this service is the Service.
+In OpenShift, when oc new-app is used, several Kubernetes resources are created by this
+command. One of these resources is the Service.
 
-Check out the service of the customer microservice deployed
+Check out the service of the customer microservice deployed:
 
 ```
  oc get svc/customer -n $OCP_NS -o json | jq -r '[.spec.selector]'
@@ -55,16 +55,16 @@ Check out the service of the customer microservice deployed
 ]
 ```
 
-as we know, kubernetes services match with pods based on the selector we have defined on it. In the
-previous example the app, deploymentconfig, and version labels define the match with this pods.
+As we know, Kubernetes services match pods based on the selector we have defined. In the
+previous example, the app, deploymentconfig, and version labels define the match with these pods.
 
 So, this means that only pods matching those labels will be using the loadbalancing of this specific
 service (be 'behind' the service).
 
-But in Service Mesh, we need to define the Service in a bit wider selector, because we will
-differenciate the specific versions with the Destination Rules that will describe in next sections.
+But in Service Mesh, we need to define the Service with a slightly wider selector, because we will
+differentiate the specific versions with the Destination Rules that we will describe in the next sections.
 
-An example that of a new selector is the following:
+An example of a new selector is the following:
 
 ```
 cat istio-files/customer/kubernetes/Service.yml | grep selector -A5
@@ -72,7 +72,7 @@ cat istio-files/customer/kubernetes/Service.yml | grep selector -A5
    app: customer
 ```
 
-this selector will match any pod with the labelled with app: customer, and this possibility includes
+This selector will match any pod labelled with app: customer, and this possibility includes
 several versions of the same application.
 
 Run the specific commands to delete the existing oc new-app services and apply the service adapted
@@ -132,14 +132,14 @@ So far so good, right? But within the Service Mesh, using this Route will
 miss the features and capabilities of Service Mesh in those services which are externally exposed.
 This is because some policies and rules are applied on the client proxy.
 
-So in order to take profit to the capabilities of Istio in our ingress routing, we will use of the
+So in order to take advantage of the capabilities of Istio in our ingress routing, we will use the
 following Istio resources:
 
 * Ingress Gateway
 * VirtualService
 * DestinationRule
 
-We'll explain in a bit this components but for now, in a high level the ingress routing within Mesh
+We'll explain these components in a bit, but for now, at a high level the ingress routing within Mesh
 will be the following:
 
 * Ingress Routing within Service Mesh
@@ -148,7 +148,7 @@ will be the following:
 Route (HAProxy/Router) => istio-ingressgateway  => SVC1 (ip-pod-1, ip-pod-2, ...)
 ```
 
-So gor getting the traffic into the cluster and into the Service Mesh a ingress gateway will be
+So for getting the traffic into the cluster and into the Service Mesh, an ingress gateway will be
 used, but instead of accessing through the same ingress gateway (and using several paths as
 /customer or /partner) we're using a Route that points to the istio ingress gateway.
 
@@ -156,8 +156,8 @@ After the definition of the ingress gateway and using the VirtualService, the re
 routed through this ingress gateway to the services of k8s and therefore will be routed finally to
 our Pods.
 
-Seems not quite easy, but in fact it's more straightforward that this looks like. Let's take a look
-of the components used in this process.
+It may not seem easy, but in fact it is more straightforward than it looks. Let's take a look
+at the components used in this process.
 
 ### 2.2 Components of Service Mesh for Traffic Management
 
@@ -209,7 +209,7 @@ spec:
         subset: v3
 ```
 
-* **Destination Rule** are applied after virtual service routing rules are evaluated, so they apply to the traffic’s “real” destination.
+* **Destination Rules** are applied after virtual service routing rules are evaluated, so they apply to the traffic’s “real” destination.
 
 You use destination rules to specify named service subsets, such as grouping all a given service’s instances by version. You can then use these service subsets in the routing rules of virtual services to control the traffic to different instances of your services.
 
@@ -264,8 +264,8 @@ spec:
 
 To expose our microservices with an ingress routing, we need to create several objects, some of them reviewed in the previous section.
 
-Be clear that after to apply this istio objects, the old routes does not work anymore, and the new
-route will be no longer in the namespace of our microservices, every route and ingress gateway will
+Be aware that after applying these Istio objects, the old routes will no longer work, and the new
+routes will no longer be in the namespace of our microservices; every route and ingress gateway will
 be located in the istio-system namespace.
 
 So in our case the objects that will be applied will be the following:
@@ -279,7 +279,7 @@ Route (HAProxy/Router) => istio-ingressgateway  => SVC1 (ip-pod-1, ip-pod-2, ...
 * VirtualService (ns => istio-tutorial)
 * DestinationRule (ns => istio-tutorial) - Enable MTLS
 
-Render and apply the objects for enable the ingress routing:
+Render and apply the objects to enable the ingress routing:
 
 ```
 $ export APP_SUBDOMAIN=$(oc get route -n istio-system | grep -i kiali | awk '{ print $2 }' | cut -f 2- -d '.')
@@ -296,7 +296,7 @@ virtualservice.networking.istio.io/customer created
 destinationrule.networking.istio.io/customer created
 ```
 
-### 2.4 Let's dig in in the ingress routing objects:
+### 2.4 Let's dig into the ingress routing objects:
 
 First the route:
 
@@ -316,10 +316,10 @@ status:
   ingress: null
 ```
 
-as we can see the route points to the service of the istio-ingressgateway using the host of the
+As we can see, the route points to the service of the istio-ingressgateway using the host of the
 {app}{app-ns}{istio-ns}.apps and the port for http2.
 
-For the Gateway, the customer-gw is defined into the namespace of our apps:
+For the Gateway, the customer-gw is defined in the namespace of our apps:
 
 ```
 $ oc get gateway -n istio-tutorial customer-gw -o yaml | yq .spec
@@ -342,7 +342,7 @@ $ oc get gateway -n istio-tutorial customer-gw -o yaml | yq .spec
 }
 ```
 
-as we can see the selector have istio: ingressgateway, defining that is linked with the istio ingressgateway, and have the host and the port defined also in the route.
+As we can see, the selector has istio: ingressgateway, defining that it is linked with the Istio ingressgateway, and has the host and the port defined also in the route.
 
 ```
 $ oc get virtualservice -n istio-tutorial customer -o yaml | yq .spec
@@ -367,7 +367,7 @@ $ oc get virtualservice -n istio-tutorial customer -o yaml | yq .spec
 }
 ```
 
-The virtualservice uses points to the gateway of customer-gw, and sets the route request to the subset of the host of customer host and with the subset of version-v1.
+The VirtualService points to the gateway of customer-gw, and sets the route request to the customer host with the subset of version-v1.
 
 Finally the DestinationRule is defined as:
 
@@ -390,9 +390,9 @@ $ oc get destinationrule -n istio-tutorial customer -o yaml | yq .spec
 }
 ```
 
-the destination rule sets the subset of versions (actually version-v1 but in the next labs will be expanding) that we have in place. Also the host that belongs this destinationrule, and an important feature: enable the Mutual TLS.
+The destination rule sets the subset of versions (currently version-v1, but in the next labs we will be expanding them) that we have in place. It also defines the host that belongs to this DestinationRule, and an important feature: enabling Mutual TLS.
 
-Another blog post will be dedicated to analyse in deep the mutual TLS, but for know check that with this traffic policy the MTLS is enabled.
+Another blog post will be dedicated to analyzing Mutual TLS in depth, but for now note that with this traffic policy, MTLS is enabled.
 
 ## 3. Testing the ingress routing of our microservices in Service Mesh
 
@@ -404,7 +404,7 @@ NAME       HOST/PORT                                                  PATH   SER
 customer   customer-istio-tutorial-istio-system.apps.ocp4.rglab.com          istio-ingressgateway   http2                 None
 ```
 
-Curl them to test that it's everything is ok:
+Curl them to test that everything is OK:
 
 ```
 $ curl customer-istio-tutorial-istio-system.apps.ocp4.rglab.com -I
@@ -420,7 +420,7 @@ Check out the traffic flow with Kiali:
 [![](/images/istio1.png "Kiali Simple Traffic Management")]({{site.url}}/images/istio1.png)
 
 
-IMPORTANT: Old routes does not work anymore, use all new routes under istio-sytem:
+IMPORTANT: Old routes do not work anymore; use the new routes under istio-system:
 
 ```
 $ oc get route -n istio-tutorial customer
@@ -443,7 +443,7 @@ virtualservice.networking.istio.io/partner created
 destinationrule.networking.istio.io/partner created
 ```
 
-Test it in order to know if everything is ok:
+Test it to check if everything is OK:
 
 ```
 $ curl -I partner-istio-tutorial-istio-system.apps.ocp4.rglab.com

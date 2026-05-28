@@ -12,8 +12,8 @@ author: rcarrata
 comments: true
 ---
 
-How we can deploy microservices within Service Mesh easily and automatically? How to control and
-istiofying them? And what are the main components involved?
+How can we deploy microservices within Service Mesh easily and automatically? How to control and
+istiofy them? And what are the main components involved?
 
 Let's Mesh in!!
 
@@ -22,7 +22,7 @@ This is the second blog post of the Service Mesh in OpenShift series. Check the 
 
 ## Overview
 
-In this blog post, we will deploy four microservices that will help us for show the capabilities of Istio.
+In this blog post, we will deploy four microservices that will help us show the capabilities of Istio.
 
 NOTE: this blog post is supported by the [istio-files repository](https://github.com/rcarrata/istio-files) located in my personal Github
 
@@ -33,7 +33,7 @@ NOTE: this blog post is supported by the [istio-files repository](https://github
 * Service Mesh Control Plane deployed
 * Free time to have fun with Service Mesh!
 
-Export the useful variables that will be use for customize the Namespace where our microservices
+Export the useful variables that will be used to customize the Namespace where our microservices
 will be installed:
 
 ```
@@ -43,14 +43,14 @@ export OCP_NS=istio-tutorial
 ## 1. Deploy the microservices of our application
 
 The microservices used in this tutorial are composed of customer / partner, preference and
-recommendation. The workflow between them is as following:
+recommendation. The workflow between them is as follows:
 
 ```
 ( customer | partner ) ⇒ preference ⇒ recommendation
 ```
 
 So as we can see, if we request the customer/partner microservice route, internally these apps will
-call the services of preference, and therefore the will be recommendation finally.
+call the services of preference, and then finally recommendation.
 
 * Deploy the customer v1 microservice using oc new-app, that will deploy a service, a route, a
   deploymentconfig and the pods of customer:
@@ -61,7 +61,7 @@ oc new-app -l app=customer,version=v1 --name=customer --docker-image=quay.io/rca
 oc expose svc customer -n $OCP_NS
 ```
 
-Pay attention in the labels of this microservices: app=customer and version=v1, that are very
+Pay attention to the labels of these microservices: app=customer and version=v1, which are very
 important for our purposes.
 
 * Deploy the partner v1 app:
@@ -72,8 +72,8 @@ oc new-app -l app=partner,version=v1 --name=partner --docker-image=quay.io/rcarr
 oc expose svc partner -n $OCP_NS
 ```
 
-As you can see, the partner and the customer will expose a route of OpenShift. Nothing wierd until
-here right?
+As you can see, both partner and customer will expose an OpenShift route. Nothing weird so far,
+right?
 
 * Deploy the preference v1 app:
 
@@ -81,9 +81,9 @@ here right?
 oc new-app -l app=preference,version=v1 --name=preference --docker-image=quay.io/rcarrata/preference:quarkus -e JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true'  -n $OCP_NS
 ```
 
-This microservice app, don't need any route because only need customer or partner to be reached
-externally, and when the request reach this two microservices internally and using the svc of
-OpenShift/Kubernetes will be used to communicate through preference and recommendation micros.
+This microservice app does not need any route because only customer or partner need to be reached
+externally. When the request reaches these two microservices, they internally use the services of
+OpenShift/Kubernetes to communicate with the preference and recommendation microservices.
 
 * Deploy the recommendation v1 app:
 
@@ -93,7 +93,7 @@ oc new-app -l app=recommendation,version=v1 --name=recommendation --docker-image
 
 ## 2. Test our microservices (outside of the Mesh)
 
-Let's test it our microservices routes:
+Let's test our microservices routes:
 
 ```
 $ oc get route | egrep -i 'customer|partner'
@@ -112,13 +112,13 @@ customer v1 => preference => recommendation v1 from 'recommendation-1-9d977': 8
 
 ## 3. Including our microservices in our Service Mesh
 
-Until now, this deployment of this apps is a regular deployment with all of the "traditional"
-components of Service Mesh, with Services, Routes, and DeploymentConfigs among others.
+Until now, this deployment of these apps is a regular deployment with all of the "traditional"
+components, including Services, Routes, and DeploymentConfigs among others.
 
-But for enable the Service Mesh capabilities, we need to include these microservices into our
-Service Mesh. How can we accomplished that? With sidecar autoinjection.
+But to enable the Service Mesh capabilities, we need to include these microservices in our
+Service Mesh. How can we accomplish that? With sidecar autoinjection.
 
-But first of all, two important things that need to discuss, sidecar containers and istio data
+But first, two important things that need to be discussed: sidecar containers and the Istio data
 plane.
 
 Istio data plane is built as a sidecar container, which is deployed together with our applications
@@ -151,14 +151,14 @@ sidecar.istio.io/inject: true
 But usually, we don't annotate the Pods directly, instead we will annotate the controller such as
 DeploymentConfigs or Deployments (among others).
 
-The annotation need to go under the "spec.template.metadata.annotations". Remember that you need to
-be strict on this, is not valid to put it on the metadata.annotations level, where usually goes the
-annotations.
+The annotation needs to go under "spec.template.metadata.annotations". Remember that you need to
+be strict about this — it is not valid to put it at the metadata.annotations level, where annotations
+usually go.
 
 As we discussed in the section before, one of the differences with Istio upstream is that here we
 annotate the deploymentconfigs, and not annotate the .
 
-For enable the autoinjection of our DeploymentConfigs run the following patch:
+To enable the autoinjection of our DeploymentConfigs, run the following patch:
 
 ```
 oc patch dc/customer -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n $OCP_NS
@@ -170,8 +170,8 @@ oc patch dc/recommendation -p '{"spec":{"template":{"metadata":{"annotations":{"
 oc patch dc/partner -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n $OCP_NS
 ```
 
-Then a rolling process will triggered, and a new pods will be created finally when the current of
-containers per pod (2/2):
+Then a rolling process will be triggered, and new pods will be created. You will know they are ready when you see
+two containers per pod (2/2):
 
 ```
 $ oc get pod | grep -i Running
@@ -186,7 +186,7 @@ As we can see we have two containers running in the same pod: istio-proxy and ou
 
 ### 3.3 Controlling the namespaces allowed to be in our Mesh
 
-Last but not least an interesting topic is how to control the namespaces what are allowed to be including apps in
+Last but not least, an interesting topic is how to control which namespaces are allowed to include apps in
 the mesh. This is controlled by the ServiceMeshMemberRoll.
 
 The ServiceMeshMemberRoll resource configures which projects belong to a control plane. Only

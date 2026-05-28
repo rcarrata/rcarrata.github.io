@@ -12,11 +12,11 @@ author: rcarrata
 comments: true
 ---
 
-Sometimes is hard to analyse what is happening as networking level into your pods deployed in
+Sometimes it is hard to analyse what is happening at the networking level in your pods deployed in
 OpenShift or Kubernetes.
 
-How you can debug and/or analyse your network traffic to your application to solve
-issues quicker and more effectively? How you can use the well known Wireshark tool as always?
+How can you debug and/or analyse the network traffic to your application to solve
+issues quicker and more effectively? How can you use the well-known Wireshark tool as always?
 
 We will be using tcpdump to capture a so-called, PCAP (packet capture) file that will contain the
 pod’s network traffic. This PCAP file can then be loaded in a tool like Wireshark to analyze the
@@ -54,7 +54,7 @@ postgresql-1-deploy            0/1     Completed           0          2m57s
 $ oc get dc django-psql-example -o yaml > django-psql-tcpdump.yaml
 ```
 
-* Into the deploymentconfig add the container that you want to do tcpdump:
+* In the deploymentconfig, add the container that you want to run tcpdump in:
 
 ```
 - name: tcpdump
@@ -64,7 +64,7 @@ $ oc get dc django-psql-example -o yaml > django-psql-tcpdump.yaml
     - infinity
 ```
 
-* In the case for the django app, the sidecar will be into the container spec:
+* In the case of the django app, the sidecar will be in the container spec:
 
 ```
 spec:
@@ -79,8 +79,8 @@ spec:
       value: postgresql
 ```
 
-This will spin up an additional container with a sidecar, that you can execute tcpdump to capture and for further analysis the several
-packets that are receiving / sending the django container (remember that tcpdump and django containers are in the same pod).
+This will spin up an additional sidecar container where you can execute tcpdump to capture and further analyse the
+packets that the django container is receiving and sending (remember that the tcpdump and django containers are in the same pod).
 
 * Apply the sidecar deploymentconfig django psql:
 
@@ -107,7 +107,7 @@ django-psql-example-2-deploy   0/1   Completed   0     30s
 
 With the sidecar deployed and running, we can now start capturing data
 
-* Log in into the tcpdump container:
+* Log in to the tcpdump container:
 
 ```
 ~ $ oc rsh -c tcpdump django-psql-example-2-gfws6
@@ -116,8 +116,8 @@ tcpdump: eth0: You don't have permission to capture on that device
 (socket: Operation not permitted)
 ```
 
-What happened? Due to the SCCs, the tcpdump is not capable to capture the packets into the eth0
-because the container have not the proper scc permissions.
+What happened? Due to the SCCs, tcpdump is not able to capture the packets on eth0
+because the container does not have the proper SCC permissions.
 
 * To avoid that you need to add a specific cluster-admin permissions to the default Service Account of the namespace
 with the anyuid scc:
@@ -126,25 +126,24 @@ with the anyuid scc:
 oc adm policy add-scc-to-user anyuid -z default -n `oc project -q` --as=system:admin
 ```
 
-IMPORTANT: This is could cause a security issue, because any pod can run as root so be careful and only implement
-this in the testing namespaces, or in the namespaces that are controlled by the cluster-admin and
-being noticed that security capabilities disabled.
+IMPORTANT: This could cause a security issue, because any pod can run as root, so be careful and only implement
+this in testing namespaces, or in namespaces that are controlled by the cluster-admin, keeping in mind that security capabilities are disabled.
 
-* Rollout the deploymentconfig for deploy with the proper scc:
+* Roll out the deploymentconfig to deploy with the proper SCC:
 
 ```
 oc rollout latest dc django-psql
 ```
 
-* Inside of the container of tcpdump of the pod that we deployed before (django-psql-example
-  sidecard) execute the tcpdump:
+* Inside the tcpdump container of the pod that we deployed before (django-psql-example
+  sidecar), execute tcpdump:
 
 ```
 $ tcpdump -s 0 -n -w /tmp/example.pcap
 
 ```
 
-* Generate requests for this applications that will be captured by the tcpdump sidecar:
+* Generate requests to this application that will be captured by the tcpdump sidecar:
 
 ```
 $ curl django-psql-example-test-delete-rcarrata.apps.ocp4.rcarrata.com -I
@@ -175,14 +174,14 @@ $ tcpdump -s 0 -n -w /tmp/example.pcap
 $ oc cp -c tcpdump django-psql-example-2-gfws6 :/tmp/example.pcap example.pcap
 ```
 
-* Examine the pcap with wireshark... and voilà! You can analyse your your network traffic!
+* Examine the pcap with wireshark... and voila! You can analyse your network traffic!
 
 ```
 $ wireshark example.pcap
 ```
 
-This is very useful for debugging and for see connectivity and app issues within external systems,
-or within interaction with other pods.
+This is very useful for debugging and for seeing connectivity and application issues with external systems,
+or with interactions between other pods.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

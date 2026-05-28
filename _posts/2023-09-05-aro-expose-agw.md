@@ -26,9 +26,9 @@ By leveraging Application Gateway, organizations can unlock a lot of benefits wh
 
 Moreover, Application Gateway provides robust security features, safeguarding customer applications from external threats. It offers comprehensive SSL/TLS termination, enabling end-to-end encryption for enhanced data protection. Additionally, its Web Application Firewall (WAF) functionality protects against common web vulnerabilities, providing an additional layer of defense.
 
-The objective of this blog post is to demo exposing some Customer Applications deployed in a Private ARO cluster, that requires to expose only the Application itself, not the ARO API Kubernetes Ingress or any other *.apps routes.
+The objective of this blog post is to demonstrate exposing some Customer Applications deployed in a Private ARO cluster, where the requirement is to expose only the Application itself, not the ARO API Kubernetes Ingress or any other *.apps routes.
 
-Also the certificates needs to be taken in consideration, due to we will NOT use a Custom Domain for our ARO Cluster. We will be using a Let's Encrypt certificate with the APP FQDN, and we will put the certificate in the AppGW and in the OpenShift App Route in the ARO cluster.  
+Also, the certificates need to be taken into consideration, since we will NOT use a Custom Domain for our ARO Cluster. We will be using a Let's Encrypt certificate with the APP FQDN, and we will place the certificate in the AppGW and in the OpenShift App Route in the ARO cluster.  
 
 [![](/images/appgw0.png "AppGW")]({{site.url}}/images/appgw0.png)
 
@@ -78,7 +78,7 @@ az network vnet subnet create \
   --service-endpoints Microsoft.ContainerRegistry
 ```
 
-NOTE: due to the Subnets from AppGW and ARO share the same VNet is not needed to add a peering. If you want to split between two different VNets instead of Subnets, please be remember adding the VNet peering between them.
+NOTE: Since the AppGW and ARO subnets share the same VNet, there is no need to add a peering. If you want to split them between two different VNets instead of subnets, please remember to add the VNet peering between them.
 
 * Create a static public IP address for the Application Gateway LB:
 
@@ -98,7 +98,7 @@ az network private-dns zone create \
     --name $DNS_ZONE_NAME
 ```
 
-This is needed because the AppGW requires to reach the internal ARO LB when the Backend Rule is applied in the AppGW for our Custom Domain Application. 
+This is needed because the AppGW needs to reach the internal ARO LB when the Backend Rule is applied in the AppGW for our Custom Domain Application. 
 
 * Retrieve the ARO Ingress Internal IP Load Balancer:
 
@@ -117,7 +117,7 @@ az network private-dns record-set a add-record \
   --ipv4-address $INGRESS_IP
 ```
 
-NOTE: We are using the same $APP_NAME (in our case aro-hello-openshift) with the same private DNS zone (test.openshiftdemo.dev), pointing to the Azure Internal LB that will load balance to the Workers where the ARO OpenShift Routers are (OpenShift Ingress Controllers that manages the Haproxies OpenShift Routers).
+NOTE: We are using the same $APP_NAME (in our case aro-hello-openshift) with the same private DNS zone (test.openshiftdemo.dev), pointing to the Azure Internal LB that will load balance to the Workers where the ARO OpenShift Routers are (OpenShift Ingress Controllers that manage the HAProxy OpenShift Routers).
 
 * Link Private DNS Zone to ARO Virtual Network:
 
@@ -171,7 +171,7 @@ NOTE: The WAF policy needs to be enabled, because by default it's in Disabled mo
 
 ### AppGW Load Balancer Application Certificates
 
-The AppGW and our apps deployed will need to have the proper certificates attached, due to the AppGW will check also against the backend, if the certificated presented is valid and have the proper FQDN.
+The AppGW and our deployed apps will need to have the proper certificates attached, because the AppGW will also check against the backend whether the certificate presented is valid and has the proper FQDN.
 
 * Generate SSL certificates using Let's Encrypt's Certbot tool:
 
@@ -193,7 +193,7 @@ certbot certonly --manual \
 
 NOTE: don't close or interrupt this process, we will finish after the dns challenge in Azure.
 
-* Open a second terminal and paste the DNS_Challenge (and remember to export again the variables from the beggining):
+* Open a second terminal and paste the DNS_Challenge (and remember to export the variables from the beginning again):
 
 ```
 export DNS_CHALLENGE="xxxx"
@@ -209,7 +209,7 @@ az network dns record-set txt add-record \
   --value "$DNS_CHALLENGE"
 ```
 
-* Wait up to 5mins (maybe more) until the TXT record propagates and check the DNS resolution from the ACME challenge within Azure DNS. Check that the dig output matches with the DNS Challenge shown before by the certbot command:
+* Wait up to 5 mins (maybe more) until the TXT record propagates and check the DNS resolution from the ACME challenge within Azure DNS. Check that the dig output matches the DNS Challenge shown earlier by the certbot command:
 
 ```
 dig @8.8.8.8 +short TXT _acme-challenge.$APPGW_DOMAIN
@@ -291,7 +291,7 @@ Host Type: single
 Host name: $APPGW_DOMAIN (aro-hello-openshift.test.openshiftdemo.dev)
 ```
 
-Note: You can also create multiple listeners - one per site and re-use the certificate and select basic site. Also we are using the Azure Portal because the CLI doesn't support MultiHostnames.
+Note: You can also create multiple listeners - one per site - and re-use the certificate and select basic site. We are using the Azure Portal here because the CLI doesn't support MultiHostnames.
 
 [![](/images/appgw3.png "AppGW")]({{site.url}}/images/appgw3.png)
 
@@ -315,7 +315,7 @@ In the HTTP settings section, create a new HTTP setting:
 HTTP settings name: aro-route-https-settings
 Backend protocol: HTTPS
 Backend port: 443
-Use well known CA certificat: Yes (if you used one; otherwise upload your CA cer file)
+Use well known CA certificate: Yes (if you used one; otherwise upload your CA cer file)
 Override with new host name: Yes
 Choose: Override with specific domain name
 Host name: $APPGW_DOMAIN
@@ -343,7 +343,7 @@ az network application-gateway rule create \
 
 Now it's time to publish our Hello OpenShift app deployed in the Private Cluster, exposed using the AppGW.
 
-* Open a sshuttle connection to the ARO Private Cluster:
+* Open an sshuttle connection to the ARO Private Cluster:
 
 ```md
 JUMP_IP=$(az vm list-ip-addresses -g $AZR_RESOURCE_GROUP -n aro-$USER-jumphost -o tsv \
@@ -368,7 +368,7 @@ ARO_DOMAIN=$(oc get dns cluster -o jsonpath='{.spec.baseDomain}')
 oc new-project aro-appgw
 ```
 
-* Deploy a httpd server K8s Deployment and expose using a K8s Service:
+* Deploy an httpd server K8s Deployment and expose it using a K8s Service:
 
 ```md
 oc create deployment hello-openshift --image=quay.io/openshifttest/hello-openshift:1.2.0 --port 8080
@@ -385,7 +385,7 @@ oc create route edge --service=hello-openshift --hostname=$APPGW_DOMAIN \
 
 ## Testing that the App works 
 
-Now that we've deployed the App, let's test if works.
+Now that we've deployed the App, let's test if it works.
 
 * Grab the App Route:
 
@@ -408,7 +408,7 @@ x-request-port: 8080
 
 [![](/images/appgw7.png "AppGW")]({{site.url}}/images/appgw7.png)
 
-And with that ends the third blog post around exposing Applications using App Gateway Load Balancers in Private ARO clusters.
+And with that, this blog post about exposing Applications using App Gateway Load Balancers in Private ARO clusters comes to a close.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

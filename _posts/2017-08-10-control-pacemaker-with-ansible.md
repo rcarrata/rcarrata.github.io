@@ -12,23 +12,23 @@ author: rcarrata
 comments: true
 ---
 
-When an Openstack is installed and configured in High Availability in the several pieces that is divided (haproxies, controllers, backends, etc) there is a large number of resources that you must to control for perform an upgrade or execute some operations.
+When an OpenStack installation is configured in High Availability across the several pieces it is divided into (haproxies, controllers, backends, etc.), there are a large number of resources that you must control to perform an upgrade or execute some operations.
  
-For example, if you want to perform an upgrade of the controllers, you can stop the controllers, perform the upgrade and started again, one by one, without losing quorum and obviously service.
+For example, if you want to perform an upgrade of the controllers, you can stop them, perform the upgrade, and start them again one by one, without losing quorum or service.
 
 This is a correct way to execute, but... why not automatize the process?
  
-For control all the resources (the pacemaker and systemd resources that uses Openstack for the proper execution), we developed several playbooks/tasks that we can be used, that allows you to start or stop all the resources (not only the clustered, also the systemd resources for example of the cnodes).
+To control all the resources (the Pacemaker and systemd resources that OpenStack uses for proper execution), we developed several playbooks/tasks that can be used to start or stop all the resources (not only the clustered ones, but also the systemd resources of the cnodes, for example).
  
 These playbooks can be found in my github: [Pcs Control](https://github.com/rcarrata/pcs_control)
  
-For example, for execute the entire playbook that stops and starts the computes, controllers, cinder_controllers and haproxies execute:
+For example, to execute the entire playbook that stops and starts the computes, controllers, cinder_controllers, and haproxies, run:
 
 ```
 ansible-playbook -v -i hosts/<inventory> pcs_control.yml --ask-pass
 ``` 
 
-For only execute the playbook for control one specific group like computes or controllers, execute:
+To execute the playbook for only one specific group like computes or controllers, run:
  
 ```
 ansible-playbook -v -i hosts/<inventory> -l compute pcs_control.yml --ask-pass
@@ -36,9 +36,9 @@ ansible-playbook -v -i hosts/<inventory> -l controller pcs_control.yml --ask-pas
 ansible-playbook -v -i hosts/<inventory> -l haproxy pcs_control.yml --ask-pass
 ```
 
-So, with this you can automatically control the resources of Openstack, making more painless manage each service.
+With this, you can automatically control the resources of OpenStack, making it much less painful to manage each service.
  
-In next posts, I will show how works with a fully cluster of Openstack with high availaibility.
+In future posts, I will show how this works with a full OpenStack cluster with high availability.
 
 Hope that helps.
  

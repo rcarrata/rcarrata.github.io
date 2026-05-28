@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How to deploy fully automated a Kafka cluster using AMQStreams / Strimzi? And how to deploy Kafka
+How to deploy a fully automated Kafka cluster using AMQStreams / Strimzi? And how to deploy Kafka
 clusters without being cluster-admin, using always regular users or local admins to the namespace?
 
 Let's dig in!
@@ -34,7 +34,7 @@ The Cluster Operator can deploy the Topic Operator and User Operator as part of 
 ## Description of this scenario
 
 The goal in this blog post is to deploy a Kafka cluster in OpenShift, using the AMQStreams 1.4
-operators (based in Strimzi version 0.17.x and Kafka 2.4.0) deployed as a cluster-admin, and giving
+operators (based on Strimzi version 0.17.x and Kafka 2.4.0) deployed as a cluster-admin, and giving
 strimzi-admin to a regular user to deploy Kafka clusters without being cluster-admin.
 
 Tested and working with 3.11 and 4.3.x.
@@ -46,12 +46,12 @@ cluster-admin.
 
 The namespaces used for this installation will be:
 
-* Namespace for deploy the AMQStreams Cluster Operator: **kafkaproject**
-* Namespace for deploy the Kafka Cluster / Kafka Topics: **test-kafka**
+* Namespace to deploy the AMQStreams Cluster Operator: **kafkaproject**
+* Namespace to deploy the Kafka Cluster / Kafka Topics: **test-kafka**
 
 ### Installation of AMQStreams 1.4 Cluster Kafka Operators
 
-This steps need to be implemented with a user with cluster-admin role, such as system:admin.
+These steps need to be implemented with a user with the cluster-admin role, such as system:admin.
 
 1. Download the bits of AMQStreams 1.4 in [AMQStreams download
 site](https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=jboss.amq.streams)
@@ -64,7 +64,7 @@ $ unzip amq-streams-1.4.0-ocp-install-examples.zip -d $HOME/amq_1.4_install
 $ export AMQ_STREAMS_HOME=$HOME/amq_1.4_install
 ```
 
-3. Login as an cluster-admin user, in our case with the name admin:
+3. Login as a cluster-admin user, in our case with the name admin:
 
 ```
 $ oc login -u admin -p xxxxxx
@@ -101,9 +101,9 @@ NAME                                        READY     STATUS    RESTARTS   AGE
 strimzi-cluster-operator-66f9b9c68d-jk6w2   0/1       Running   0          1m
 ```
 
-## Prepare and adjust the roles and bindings to allow users interact to the kafka cluster operator/crd
+## Prepare and adjust the roles and bindings to allow users to interact with the kafka cluster operator/CRDs
 
-For allow to deploy and manage by a regular user (non cluster-admin), the Kafka CRDs created in the installation of the AMQStreams operators, some adjusts need to be done.
+To allow a regular user (non cluster-admin) to deploy and manage the Kafka CRDs created during the installation of the AMQStreams operators, some adjustments need to be made.
 
 6. Create a new test-kafka namespace where you will deploy your Kafka cluster.
 
@@ -113,12 +113,12 @@ $ oc new-project test-kafka
 
 7. Give access to my-kafka-project to a non-admin user andrew.
 
-Our developer Andrew, wanted to create kafka clusters but without have the cluster-admin privileges.
+Our developer Andrew wants to create Kafka clusters but without having cluster-admin privileges.
 
 Andrew is a regular user with non privileged within the group of "system:authenticated:oauth".
 
-This user have no privileges for read/modify the resources in the namespace that will be used for
-deploy the kafka cluster:
+This user has no privileges to read/modify the resources in the namespace that will be used to
+deploy the Kafka cluster:
 
 ```
 # oc get pvc --as=andrew
@@ -127,21 +127,21 @@ Error from server (Forbidden): persistentvolumeclaims is forbidden: User "andrew
 persistentvolumeclaims in the namespace "test-kafka": no RBAC policy matched
 ```
 
-NOTE: For determine the full list of verbs that can the user perform use:
+NOTE: To determine the full list of verbs that the user can perform, use:
 
 ```
 oc policy can-i --list --as=andrew
 ```
 
 
-8. give to Andrew user local admin privileges (namespace-wide):
+8. Give the user Andrew local admin privileges (namespace-wide):
 
 ```
 oc adm policy add-role-to-user admin andrew -n test-kafka
 role "admin" added: "andrew"
 ```
 
-Check that the user andrew only have capabilities of admin in the namespace test-kafka:
+Check that the user andrew only has admin capabilities in the namespace test-kafka:
 
 ```
 # oc get node --as=andrew
@@ -160,7 +160,7 @@ builder-token-kx8zm        kubernetes.io/service-account-token   4         2h
 default-dockercfg-pgs8j    kubernetes.io/dockercfg               1         2h
 ```
 
-As we can see, Andrew can list PVCs and secrets into the namespace test-kafka, but not list nodes.
+As we can see, Andrew can list PVCs and secrets in the namespace test-kafka, but cannot list nodes.
 
 9. Give permission to the Cluster Operator to watch the my-kafka-project namespace.
 
@@ -190,7 +190,7 @@ The commands create role bindings that grant permission for the Cluster Operator
 clusterrole.rbac.authorization.k8s.io/strimzi-admin created
 ```
 
-This cluster role defines the strimzi-admin, a role that allow the interaction with the CRDs and the
+This cluster role defines the strimzi-admin, a role that allows interaction with the CRDs and the
 kafka cluster operator:
 
 ```
@@ -237,14 +237,14 @@ No resources found.
 Error from server (Forbidden): kafkaconnects.kafka.strimzi.io is forbidden: User "andrew" cannot list kafkaconnects.kafka.strimzi.io in the namespace "test-kafka": no RBAC policy matched
 ```
 
-12. Apply the clusterroles to the user andrew to allow them to manage objects from the kafka crds (and also interaction with the kafka cluster operator):
+12. Apply the cluster roles to the user andrew to allow them to manage objects from the Kafka CRDs (and also interact with the Kafka cluster operator):
 
 ```
 $ oc adm policy add-cluster-role-to-user strimzi-admin andrew
 cluster role "strimzi-admin" added: "andrew"
 ```
 
-Check that the andrew user can now to manage kafka crds objects:
+Check that the andrew user can now manage Kafka CRD objects:
 
 ```
 $ oc get kafkaconnects --as=andrew

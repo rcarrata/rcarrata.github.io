@@ -14,7 +14,7 @@ comments: true
 
 How can we improve our supply chain security by signing container images, in an open, accessible and transparent manner? How can we store the signatures in a safe and organized way?
 
-And how can we ensure that no one can introdce a risk to our entire software supply chain by deploying malicious images in our Kubernetes clusters?
+And how can we ensure that no one can introduce a risk to our entire software supply chain by deploying malicious images in our Kubernetes clusters?
 
 Let's dig in!
 
@@ -22,7 +22,7 @@ Let's dig in!
 
 The answer to securing the software supply chains lies in digitally-signing the various artifacts that comprise our applications, from binaries and containers to aggregated files (like tarballs) and software-bills-of-materials (SBOM).
 
-Digital signatures effectively "freeze" an object in time, indicating that in it's current state it is verified and it hasn’t been altered in any way.
+Digital signatures effectively "freeze" an object in time, indicating that in its current state it is verified and it hasn’t been altered in any way.
 
 Sigstore offers a method to better secure software supply chains in an open, transparent and accessible manner.
 
@@ -30,9 +30,9 @@ Think of Sigstore as a new standard for signing, verifying and protecting softwa
 
 So with Sigstore, we can generate the key pairs needed to sign and verify artifacts, automating as much as possible so there’s no risk of losing or leaking them.
 
-On the other hand, you can se benefit from the Transparent ledger technology. This means that anyone can find and verify signatures, and check whether someone’s changed the source code, the build platform or the artifact repository.
+On the other hand, you can benefit from the Transparent ledger technology. This means that anyone can find and verify signatures, and check whether someone’s changed the source code, the build platform or the artifact repository.
 
-But wait a moment, we can sign the images, but how we can ensure that only signed images that are valid and verified can be deployed to our clusters? Manually?
+But wait a moment, we can sign the images, but how can we ensure that only signed images that are valid and verified can be deployed to our clusters? Manually?
 
 Let's bring Kyverno to the stage!
 
@@ -44,7 +44,7 @@ In a nutshell, Kyverno offers an image verification that uses the Cosign compone
 
 Let's start to have fun with Sigstore, Tekton, Kyverno and Kubernetes!
 
-NOTE: this blog post uses Tekton but any CICD can like Jenkins, GitHub Actions, etc. can be used instead. 
+NOTE: this blog post uses Tekton but any CICD tool like Jenkins, GitHub Actions, etc. can be used instead. 
 
 NOTE: All the code / examples used in this blog post are [available in a GitHub repository](https://github.com/rcarrata/ocp4-network-security/tree/main/sign-images). Check this out!
 
@@ -167,7 +167,7 @@ reportchangerequests                  rcr                kyverno.io/v1alpha2    
 
 ## 3. Set up the Registry credentials in the Kubernetes cluster
 
-In this blog, we're using the GitHub registry or ghcr.io as our container registry for storing the images and the signatures. However, there are more options available such aS [Container Image Registries supported by Sigstore](https://github.com/sigstore/cosign#registry-support).
+In this blog, we're using the GitHub registry or ghcr.io as our container registry for storing the images and the signatures. However, there are more options available such as [Container Image Registries supported by Sigstore](https://github.com/sigstore/cosign#registry-support).
 
 By default the container images stored in GitHub registries are private, so we need to add the registry credentials to our Kubernetes clusters in order to allow the Tekton pipelines, and the Kyverno to read/write (pull/push) container images from GitHub Registry.
 
@@ -180,7 +180,7 @@ export USERNAME="xxx"
 export NAMESPACE="workshop"
 ```
 
-NOTE: no regular password can be used with GH Registry, a [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) needs to be generated and used to the authentication.
+NOTE: no regular password can be used with GH Registry, a [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) needs to be generated and used for authentication.
 
 * Create the namespace for the demo example:
 
@@ -265,7 +265,7 @@ go install github.com/sigstore/cosign/cmd/cosign@latest
 
 NOTE: Check the [Cosign Installation documentation](https://docs.sigstore.dev/cosign/installation/) for another installation methods / platforms.
 
-* Verify of one known container image with the Public Key:
+* Verify a known container image with the Public Key:
 
 ```sh
 cosign verify --key https://raw.githubusercontent.com/tektoncd/chains/main/tekton.pub gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/controller:v0.28.1
@@ -283,7 +283,7 @@ It works! This command returns 0 if at least one cosign formatted signature matc
 
 ## 5. Generating KeyPair with Cosign
 
-To sign content using cosign, a public/private keypair must be generated. Cosign can use keys stored in Kubernetes Secrets to so sign and verify signatures.
+To sign content using cosign, a public/private keypair must be generated. Cosign can use keys stored in Kubernetes Secrets to sign and verify signatures.
 
 In order to generate a secret you have to pass the cosign generate-key-pair command a k8s://[NAMESPACE]/[NAME] URI specifying the namespace and secret name:
 
@@ -318,9 +318,9 @@ To check more useful tips with Cosign check the [Detailed Usage documentation](h
 kubectl get secret -n ${NAMESPACE} cosign -o jsonpath='{.data.cosign\.key}' | base64 -d > cosign.key
 ```
 
-NOTE: this is only necessary if you're signing images with cosing OUTSIDE of the cluster, because the Cosign private key is stored within the k8s secret.
+NOTE: this is only necessary if you're signing images with cosign OUTSIDE of the cluster, because the Cosign private key is stored within the k8s secret.
 
-* Pull an example image (we're using th Ubi8 image in this example), and tag them to use the ghcr.io registry in our Organization:
+* Pull an example image (we're using the Ubi8 image in this example), and tag it to use the ghcr.io registry in our Organization:
 
 ```sh
 podman pull registry.access.redhat.com/ubi8/ubi-minimal:8.5-230
@@ -363,9 +363,9 @@ ghcr.io/rcarrata/ubi-minimal:sha256-c8c13c505681f6e926cfe1cd260fd94c7414a273c528
 
 [Crane](https://github.com/google/go-containerregistry/tree/main/cmd/crane) is a tool for interacting with remote images and registries.
 
-Crane has useful tips and tricks than could be helpful for interacting with remote registries. In this case we are using it to inspect the signature generated by cosign and uploaded into the Registry.
+Crane has useful tips and tricks that could be helpful for interacting with remote registries. In this case we are using it to inspect the signature generated by cosign and uploaded into the Registry.
 
-* Let's first install Crane in our localhost (I'm using Fedora but you can use whenever [installation method]() that it's suitable for you).
+* Let's first install Crane in our localhost (I'm using Fedora but you can use whichever [installation method]() is suitable for you).
 
 * We then use the crane manifest command and pass on the output of the cosign triangulate (that represent the signature location within the Registry):
 
@@ -392,7 +392,7 @@ crane manifest $(cosign triangulate ghcr.io/rcarrata/ubi-minimal:8.5-230) | jq -
 }
 ```
 
-As you can see this command outputs the signature json schema so that we can check the digest and annotations. 
+As you can see, this command outputs the signature JSON schema so that we can check the digest and annotations. 
 
 ## 8. Verify a Container Image against a public key
 
@@ -439,7 +439,7 @@ Two of the useful features of Kyverno that we can implement in our use cases her
 * Verify container images for software supply chain security
 * Inspect image metadata
 
-Focusing in these use cases, the Kyverno **verifyImages** rule uses Cosign to verify container image signatures, attestations and more stored in an OCI registry.
+Focusing on these use cases, the Kyverno **verifyImages** rule uses Cosign to verify container image signatures, attestations and more stored in an OCI registry.
 
 The rule matches an image reference (wildcards are supported) and specifies a public key to be used to verify the signed the image or attestations.
 
@@ -478,20 +478,20 @@ $(cat cosign.pub | sed 's/^/          /')
 EOF
 ```
 
-As you can see, by default,  the validationFailureAction is set to enforced, and the failurePolicy is set to Fail.
+As you can see, by default, the validationFailureAction is set to enforced, and the failurePolicy is set to Fail.
 
 The verifyImages rule from the ClusterPolicy in Kyverno checks all the container image signatures that matches, and as you notice we're using a wildcard * to validate all the tags generated.
 
-We also need to specify our public key inorder to verify the signed image.
+We also need to specify our public key in order to verify the signed image.
 
-* Let's check that we are able to deploy a pod using our signed imaged from our GitHub Registry:
+* Let's check that we are able to deploy a pod using our signed image from our GitHub Registry:
 
 ```sh
 kubectl run myawesomeapp --image=ghcr.io/rcarrata/ubi-minimal:8.5-230
 pod/myawesomeapp created
 ```
 
-* As you can see verifyImage rule in the Kyverno Cluster Policy checks against the public key defined in the step before and everything works ok. 
+* As you can see, the verifyImage rule in the Kyverno Cluster Policy checks against the public key defined in the previous step and everything works ok. 
 
 ```sh
 kubectl get pod
@@ -499,13 +499,13 @@ NAME           READY   STATUS              RESTARTS   AGE
 myawesomeapp   0/1     ContainerCreating   0          2s
 ```
 
-## 10. Testing Kyverno Cluster Policy to ensure that ONLY our signed images can be deploy in K8s/OCP
+## 10. Testing Kyverno Cluster Policy to ensure that ONLY our signed images can be deployed in K8s/OCP
 
-The policy rule check fails if the signature is not found in the OCI registry, or if the image was not signed using the specified key. And because of the validationFailureAction is set to enforce, Kyverno will not allow to deploy the image to the k8s/ocp clusters.
+The policy rule check fails if the signature is not found in the OCI registry, or if the image was not signed using the specified key. And because the validationFailureAction is set to enforce, Kyverno will not allow deploying the image to the k8s/ocp clusters.
 
 Let's see that in action!
 
-* First of all, let's push the same image but with different tag and without signing them with our keypair and cosign tool:
+* First of all, let's push the same image but with a different tag and without signing it with our keypair and cosign tool:
 
 ```sh
 podman pull registry.access.redhat.com/ubi8/ubi-minimal:8.4-212
@@ -528,7 +528,7 @@ check-image:
 
 and voilà!
 
-Kyverno save the day (and our Software Supply Chain as well) by preventing the deployment of the pod using a non signed and verified container image.
+Kyverno saved the day (and our Software Supply Chain as well) by preventing the deployment of the pod using a non-signed and unverified container image.
 
 NOTE: this example uses Kyverno, but other Policy Engines can be used. [compatible with Cosign](https://docs.sigstore.dev/cosign/overview#kubernetes-integrations) such as [OPA](https://github.com/sigstore/cosign-gatekeeper-provider) or [Conaisseur](https://github.com/sse-secure-systems/connaisseur#what-is-connaisseur).
 

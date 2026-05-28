@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How we can limit the external hosts that some or all pods in an OpenShift project can access from within the cluster? How we can configure an Egress Firewall to only allow specific DNS names and deny the rest of the external internet communication?
+How can we limit the external hosts that some or all pods in an OpenShift project can access from within the cluster? How can we configure an Egress Firewall to only allow specific DNS names and deny the rest of the external internet communication?
 
 Let's dig in!
 
@@ -29,19 +29,19 @@ An egress firewall supports the following scenarios:
 
 For example, we can allow one project access to a specified IP range but deny the same access to a different project. Or we can restrict application developers from updating from Python pip mirrors, and force updates to come only from approved sources.
 
-The test on this PoC are executed in a 4.8.17 OpenShift environment.
+The tests in this PoC are executed in a 4.8.17 OpenShift environment.
  
 ## 2. Deploy example apps and initial tests
 
-Let's first deploy a app of example that will be our entry point for our connectivity tests with the Egress Firewall feature.
+Let's first deploy an example app that will be our entry point for our connectivity tests with the Egress Firewall feature.
 
-* First, generate a new project to execute this tests:
+* First, generate a new project to execute these tests:
 
 ```sh
 oc new-project egress-fw-test
 ```
 
-* Deploy the example app based in hello-openshift image:
+* Deploy the example app based on the hello-openshift image:
 
 ```sh
 kubectl run --image=quay.io/openshifttest/hello-openshift:multiarch test-egress
@@ -98,7 +98,7 @@ spec:
       cidrSelector: 0.0.0.0/0
 ```
 
-as you can notice the egress.cidrSelector, allows the access only to the 8.8.8.8 IP and deny the rest of IPs (0.0.0.0/0).
+As you can notice, the egress.cidrSelector allows access only to the 8.8.8.8 IP and denies the rest of the IPs (0.0.0.0/0).
 
 * Apply this Egress Firewall rule in the namespace egress-fw-test
 
@@ -120,7 +120,7 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 rtt min/avg/max/mdev = 8.010/8.489/8.969/0.479 ms
 ```
 
-this works like a charm because the IP 8.8.8.8 it's allowed in our EgressFirewall object definition, and the Egress Firewall allow this communication.
+This works like a charm because the IP 8.8.8.8 is allowed in our EgressFirewall object definition, and the Egress Firewall allows this communication.
 
 * Test ICMP / Ping to Cloudfare DNS IPs:
 
@@ -134,7 +134,7 @@ PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
 command terminated with exit code 1
 ```
 
-as expected this ping to 1.1.1.1 failed because it's denied by the EgressFirewall.
+As expected, this ping to 1.1.1.1 failed because it is denied by the EgressFirewall.
 
 * Test curl to the OpenShift docs webpage:
 
@@ -146,7 +146,7 @@ command terminated with exit code 28
 
 ## 4. Configure the Egress Firewall to one Allow IP CIDR and one DNS Name and deny the rest
 
-Now we will add also a DNS Name (docs.openshift.com) into the set of rules that will allow defined in the Egress Firewall.
+Now we will also add a DNS Name (docs.openshift.com) to the set of allowed rules defined in the Egress Firewall.
 
 * Add a new rule in the egress spec with the dnsName of docs.openshift.com:
 
@@ -231,7 +231,7 @@ PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
 command terminated with exit code 1
 ```
 
-As in the previous example, the rest of the IPs not allowed specifically will be denied by the Deny rule at the botton applying at all hosts.
+As in the previous example, the rest of the IPs not specifically allowed will be denied by the Deny rule at the bottom applying to all hosts.
 
 * Test curl to the OpenShift docs webpage:
 
@@ -241,7 +241,7 @@ curl: (28) Resolving timed out after 2000 milliseconds
 command terminated with exit code 28
 ```
 
-What happened? The curl failed! But we allowed the dnsName in the EgressFirewall, why we can't reach the docs.openshift.com webpage from our pod?
+What happened? The curl failed! But we allowed the dnsName in the EgressFirewall, so why can't we reach the docs.openshift.com webpage from our pod?
 
 Let's check the resolv.conf inside of our pods:
 
@@ -252,17 +252,17 @@ nameserver 172.30.0.10
 options ndots:5
 ```
 
-Seems ok, isn't? Why then the curl is not working properly?
+Seems OK, doesn't it? So why is the curl not working properly?
 
-Well, we in fact allowed the dnsName, but who actually resolves the dns resolution is the Openshift DNS based in the CoreDNS.
+Well, we did in fact allow the dnsName, but the component that actually resolves the DNS query is the OpenShift DNS based on CoreDNS.
 
-When a DNS request is performed inside of Kubernetes/OpenShift, CoreDNS handles this request and tries to resolved in the domains that the search describes, but because have not the proper answer, CoreDNS running within the Openshift-DNS pods, forward the query to the external DNS configured during the installation.  
+When a DNS request is performed inside Kubernetes/OpenShift, CoreDNS handles this request and tries to resolve it in the domains that the search describes, but because it does not have the proper answer, CoreDNS running within the OpenShift-DNS pods forwards the query to the external DNS configured during the installation.
 
 Check the [Deep Dive in DNS in OpenShift for more information](https://rcarrata.com/openshift/dns-deep-dive-in-openshift/).
 
-In our case the rules are allowing only the dnsName, but denying the rest of the IPs, including... the Openshift-DNS / CoreDNS ones!
+In our case the rules are allowing only the dnsName, but denying the rest of the IPs, including... the OpenShift-DNS / CoreDNS ones!
 
-Let's allow the IPs from the Openshift-DNS, but first we need to check which are these IPs.
+Let's allow the IPs from the OpenShift-DNS, but first we need to check what these IPs are.
 
 ```sh
 kubectl get pod -n openshift-dns -o wide | grep dns
@@ -306,7 +306,7 @@ It works!
 
 Using the DNS feature assumes that the nodes and masters are located in a similar location as the DNS entries that are added to the ovn database are generated by the master.
 
-NOTE: use Caution when using DNS names in deny rules. The DNS interceptor will never work flawlessly and could allow access to a denied host if the DNS resolution on the node is different then in the master.
+NOTE: Use caution when using DNS names in deny rules. The DNS interceptor will never work flawlessly and could allow access to a denied host if the DNS resolution on the node is different than on the master.
 
 And that's all for the Egress Firewall with OVN Kubernetes plugin in OpenShift.
 

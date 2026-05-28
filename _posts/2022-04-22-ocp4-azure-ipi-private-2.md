@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-How can we generate Private clusters OpenShift in Azure, secured by Azure Firewall? How can we have a Fine-Grained egress access from our Applications within our OpenShift cluster, controlling and managing all the inbound and outbound traffic? 
+How can we generate private OpenShift clusters in Azure, secured by Azure Firewall? How can we have fine-grained egress access from our applications within our OpenShift cluster, controlling and managing all the inbound and outbound traffic? 
 
 This is the second blog post of the series of OpenShift deployments in Azure. Check the first part in [Deep dive in Private OpenShift 4 clusters deployments in Azure](https://rcarrata.com/openshift/ocp4-azure-ipi-private/).
 
@@ -20,9 +20,9 @@ Let's dig in!
 
 ## 1. Overview
 
-As we checked in the previous blog post, we have several options to deploy our Private OpenShift clusters, depending of their Outbound / User-Defined Routing modes that we want to use.
+As we checked in the previous blog post, we have several options to deploy our private OpenShift clusters, depending on their Outbound / User-Defined Routing modes that we want to use.
 
-We analyzed a couple of this User Defined Routing (UDR), including Azure Load Balancer (default), and also the use of the Proxy Configuration for the OpenShift cluster installations.
+We analyzed a couple of these User Defined Routing (UDR) options, including Azure Load Balancer (default), and also the use of the Proxy Configuration for the OpenShift cluster installations.
 
 Now we're analyzing two of the most complex but flexible and interesting options too:
 
@@ -30,9 +30,9 @@ Now we're analyzing two of the most complex but flexible and interesting options
 
 * Private cluster with network address translation (NAT Gateway)
 
-Both are super useful and try to solve the same issue: manage and control the egress routing traffic from the OCP cluster to Internet, but the point of view of the implementation are quite different.
+Both are super useful and try to solve the same issue: managing and controlling the egress routing traffic from the OCP cluster to the Internet, but from the implementation point of view they are quite different.
 
-In this blog post we will deep dive in the Azure Firewall mode, showing some of the features and security capabilities, that can help us to secure our workloads and OpenShift private clusters. 
+In this blog post we will deep dive into the Azure Firewall mode, showing some of the features and security capabilities that can help us secure our workloads and OpenShift private clusters. 
 
 ## 2. Egress / Outbound Mode with Azure Firewall
 
@@ -40,15 +40,15 @@ Let's start digging a bit deeper!
 
 As we commented, we can use an Azure Firewall to provide outbound Internet routing for the VNet for the OCP cluster installation and usage.
 
-As we mentioned, this solution to securing outbound addresses lies in use of a firewall device that can control outbound traffic based on domain names. Azure Firewall, for example, can restrict outbound HTTP and HTTPS traffic based on the FQDN of the destination. We can also configure your preferred firewall and security rules to allow these required ports and addresses, but in this blog post we will stick with the Azure Firewall managed.
+As we mentioned, this solution to securing outbound addresses lies in the use of a firewall device that can control outbound traffic based on domain names. Azure Firewall, for example, can restrict outbound HTTP and HTTPS traffic based on the FQDN of the destination. We can also configure our preferred firewall and security rules to allow these required ports and addresses, but in this blog post we will stick with the Azure Firewall managed option.
 
-In the following diagram we can view a possible architecture of an Private OpenShift cluster with Azure Firewall for the Outbound / Egress Traffic:
+In the following diagram we can view a possible architecture of a Private OpenShift cluster with Azure Firewall for the Outbound / Egress Traffic:
 
 [![](/images/azurefw0.png "azurefw0.png")]({{site.url}}/images/azurefw0.png)
 
-Let's dig a bit deeper on this architecture, because have a lot of details that it's can be worth it to be explained more carefully.
+Let's dig a bit deeper into this architecture, because it has a lot of details that are worth explaining more carefully.
 
-We can divide this architecture in several parts:
+We can divide this architecture into several parts:
 
 * Azure Hub and Spoke Architecture
 * Azure Firewall
@@ -57,7 +57,7 @@ We can divide this architecture in several parts:
 
 [![](/images/azurefw1.png "azurefw1.png")]({{site.url}}/images/azurefw1.png)
 
-Let's start to dig a bit deeper in all of this Azure resources needed for our architecture.
+Let's start to dig a bit deeper into all of the Azure resources needed for our architecture.
 
 ### 2.1 Azure Hub & Spoke Architecture
 
@@ -75,9 +75,9 @@ NOTE: this diagram is extracted from the MSFT official documentation where this 
 
 [![](/images/azurefw0_3.png "azurefw0_3.png")]({{site.url}}/images/azurefw0_3.png)
 
-The Hub-Spoke topology in Azure is a recommended best practice architecture that have several benefits such as cost savings, overcoming limits and the most important workload isolation.
+The Hub-Spoke topology in Azure is a recommended best practice architecture that has several benefits such as cost savings, overcoming limits, and most importantly, workload isolation.
 
-In our case, we've used the Hub-Spoke architecture because we can control all the outbound traffic (and also inbound), and filter in fine grain which URLs, IPs are white or blacklisted or even filtered by certain origins from our OpenShift cluster.
+In our case, we've used the Hub-Spoke architecture because we can control all the outbound traffic (and also inbound), and filter in a fine-grained manner which URLs and IPs are whitelisted or blacklisted, or even filtered by certain origins from our OpenShift cluster.
 
 That adds much more flexibility to the Private OpenShift cluster deployment, adding more security and control to the ingress/egress traffic that comes from/to our OCP cluster.
 
@@ -91,9 +91,9 @@ It's a fully stateful, firewall as a service with built-in high availability and
 
 We will benefit from this Azure Firewall, that will act as a WAF, filtering and controlling all the traffic that comes from our cluster (or goes into).
 
-Another feature that we can benefit is the URL filtering, blacklisting certain URLs/IP ranges, and also is capable even of act as IDPS and/or adding TLS inspection. Cool isn't?
+Another feature that we can benefit from is the URL filtering, blacklisting certain URLs/IP ranges, and it is also capable of acting as IDPS and/or adding TLS inspection. Cool, isn't it?
 
-The Azure Firewall lives in their own Subnet, defined as Hub in the Hub-Spoke architecture that is detailed in the step before.
+The Azure Firewall lives in its own Subnet, defined as Hub in the Hub-Spoke architecture that is detailed in the previous step.
 
 [![](/images/azurefw0_4.png "azurefw0_4.png")]({{site.url}}/images/azurefw0_4.png)
 
@@ -103,13 +103,13 @@ And on the other hand, imagine that instead of 1 cluster of OpenShift, you will 
 
 ### 2.3 User Define Routing and Azure Firewall
 
-Imagine that we want to deploy our OpenShift cluster, but how the worker and master nodes and the pods within the OpenShift cluster can communicate with Internet? They need to go though the Azure Firewall that controls all the outbound traffic that will be egressing the OpenShift cluster (in one of the Spokes) towards the Hub VPC network where the Azure Firewall is deployed.
+Imagine that we want to deploy our OpenShift cluster, but how can the worker and master nodes and the pods within the OpenShift cluster communicate with the Internet? They need to go through the Azure Firewall that controls all the outbound traffic that will be egressing the OpenShift cluster (in one of the Spokes) towards the Hub VPC network where the Azure Firewall is deployed.
 
-That's called User Define Routing or UDR and it's defined when we install the OpenShift cluster as we described in the first blog post [Deep dive in Private OpenShift 4 clusters deployments in Azure](https://rcarrata.com/openshift/ocp4-azure-ipi-private/).
+That's called User Defined Routing or UDR and it's defined when we install the OpenShift cluster as we described in the first blog post [Deep dive in Private OpenShift 4 clusters deployments in Azure](https://rcarrata.com/openshift/ocp4-azure-ipi-private/).
 
 In Azure the route table already has a default 0.0.0.0/0 to Internet, but without a Public IP to SNAT just adding this route will not provide you egress.
 
-We need to remember that when using an outbound type of UDR, a load balancer public IP address for inbound requests is not created unless a service of type loadbalancer is configured. A public IP address for outbound requests is never created by OpenShift installer if an outbound type of UDR is set, ensuring that no public endpoint it's generated in the VPC of our OpenShift cluster.
+We need to remember that when using an outbound type of UDR, a load balancer public IP address for inbound requests is not created unless a service of type loadbalancer is configured. A public IP address for outbound requests is never created by the OpenShift installer if an outbound type of UDR is set, ensuring that no public endpoint is generated in the VPC of our OpenShift cluster.
 
 In this case, the Outbound type of UDR **requires that there is a Azure route for 0.0.0.0/0 and next hop destination of NVA (Network Virtual Appliance) in the route table**.
 
@@ -117,9 +117,9 @@ For this reason we need to create a [couple of Route Table entries](https://gith
 
 [![](/images/azurefw1_1.png "azurefw1_1.png")]({{site.url}}/images/azurefw1_1.png)
 
-We will need to create to different Azure route table entries for the subnets, one for the control-plane / masters and another for the computes / workers, making an association for the route tables to the subnets added, telling these subnets that will need to use this route table.
+We will need to create two different Azure route table entries for the subnets, one for the control-plane / masters and another for the computes / workers, making an association of the route tables to the subnets added, telling these subnets that they will need to use this route table.
 
-In a nutshell the following diagrams depicts the Azure Route Table that enables the User Defined Routing (UDR) that replaces the Azure Default Route that is present by default in each VPC:
+In a nutshell, the following diagram depicts the Azure Route Table that enables the User Defined Routing (UDR) that replaces the Azure Default Route that is present by default in each VPC:
 
 [![](/images/azurefw3.png "azurefw3.png")]({{site.url}}/images/azurefw3.png)
 
@@ -135,11 +135,11 @@ If you want to expand the information about the Azure networking part, check the
 
 ### 2.4 Setup and configure Azure Firewall security
 
-Now that we have explained the networking specifics about the UDR and the networking egress, let's assume that our traffic it's within the Azure Firewall Subnet.
+Now that we have explained the networking specifics about the UDR and the networking egress, let's assume that our traffic is within the Azure Firewall Subnet.
 
-What's are the specifics of the Azure Firewall?
+What are the specifics of the Azure Firewall?
 
-We used in this architecture an [Azure Firewall Standard](https://docs.microsoft.com/en-us/azure/firewall/features), because offers for this example the capabilities that are enough for this PoC, but if you need more features such as TLS inspection, IDPS, or Url filtering among others, you can select the [Azure Firewall Premium](https://docs.microsoft.com/en-us/azure/firewall/premium-features).
+We used in this architecture an [Azure Firewall Standard](https://docs.microsoft.com/en-us/azure/firewall/features), because it offers the capabilities that are enough for this PoC, but if you need more features such as TLS inspection, IDPS, or URL filtering among others, you can select the [Azure Firewall Premium](https://docs.microsoft.com/en-us/azure/firewall/premium-features).
 
 For deploying the [Azure Firewall in our architecture](https://github.com/rcarrata/ocp4-azure-ipi/blob/main/roles/ocp4-cloud-ipi/tasks/azure-infra-firewall.yml#L66) we need to associate the Public IP, and also select the Firewall subnet where will be deployed, but because we're cool kids we're using Ansible to automate the whole process :D.
 
@@ -153,13 +153,13 @@ Let's configure our Application Rules within the Azure Firewall Policy to define
 
 [![](/images/azurefw2.png "azurefw2.png")]({{site.url}}/images/azurefw2.png)
 
-Some of these are needed for the installation of the OpenShift cluster like quay.io / openshift.com, and also the *azure.com or*microsoftonline.com for performing the API call towards the Azure API (for example by the Machine Config Operator to generate more machines though MachineSets):
+Some of these are needed for the installation of the OpenShift cluster like quay.io / openshift.com, and also the *azure.com or *microsoftonline.com for performing the API calls towards the Azure API (for example by the Machine Config Operator to generate more machines through MachineSets):
 
 [![](/images/azurefw9.png "azurefw9.png")]({{site.url}}/images/azurefw9.png)
 
-But also we allowed others useful sites like the dockerhub, or the Google Services that could be useful for our pods within the Cluster to be reachable.
+But we also allowed other useful sites like Docker Hub, or the Google Services that could be useful for our pods within the cluster to reach.
 
-But all other traffic is denied, because our pod don't need to go to our favorite sports website or ... a hacker website, or to grab some dangerous rootkit or malware, right?
+But all other traffic is denied, because our pods don't need to go to our favorite sports website or a hacker website, or to grab some dangerous rootkit or malware, right?
 
 ### 2.5 Automating deployment of the OpenShift cluster using Azure Firewall as Outbound traffic
 
@@ -169,7 +169,7 @@ First we need to deploy the VPC and Subnets, then the Firewall and the Route Tab
 
 Then we need to deploy our bastion, and finally deploy our cluster of OpenShift using all the Azure resources that we needed as prerequisites.
 
-We need to deploy all of this things, manually? No, let's use Ansible for that!
+Do we need to deploy all of these things manually? No, let's use Ansible for that!
 
 1. Clone the repository where the ocp4 azure ipi demo is stored:
 
@@ -195,7 +195,7 @@ sudo dnf install azure-cli
 az login
 ```
 
-3. Fill and create the Azure Creds for the Service Principal inherit by the Openshift Installer:
+3. Fill and create the Azure Creds for the Service Principal inherited by the OpenShift Installer:
 
 ```sh
 cat ~/.azure/osServicePrincipal.json
@@ -230,7 +230,7 @@ azure_tenant: SECRET
 ocp4_pull_secret: '<<< pull_secret_azure >>>'
 ```
 
-7. For obtain the pull_secret go to [OCP4 Install](https://cloud.redhat.com/openshift/install)
+7. To obtain the pull_secret, go to [OCP4 Install](https://cloud.redhat.com/openshift/install)
 
 8. Generate the .vault-password-file and put the password:
 
@@ -278,7 +278,7 @@ bash-4.4$ curl www.google.com -I
 HTTP/1.1 200 OK
 ```
 
-as we can see the connectivity it's ok.
+As we can see, the connectivity is OK.
 
 * Check the connectivity from the pod to the Red Hat website, also allowed in the Azure Firewall:
 
@@ -314,7 +314,7 @@ bash-4.4$ curl www.wikipedia.com -I
 HTTP/1.1 470 status code 470
 ```
 
-as we can see it's denied, as the reason it's the rule not matched by the Azure Firewall.
+As we can see, it's denied because the rule is not matched by the Azure Firewall.
 
 * Finally we can check another website that is not allowed in the Firewall rules:
 
@@ -331,17 +331,17 @@ curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.bbc.co.uk
 
 ## 3. Connecting to our private cluster from the Internet
 
-Now that we have deploy the cluster, how we can access to the console that it's not exposed neither in the Azure Firewall?
+Now that we have deployed the cluster, how can we access the console that is not exposed through the Azure Firewall?
 
-As we discussed in the previous blog post, there are several options, like having a VPN Gateway, an Express Route or even deploying a VM and use Azure Bastion to connecting from there to the Bastion.
+As we discussed in the previous blog post, there are several options, like having a VPN Gateway, an Express Route, or even deploying a VM and using Azure Bastion to connect from there to the Bastion.
 
-But there is a very simple, cost-effective way to do that, use the Bastion for enable a [Proxy Socks5](https://en.wikipedia.org/wiki/SOCKS) ssh connection.
+But there is a very simple, cost-effective way to do that: use the Bastion to enable a [Proxy Socks5](https://en.wikipedia.org/wiki/SOCKS) SSH connection.
 
 A SOCKS proxy is an SSH encrypted tunnel in which configured applications forward their traffic down, and then, on the server-end, the proxy forwards the traffic to the general Internet.
 
 Unlike a VPN, a SOCKS proxy has to be configured on an app-by-app basis on the client machine, but we can set up apps without any specialty client software as long as the app is capable of using a SOCKS proxy. On the server-side, all you need to configure is SSH.
 
-Let's do try it!
+Let's try it!
 
 * Connect to the bastion using the private key generated
 
@@ -355,15 +355,15 @@ Activate the web console with: systemctl enable --now cockpit.socket
 
 [![](/images/azureipi14.png "azureipi14.png")]({{site.url}}/images/azureipi14.png)
 
-as you can check the SOCKSv5 needs to be enabled, we used here the port 9000.
+As you can see, SOCKSv5 needs to be enabled; we used port 9000 here.
 
 And then the most important check is the "Proxy DNS when using SOCKSv5" option. This option will redirect and resolve all the requests from our browser through the Proxy socks SSH tunnel, reaching the Azure DNS private records, and then resolving our OpenShift Console.
 
-* Now if we use our regular ocp console url in our browser, we will see the OpenShift console without need of setting an expensive VPN or ExpressRoute.
+* Now if we use our regular OCP console URL in our browser, we will see the OpenShift console without the need to set up an expensive VPN or ExpressRoute.
 
 [![](/images/azureipi15.png "azureipi15.png")]({{site.url}}/images/azureipi15.png)
 
-But remember that it's only for testing purpose, once the ssh connection is closed, or if the VM suffers any issue, this method is also unavailable.
+But remember that it's only for testing purposes; once the SSH connection is closed, or if the VM suffers any issue, this method is also unavailable.
 
 So with that we finished the second part of this blog around "Secure your Private OpenShift clusters with Azure Firewall and Hub-Spoke architectures".
 

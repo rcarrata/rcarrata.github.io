@@ -12,7 +12,7 @@ author: rcarrata
 comments: true
 ---
 
-This is a way to configure Ansible Tower 3.2.5 authentication with a idM.
+This is a way to configure Ansible Tower 3.2.5 authentication with an IdM.
 
 * Background:
 
@@ -41,7 +41,7 @@ Admin User: admin
 
 * IdM Configuration:
 
-We are going to create a IdM user/group and configure LDAP Auth in Ansible Tower. I assumed that the idM server is installed and running, otherwise install it following this doc [1]
+We are going to create an IdM user/group and configure LDAP Auth in Ansible Tower. I assume that the IdM server is installed and running; otherwise, install it following this doc [1].
 
 Create IdM user "tower" and group "tower-admins" and add the user to the group
 
@@ -53,7 +53,7 @@ Create IdM user "tower" and group "tower-admins" and add the user to the group
 [root@idm ~]# ipa group-add-member tower_users --users=tower
 ```
 
-Once the user/group is created, we are going to look for the new user and check if it belongs to the tower admins group or not
+Once the user/group is created, we are going to look for the new user and check if it belongs to the tower admins group or not:
 
 ```
 [root@idm ~]# ldapsearch -p 389 -h idm.local.net -D "uid=admin,cn=users,cn=accounts,dc=local,dc=net" -w pass -b "dc=local,dc=net" -s sub "(objectclass=*)"
@@ -166,7 +166,7 @@ result: 0 Success
 
 * Ansible Tower Configuration:
 
-We are going to configure LDAP settings via tower-cli command as follows
+We are going to configure LDAP settings via the tower-cli command as follows:
 
 ```
 [root@tower]# tower-cli setting modify AUTH_LDAP_SERVER_URI ldap://idm.local.net
@@ -190,7 +190,7 @@ We are going to configure LDAP settings via tower-cli command as follows
 [root@tower]# tower-cli setting modify AUTH_LDAP_USER_ATTR_MAP "{u'first_name': u'givenName', u'last_name': u'sn', u'email': u'mail'}"
 ```
 
-Once configured check it via tower-cli command line or WebUI
+Once configured, check it via the tower-cli command line or WebUI:
 
 ```
 [root@ansible-tower]# tower-cli setting list -f human | grep AUTH_LDAP
@@ -215,9 +215,9 @@ AUTH_LDAP_TEAM_MAP {}
 ```
 
 
-And after that, we chech it in Ansible Tower Web UI > settings > Configure Tower > SUB CATEGORY > LDAP
+After that, we check it in Ansible Tower Web UI > Settings > Configure Tower > SUB CATEGORY > LDAP.
 
-Configure LOG DEBUG LEVEL in /etc/tower/conf.d/ldap.py config file
+Configure the LOG DEBUG LEVEL in the /etc/tower/conf.d/ldap.py config file:
 
 ```
 [root@ansible-tower]#  less /etc/tower/conf.d/ldap.py
@@ -225,7 +225,7 @@ Configure LOG DEBUG LEVEL in /etc/tower/conf.d/ldap.py config file
 LOGGING['handlers']['tower_warnings']['level'] = 'DEBUG'
 ```
 
-And finally try to login with "tower" user via WebUI and at the same time check /var/log/tower/tower.log log file, as an example:
+Finally, try to log in with the "tower" user via the WebUI and at the same time check the /var/log/tower/tower.log log file. As an example:
 
 ```
 # tailf /var/log/tower/tower.log

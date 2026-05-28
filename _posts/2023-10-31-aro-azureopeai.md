@@ -50,7 +50,7 @@ A highly effective approach for showcasing your machine learning model, API, or 
 
 [Gradio](https://www.gradio.app/), a Python library, offers a streamlined solution for constructing such demos and facilitating easy sharing. In many cases, achieving this only requires a concise snippet of code.
 
-If you want to take a look of other Gradio Apps, check my Blog Post around [Deploying and Testing Machine Learning Applications in Kubernetes with Gradio](https://rcarrata.com/ai/gradio-k8s/)!
+If you want to take a look at other Gradio Apps, check my blog post about [Deploying and Testing Machine Learning Applications in Kubernetes with Gradio](https://rcarrata.com/ai/gradio-k8s/)!
 
 ### 2.3 LangChain
 
@@ -70,11 +70,11 @@ In essence, LangChain streamlines the development process, offering a flexible a
 
 ### 2.4 Azure Red Hat OpenShift 
 
-The Microsoft Azure Red Hat OpenShift service enables to deploy fully managed OpenShift clusters.
+The Microsoft Azure Red Hat OpenShift service enables you to deploy fully managed OpenShift clusters.
 
 Azure Red Hat OpenShift is jointly engineered, operated, and supported by Red Hat and Microsoft to provide an integrated support experience. There are no virtual machines to operate, and no patching is required. Master, infrastructure, and application nodes are patched, updated, and monitored on your behalf by Red Hat and Microsoft. Your Azure Red Hat OpenShift clusters are deployed into your Azure subscription and are included on your Azure bill.
 
-When you deploy Azure Red Hat on OpenShift 4, the entire cluster is contained within a virtual network. Within this virtual network, your master nodes and workers nodes each live in their own subnet. Each subnet uses an internal load balancer and a public load balancer.
+When you deploy Azure Red Hat OpenShift 4, the entire cluster is contained within a virtual network. Within this virtual network, your master nodes and worker nodes each live in their own subnet. Each subnet uses an internal load balancer and a public load balancer.
 
 ## 3. ARO AI ChatBot with Azure OpenAI: Demo Analysis
 

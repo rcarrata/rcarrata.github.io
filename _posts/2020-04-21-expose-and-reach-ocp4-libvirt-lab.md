@@ -1,6 +1,6 @@
 ---
 layout: single
-title: Making accesible from our laptop an OpenShift 4 UPI Libvirt/KVM Lab
+title: Making an OpenShift 4 UPI Libvirt/KVM Lab Accessible from Our Laptop
 date: 2020-04-21
 type: post
 published: true
@@ -13,24 +13,24 @@ comments: true
 ---
 
 
-How to expose certain ports of our VMs, to for example expose our Load Balancer port balancing
-itself the port of the API of OpenShift4? How to access to the DNS configured in our helper node
-and not reachable from outside?
+How to expose certain ports of our VMs — for example, exposing our Load Balancer port that balances
+the API port of OpenShift 4? How to access the DNS configured in our helper node
+that is not reachable from outside?
 
 Let's start with the always fancy world of iptables / linux routing!
 
 ### Overview
 
-For deploy OpenShift 4 with UPI in Baremetal we will use our small lab and KVM and libvirt for
-manage the networking, storage, and the own VMs (the process is out of scope of this article).
+To deploy OpenShift 4 with UPI on bare metal, we will use our small lab with KVM and libvirt to
+manage the networking, storage, and the VMs themselves (the process is out of scope of this article).
 
-Due to the not possibility in Baremetal (and due to is a lab), we need to have available a
-DNS (bind), LB (haproxy), and several utils more to provide the enough requirements and tools for
-the correct work of our OpenShift cluster. This is usually installed (in lab only, NOT use in prod
-:D), in a helper node with a well known and fixed IP.
+Due to the limitations of bare metal (and because this is a lab), we need to have a
+DNS (bind), LB (haproxy), and several other utilities available to provide the necessary requirements and tools for
+our OpenShift cluster to work correctly. These are usually installed (in a lab only, NOT in prod
+:D) on a helper node with a well-known and fixed IP.
 
-Once is installed, we can access inside of this VM of helper, to the OpenShift cluster... but how
-about access from anywhere, and not restrained inside of the helper VM?
+Once installed, we can access the OpenShift cluster from inside this helper VM... but how
+about accessing it from anywhere, without being restricted to the helper VM?
 
 For doing this, we will play with iptables, linux routing, dnsmasq and some tricks :D
 
@@ -38,8 +38,8 @@ Let's dig in!
 
 ### Scenario: Lab analysis
 
-As always, we need to have our cluster installed and up && running, remember that all are VMs
-running with libvirt inside of the hipervisor, in a nat network:
+As always, we need to have our cluster installed and up and running. Remember that all are VMs
+running with libvirt inside the hypervisor, in a NAT network:
 
 ```
 [root@hypervisor ~]# virsh list
@@ -54,7 +54,7 @@ running with libvirt inside of the hipervisor, in a nat network:
  16   ocp4-aHelper   running
 ```
 
-The network libvirt is used with a nat and with in my case the net ip address of 192.167.7.0/24:
+The libvirt network is configured with NAT and in my case the network IP address of 192.168.7.0/24:
 
 ```
 [root@hypervisor ~]# virsh net-dumpxml openshift4 | grep -E 'forward|ip'
@@ -64,7 +64,7 @@ The network libvirt is used with a nat and with in my case the net ip address of
   </ip>
 ```
 
-The helper node have the ip address of 192.168.7.77 (within the nat ip addresses described before):
+The helper node has the IP address of 192.168.7.77 (within the NAT IP addresses described before):
 
 ```
 # ssh 192.168.7.77
@@ -74,7 +74,7 @@ Last login: Mon Apr 20 09:48:53 2020 from 192.168.7.1
 
 ### Prerequisites
 
-For doing this lab, and access to our cluster from outside we need to have installed some prereqs.
+For this lab, and to access our cluster from outside, we need to have some prerequisites installed.
 
 In the hypervisor remove firewalld and install iptables-service:
 
@@ -85,7 +85,7 @@ In the hypervisor remove firewalld and install iptables-service:
 ```
 
 Backup the original iptables, flush the current ones, and save them into the /etc/sysconfig/iptables,
-for make it permanently.
+to make them permanent.
 
 ```
 [root@hypervisor ~]# cp -p /etc/sysconfig/iptables /etc/sysconfig/iptables.bak
@@ -96,7 +96,7 @@ for make it permanently.
 
 ### Enable IP Packet Forwarding
 
-By default any modern Linux distributions will have IP Forwarding disabled. To enable IP packet forwarding enable it into the /etc/sysctl.conf:
+By default, any modern Linux distribution will have IP Forwarding disabled. To enable IP packet forwarding, enable it in /etc/sysctl.conf:
 
 ```
 echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
@@ -110,20 +110,20 @@ Enable and verify your settings:
 
 ### Rules for access from our VMs to Internet (Masquerade / SNAT)
 
-For giving access to the internet into our VMs, libvirt is configuring automatically an SNAT/MASQUERADE:
+To give our VMs access to the internet, libvirt automatically configures an SNAT/MASQUERADE:
 
 * SNAT (Change of Source Ip Direction - Source NAT): the public IP that is doing the substitution to the Source IP
   is static
-* IP MASQUERADE: Dir public IP that is doing the substitution to the source is dinamic.
+* IP MASQUERADE: the public IP that is doing the substitution to the source is dynamic.
 
-To manual configuration, use the iptables with postrouting and masquerade options:
+For manual configuration, use iptables with the postrouting and masquerade options:
 
 ```
 [root@hypervisor ~]# iptables -t nat -A POSTROUTING -s 192.168.7.0/24 -o eno1 -j MASQUERADE
 ```
 
 NOTE: because of the own nature of the SNAT, the NAT will change the source IP, but this is
-performed just BEFORE to send the packet to Internet, so need to be defined into the POSTROUTING
+performed just BEFORE sending the packet to the Internet, so it needs to be defined in the POSTROUTING
 chain
 
 ```
@@ -133,10 +133,10 @@ target     prot opt source               destination
 MASQUERADE  all  --  192.168.7.0/24       0.0.0.0/0
 ```
 
-NOTE: We only are interested in the nat table and we can filter also by POSTROUTING, due to in this
+NOTE: We are only interested in the nat table and we can also filter by POSTROUTING, since in this
 step the POSTROUTING chains will be configured.
 
-Inside of the VM check that we have access to outside:
+Inside the VM, check that we have access to the outside:
 
 ```
 [root@helper ~]# ping -c1 www.bbc.co.uk
@@ -150,22 +150,22 @@ rtt min/avg/max/mdev = 81.242/81.242/81.242/0.000 ms
 
 ### Rules to port forwarding and reach our OCP cluster from our laptop (DNAT)
 
-In this case, for expose our ports through our hipervisor and reach them from the outside. This is
-very useful for example, in the case that our laptop only reaches the hipervisor, but not the VM directly
-because is in a NAT libvirt network.
+In this case, we want to expose our ports through our hypervisor and reach them from the outside. This is
+very useful, for example, when our laptop can only reach the hypervisor but not the VM directly
+because it is in a NAT libvirt network.
 
-For doing this, we can use iptables with DNAT rules or Destination NAT Rules (can be also
-be understanding as Port Forwarding). The Destination NAT, will be originated outside of our VM, and
-will have modified the Destination IP address during the connection.
+To do this, we can use iptables with DNAT rules or Destination NAT Rules (which can also
+be understood as Port Forwarding). The Destination NAT will originate outside of our VM and
+will modify the Destination IP address during the connection.
 
-For implement this DNAT we will use iptables and the PREROUTING table. In this case, we want to
-forward the port of the dns (53), to be reachable from outside of the VM (and furthermore outside of
-the hipervisor).
+To implement this DNAT we will use iptables and the PREROUTING table. In this case, we want to
+forward the DNS port (53), to be reachable from outside the VM (and furthermore outside
+the hypervisor).
 
 The example of the iptables command is:
 
 ```
-iptables -t nat -A PREROUTING -p <tcp/udp> --dport <dest_port> -i <hipervisor_internet_iface> -j DNAT --to <VM_Dest_IP>
+iptables -t nat -A PREROUTING -p <tcp/udp> --dport <dest_port> -i <hypervisor_internet_iface> -j DNAT --to <VM_Dest_IP>
 ```
 
 ```
@@ -174,7 +174,7 @@ iptables -t nat -A PREROUTING -p <tcp/udp> --dport <dest_port> -i <hipervisor_in
 ```
 
 NOTE: In this case we are using the PREROUTING, because we need to modify the incoming packets
-BEFORE to take an routing decision. Also the DNAT needs to be specified in this case.
+BEFORE taking a routing decision. Also, the DNAT needs to be specified in this case.
 
 Also, we need to implement the DNAT, forwarding the port 6443 and 443 that is used in this case by the
 Haproxy for load balancing our OCP4 Api and Apps routers:
@@ -216,7 +216,7 @@ Escape character is '^]'.
 
 It works!
 
-Save the iptables permanently into the iptables file and restart for ensure that are applied:
+Save the iptables permanently into the iptables file and restart to ensure they are applied:
 
 ```
 [root@hypervisor ~]# iptables-save > /etc/sysconfig/iptables
@@ -251,7 +251,7 @@ address=/api.<domain_ocp4_cluster>/$SERVER_IP
 EOF
 ```
 
-In our case, we substitute for the Hypervisor IP that is capable now to port forward to the VM of the helper,
+In our case, we substitute the Hypervisor IP that is now capable of port forwarding to the helper VM,
 and through the haproxy to the cluster of OpenShift4 in our VMs:
 
 ```
@@ -265,7 +265,7 @@ $ sudo cp external-ocp4.conf /etc/NetworkManager/dnsmasq.d/external-ocp4.conf
 $ sudo systemctl reload NetworkManager
 ```
 
-Finally check that is possible to reach the OCP Api from our laptop:
+Finally, check that it is possible to reach the OCP API from our laptop:
 
 ```
 [rcarrata@laptop ~]$ oc login https://api.ocp4.rglab.com:6443
