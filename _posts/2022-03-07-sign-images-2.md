@@ -16,7 +16,7 @@ How can we Sign and Verify container images within the CICD Pipelines, adding Se
 
 This is the second blog post about Signing and Verifying container images to improve security in CICD pipelines, using Sigstore, Kyverno and Tekton pipelines among others.
 
-Check the first part in [Signing and Verifying Images to Secure CICD pipelines using Sigstore and Kyverno - Part I](https://rcarrata.com/kubernetes/sign-images-1/).
+Check the first part in [Signing and Verifying Images to Secure CICD pipelines using Sigstore and Kyverno - Part I](https://rcarrata.github.io/kubernetes/sign-images-1/).
 
 Let's dig in!
 
@@ -64,7 +64,7 @@ C. **Sign Images** - That's the interesting part that we want to deep dive a bit
 
 [![](/images/signing4.png "signing4.png")]({{site.url}}/images/signing4.png)
 
-As we can remember from the [previous part](https://rcarrata.com/kubernetes/sign-images-1/) of this blog post series, Cosign supports container signing, verification and storage in an OCI registry, and in a nutshell is a tool that greatly simplifies how content is signed and verified by storing signatures from container images and other types in OCI registries.
+As we can remember from the [previous part](https://rcarrata.github.io/kubernetes/sign-images-1/) of this blog post series, Cosign supports container signing, verification and storage in an OCI registry, and in a nutshell is a tool that greatly simplifies how content is signed and verified by storing signatures from container images and other types in OCI registries.
 
 Cosign stores it in a Kubernetes secret using the current context. The secret contains the private and public keys, as well as the password to decrypt the private key.
 

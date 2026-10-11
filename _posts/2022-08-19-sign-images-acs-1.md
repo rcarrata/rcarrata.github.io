@@ -18,8 +18,8 @@ This is the third blog post of the series of Secure CICD pipelines using Sigstor
 
 Check the earlier posts in:
 
-* [I - Signing and Verifying Images to Secure CICD pipelines using Sigstore and Kyverno](https://rcarrata.com/kubernetes/sign-images-1/)
-* [II - Signing and Verifying Images to Secure CICD pipelines using Sigstore and Kyverno - (Part II)](https://rcarrata.com/kubernetes/sign-images-2/)
+* [I - Signing and Verifying Images to Secure CICD pipelines using Sigstore and Kyverno](https://rcarrata.github.io/kubernetes/sign-images-1/)
+* [II - Signing and Verifying Images to Secure CICD pipelines using Sigstore and Kyverno - (Part II)](https://rcarrata.github.io/kubernetes/sign-images-2/)
 
 Let's dig in!
 

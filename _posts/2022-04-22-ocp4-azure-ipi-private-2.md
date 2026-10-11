@@ -14,7 +14,7 @@ comments: true
 
 How can we generate private OpenShift clusters in Azure, secured by Azure Firewall? How can we have fine-grained egress access from our applications within our OpenShift cluster, controlling and managing all the inbound and outbound traffic? 
 
-This is the second blog post of the series of OpenShift deployments in Azure. Check the first part in [Deep dive in Private OpenShift 4 clusters deployments in Azure](https://rcarrata.com/openshift/ocp4-azure-ipi-private/).
+This is the second blog post of the series of OpenShift deployments in Azure. Check the first part in [Deep dive in Private OpenShift 4 clusters deployments in Azure](https://rcarrata.github.io/openshift/ocp4-azure-ipi-private/).
 
 Let's dig in!
 
@@ -105,7 +105,7 @@ And on the other hand, imagine that instead of 1 cluster of OpenShift, you will 
 
 Imagine that we want to deploy our OpenShift cluster, but how can the worker and master nodes and the pods within the OpenShift cluster communicate with the Internet? They need to go through the Azure Firewall that controls all the outbound traffic that will be egressing the OpenShift cluster (in one of the Spokes) towards the Hub VPC network where the Azure Firewall is deployed.
 
-That's called User Defined Routing or UDR and it's defined when we install the OpenShift cluster as we described in the first blog post [Deep dive in Private OpenShift 4 clusters deployments in Azure](https://rcarrata.com/openshift/ocp4-azure-ipi-private/).
+That's called User Defined Routing or UDR and it's defined when we install the OpenShift cluster as we described in the first blog post [Deep dive in Private OpenShift 4 clusters deployments in Azure](https://rcarrata.github.io/openshift/ocp4-azure-ipi-private/).
 
 In Azure the route table already has a default 0.0.0.0/0 to Internet, but without a Public IP to SNAT just adding this route will not provide you egress.
 

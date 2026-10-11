@@ -16,7 +16,7 @@ comments: true
 
 What steps can we take to establish trust in our Software Supply Chain and ensure that our software can be traced back to its origin without malicious code or dependencies being introduced? Moreover, how can we integrate Open Source tools to enhance the security of our Software Supply Chain’s lifecycle?
 
-As we explained in our [first blog post](https://rcarrata.com/kubernetes/security/supply-chain-1/), software supply chain is the series of steps performed when writing, testing, packaging, and distributing application software to end consumers.
+As we explained in our [first blog post](https://rcarrata.github.io/kubernetes/security/supply-chain-1/), software supply chain is the series of steps performed when writing, testing, packaging, and distributing application software to end consumers.
 
 Establishing trust in the software supply chain has become essential to ensuring the security and reliability of software components. With the majority of software being open-source and the growing demand for supply chain management, it’s crucial to have robust processes to prevent malicious code or dependencies from being introduced; integrating open-source tools can enhance the software supply chain’s lifecycle security. 
 

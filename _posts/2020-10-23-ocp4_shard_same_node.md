@@ -26,7 +26,7 @@ In this example, an OpenShift 4.5 UPI on top of OpenStack is used (same as the p
 
 ### Why can't I run two Route Sharding in the same node?
 
-As we checked in the previous blog post about the [Deep Dive of OpenShift 4 Routers in On-Premise Deployments](https://rcarrata.com/openshift/ocp4_upi_routers/) the routers in an installation non-cloud are a bit different. That is because the object of Kubernetes [Loadbalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) is not available, and the OpenShift Routers are deployed with a Service ClusterIP and with the endpointPublishingStrategy of **HostNetwork: true**.
+As we checked in the previous blog post about the [Deep Dive of OpenShift 4 Routers in On-Premise Deployments](https://rcarrata.github.io/openshift/ocp4_upi_routers/) the routers in an installation non-cloud are a bit different. That is because the object of Kubernetes [Loadbalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) is not available, and the OpenShift Routers are deployed with a Service ClusterIP and with the endpointPublishingStrategy of **HostNetwork: true**.
 
 This is because HostNetwork allows the OpenShift Router Pods to directly see the network
 interfaces of the host machine (OpenShift Node) where the pod is started and exposes the ports of

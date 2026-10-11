@@ -50,7 +50,7 @@ A highly effective approach for showcasing your machine learning model, API, or 
 
 [Gradio](https://www.gradio.app/), a Python library, offers a streamlined solution for constructing such demos and facilitating easy sharing. In many cases, achieving this only requires a concise snippet of code.
 
-If you want to take a look at other Gradio Apps, check my blog post about [Deploying and Testing Machine Learning Applications in Kubernetes with Gradio](https://rcarrata.com/ai/gradio-k8s/)!
+If you want to take a look at other Gradio Apps, check my blog post about [Deploying and Testing Machine Learning Applications in Kubernetes with Gradio](https://rcarrata.github.io/ai/gradio-k8s/)!
 
 ### 2.3 LangChain
 

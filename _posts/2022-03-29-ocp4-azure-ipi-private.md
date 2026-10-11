@@ -396,7 +396,7 @@ curl: try 'curl --help' or 'curl --manual' for more information
 * Curl with the -m without the proxy enabled
 
 ```
-[root@debug-pod /]# curl https://rcarrata.com -I -m 3
+[root@debug-pod /]# curl https://rcarrata.github.io -I -m 3
 curl: (7) Failed connect to rcarrata.com:443; Operation now in progress
 ```
 
@@ -410,7 +410,7 @@ curl: (7) Failed connect to rcarrata.com:443; Operation now in progress
 * Check that the connectivity is running ok
 
 ```
-[root@debug-pod /]# curl https://rcarrata.com -I -m 3
+[root@debug-pod /]# curl https://rcarrata.github.io -I -m 3
 HTTP/1.1 200 Connection established
 HTTP/1.1 200 OK
 ```

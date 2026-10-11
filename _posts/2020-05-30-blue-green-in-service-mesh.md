@@ -18,10 +18,10 @@ do we change the balancing of our requests in an easy and quick way?
 Let's Mesh in!!
 
 This is the fifth blog post of the Service Mesh in OpenShift series. Check the earlier posts in:
-* [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
-* [II - Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
-* [III - Including microservices in Service Mesh](https://rcarrata.com/istio/adding-microservices-within-mesh/)
-* [IV - Ingress Routing & Traffic Management in Service Mesh](https://rcarrata.com/istio/ingress-routing-service-mesh/)
+* [I - Service Mesh Installation](https://rcarrata.github.io/istio/service-mesh-installation/)
+* [II - Microservices deployment in Service Mesh](https://rcarrata.github.io/istio/microservices-deployment-in-service-mesh/)
+* [III - Including microservices in Service Mesh](https://rcarrata.github.io/istio/adding-microservices-within-mesh/)
+* [IV - Ingress Routing & Traffic Management in Service Mesh](https://rcarrata.github.io/istio/ingress-routing-service-mesh/)
 
 ## Overview
 
@@ -198,7 +198,7 @@ And after that we can check in Kiali that the traffic is balanced at approximate
 
 So, now you can play with your weights and configure different behaviors to control the routing between different versions of your application.
 
-Check out the part six of this blog series in [Canary deployments in Service Mesh](https://rcarrata.com/istio/canary-in-service-mesh/)
+Check out the part six of this blog series in [Canary deployments in Service Mesh](https://rcarrata.github.io/istio/canary-in-service-mesh/)
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

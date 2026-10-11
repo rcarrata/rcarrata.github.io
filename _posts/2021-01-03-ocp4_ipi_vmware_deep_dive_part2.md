@@ -15,7 +15,7 @@ comments: true
 This is the second blog post of the Load Balancing and DNS with OpenShift IPI series.
 
 Check the earlier posts:
-* [Part I - Load Balancing and DNS with OpenShift IPI](https://rcarrata.com/openshift/ocp4_ipi_vmware_deep_dive/)
+* [Part I - Load Balancing and DNS with OpenShift IPI](https://rcarrata.github.io/openshift/ocp4_ipi_vmware_deep_dive/)
 
 ### 5. Load Balancer in OpenShift IPI
 
@@ -281,6 +281,6 @@ Finally we will analyze a diagram of how the API Load Balancer works in OpenShif
 
 And that's it for this blog post! 
 
-Check out the [second part of this blog post series](https://rcarrata.com/openshift/ocp4_ipi_vmware_deep_dive_part2/), where we will analyze how is the load balancing for the Ingress (.apps) for OpenShift IPI.
+Check out the [second part of this blog post series](https://rcarrata.github.io/openshift/ocp4_ipi_vmware_deep_dive_part2/), where we will analyze how is the load balancing for the Ingress (.apps) for OpenShift IPI.
 
 <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="rcarrata" data-color="#FFDD00" data-emoji=""  data-font="Cookie" data-text="Buy me a coffee :)" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>

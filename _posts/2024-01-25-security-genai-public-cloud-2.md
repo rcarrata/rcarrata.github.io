@@ -19,7 +19,7 @@ Why embrace Generative AI in Vulnerability Assessment, Threat Intelligence, Secu
 
 This is the second blog post about how to use Generative AI for Securing Cloud Infrastructures, exploring advanced techniques and innovative solutions to fortify cloud security.
 
-Check the first part in [How to Use Generative AI for Securing Cloud Infrastructures - Part I](https://rcarrata.com/ai/security-genai-public-cloud/).
+Check the first part in [How to Use Generative AI for Securing Cloud Infrastructures - Part I](https://rcarrata.github.io/ai/security-genai-public-cloud/).
 
 Let's continue to deep dive into the rest of the areas where Generative AI secures cloud infrastructure!
 

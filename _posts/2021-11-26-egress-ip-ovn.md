@@ -19,7 +19,7 @@ Let's dig in!
 This is the second blog post of Egress IP in OpenShift 4.
 
 Check the earlier posts:
-* [Part I - Deep Dive of Egress IP in OpenShift 4 with OpenShift SDN CNI](https://rcarrata.com/openshift/egress_ip/)
+* [Part I - Deep Dive of Egress IP in OpenShift 4 with OpenShift SDN CNI](https://rcarrata.github.io/openshift/egress_ip/)
 
 ## 1. Overview
 

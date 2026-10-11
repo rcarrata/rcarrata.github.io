@@ -19,11 +19,11 @@ Let's Mesh in!!
 
 This is the sixth blog post of the Service Mesh in OpenShift series. Check the earlier posts in:
 
-* [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
-* [II - Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
-* [III - Including microservices in Service Mesh](https://rcarrata.com/istio/adding-microservices-within-mesh/)
-* [IV - Ingress Routing & Traffic Management in Service Mesh](https://rcarrata.com/istio/ingress-routing-service-mesh/)
-* [V - Blue Green Deployments in Service Mesh](https://rcarrata.com/istio/blue-green-in-service-mesh/)
+* [I - Service Mesh Installation](https://rcarrata.github.io/istio/service-mesh-installation/)
+* [II - Microservices deployment in Service Mesh](https://rcarrata.github.io/istio/microservices-deployment-in-service-mesh/)
+* [III - Including microservices in Service Mesh](https://rcarrata.github.io/istio/adding-microservices-within-mesh/)
+* [IV - Ingress Routing & Traffic Management in Service Mesh](https://rcarrata.github.io/istio/ingress-routing-service-mesh/)
+* [V - Blue Green Deployments in Service Mesh](https://rcarrata.github.io/istio/blue-green-in-service-mesh/)
 
 ## Overview
 
@@ -400,7 +400,7 @@ As we can see in Kiali (if we execute more curls with the Mobile headers), the r
 
 And that's all for this blog post!
 
-Check out the part seven of this blog series in [Traffic Mirroring in Service Mesh](https://rcarrata.com/istio/traffic-mirroring-in-service-mesh/)
+Check out the part seven of this blog series in [Traffic Mirroring in Service Mesh](https://rcarrata.github.io/istio/traffic-mirroring-in-service-mesh/)
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

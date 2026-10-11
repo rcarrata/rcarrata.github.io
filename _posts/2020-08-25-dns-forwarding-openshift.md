@@ -28,7 +28,7 @@ NOTE: This blog post is valid from OpenShift 4.3+, and it's tested with a 4.4.3 
 
 ### DNS Operator in OpenShift 4
 
-As we described in my [DNS Deep Dive in OpenShift](https://rcarrata.com/openshift/dns-deep-dive-in-openshift/) blog post, in OpenShift 4, the DNS Operator deploys and manages CoreDNS to provide a name resolution service to pods, enabling DNS-based Kubernetes Service discovery in OpenShift.
+As we described in my [DNS Deep Dive in OpenShift](https://rcarrata.github.io/openshift/dns-deep-dive-in-openshift/) blog post, in OpenShift 4, the DNS Operator deploys and manages CoreDNS to provide a name resolution service to pods, enabling DNS-based Kubernetes Service discovery in OpenShift.
 
 Furthermore, we investigated that the Corefile of CoreDNS, managed by the DNS Operator, configures the CoreDNS forwarding plugin that defines which queries not resolved within the cluster are handled by the predefined resolvers.
 

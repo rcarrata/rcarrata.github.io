@@ -22,7 +22,7 @@ title_separator: "-"
 subtitle: # site tagline that appears below site title in masthead
 name: "Roberto Carratalá"
 description: "Rcarrata's Blog"
-url: https://rcarrata.com
+url: https://rcarrata.github.io
 baseurl: # the subpath of your site, e.g. "/blog"
 repository: rcarrata
 teaser: "./images/photo3.jpg" # path of fallback teaser image, e.g. "/assets/images/500x300.png"

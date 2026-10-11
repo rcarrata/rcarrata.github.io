@@ -18,9 +18,9 @@ differences between OpenShift Routes and Ingress routing in Service Mesh?
 Let's Mesh in!!
 
 This is the fourth blog post of the Service Mesh in OpenShift series. Check the earlier post:
-* [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
-* [II - Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
-* [III - Including microservices in Service Mesh](https://rcarrata.com/istio/adding-microservices-within-mesh/)
+* [I - Service Mesh Installation](https://rcarrata.github.io/istio/service-mesh-installation/)
+* [II - Microservices deployment in Service Mesh](https://rcarrata.github.io/istio/microservices-deployment-in-service-mesh/)
+* [III - Including microservices in Service Mesh](https://rcarrata.github.io/istio/adding-microservices-within-mesh/)
 
 ## Overview
 
@@ -464,7 +464,7 @@ customer               customer-istio-tutorial-istio-system.apps.ocp4.rglab.com 
 partner                partner-istio-tutorial-istio-system.apps.ocp4.rglab.com           istio-ingressgateway   http2                        None
 ```
 
-Check out the part five of this blog series in [Blue Green deployments in Service Mesh](https://rcarrata.com/istio/blue-green-in-service-mesh/)
+Check out the part five of this blog series in [Blue Green deployments in Service Mesh](https://rcarrata.github.io/istio/blue-green-in-service-mesh/)
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

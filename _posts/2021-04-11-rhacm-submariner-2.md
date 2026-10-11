@@ -14,7 +14,7 @@ comments: true
 
 How can I deploy my applications in multiclustering environments and connect my microservices across the different clusters using the SDN and overlay networks?
 
-This is the second blog post about Submariner and RHACM and it's based on the [Installation and configuration of Submariner within RHACM](https://rcarrata.com/openshift/rhacm-submariner/) blog post. So if you didn't check it, go ahead and take a look! :)
+This is the second blog post about Submariner and RHACM and it's based on the [Installation and configuration of Submariner within RHACM](https://rcarrata.github.io/openshift/rhacm-submariner/) blog post. So if you didn't check it, go ahead and take a look! :)
 
 ### Overview
 

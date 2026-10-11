@@ -270,7 +270,7 @@ of the smmr.
 
 Check the [Service Mesh Installation in OpenShift4](https://docs.openshift.com/container-platform/4.3/service_mesh/service_mesh_install/installing-ossm.html#ossm-operatorhub-install_installing-ossm) of the official documentation of OpenShift for more information.
 
-Check out the part two of this blog series in [Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
+Check out the part two of this blog series in [Microservices deployment in Service Mesh](https://rcarrata.github.io/istio/microservices-deployment-in-service-mesh/)
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

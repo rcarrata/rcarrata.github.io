@@ -18,7 +18,7 @@ istiofy them? And what are the main components involved?
 Let's Mesh in!!
 
 This is the second blog post of the Service Mesh in OpenShift series. Check the earlier post:
-* [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
+* [I - Service Mesh Installation](https://rcarrata.github.io/istio/service-mesh-installation/)
 
 ## Overview
 
@@ -207,7 +207,7 @@ For more information refer to the [Configuring Members](https://maistra.io/docs/
 
 And that's it! Hope that helps!
 
-Check out the part three of this blog series in [Including microservices in ServiceMesh](https://rcarrata.com/istio/adding-microservices-within-mesh/)
+Check out the part three of this blog series in [Including microservices in ServiceMesh](https://rcarrata.github.io/istio/adding-microservices-within-mesh/)
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

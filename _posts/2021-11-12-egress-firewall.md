@@ -258,7 +258,7 @@ Well, we did in fact allow the dnsName, but the component that actually resolves
 
 When a DNS request is performed inside Kubernetes/OpenShift, CoreDNS handles this request and tries to resolve it in the domains that the search describes, but because it does not have the proper answer, CoreDNS running within the OpenShift-DNS pods forwards the query to the external DNS configured during the installation.
 
-Check the [Deep Dive in DNS in OpenShift for more information](https://rcarrata.com/openshift/dns-deep-dive-in-openshift/).
+Check the [Deep Dive in DNS in OpenShift for more information](https://rcarrata.github.io/openshift/dns-deep-dive-in-openshift/).
 
 In our case the rules are allowing only the dnsName, but denying the rest of the IPs, including... the OpenShift-DNS / CoreDNS ones!
 

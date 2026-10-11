@@ -366,7 +366,7 @@ NAME       HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE     LA
 aws-sub2   true                                  True     True        4h13m   cloud=Amazon,cluster.open-cluster-management.io/clusterset=submariner,cluster.open-cluster-management.io/submariner-agent=true,clusterID=xxx,environment=qa,name=aws-sub2,region=eu-west-1,vendor=OpenShift
 ```
 
-And that's it for this blog post! In the [next blog post](https://rcarrata.com/openshift/rhacm-submariner-2/) we will deploy the Service discovery for Submariner and we will deploy a stateful application spanning its microservices across our two connected clusters with Submariner.
+And that's it for this blog post! In the [next blog post](https://rcarrata.github.io/openshift/rhacm-submariner-2/) we will deploy the Service discovery for Submariner and we will deploy a stateful application spanning its microservices across our two connected clusters with Submariner.
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

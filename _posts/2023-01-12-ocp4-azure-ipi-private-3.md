@@ -16,8 +16,8 @@ How can we generate private OpenShift clusters in Azure, controlling our outboun
 
 This is the third blog post of the series of OpenShift deployments in Azure. Check the other blog posts in:
 
-* First blog series in [Deep dive in Private OpenShift 4 clusters deployments in Azure](https://rcarrata.com/openshift/ocp4-azure-ipi-private/).
-* Second blog series in [Secure your Private OpenShift clusters with Azure Firewall and Hub-Spoke architectures](https://rcarrata.com/openshift/ocp4-azure-ipi-private-2/)
+* First blog series in [Deep dive in Private OpenShift 4 clusters deployments in Azure](https://rcarrata.github.io/openshift/ocp4-azure-ipi-private/).
+* Second blog series in [Secure your Private OpenShift clusters with Azure Firewall and Hub-Spoke architectures](https://rcarrata.github.io/openshift/ocp4-azure-ipi-private-2/)
 
 Let's dig in!
 

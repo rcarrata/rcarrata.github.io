@@ -18,8 +18,8 @@ istiofy them? And what are the main components involved?
 Let's Mesh in!!
 
 This is the third blog post of the Service Mesh in OpenShift series. Check the earlier post:
-* [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
-* [II - Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
+* [I - Service Mesh Installation](https://rcarrata.github.io/istio/service-mesh-installation/)
+* [II - Microservices deployment in Service Mesh](https://rcarrata.github.io/istio/microservices-deployment-in-service-mesh/)
 
 ## Overview
 
@@ -111,7 +111,7 @@ recommendation-2-deploy   0/1     Completed   0          39m
 
 For more information check out the [Istio Autoinject Guide](https://istio.io/docs/setup/additional-setup/sidecar-injection/#injection) and the [Maistra Autoinject Guide](https://maistra.io/docs/installation/automatic-injection/)
 
-Check out the part four of this blog series in [Ingress Routing in Service Mesh](https://rcarrata.com/istio/ingress-routing-service-mesh/)
+Check out the part four of this blog series in [Ingress Routing in Service Mesh](https://rcarrata.github.io/istio/ingress-routing-service-mesh/)
 
 *NOTE: Opinions expressed in this blog are my own and do not necessarily reflect that of the company I work for.*
 

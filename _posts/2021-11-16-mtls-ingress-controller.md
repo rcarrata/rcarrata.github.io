@@ -39,7 +39,7 @@ This provides a higher level of security compared to normal TLS/HTTPS usage, whe
 
 From the version 4.9+ of OpenShift we can enable mTLS authentication in the Ingress Controller, and configure them to verify client certificates.
 
-This means that we don't need to use Service Mesh ONLY to enable [mTLS authentication](https://rcarrata.com/istio/mtls-service-mesh/).
+This means that we don't need to use Service Mesh ONLY to enable [mTLS authentication](https://rcarrata.github.io/istio/mtls-service-mesh/).
 
 NOTE: Service Mesh is marvelous tech that enables tons of other features, as you can discover in the blog post series, so please check them out!
 

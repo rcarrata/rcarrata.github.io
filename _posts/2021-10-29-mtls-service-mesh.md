@@ -18,13 +18,13 @@ Let's Mesh in!
 
 This is the eighth blog post of the Service Mesh in OpenShift series. Check the earlier posts in:
 
-* [I - Service Mesh Installation](https://rcarrata.com/istio/service-mesh-installation/)
-* [II - Microservices deployment in Service Mesh](https://rcarrata.com/istio/microservices-deployment-in-service-mesh/)
-* [III - Including microservices in Service Mesh](https://rcarrata.com/istio/adding-microservices-within-mesh/)
-* [IV - Ingress Routing & Traffic Management in Service Mesh](https://rcarrata.com/istio/ingress-routing-service-mesh/)
-* [V - Blue Green Deployments in Service Mesh](https://rcarrata.com/istio/blue-green-in-service-mesh/)
-* [VI - Canary Deployments in Service Mesh](https://rcarrata.com/istio/canary-in-service-mesh/)
-* [VII - Traffic Mirroring in Service Mesh](https://rcarrata.com/istio/traffic-mirroring-in-service-mesh/)
+* [I - Service Mesh Installation](https://rcarrata.github.io/istio/service-mesh-installation/)
+* [II - Microservices deployment in Service Mesh](https://rcarrata.github.io/istio/microservices-deployment-in-service-mesh/)
+* [III - Including microservices in Service Mesh](https://rcarrata.github.io/istio/adding-microservices-within-mesh/)
+* [IV - Ingress Routing & Traffic Management in Service Mesh](https://rcarrata.github.io/istio/ingress-routing-service-mesh/)
+* [V - Blue Green Deployments in Service Mesh](https://rcarrata.github.io/istio/blue-green-in-service-mesh/)
+* [VI - Canary Deployments in Service Mesh](https://rcarrata.github.io/istio/canary-in-service-mesh/)
+* [VII - Traffic Mirroring in Service Mesh](https://rcarrata.github.io/istio/traffic-mirroring-in-service-mesh/)
 
 ## A. Overview
 
